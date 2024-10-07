@@ -91,7 +91,7 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 		$style_3_sep .='<span class="title-sep sep-l"></span>';
 		if(isset($attributes['imgName']) && isset($attributes['imgName']['url']) && $attributes['imgName']['url']!=''){
 			$imgSrc ='';
-			$altText = (isset($attributes['imgName']['alt']) && !empty($attributes['imgName']['alt'])) ? esc_attr($attributes['imgName']['alt']) : ((!empty($attributes['imgName']['title'])) ? esc_attr($attributes['imgName']['title']) : esc_attr__('Image Seprator','tpgb'));
+			$altText = (isset($attributes['imgName']['alt']) && !empty($attributes['imgName']['alt'])) ? esc_attr($attributes['imgName']['alt']) : ((!empty($attributes['imgName']['title'])) ? esc_attr($attributes['imgName']['title']) : esc_attr__('Image Separator','tpgb'));
 			if(!empty($attributes['imgName']['id'])){
 				$imgSrc = wp_get_attachment_image( $attributes['imgName']['id'] , 'full',false, ['alt' => $altText] );
 			}else if(!empty($attributes['imgName']['url'])){
@@ -239,8 +239,8 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 				}
 			$output .= '</div>';
 		}else{
-			$splitClass = 'tpgb-split-'.$splitType;
-			$nSplitType = ($splitType=='lines') ? 'lines,chars' : $splitType;
+			$splitClass = 'tpgb-split-'.esc_attr($splitType);
+			$nSplitType = ($splitType=='lines') ? 'lines,chars' : esc_attr($splitType);
 			$annimtypedtaattr = ' data-animsplit-type="'.$nSplitType.'"';
 			$htaattr =[
 				'effect' => $aniEffect,
@@ -278,7 +278,7 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_tp_heading_title() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	
@@ -766,6 +766,8 @@ function tpgb_tp_heading_title() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_heading_title_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_heading_title_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_heading_title' );

@@ -181,7 +181,7 @@ if(!class_exists('Tpgb_Rollback')){
 			$plugin_info->new_version = $this->version;
 			$plugin_info->slug = $this->plugin_slug;
 			$plugin_info->package = $this->pakg_url;
-			$plugin_info->url = 'http://theplusblocks.com/';
+			$plugin_info->url = 'https://nexterwp.com/nexter-blocks/';
 
 			$update_plugins_data->response[ $this->plugin_name ] = $plugin_info;
 

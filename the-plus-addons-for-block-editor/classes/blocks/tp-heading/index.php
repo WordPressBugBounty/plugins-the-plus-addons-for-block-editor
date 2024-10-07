@@ -5,11 +5,16 @@
 defined( 'ABSPATH' ) || exit;
 
 function tpgb_tp_core_heading_callback($attr, $content) {
+    $pattern = '/\btpgb-wrap-/';
+    
+    if (preg_match($pattern, $content)) {
+       return $content;
+    }
 	return Tpgb_Blocks_Global_Options::block_Wrap_Render($attr, $content);
 }
 
 function tpgb_tp_core_heading_render() {
-    $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+    /* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
     $globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
     $positionCore = [
@@ -203,6 +208,8 @@ function tpgb_tp_core_heading_render() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_core_heading_callback'
-    ));
+    )); */
+    $block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_core_heading_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_core_heading_render' );

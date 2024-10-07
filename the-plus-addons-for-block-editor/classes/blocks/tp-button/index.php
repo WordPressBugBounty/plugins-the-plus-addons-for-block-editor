@@ -251,7 +251,7 @@ function tpgb_button_render_callback( $attributes ) {
  * Render for the server-side
  */
 function tpgb_tp_button() {
-	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
+	/* $globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
   
@@ -1242,6 +1242,8 @@ function tpgb_tp_button() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_button_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_button_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_button' );

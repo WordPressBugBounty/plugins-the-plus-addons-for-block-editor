@@ -1,6 +1,6 @@
 <?php 
 /**
- * The Plus Blocks Registered Lists
+ * Nexter Blocks Registered Lists
  *
  * @since   1.0.0
  * @package TPGB
@@ -232,11 +232,14 @@ Class Tpgb_Get_Blocks {
 					$dependency = ($global_css!==false) ? ['plus-global'] : [];
 				}
 				wp_enqueue_style( 'tpgb-plus-block-front-css',esc_url( TPGB_URL . "assets/css/main/general/tpgb-common.css" ), $dependency, $plus_version );
+				
 			}
+			
 			$tpgbAjax = Tp_Blocks_Helper::get_extra_option('tpgb_template_load');
 			if( (isset($tpgbAjax) && !empty($tpgbAjax) && $tpgbAjax=='enable') || empty($tpgbAjax) ){
-					wp_enqueue_style('tpgb-ajax-load-template-css', TPGB_URL.'assets/css/main/general/tpgb-ajax-load.css', array() , TPGB_VERSION );
+				wp_enqueue_style('tpgb-ajax-load-template-css', TPGB_URL.'assets/css/main/general/tpgb-ajax-load.css', array() , TPGB_VERSION );
 			}
+			
 		}else if(tpgb_library()->get_caching_option() == 'separate'){
 			$tpgb_path = TPGB_PATH . DIRECTORY_SEPARATOR;
 			$tpgb_url = TPGB_URL;
@@ -544,7 +547,7 @@ Class Tpgb_Get_Blocks {
 			}
 
 			if(!empty($options) && !empty($options['telayout']) && $options['telayout']!='carousel'){
-				$this->transient_blocks[] = 'tpgb-masonary-layout';
+				$this->transient_blocks[] = 'tpgb_grid_layout';
 			}
 			
 			if( !empty($options) && !empty($options['style']) ){

@@ -1,6 +1,6 @@
 <?php 
 /**
- * The Plus Blocks Initialize
+ * Nexter Blocks Initialize
  *
  * Load of all the blocks.
  *
@@ -122,7 +122,7 @@ class Tp_Core_Init_Blocks {
 	}
 	
 	/**
-	 * Gutenberg block category for The Plus Addon.
+	 * Gutenberg block category for Nexter Blocks.
 	 *
 	 * @param array  $categories Block categories.
 	 * @param object $post Post object.
@@ -133,7 +133,7 @@ class Tp_Core_Init_Blocks {
 			array(
 				array(
 					'slug'  => TPGB_CATEGORY,
-					'title' => __( 'The Plus Blocks', 'tpgb' ),
+					'title' => __( 'Nexter Blocks', 'tpgb' ),
 				),
 			),
 			$categories
@@ -190,7 +190,7 @@ class Tp_Core_Init_Blocks {
 			wp_enqueue_style(
 				'tpgb-plus-block-editor-css',
 				$css_file,
-				array('wp-edit-blocks'),
+				array('wp-edit-blocks', 'dashicons'),
 				$plus_version
 			);
 			
@@ -354,7 +354,7 @@ class Tp_Core_Init_Blocks {
 				'get_callback' => array($this, 'tpgb_get_featured_image_url'),
 				'update_callback' => null,
 				'schema' => array(
-					'description' => __('The Plus Different sized of featured images','tpgb'),
+					'description' => __('Nexter Blocks Different sized of featured images','tpgb'),
 					'type' => 'array',
 				),
 			)
@@ -551,7 +551,7 @@ class Tp_Core_Init_Blocks {
 				update_option($this->tpgb_global, $plus_settings);
 			}
 
-			return ['success' => true, 'message' => __("ThePlus Global settings updated!",'tpgb') ];
+			return ['success' => true, 'message' => __("Nexter Global settings updated!",'tpgb') ];
 		} catch (Exception $e) {
 			return ['success' => false, 'message' => $e->getMessage()];
 		}
@@ -745,9 +745,9 @@ class Tp_Core_Init_Blocks {
 				}
 
 				// WP Fastest Cache.
-				if ( ! empty( $GLOBALS['wp_fastest_cache'] ) && method_exists( $GLOBALS['wp_fastest_cache'], 'deleteCache' ) ) {
+				/* if ( ! empty( $GLOBALS['wp_fastest_cache'] ) && method_exists( $GLOBALS['wp_fastest_cache'], 'deleteCache' ) ) {
 					$GLOBALS['wp_fastest_cache']->deleteCache(true);
-				}
+				} */
 
 				// WP Super Cache
 				if ( function_exists( 'wp_cache_clean_cache' ) ) {
@@ -785,7 +785,7 @@ class Tp_Core_Init_Blocks {
 
 				$all_clear_cache = array(
 					'W3 Total Cache' => 'w3tc_pgcache_flush',
-					'WP Fastest Cache' => 'wpfc_clear_all_cache',
+					//'WP Fastest Cache' => 'wpfc_clear_all_cache',
 					'WP Rocket' => 'rocket_clean_domain',
 					'Cachify' => 'cachify_flush_cache',
 					'Comet Cache' => array('comet_cache', 'clear'),
@@ -1218,9 +1218,7 @@ class Tp_Core_Init_Blocks {
 			wp_enqueue_media();
 		}
 		wp_enqueue_style( 'tpgb-admin-css', TPGB_URL .'assets/css/admin/tpgb-admin.css', array(),TPGB_VERSION,false );
-		if (isset($_GET['page']) && $_GET['page'] === 'tpgb_welcome_page') {
-			wp_enqueue_script( 'tpgb-admin-accor-js', TPGB_URL . 'assets/js/main/common-created/tpgb-slidetoggle-block.min.js',array() , TPGB_VERSION, true );
-		}
+		
 		wp_enqueue_script( 'tpgb-admin-js', TPGB_URL . 'assets/js/admin/tpgb-admin.js',array() , TPGB_VERSION, true );
 		wp_localize_script(
 			'tpgb-admin-js', 'tpgb_admin', array(
@@ -1229,13 +1227,6 @@ class Tp_Core_Init_Blocks {
 			)
 		);
 
-		if( strpos(get_current_screen()->id, 'tpgb_normal_blocks_opts') === false ) return;
-
-		wp_enqueue_script( 'tpgb-disable-block', TPGB_URL . 'assets/js/admin/tpgb-disable-block.js', array( 'jquery', 'wp-blocks', 'wp-element', 'wp-data', 'wp-components', 'wp-block-library' ), 1 );
-		wp_localize_script( 'tpgb-disable-block', 'tpgb_disable_block_data', array(
-			'nonce' => wp_create_nonce( 'tpgb_scan_nonce_' . get_current_user_id() ),
-			'disable_nonce' => wp_create_nonce( 'tpgb_disable_nonce_' . get_current_user_id() ),
-		));
 	}
 
 	/**
@@ -1293,6 +1284,12 @@ class Tp_Core_Init_Blocks {
 			if(!empty($data_date)){
 				$post_meta['get_date'] = $data_date;
 			}
+
+			$date_modi = get_the_modified_date( '', $obj['id'] );
+			if(!empty($date_modi)){
+				$post_meta['get_modified_date'] = $date_modi;
+			}
+
 			get_the_category_list( __( ', ', 'tpgb' ), '', $obj['id'] );
 			$post_type = isset($obj['type']) ? $obj['type'] : '';
 			$taxonomies_list = $this->tpgb_get_taxnomy_terms( $post_type );
@@ -1708,7 +1705,7 @@ class Tp_Core_Init_Blocks {
 	 * @param array $plugins TOC plugins.
 	 */
 	public function tpgb_rank_table_of_content($plugins){
-		$plugins['the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php'] = 'The Plus Addons for Block Editor';
+		$plugins['the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php'] = 'Nexter Blocks';
 		return $plugins;
 	}
 

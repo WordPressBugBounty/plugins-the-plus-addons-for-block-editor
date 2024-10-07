@@ -1,5 +1,5 @@
 wp.domReady(function(){
-	/*Unregister Blocks The Plus Addons*/
+	/*Unregister Blocks Nexter Blocks*/
 	let tpgb_deactivated_blocks = tpgb_blocks_load.deactivated_blocks;
 	
 	if ( tpgb_deactivated_blocks!=undefined && tpgb_deactivated_blocks!='' && tpgb_deactivated_blocks.length ) {

@@ -1,0 +1,1106 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"name": "tpgb/tp-pricing-table",
+	"version": "0.1.0",
+	"title": "Pricing Table",
+	"category": "tpgb",
+	"description": "Showcase visual table that displays the different price options for a product or service.",
+	"example": {
+		"attributes": {}
+	},
+	"supports": {
+		"align": ["wide","full"]
+	},
+	"textdomain": "tpgb",
+  "attributes": {
+    "block_id": {
+      "type": "string",
+      "default": ""
+    },
+    "style": {
+      "type": "string",
+      "default": "style-1"
+    },
+    "titleStyle": {
+      "type": "string",
+      "default": "style-1"
+    },
+    "title": {
+      "type": "string",
+      "default": "Professional"
+    },
+    "subTitle": {
+      "type": "string",
+      "default": "Designed for Agency"
+    },
+    "iconType": {
+      "type": "string",
+      "default": "none"
+    },
+    "iconStore": {
+      "type": "string",
+      "default": "fas fa-home"
+    },
+    "imgStore": {
+      "type": "object",
+      "default": {
+        "url": ""
+      }
+    },
+    "imgSize": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "img"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon-img{ width: {{imgSize}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "priceStyle": {
+      "type": "string",
+      "default": "style-1"
+    },
+    "preText": {
+      "type": "string",
+      "default": "$"
+    },
+    "priceValue": {
+      "type": "string",
+      "default": "99.99"
+    },
+    "postText": {
+      "type": "string",
+      "default": "Per Year"
+    },
+    "disPrePrice": {
+      "type": "boolean",
+      "default": false
+    },
+    "prevPreText": {
+      "type": "string",
+      "default": "$"
+    },
+    "prevPriceValue": {
+      "type": "string",
+      "default": "199.99"
+    },
+    "prevPostText": {
+      "type": "string",
+      "default": ""
+    },
+    "contentStyle": {
+      "type": "string",
+      "default": "wysiwyg"
+    },
+    "conListStyle": {
+      "type": "string",
+      "default": "style-1"
+    },
+    "wyStyle": {
+      "type": "string",
+      "default": "style-1"
+    },
+    "wyContent": {
+      "type": "string",
+      "default": "All features of plan will be available here.</br></br>- Feature 1</br>- Feature 2</br>- Feature 3"
+    },
+    "disRibbon": {
+      "type": "boolean",
+      "default": false
+    },
+    "iconStyle": {
+      "type": "string",
+      "default": "square",
+      "scopy": true
+    },
+    "iconSize": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon{ font-size: {{iconSize}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "iconWidth": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon{ width: {{iconWidth}}; height: {{iconWidth}}; line-height: {{iconWidth}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "icnNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon{ color: {{icnNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "icnHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .pricing-icon{ color: {{icnHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "icnNormalBG": {
+      "type": "object",
+      "default": {
+        "openBg": 0,
+        "bgType": "color",
+        "bgDefaultColor": "",
+        "bgGradient": {
+          "color1": "#16d03e",
+          "color2": "#1f91f3",
+          "type": "linear",
+          "direction": "90",
+          "start": 5,
+          "stop": 80,
+          "radial": "center",
+          "clip": false
+        },
+        "overlayBg": "",
+        "overlayBgOpacity": "",
+        "bgGradientOpacity": ""
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon"
+        }
+      ],
+      "scopy": true
+    },
+    "icnHoverBG": {
+      "type": "object",
+      "default": {
+        "openBg": 0,
+        "bgType": "color",
+        "bgDefaultColor": "",
+        "bgGradient": {
+          "color1": "#16d03e",
+          "color2": "#1f91f3",
+          "type": "linear",
+          "direction": "90",
+          "start": 5,
+          "stop": 80,
+          "radial": "center",
+          "clip": false
+        },
+        "overlayBg": "",
+        "overlayBgOpacity": "",
+        "bgGradientOpacity": ""
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .pricing-icon"
+        }
+      ],
+      "scopy": true
+    },
+    "nmlBColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            },
+            {
+              "key": "iconStyle",
+              "relation": "==",
+              "value": [
+                "square",
+                "rounded"
+              ]
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon{ border:1px solid ; border-color: {{nmlBColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "hvrBColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            },
+            {
+              "key": "iconStyle",
+              "relation": "==",
+              "value": [
+                "square",
+                "rounded"
+              ]
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .pricing-icon{ border:1px solid ; border-color: {{hvrBColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "nmlIcnBRadius": {
+      "type": "object",
+      "default": {
+        "md": {
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            },
+            {
+              "key": "iconStyle",
+              "relation": "==",
+              "value": [
+                "none",
+                "square",
+                "rounded"
+              ]
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon{border-radius: {{nmlIcnBRadius}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "hvrIcnBRadius": {
+      "type": "object",
+      "default": {
+        "md": {
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            },
+            {
+              "key": "iconStyle",
+              "relation": "==",
+              "value": ["none", "square", "rounded"]
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .pricing-icon{border-radius: {{hvrIcnBRadius}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "nmlIcnShadow": {
+      "type": "object",
+      "default": {
+        "openShadow": 0,
+        "inset": 0,
+        "horizontal": 0,
+        "vertical": 4,
+        "blur": 8,
+        "spread": 0,
+        "color": "rgba(0,0,0,0.40)"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-icon"
+        }
+      ],
+      "scopy": true
+    },
+    "hvrIcnShadow": {
+      "type": "object",
+      "default": {
+        "openShadow": 0,
+        "inset": 0,
+        "horizontal": 0,
+        "vertical": 4,
+        "blur": 8,
+        "spread": 0,
+        "color": "rgba(0,0,0,0.40)"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "iconType",
+              "relation": "==",
+              "value": "icon"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .pricing-icon"
+        }
+      ],
+      "scopy": true
+    },
+    "titleTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "title",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.pricing-style-1 .pricing-title-wrap .pricing-title"
+        }
+      ],
+      "scopy": true
+    },
+    "titleNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "title",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.pricing-style-1 .pricing-title-wrap .pricing-title { color: {{titleNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "titleHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "title",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.pricing-style-1 .pricing-table-inner:hover .pricing-title { color: {{titleHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "subTitleTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "subTitle",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table .pricing-subtitle"
+        }
+      ],
+      "scopy": true
+    },
+    "subTitleNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "subTitle",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table .pricing-subtitle{ color: {{subTitleNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "subTitleHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "subTitle",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table .pricing-table-inner:hover .pricing-subtitle{ color: {{subTitleHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "prevPriceTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disPrePrice",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-previous-price-wrap"
+        }
+      ],
+      "scopy": true
+    },
+    "prevPriceAlign": {
+      "type": "string",
+      "default": "top",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disPrePrice",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-previous-price-wrap{ vertical-align: {{prevPriceAlign}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "prevPriceNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disPrePrice",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-previous-price-wrap{ color: {{prevPriceNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "prevPriceHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disPrePrice",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .pricing-previous-price-wrap{ color: {{prevPriceHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "priceTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "priceValue",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-price-wrap.style-1 .pricing-price ,{{PLUS_WRAP}} .pricing-price-wrap.style-1 span.price-prefix-text"
+        }
+      ],
+      "scopy": true
+    },
+    "priceNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "priceValue",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-price-wrap.style-1 .pricing-price , {{PLUS_WRAP}} .pricing-price-wrap.style-1 span.price-prefix-text{ color: {{priceNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "priceHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "priceValue",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .pricing-price-wrap.style-1 .pricing-price , {{PLUS_WRAP}} .pricing-table-inner:hover .pricing-price-wrap.style-1 span.price-prefix-text { color: {{priceHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "postfixTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "postText",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-price-wrap span.price-postfix-text"
+        }
+      ],
+      "scopy": true
+    },
+    "postfixNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "postText",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-price-wrap span.price-postfix-text{ color: {{postfixNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "postfixHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "postText",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover span.price-postfix-text{ color: {{postfixHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "wysiwygTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "wysiwyg"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-content-wrap.content-desc .pricing-content"
+        }
+      ],
+      "scopy": true
+    },
+    "wysiwygTextColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "wysiwyg"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-content-wrap.content-desc .pricing-content , {{PLUS_WRAP}} .pricing-content-wrap.content-desc .pricing-content p{ color: {{wysiwygTextColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "wyBorderWidth": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "%"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "wysiwyg"
+            },
+            {
+              "key": "wyStyle",
+              "relation": "==",
+              "value": "style-2"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .content-desc.style-2 hr.border-line{ margin: 30px {{wyBorderWidth}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "wysiwygBColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "wysiwyg"
+            },
+            {
+              "key": "wyStyle",
+              "relation": "==",
+              "value": "style-2"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .content-desc.style-2 hr.border-line{ border-color: {{wysiwygBColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "wysiwygAlign": {
+      "type": "string",
+      "default": "center",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "wysiwyg"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-content-wrap.content-desc .pricing-content , {{PLUS_WRAP}} .pricing-content-wrap.content-desc .pricing-content p{ text-align: {{wysiwygAlign}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "innerPadding": {
+      "type": "object",
+      "default": {
+        "md": {
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "unit": "px"
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1 .pricing-table-inner {padding: {{innerPadding}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "bgNmlBorder": {
+      "type": "object",
+      "default": {
+        "openBorder": 0,
+        "type": "",
+        "color": "",
+        "width": {
+          "md": {
+            "top": "1",
+            "left": "1",
+            "bottom": "1",
+            "right": "1"
+          },
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1 .pricing-table-inner "
+        }
+      ],
+      "scopy": true
+    },
+    "bgNmlBRadius": {
+      "type": "object",
+      "default": {
+        "md": {
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "unit": "px"
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1 .pricing-table-inner , {{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1 .pricing-overlay-color {border-radius: {{bgNmlBRadius}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "bgHvrBorder": {
+      "type": "object",
+      "default": {
+        "openBorder": 0,
+        "type": "",
+        "color": "",
+        "width": {
+          "md": {
+            "top": "1",
+            "left": "1",
+            "bottom": "1",
+            "right": "1"
+          },
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1:hover .pricing-table-inner"
+        }
+      ],
+      "scopy": true
+    },
+    "bgHvrBRadius": {
+      "type": "object",
+      "default": {
+        "md": {
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "unit": "px"
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1:hover .pricing-table-inner ,  {{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1:hover .pricing-overlay-color {border-radius: {{bgHvrBRadius}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "hoverStyle": {
+      "type": "string",
+      "default": "hover_normal",
+      "scopy": true
+    },
+    "normalBG": {
+      "type": "object",
+      "default": {
+        "openBg": 0,
+        "bgType": "color",
+        "bgDefaultColor": "",
+        "bgGradient": {
+          "color1": "#16d03e",
+          "color2": "#1f91f3",
+          "type": "linear",
+          "direction": "90",
+          "start": 5,
+          "stop": 80,
+          "radial": "center",
+          "clip": false
+        },
+        "overlayBg": "",
+        "overlayBgOpacity": "",
+        "bgGradientOpacity": ""
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1 .pricing-table-inner "
+        }
+      ],
+      "scopy": true
+    },
+    "nmlOverlay": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "hoverStyle",
+              "relation": "==",
+              "value": "hover_normal"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1 .pricing-overlay-color{ background: {{nmlOverlay}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "bgNmlShadow": {
+      "type": "object",
+      "default": {
+        "openShadow": 0,
+        "inset": 0,
+        "horizontal": 0,
+        "vertical": 4,
+        "blur": 8,
+        "spread": 0,
+        "color": "rgba(0,0,0,0.40)"
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1 .pricing-table-inner "
+        }
+      ],
+      "scopy": true
+    },
+    "hoverBG": {
+      "type": "object",
+      "default": {
+        "openBg": 0,
+        "bgType": "color",
+        "bgDefaultColor": "",
+        "bgGradient": {
+          "color1": "#16d03e",
+          "color2": "#1f91f3",
+          "type": "linear",
+          "direction": "90",
+          "start": 5,
+          "stop": 80,
+          "radial": "center",
+          "clip": false
+        },
+        "overlayBg": "",
+        "overlayBgOpacity": "",
+        "bgGradientOpacity": ""
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1:hover .pricing-table-inner , {{PLUS_WRAP}}.tpgb-pricing-table.hover_fadein .pricing-overlay-color , {{PLUS_WRAP}}.tpgb-pricing-table.hover_slide_left .pricing-overlay-color , {{PLUS_WRAP}}.tpgb-pricing-table.hover_slide_right .pricing-overlay-color , {{PLUS_WRAP}}.tpgb-pricing-table.hover_slide_top .pricing-overlay-color , {{PLUS_WRAP}}.tpgb-pricing-table.hover_slide_bottom .pricing-overlay-color "
+        }
+      ],
+      "scopy": true
+    },
+    "hvrOverlay": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "hoverStyle",
+              "relation": "==",
+              "value": "hover_normal"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1:hover .pricing-overlay-color { background: {{hvrOverlay}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "bgHvrShadow": {
+      "type": "object",
+      "default": {
+        "openShadow": 0,
+        "inset": 0,
+        "horizontal": 0,
+        "vertical": 4,
+        "blur": 8,
+        "spread": 0,
+        "color": "rgba(0,0,0,0.40)"
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}}.tpgb-pricing-table.pricing-style-1:hover .pricing-table-inner "
+        }
+      ],
+      "scopy": true
+    },
+    "svgIcon": {
+      "type": "object",
+      "default": {}
+    },
+    "svgDraw": {
+      "type": "string",
+      "default": "delayed",
+      "scopy": true
+    },
+    "svgDura": {
+      "type": "string",
+      "default": "90",
+      "scopy": true
+    },
+    "svgmaxWidth": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "px"
+      },
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}} .tpgb-draw-svg{ max-width: {{svgmaxWidth}}; max-height: {{svgmaxWidth}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "svgstroColor": {
+      "type": "string",
+      "default": "#000000",
+      "scopy": true
+    },
+    "svgfillColor": {
+      "type": "string",
+      "default": "",
+      "scopy": true
+    }
+  }
+}

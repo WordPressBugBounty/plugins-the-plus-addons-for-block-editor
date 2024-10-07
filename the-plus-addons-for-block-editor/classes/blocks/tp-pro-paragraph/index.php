@@ -18,10 +18,6 @@ function tpgb_tp_pro_paragraph_render_callback( $attributes ) {
 	
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	
-	if(class_exists('Tpgbp_Pro_Blocks_Helper')){
-		$content = (!empty($content)) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($content,['blockName' => 'tpgb/tp-pro-paragraph']) : '';
-	}
-
     $output .= '<div class="tpgb-pro-paragraph tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).'">';
 		if(!empty($Showtitle) && !empty($title)){
 			$output .= '<'.Tp_Blocks_Helper::validate_html_tag($titleTag).' class="pro-heading-inner">';
@@ -29,6 +25,11 @@ function tpgb_tp_pro_paragraph_render_callback( $attributes ) {
 			$output .= '</'.Tp_Blocks_Helper::validate_html_tag($titleTag).'>';
 		}
 		if(!empty($content)){
+
+			if(class_exists('Tpgbp_Pro_Blocks_Helper')){
+				$content = (!empty($attributes['content'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($content,['blockName' => 'tpgb/tp-pro-paragraph']) : '';
+			}
+
 			$output .= '<div class="pro-paragraph-inner '.( !empty($dropCap) ? ' tpgb-drop-cap tpgb-drop-'.esc_attr($dcapView).'' : '' ).'">';
 				$output .= '<'.Tp_Blocks_Helper::validate_html_tag($descTag).'>'.wp_kses_post($content).'</'.Tp_Blocks_Helper::validate_html_tag($descTag).'>';
 			$output .= '</div>';
@@ -44,7 +45,7 @@ function tpgb_tp_pro_paragraph_render_callback( $attributes ) {
  * Render for the server-side
  */
 function tpgb_tp_pro_paragraph() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	
@@ -114,7 +115,7 @@ function tpgb_tp_pro_paragraph() {
 				'default' => '',
 				'style' => [
 						(object) [
-							'selector' => '{{PLUS_WRAP}}.tpgb-pro-paragraph .pro-paragraph-inner a{ color: {{linkColor}}; }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-pro-paragraph .pro-paragraph-inner a{ color: {{linkColor}}; }',
 					],
 				],
 				'scopy' => true,
@@ -424,6 +425,8 @@ function tpgb_tp_pro_paragraph() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_pro_paragraph_render_callback'
-    ] );
+    ] ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_pro_paragraph_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_pro_paragraph' );

@@ -137,7 +137,7 @@ function tpgb_post_title_content() {
 			],
 			'titleAlign' => [
 				'type' => 'object',
-				'default' => '',
+				'default' => [ 'md' => 'center', 'sm' => '', 'xs' => '' ],
 				'style' => [
 					(object) [
 						'selector' => '{{PLUS_WRAP}}.tpgb-post-title{text-align: {{titleAlign}};}',

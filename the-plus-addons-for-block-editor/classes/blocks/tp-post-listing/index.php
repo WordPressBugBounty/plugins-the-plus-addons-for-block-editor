@@ -16,7 +16,7 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	$style2Alignment	= isset($attributes['style2Alignment']) ? $attributes['style2Alignment'] : 'center';
 	$styleLayout		= isset($attributes['styleLayout']) ? $attributes['styleLayout'] : 'style-1';
 	
-	$imageHoverStyle	= isset($attributes['imageHoverStyle']) ? 'hover-image-'.$attributes['imageHoverStyle'] : 'hover-image-style-1';
+	$imageHoverStyle	= isset($attributes['imageHoverStyle']) ? 'hover-image-'.esc_attr($attributes['imageHoverStyle']) : 'hover-image-style-1';
 	//Title
 	$ShowTitle	= !empty($attributes['ShowTitle']) ? 'yes' : '';
 	$titleTag	= isset($attributes['titleTag']) ? $attributes['titleTag'] : 'h3';

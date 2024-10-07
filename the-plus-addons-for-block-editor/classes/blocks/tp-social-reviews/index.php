@@ -138,7 +138,7 @@ function tpgb_social_reviews_callback($attributes, $content) {
                         $Logo = (!empty($Review['Logo'])) ? $Review['Logo'] : '';
                         $rating = (!empty($Review['rating'])) ? $Review['rating'] : '';
                         $CategoryText = (!empty($Review['FilterCategory'])) ? $Review['FilterCategory'] : '';
-                        $ReviewClass = (!empty($Review['selectType'])) ? ' '.$Review['selectType'] : '';
+                        $ReviewClass = (!empty($Review['selectType'])) ? ' '.esc_attr($Review['selectType']) : '';
                         $ErrClass = (!empty($Review['ErrorClass']) ? $Review['ErrorClass'] : '');
                         $PlatformName = (!empty($Review['selectType'])) ? ucwords(str_replace('custom', '', $Review['selectType'])) : '';
                     

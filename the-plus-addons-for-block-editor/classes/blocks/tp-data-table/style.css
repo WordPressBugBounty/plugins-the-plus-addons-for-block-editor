@@ -122,7 +122,7 @@ tbody tr:nth-child(even) {
     align-items: center
 }
 
-.tpgb-table-wrapper .dataTables_paginate,.tpgb-table-wrapper .datatable-bottom  {
+.tpgb-table-wrapper .dataTables_paginate,.tpgb-table-wrapper .datatable-bottom {
     display: none
 }
 
@@ -226,4 +226,9 @@ span.sort-style {
     padding: 0;
     color: initial;
     font-weight: unset;
+}
+.tpgb-table-col.tpgb-td-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -14,7 +14,7 @@ function tpcoForm(doc){
 				if(radioList){
 					radioList.forEach((selfList,idx) => {
 						let text = selfList.querySelector('.wpcf7-list-item-label'),
-							text_val = text.textContent;
+							text_val = text.innerText;
 						text.remove();
 						var label_Tags = selfList.querySelector('input[type="radio"]');
 						if(label_Tags.parentNode.localName == 'label'){
@@ -38,7 +38,7 @@ function tpcoForm(doc){
 						let checkboxList = selfCheck.querySelectorAll('.wpcf7-list-item');
 							checkboxList.forEach((selfList,idx) => {
 								var text = selfList.querySelector('.wpcf7-list-item-label'),
-									text_val = text.textContent;
+									text_val = text.innerText;
 								text.remove();
 								var label_Tags = selfList.querySelector('input[type="checkbox"]');
 								if(label_Tags.parentNode.localName == 'label'){
@@ -63,7 +63,7 @@ function tpcoForm(doc){
 						let checkboxList = selfCheck.querySelectorAll('.wpcf7-list-item');
 							checkboxList.forEach((selfList,idx) => {
 								var text = selfList.querySelector('.wpcf7-list-item-label'),
-									text_val = text.textContent;
+									text_val = text.innerText;
 								text.remove();
 								var label_Tags = selfList.querySelector('input[type="checkbox"]');
 								if(label_Tags.parentNode.localName == 'label'){

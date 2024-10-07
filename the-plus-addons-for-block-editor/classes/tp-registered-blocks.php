@@ -1,6 +1,6 @@
 <?php 
 /**
- * The Plus Blocks Registered Lists
+ * Nexter Blocks Registered Lists
  *
  * @since   1.0.0
  * @package TPGB
@@ -1047,7 +1047,7 @@ function tpgb_registered_blocks(){
 				$tpgb_free . 'assets/js/main/tp-row/tpgb-link.min.js'
 			],
 		],
-		'tpgb-masonary-layout' => [
+		'tpgb_grid_layout' => [
 			'js' => [
 				$tpgb_free . 'assets/js/extra/isotope.pkgd.min.js',
 				$tpgb_free . 'assets/js/main/post-listing/post-masonry.min.js',
@@ -2443,7 +2443,7 @@ Class Tpgb_Library {
 					'meta'	=> array(
 						'class' => 'tpda-purge-clear',
 					),
-					'title' => esc_html__( 'TPAG Performance', 'tpgb' ),
+					'title' => esc_html__( 'Nexter Performance', 'tpgb' ),
 				] );
 				
 				//Child Item
@@ -2488,7 +2488,7 @@ Class Tpgb_Library {
      * @since 1.0.0
      */
     public function tpgb_smart_perf_clear_cache() {
-		check_ajax_referer('tpgb-addons', 'security');
+		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
 
         // clear cache files
 		$this->remove_dir_files(TPGB_ASSET_PATH);
@@ -2502,7 +2502,7 @@ Class Tpgb_Library {
      * @since 1.1.3
      */
     public function tpgb_dynamic_style_cache() {
-		check_ajax_referer('tpgb-addons', 'security');
+		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
 
         // clear cache files
 		$this->remove_dir_dynamic_style_files(TPGB_ASSET_PATH);
@@ -2704,8 +2704,8 @@ Class Tpgb_Library {
 				}
 			}
 
-			//3.3.1
-			if( version_compare( TPGB_VERSION, '3.3.1', '==' ) && !in_array( '3.3.1', $get_version ) ){
+			//4.0.0
+			if( version_compare( TPGB_VERSION, '4.0.0', '==' ) && !in_array( '4.0.0', $get_version ) ){
 				$this->remove_dir_files(TPGB_ASSET_PATH);
 				$this->remove_dir_dynamic_style_files(TPGB_ASSET_PATH);
 				$versions = array_unique( array_merge( $get_version, $versions ) );
@@ -2823,6 +2823,54 @@ Class Tpgb_Library {
 				}
 			}
 			
+			//get pattern content
+			if(!empty($block_content) ){
+				
+				$ref_pattern = '/<div class="tpgb-ref-temp" data-ref="(\d+)"><\/div>/';
+				$matches = [];
+
+				if (preg_match_all($ref_pattern, $block_content, $matches, PREG_SET_ORDER)) {
+					foreach ($matches as $match) {
+						if(isset($match[1]) && !empty($match[1])){
+							$ref_id = $match[1];
+							$newContent = $this->plus_do_block($ref_id);
+							
+							if (class_exists('Tp_Core_Init_Blocks')) {
+								$css_file = Tp_Core_Init_Blocks::get_instance();
+								if (!empty($css_file) && is_callable([$css_file, 'enqueue_post_css'])) {
+									$css_file->enqueue_post_css($ref_id);
+								}
+							}
+							
+							$replacement = $newContent;
+							$block_content = str_replace($match[0], $replacement, $block_content);
+						}
+					}
+				}
+
+				//ajax pattern match
+				if(preg_match_all('/class="[^"]*tpgb-load-template-[^"]* tpgb-load-(\d+)[^"]*"/', $block_content, $matches1)){
+					foreach ($matches1[1] as $match) {
+						
+						if(isset($match) && !empty($match) && is_numeric($match)){
+							$ref_id = $match;
+								if(!in_array($ref_id, $this->plus_template_blocks)){
+								$this->plus_template_blocks[] = $ref_id;
+								$this->plus_do_block($ref_id);
+								
+								if (class_exists('Tp_Core_Init_Blocks')) {
+									$css_file = Tp_Core_Init_Blocks::get_instance();
+									if (!empty($css_file) && is_callable([$css_file, 'enqueue_post_css'])) {
+										$css_file->enqueue_post_css($ref_id);
+									}
+								}
+							}
+						}
+					}
+				}
+				
+			}
+
 			//Full site editing compatibility
 			if(preg_match('/\btpgb\/\b/', $block['blockName']) && !empty($block) && !empty($block['innerHTML'])){
 				$styletag = '/<style>(.*?)<\/style>/m';

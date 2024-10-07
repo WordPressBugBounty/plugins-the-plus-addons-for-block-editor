@@ -38,7 +38,7 @@ if ( ! class_exists( 'Tpag_Resuable_Shortcode' ) ) {
                 if ( get_current_screen()->id != 'edit-wp_block' && get_current_screen()->post_type != 'wp_block'  ) {
 					return;
                 }
-
+				
 				$tpgbAjax = Tp_Blocks_Helper::get_extra_option('tpgb_template_load');
 				if( (isset($tpgbAjax) && !empty($tpgbAjax) && $tpgbAjax=='enable') || empty($tpgbAjax) ){
 					add_action( 'admin_footer', [ $this, 'tpgb_shortcode_popup'] );

@@ -1,0 +1,81 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"name": "tpgb/tp-smooth-scroll",
+	"version": "0.1.0",
+	"title": "Smooth Scroll",
+	"category": "tpgb",
+	"description": "Give your users premium smooth experience by adding a smooth scroll effect.",
+	"example": {
+		"attributes": {}
+	},
+	"supports": {
+		"align": ["wide","full"]
+	},
+	"textdomain": "tpgb",
+    "attributes": {
+        "block_id": {
+            "type": "string",
+            "default": ""
+        },
+        "className": {
+            "type": "string",
+            "default": ""
+        },
+        "frameRate": {
+            "type": "string",
+            "default": "150"
+        },
+        "aniTime": {
+            "type": "string",
+            "default": "400"
+        },
+        "stepSize": {
+            "type": "string",
+            "default": "100"
+        },
+        "plusAlgo": {
+            "type": "boolean",
+            "default": true
+        },
+        "pulseScale": {
+            "type": "string",
+            "default": "4"
+        },
+        "pulseNorma": {
+            "type": "string",
+            "default": "1"
+        },
+        "accDelta": {
+            "type": "string",
+            "default": "50"
+        },
+        "accMax": {
+            "type": "string",
+            "default": "3"
+        },
+        "keySupp": {
+            "type": "boolean",
+            "default": true
+        },
+        "arrowSco": {
+            "type": "string",
+            "default": "50"
+        },
+        "touchSupp": {
+            "type": "boolean",
+            "default": true
+        },
+        "fixSupp": {
+            "type": "boolean",
+            "default": true
+        },
+        "browsers": {
+            "type": "string",
+            "default": "[]"
+        },
+        "responsive": {
+            "type": "boolean",
+            "default": true
+        }
+    }
+}

@@ -216,6 +216,7 @@ class csstidy {
 	 */
 	public $from = array();
 	/**
+	/**
 	 * =true if in invalid at-rule
 	 * @var bool
 	 * @access private
@@ -257,10 +258,10 @@ class csstidy {
 	 * @var array
 	 */
 	public $data = array();
-
-
-	public $template = array();
 	
+	
+	public $template = array();
+
 	/**
 	 * Loads standard template and sets default settings
 	 * @access private

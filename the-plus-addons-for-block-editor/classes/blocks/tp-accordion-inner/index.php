@@ -5,7 +5,11 @@
 defined( 'ABSPATH' ) || exit;
 
 function tpgb_tp_accr_inner_render_callback( $attributes, $content) {
-
+	$pattern = '/\btpgb-accor-item/';
+    
+	if (preg_match($pattern, $content)) {
+	   return $content;
+	}
 	$output = '';
 	$block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
 	$title = (!empty($attributes['title'])) ? $attributes['title'] : '' ;
@@ -73,7 +77,7 @@ function tpgb_tp_accr_inner_render_callback( $attributes, $content) {
  */
 function tpgb_tp_accr_inner() {
 	
-	$attributesOptions = [
+	/* $attributesOptions = [
 			'block_id' => [
                 'type' => 'string',
 				'default' => '',
@@ -206,6 +210,8 @@ function tpgb_tp_accr_inner() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_accr_inner_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_accr_inner_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_accr_inner' );

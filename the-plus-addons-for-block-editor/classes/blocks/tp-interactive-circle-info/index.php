@@ -221,7 +221,9 @@ function tpgb_tp_interactive_circle_info() {
 					],
 					'imageName' => [
 						'type' => 'object',
-						'default' => [],
+						'default' => (object)[
+							'url' => ''
+						],
 					],
 					'imageSize' => [
 						'type' => 'string',
@@ -532,6 +534,9 @@ function tpgb_tp_interactive_circle_info() {
 						'target' => '',	
 						'nofollow' => ''	
 					],
+					'imageName' => (object)[
+						'url' => ''
+					],
 				],
 				[
 					'_key' => '1',
@@ -545,6 +550,9 @@ function tpgb_tp_interactive_circle_info() {
 						'url' => '#',	
 						'target' => '',	
 						'nofollow' => ''	
+					],
+					'imageName' => (object)[
+						'url' => ''
 					],
 				],
 				[
@@ -560,12 +568,15 @@ function tpgb_tp_interactive_circle_info() {
 						'target' => '',	
 						'nofollow' => ''	
 					],
+					'imageName' => (object)[
+						'url' => ''
+					],
 				],
 			],
 		],
 		'Alignment' => [
 			'type' => 'object',
-			'default' => '',
+			'default' => [ 'md' => 'center', 'sm' => '', 'xs' => '' ],
 			'style' => [
 				(object) [
 					'selector' => '{{PLUS_WRAP}} .ia-circle-wrap{ justify-content: {{Alignment}}; }',

@@ -46,9 +46,10 @@ function tppoMaso(doc){
                 var inner_c = document.querySelector('.tpgb-block-' + uid + ' .post-loop-inner');
                 e = "masonry" === d ? "masonry" : "fitRows",
                 f.layoutMode = e;
-                
-                var iso = new Isotope(inner_c, f);
-                iso.arrange();
+                if(inner_c){
+                    var iso = new Isotope(inner_c, f);
+                    iso.arrange();
+                }
             });
             
         }

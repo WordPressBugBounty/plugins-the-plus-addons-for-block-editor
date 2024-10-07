@@ -133,6 +133,7 @@ h3.tpgb-posts-not-found{
 .entry-content[ast-blocks-layout] .tpgb-container-row.alignfull, .ast-no-sidebar .entry-content .alignfull {
     max-width: initial !important;
 }
+
 /* Astra Theme*/
 
 /* Guten Theme */
@@ -225,6 +226,7 @@ h3.tpgb-posts-not-found{
     }
 }
 /* Global Position Css */
+
 /*  Pop Up Builder Button Css */
 .theme-geeks .toggle-button-style .btn-icon{
 	width : auto;

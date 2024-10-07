@@ -27,17 +27,14 @@ function tpgb_tp_messagebox_render_callback( $attributes, $content) {
 	if(!empty($msgArrow)){
 		$arrow .= 'msg-arrow-'.esc_attr($icnPosition);
 	}
-
 	$withBtnCss = '';
 	if(!empty($extBtnshow)){
 		$withBtnCss .= 'extra-btn-enable';
 	}
-
 	$iconPostfixCss = '';
 	if(!empty($icnPosition) && $icnPosition=='postfix'){
 		$iconPostfixCss .= 'main-icon-postfix';
 	}
-
 	$getIcon = '';
 		$getIcon .='<div class="msg-icon-content '.esc_attr($iconPostfixCss).' '.esc_attr($tnslin).'">';
 			$getIcon .='<span class="msg-icon '.esc_attr($disflex).' '.esc_attr($arrow).' '.esc_attr($tnslin).' '.esc_attr($tnslinaftr).'">';
@@ -66,7 +63,7 @@ function tpgb_tp_messagebox_render_callback( $attributes, $content) {
 	$getbutton .= Tpgb_Blocks_Global_Options::load_plusButton_saves($attributes);
 	
     $output .= '<div class="tpgb-messagebox tpgb-relative-block tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).'">';
-		$output .='<div class="messagebox-bg-box  tpgb-relative-block '.esc_attr($tnslin).'">';
+		$output .='<div class="messagebox-bg-box tpgb-relative-block '.esc_attr($tnslin).'">';
 			$output .='<div class="message-media '.esc_attr($tnslin).'">';
 				if(!empty($icon) && $icnPosition=='prefix'){
 					$output .=$getIcon;
@@ -99,7 +96,7 @@ function tpgb_tp_messagebox_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_tp_messagebox() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$plusButton_options = Tpgb_Blocks_Global_Options::load_plusButton_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
@@ -954,6 +951,8 @@ function tpgb_tp_messagebox() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_messagebox_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_messagebox_render_callback', true, false, true);
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_messagebox' );

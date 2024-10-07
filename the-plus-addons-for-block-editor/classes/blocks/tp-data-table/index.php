@@ -49,7 +49,7 @@ function tpgb_tp_datatable_callback( $attributes, $content) {
                                 $ThIcon = '<span class="tpgb-align-icon--'.esc_attr($IconPosition).esc_attr($checkText).'"><i class="'.esc_attr($item['thicon']).' tableicon"></i></span>';
                             }else if(!empty($item['thDRicon']) && $item['thDRicon'] == 'image' && !empty($item['thDRimage'])) {
                                 $Thimagesize = (!empty($item['thimagesize'])) ? $item['thimagesize'] : 'thumbnail';
-                                $ThImgID = $item['thDRimage']['id'];
+                                $ThImgID = ( isset($item['thDRimage']['id'])) ? $item['thDRimage']['id'] : '';
                                 $ThImgurl = wp_get_attachment_image( $ThImgID,$Thimagesize, false, ['class' => 'tpgb-col-img--'.esc_attr($IconPosition).esc_attr($checkText) ] );
                                 $ThImg = $ThImgurl;
                             }
@@ -123,7 +123,7 @@ function tpgb_tp_datatable_callback( $attributes, $content) {
                                     $TRImgurl = wp_get_attachment_image( $TRDrimgid,$TRimagesize, false, ['class' => 'tpgb-col-img--'.esc_attr($IconPosition).$checkText ] );
                                     $TRImg = $TRImgurl;
                                 }
-                                $DTBody .= '<'.Tp_Blocks_Helper::validate_html_tag($Tag).' class="tpgb-table-col tp-repeater-item-'.esc_attr($item['_key']).'"  colspan="'.esc_attr($TrColumnSpan).'" rowspan="'.esc_attr($TrRowSpan).'">';
+                                $DTBody .= '<'.Tp_Blocks_Helper::validate_html_tag($Tag).' class="tpgb-table-col tp-repeater-item-'.esc_attr($item['_key']).' '.( !empty($item['TrLink']) && !empty($item['TrLink']['url']) ? ' tpgb-td-flex' : '' ).'"  colspan="'.esc_attr($TrColumnSpan).'" rowspan="'.esc_attr($TrRowSpan).'">';
                                     
                                     if( !empty($item['TrLink']) && !empty($item['TrLink']['url']) ){
 										$target1 = ( !empty ($item['TrLink']['target'])) ? 'target="_blank"' : '';
@@ -291,8 +291,7 @@ function tpgb_tp_datatable_render() {
                         'default' => '',
                         'style' => [
                             (object) [
-                                'selector' => '{{PLUS_WRAP}} {{TP_REPEAT_ID}} .tpgb-table-row,
-                                            {{PLUS_WRAP}} {{TP_REPEAT_ID}} .tpgb-table__text{ color: {{thColor}}; }',
+                                'selector' => '{{PLUS_WRAP}} {{TP_REPEAT_ID}} .tpgb-table-row,{{PLUS_WRAP}} {{TP_REPEAT_ID}} .tpgb-table__text{ color: {{thColor}}; }',
                             ],
                         ],
                     ],
@@ -456,7 +455,7 @@ function tpgb_tp_datatable_render() {
 
         'ThAlignment' => [
             'type' => 'object',
-            'default' => '',
+           'default' => [ 'md' => 'left', 'sm' =>  '', 'xs' =>  '' ],
             'style' => [
                 (object) [
                     'condition' => [(object) ['key' => 'TbSort', 'relation' => '==', 'value' => false]],
@@ -575,7 +574,7 @@ function tpgb_tp_datatable_render() {
 
         'TBAlignment' => [
             'type' => 'object',
-            'default' => '',
+            'default' => [ 'md' => 'left', 'sm' =>  '', 'xs' =>  '' ],
             'style' => [
                 (object) [
                     'selector' => '{{PLUS_WRAP}} tbody td.tpgb-table-col{text-align:{{TBAlignment}};}',
@@ -986,7 +985,7 @@ function tpgb_tp_datatable_render() {
             ],
             'style' => [
                 (object) [
-                    'selector' => '{{PLUS_WRAP}} table tbody>tr:nth-child(odd)>td,{{PLUS_WRAP}} table tbody>tr:nth-child(even)>td',
+                    'selector' => '{{PLUS_WRAP}} .tpgb-table-wrapper',
                 ],
             ],
 			'scopy' => true,

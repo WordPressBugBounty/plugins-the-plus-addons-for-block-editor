@@ -118,7 +118,7 @@ function tpgb_tp_creative_image_callback( $settings, $content) {
 
 function tpgb_tp_creative_image_render() {
 	
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	$attributesOptions = array(
@@ -350,7 +350,9 @@ function tpgb_tp_creative_image_render() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_creative_image_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_creative_image_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_creative_image_render' );
 

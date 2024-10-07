@@ -7,6 +7,11 @@ defined( 'ABSPATH' ) || exit;
 function tpgb_tp_accordion_render_callback( $attributes, $content) {
 	$output = '';
 	$block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
+	$pattern = '/\btpgb-block-'.esc_attr($block_id).'/';
+   
+	if (preg_match($pattern, $content)) {
+		return $content;
+	}
 	$accordianList = (!empty($attributes['accordianList'])) ? $attributes['accordianList'] : [];
 	$titleAlign = (!empty($attributes['titleAlign'])) ? $attributes['titleAlign'] :'text-left';
 	$toggleIcon = (!empty($attributes['toggleIcon'])) ? $attributes['toggleIcon'] :false;
@@ -15,13 +20,10 @@ function tpgb_tp_accordion_render_callback( $attributes, $content) {
 	$ActiconName = (!empty($attributes['ActiconName'])) ? $attributes['ActiconName'] : 'fas fa-minus';
 	$iconAlign = (!empty($attributes['iconAlign'])) ? $attributes['iconAlign'] : 'end';
 	$titleTag = (!empty($attributes['titleTag'])) ? $attributes['titleTag'] : 'h3';
-	
 	$accorType = (!empty($attributes['accorType'])) ? $attributes['accorType'] : '';
-
 	$descAlign = (!empty($attributes['descAlign'])) ? $attributes['descAlign'] :'';
 	
 	$i=0;
-	
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	
 	//Get Toogle icon
@@ -30,17 +32,16 @@ function tpgb_tp_accordion_render_callback( $attributes, $content) {
 		$tgicon .= '<div class="accordion-toggle-icon">';
 			$tgicon .= '<span class="close-toggle-icon toggle-icon">';
 				if($iconFont == 'font_awesome'){
-					$tgicon .=  '<i class="'.esc_attr($iconName).'"></i>' ; 
+					$tgicon .=  '<i class="'.esc_attr($iconName).'"> </i>' ;
 				}
 			$tgicon .= '</span>';
 			$tgicon .= '<span class="open-toggle-icon toggle-icon">';
 				if($iconFont == 'font_awesome'){
-					$tgicon .= '<i class="'.esc_attr($ActiconName).'"></i>' ; 
+					$tgicon .= '<i class="'.esc_attr($ActiconName).'"> </i>' ; 
 				}
 			$tgicon .= '</span>';
 		$tgicon .= '</div>';
 	}
-	
 	
 	$loop_content = '';
 	if(!empty($accordianList)){
@@ -72,7 +73,6 @@ function tpgb_tp_accordion_render_callback( $attributes, $content) {
 					if($iconAlign == 'end'){
 						$loop_content .= $tgicon;
 					}
-
 				$loop_content .= '</div>';
 
 				$loop_content .= '<div id="tpag-tab-content-'.esc_attr($block_id).esc_attr($i).'" class="tpgb-accordion-content '.esc_attr($active).'" role="tabpanel" data-tab="'.esc_attr($i).'" aria-labelledby="'.(!empty($item['UniqueId']) ? esc_attr($item['UniqueId']) : 'tpag-tab-title-'.esc_attr($block_id).esc_attr($i) ).'">';
@@ -93,7 +93,6 @@ function tpgb_tp_accordion_render_callback( $attributes, $content) {
 			}else{
 				$output .= $loop_content;
 			}
-			
 		$output .= '</div>';
     $output .= "</div>";
 	
@@ -106,7 +105,7 @@ function tpgb_tp_accordion_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_tp_accordion() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	
@@ -588,7 +587,9 @@ function tpgb_tp_accordion() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_accordion_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_accordion_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 
 

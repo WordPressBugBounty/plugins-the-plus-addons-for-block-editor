@@ -125,13 +125,17 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
 	$output .= '</div>';
 	
 	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);
-	if(!empty($markupSch)){
+	if (!empty($markupSch)) {
 		$output .= '<script type="application/ld+json">';
-			$output .= '@context: https://schema.org,';
-			$output .= '@type: Organization,';
-			$output .= 'url:'.esc_url($url_link).',';
-			$output .= isset($imgUrl) ? 'logo: '.esc_url($imgUrl) : '';
-		$output .= ' </script>';
+		$output .= '{';
+		$output .= '"@context": "https://schema.org",';
+		$output .= '"@type": "Organization",';
+		$output .= '"url": "' . esc_url($url_link) . '"';
+		if (isset($imgUrl)) {
+			$output .= ', "logo": "' . esc_url($imgUrl) . '"';
+		}
+		$output .= '}';
+		$output .= '</script>';
 	}
     return $output;
 }
@@ -231,7 +235,7 @@ function tpgb_site_logo() {
 		],
 		'Alignment' => [
 			'type' => 'object',
-			'default' => 'left',
+			'default' => [ 'md' => 'left', 'sm' => '', 'xs' => '' ],
 			'style' => [
 				(object) [
 					'selector' => '{{PLUS_WRAP}} { text-align: {{Alignment}}; }',

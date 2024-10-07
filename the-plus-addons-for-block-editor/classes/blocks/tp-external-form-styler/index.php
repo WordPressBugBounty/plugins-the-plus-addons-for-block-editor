@@ -28,7 +28,7 @@ function tpgb_external_form_styler_render_callback( $attributes, $content) {
 		if($contactForm==''){
 			$output .= '<div class="tpgb-select-form-alert">'.esc_html__('Please select Form','tpgb').'</div>';
 		} else {
-			$sc = 'id="'.$contactForm.'"';
+			$sc = 'id="'.esc_attr($contactForm).'"';
 			$shortcode   = [];
 			if($formType=='contact-form-7'){
 				$shortcode[] = sprintf( '[contact-form-7 %s]', $sc );
@@ -102,7 +102,7 @@ function tpgb_external_form_styler() {
 		],
 		'Alignment' => [
 			'type' => 'object',
-			'default' => 'center',
+			'default' => [ 'md' => 'center', 'sm' =>  '', 'xs' =>  '' ],
 			'style' => [
 				(object) [
 					'condition' => [(object) ['key' => 'formType', 'relation' => '==', 'value' => 'contact-form-7' ]],
@@ -2809,7 +2809,7 @@ function tpgb_external_form_styler() {
 		],
 		'gBtnAlign' => [
 			'type' => 'object',
-			'default' => 'left',
+			'default' => [ 'md' => 'left', 'sm' =>  '', 'xs' =>  '' ],
 			'style' => [
 				(object) [
 					'condition' => [(object) ['key' => 'formType', 'relation' => '==', 'value' => 'gravity-form' ]],

@@ -93,7 +93,7 @@ function tpgb_tp_search_bar_render_callback( $attr, $content) {
 					$allResultLoad = true;
 					$lsearchData = [
 						's' => '',
-						'taxonomy_'.$taxonomyData => 'all'
+						'taxonomy_'.esc_attr($taxonomyData) => 'all'
 					];
 				}
 				
@@ -105,7 +105,7 @@ function tpgb_tp_search_bar_render_callback( $attr, $content) {
 					$DataArray[$TermId] = ['name'=>$Name,'count'=>$Number,'parent'=>''];
 					if($taxonomyData == 'category' && $showsubcat == 'yes'){
 						$args2 = array(
-							'taxonomy'     => $taxonomyData,
+							'taxonomy'     => esc_attr($taxonomyData),
 							'child_of'     => 0,
 							'parent'       => $TermId,
 							'orderby'      => 'name',
@@ -156,7 +156,11 @@ function tpgb_tp_search_bar_render_callback( $attr, $content) {
 	
 	// Result Attributes
 	$ResultOnOff = [];
-	if($resultStyle!='custom'){
+	if($resultStyle=='custom'){
+		$ResultOnOff = [
+			'errormsg' => !empty($postNFmessage) ? $postNFmessage : 'Sorry, But Nothing Matched Your Search Terms.'
+		];
+	}else{
 		$ResultOnOff = [
 			'ONTitle' => !empty($resultVisSet['enTitle']) ? 1 : 0,
 			'ONContent' => !empty($resultVisSet['enContent']) ? 1 : 0,
@@ -176,16 +180,13 @@ function tpgb_tp_search_bar_render_callback( $attr, $content) {
 			'Txtcont' => !empty($textLimit['contentLimit']) ? 1 : 0,
 			'ContType' => !empty($textLimit['limitOnContent']) ? $textLimit['limitOnContent'] : 'char',
 			'ContCount' => !empty($textLimit['contentLmtCnt']) ? $textLimit['contentLmtCnt'] : 100,
-			'ContDots'=> !empty($textLimit['contentDisplayDot']) ? $textLimit['contentDisplayDot'] : ''	
+			'ContDots'=> !empty($textLimit['contentDisplayDot']) ? $textLimit['contentDisplayDot'] : '',
+	
+			'errormsg' => !empty($postNFmessage) ? $postNFmessage : 'Sorry, But Nothing Matched Your Search Terms.'
 		];
 	}
-
-	$errorMessage = !empty($postNFmessage) ? $postNFmessage : 'Sorry, But Nothing Matched Your Search Terms.';
-
 	$lresultSetting = $ResultOnOff;
-	if(!empty($ResultOnOff)){
-		$ResultOnOff = htmlspecialchars(json_encode($ResultOnOff), ENT_QUOTES, 'UTF-8');
-	}
+	$ResultOnOff = htmlspecialchars(json_encode($ResultOnOff), ENT_QUOTES, 'UTF-8');
 	
 	$AcfData = [
 		'ACFEnable' => !empty($acfFilter) ? 1 : 0,
@@ -311,7 +312,7 @@ function tpgb_tp_search_bar_render_callback( $attr, $content) {
 		Tpgb_Library()->plus_do_block($attr['blockTemplate']);
 	}
 
-	$output .= '<div class="tpgb-search-bar tpgb-relative-block tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' '.esc_attr($disInputClass).'" data-id="'.esc_attr($block_id).'" data-ajax_search= \'' .$dataattr. '\' data-result-setting= \''.$ResultOnOff.'\' data-genericfilter='.$GFarray.' data-pagination-data= \''.$PageJson.'\' data-acfdata='.esc_attr($AcfData).' data-default-data= \''.$DefaultSetting.'\' data-errormsg="'.htmlspecialchars($errorMessage).'">';
+	$output .= '<div class="tpgb-search-bar tpgb-relative-block tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' '.esc_attr($disInputClass).'" data-id="'.esc_attr($block_id).'" data-ajax_search= \'' .$dataattr. '\' data-result-setting= \''.$ResultOnOff.'\' data-genericfilter='.$GFarray.' data-pagination-data= \''.$PageJson.'\' data-acfdata='.esc_attr($AcfData).' data-default-data= \''.$DefaultSetting.'\'>';
 		
 		if(!empty($overlayTgl)){
 			$output .= '<div class="tpgb-rental-overlay"></div>';
@@ -4502,7 +4503,10 @@ function tpgb_search($onLoadAttr = []){
 	if(!empty($DefaultData['includeTerms']) && !empty($DefaultData['taxonomySlug'])){
 		$cat_arr = [];
 		if (is_array($DefaultData['includeTerms']) || is_object($DefaultData['includeTerms'])) {
-			foreach ($DefaultData['includeTerms'] as $inValue) {
+			foreach ( $DefaultData['includeTerms'] as $inValue) {
+				if( is_object( $inValue ) ){
+					$inValue = (array) $inValue;
+				}
 				$cat_arr[] = $inValue['value'];
 			}
 		}
@@ -4733,7 +4737,7 @@ function tpgb_search($onLoadAttr = []){
 			}
 
 			$searchPostOp = '<div class="tpgb-ser-item tpgb-trans-linear '.esc_attr($styleColumn).'">';
-				$searchPostOp .= '<a class="tpgb-serpost-link tpgb-trans-easeinout" '.$Resultlink.' '.$Resultlinktarget.' >';
+				$searchPostOp .= '<a class="tpgb-serpost-link tpgb-trans-easeinout" '.$Resultlink.' '.$Resultlinktarget.'>';
 					if(!empty($resultSetting['ONThumb']) && !empty($postThumb)){
 						$searchPostOp .= '<div class="tpgb-serpost-thumb">';
 							$searchPostOp .= '<img class="tpgb-item-image" src='.esc_url($postThumb).' alt="'.esc_attr__('Thumb Image','tpgb').'">';

@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	lazyloadVideos(document);
 })
 
-
 function tpvideoInit(doc){
 	if (doc.querySelectorAll('iframe').length) {
 		doc.addEventListener('DOMContentLoaded', initFluidVids(doc));
@@ -18,7 +17,7 @@ function tpvideoInit(doc){
 		lazyloadVideos(document);
 	});
 	document.addEventListener("click", function(event) {
-		if (event.target.matches('[data-mode="lazyload"] .tpgb-video-play-btn')) {
+		if (event.target.matches('.tpgb-video-play-btn') || event.target.matches('.ts-video-icon')) {
 			event.preventDefault();
 			var videoWrapper = event.target.closest(".ts-video-wrapper");
 			if (videoWrapper) {
@@ -79,5 +78,9 @@ function lazyloadVideos(doc) {
 			once: true
 		});
 	}
+	let getVdo = doc.querySelectorAll('.tp-video');
+    getVdo.forEach((gv)=>{
+        let getId = gv.getAttribute('data-id');
+        Fancybox.bind('[data-fancybox="'+getId+'"]')
+    })
 }
-

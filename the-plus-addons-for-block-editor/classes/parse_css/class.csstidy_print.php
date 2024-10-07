@@ -46,13 +46,15 @@ class csstidy_print {
 	 * @var object
 	 */
 	public $parser;
+
 	public $css;
 	public $template;
 	public $tokens;
 	public $charset;
 	public $import;
 	public $namespace;
-	
+
+
 	/**
 	 * Saves the input CSS string
 	 * @var string

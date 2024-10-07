@@ -227,11 +227,11 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 			$IGCap = (empty($attributes['iGCaptione']) ) ? 'data-instgrm-captioned' : '';
 
 			if($iGType == "posts"){
-				$ig_id = 'p/'.$iGId;
+				$ig_id = 'p/'.esc_attr($iGId);
 			}else if($iGType == "reels"){
-				$ig_id = 'reel/'.$iGId;
+				$ig_id = 'reel/'.esc_attr($iGId);
 			}else if($iGType == "igtv"){
-				$ig_id = 'tv/'.$iGId;
+				$ig_id = 'tv/'.esc_attr($iGId);
 			}
 
 			$output .= '<blockquote class="instagram-media" data-instgrm-version="13" data-instgrm-permalink="https://www.instagram.com/'.esc_attr($ig_id).'/?utm_source=ig_embed" '.esc_attr($IGCap).'></blockquote><script async src="//www.instagram.com/embed.js"></script>';

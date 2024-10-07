@@ -44,9 +44,6 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 	$svgDura = (!empty($attributes['svgDura'])) ? $attributes['svgDura'] : 90;
 	
 	$i = 0;
-	// Overlay
-	$contentOverlay = '';
-	$contentOverlay .= '<div class="content-overlay-bg-color tpgb-trans-easeinout"></div>';
 	
 	//Get Icon
 	$getPriceIcon = '';
@@ -137,7 +134,7 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 				$getWysiwygContent .= '<hr class="border-line"/>';
 			}
 			$getWysiwygContent .= '<div class="pricing-content">'.wp_kses_post($wyContent).'</div>';
-			$getWysiwygContent .= $contentOverlay;
+			$getWysiwygContent .= '<div class="content-overlay-bg-color tpgb-trans-easeinout"></div>';
 		$getWysiwygContent .= '</div>';
 	}
 		
@@ -163,7 +160,7 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_pricing_table() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$plusButton_options = Tpgb_Blocks_Global_Options::load_plusButton_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
@@ -978,6 +975,8 @@ function tpgb_pricing_table() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_pricing_table_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_pricing_table_render_callback', true , false, true);
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_pricing_table' );

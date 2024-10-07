@@ -191,7 +191,7 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_tp_testimonials() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	$carousel_options = Tpgb_Blocks_Global_Options::carousel_options();
@@ -244,7 +244,7 @@ function tpgb_tp_testimonials() {
 						],
 						'content' => [
 							'type' => 'string',
-							'default' => ' I am pretty satisfied with The Plus Gutenberg Addons. The Plus has completely surpassed our expectations. I was amazed at the quality of The Plus Gutenberg Addons.',
+							'default' => ' I am pretty satisfied with Nexter Blocks. Nexter Blocks has completely surpassed our expectations. I was amazed at the quality of Nexter Blocks.',
 						],
 						'authorTitle' => [
 							'type' => 'string',
@@ -253,7 +253,7 @@ function tpgb_tp_testimonials() {
 					],
 				], 
 				'default' => [ 
-					[ '_key'=> 'cvi9', 'testiTitle' => 'John Doe', 'designation' => 'MD at Orange', 'content' => ' I am pretty satisfied with The Plus Gutenberg Addons. The Plus has completely surpassed our expectations. I was amazed at the quality of The Plus Gutenberg Addons.','authorTitle' => 'Supercharge ⚡ Gutenberg' ]
+					[ '_key'=> 'cvi9', 'testiTitle' => 'John Doe', 'designation' => 'MD at Orange', 'content' => ' I am pretty satisfied with Nexter Blocks. Nexter Blocks has completely surpassed our expectations. I was amazed at the quality of Nexter Blocks.','authorTitle' => 'Supercharge ⚡ Gutenberg' ]
 				],
 			],
 			
@@ -850,6 +850,8 @@ function tpgb_tp_testimonials() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_testimonials_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_testimonials_render_callback', true, true);
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_testimonials' );

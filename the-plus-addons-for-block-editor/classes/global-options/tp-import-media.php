@@ -137,7 +137,6 @@ class Tpgb_Import_Images {
 			if(isset($attachment['id'])){
 				self::$new_image_ids[ $attachment['id'] ] = $new_attachment_img;
 			}
-
 			return $new_attachment_img;
 		}
 

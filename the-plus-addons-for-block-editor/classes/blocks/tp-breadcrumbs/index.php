@@ -10,6 +10,11 @@ function tpgb_breadcrumbs_callback( $attributes, $content) {
     $markupSch = (!empty($attributes['markupSch'])) ? $attributes['markupSch'] : '';
 	$ctmHomeurl = (!empty($attributes['ctmHomeurl'])) ? $attributes['ctmHomeurl'] : '';
 	
+    $showTerms = (!empty($attributes['showTerms'])) ? $attributes['showTerms'] : '';
+    $taxonomySlug = (!empty($attributes['taxonomySlug'])) ? $attributes['taxonomySlug'] : '';
+    $showpartTerms = (!empty($attributes['showpartTerms'])) ? $attributes['showpartTerms'] : false;
+    $showchildTerms = (!empty($attributes['showchildTerms'])) ? $attributes['showchildTerms'] : false;
+
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	
     $icons = $icontype = '';
@@ -64,12 +69,12 @@ function tpgb_breadcrumbs_callback( $attributes, $content) {
     $bdToggleHome = (!empty($attributes['bdToggleHome'])) ? "on-off-home" : "";
     $bdToggleParent = (!empty($attributes['bdToggleParent'])) ? "on-off-parent" : "";	
 
-    if((!empty($attributes['letterLimitParentT']))){
+    if( (!empty($attributes['bdToggleParent'])) ){
     	$letterLimitParent = (!empty($attributes['letterLimitParent'])) ? $attributes['letterLimitParent'] : '';
 	}else{
 		$letterLimitParent ='0';
 	}
-	if((!empty($attributes['letterLimitCurrentT']))){
+	if((!empty($attributes['bdToggleCurrent']))){
     	$letterLimitCurrent = (!empty($attributes['letterLimitCurrent'])) ? $attributes['letterLimitCurrent'] : '';
 	}else{
 		$letterLimitCurrent = '0';
@@ -91,7 +96,7 @@ function tpgb_breadcrumbs_callback( $attributes, $content) {
             
                 $activeColorCurrent = ($attributes['activeColorCurrent'] == true) ? "default_active" : "";
 
-                $breadcrumbs_bar .= Tp_Blocks_Helper::theplus_breadcrumbs($icontype, $sepIconType, $icons, $homeTitle, $sepIcons, $activeColorCurrent, $breadcrumbs_last_sec_tri_normal, $bdToggleHome, $bdToggleParent, $bdToggleCurrent, $letterLimitParent, $letterLimitCurrent, $markupSch, $ctmHomeurl);
+                $breadcrumbs_bar .= Tp_Blocks_Helper::theplus_breadcrumbs($icontype, $sepIconType, $icons, $homeTitle, $sepIcons, $activeColorCurrent, $breadcrumbs_last_sec_tri_normal, $bdToggleHome, $bdToggleParent, $bdToggleCurrent, $letterLimitParent, $letterLimitCurrent, $markupSch, $ctmHomeurl , $showTerms , $taxonomySlug , $showpartTerms , $showchildTerms );
             $breadcrumbs_bar .= '</div>';
         $breadcrumbs_bar .= '</div>';
     $breadcrumbs_bar .= '</div>';
@@ -737,6 +742,26 @@ function tpgb_tp_breadcrumbs_render() {
                 ],
             ],
 			'scopy' => true,
+        ],
+        'showTerms' => [
+            'type' => 'boolean',
+            'default' => false,
+        ],
+        'taxonomySlug' => [
+            'type' => 'string',
+			'default' => 'category',
+        ],
+        'showpartTerms' => [
+            'type' => 'boolean',
+            'default' => true,
+        ],
+        'showchildTerms' => [
+            'type' => 'boolean',
+            'default' => true,
+        ],
+        'nochildShow' => [
+            'type' => 'number',
+			'default' => 1,
         ],
     ];
 

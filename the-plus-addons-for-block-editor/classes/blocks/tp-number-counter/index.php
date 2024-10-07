@@ -44,8 +44,10 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content) {
 
 		$imgUrl = (isset($imagestore['dynamic']) && class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($imagestore) : $imagestore['url'];
 		$imgSrc = '<img class="counter-icon-image" src='.esc_url($imgUrl).' alt="'.$altText.'"/>';
-	}else{
+	}else if(!is_array($imagestore)){
 		$imgSrc = '<img class="counter-icon-image" src='.esc_url($imagestore).' alt="'.$altText.'"/>';
+	}else {
+		$imgSrc = '<img class="counter-icon-image" src='.esc_url(TPGB_ASSETS_URL.'assets/images/tpgb-placeholder.jpg').' alt="'.$altText.'"/>';
 	}
 	
 	$vCenter = '';
@@ -194,7 +196,7 @@ function formatNumber($number, $numeration) {
  * Render for the server-side
  */
 function tpgb_number_counter() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	
@@ -872,6 +874,8 @@ function tpgb_number_counter() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_number_counter_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_number_counter_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_number_counter' );

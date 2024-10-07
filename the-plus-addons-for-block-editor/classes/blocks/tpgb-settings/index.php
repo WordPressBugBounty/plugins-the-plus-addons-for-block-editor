@@ -1,10 +1,8 @@
 <?php
-/* Block : BlockQuote
+/* Block : Global Settings
  * Author : ThePlus
  * @since : 1.0.0
  */
-defined( 'ABSPATH' ) || exit;
-	
 function tpgb_global_settings_render() {
     $attributesOptions = [
         'block_id' => [
@@ -47,7 +45,7 @@ function tpgb_global_settings_render() {
 add_action( 'init', 'tpgb_global_settings_render' );
 
 /**
- * After rendring from the block editor display output on front-end
+ * After rendering from the block editor display output on front-end
  */
 function tpgb_global_settings_callback( $attributes, $content ){
 	$output = '';

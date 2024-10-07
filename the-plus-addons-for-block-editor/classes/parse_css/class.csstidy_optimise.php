@@ -53,6 +53,7 @@ class csstidy_optimise {
 	public $selector;
 	public $property;
 	public $value;
+
 	/**
 	 * Constructor
 	 * @param array $css contains the class csstidy
@@ -433,7 +434,7 @@ class csstidy_optimise {
 					$number[1] = 'px';
 				}
 			} elseif ($number[1] != 's' && $number[1] != 'ms' && $number[1] != 'px' && $number[1] != 'em') {
-				$number[1] = '';
+					$number[1] = '';
 			}
 
 			$temp[$l] = $number[0] . $number[1];

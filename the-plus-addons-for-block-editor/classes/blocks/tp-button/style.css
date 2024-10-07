@@ -28,7 +28,9 @@
 .button-link-wrap img.btn-icon {
     width: 20px;
 }
-
+.tpgb-plus-button{
+    line-height: 0;
+}
 /* Button Fancy Box Css */
 .tpgb-btn-fpopup{
     padding: 0px;

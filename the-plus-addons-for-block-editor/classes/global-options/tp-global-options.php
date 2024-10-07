@@ -908,7 +908,7 @@ class Tpgb_Blocks_Global_Options {
 		
 		return $options;
 	}
-
+	
 	/**
 	 * Load Global Background Options
 	 *
@@ -1247,7 +1247,7 @@ class Tpgb_Blocks_Global_Options {
 					$output .= '<div class="button-link-wrap">';
 				}else{
 					$link_attr = Tp_Blocks_Helper::add_link_attributes($extBtnUrl);
-					$output .= '<a class="button-link-wrap"  href="'.(!empty($extBtnUrl['url']) ? $extBtnUrl['url']  : '').'" '.$extBtntarget.' '.$extBtnrel.' '.$link_attr.'>';
+					$output .= '<a class="button-link-wrap"  href="'.(!empty($extBtnUrl['url']) ? $extBtnUrl['url']  : '').'"  '.$extBtntarget.' '.$extBtnrel.'  '.$link_attr.'>';
 				}
 					if($extBtnStyle == 'style-8'){
 						if($extBtniconPosition == 'before'){
@@ -1303,7 +1303,7 @@ class Tpgb_Blocks_Global_Options {
 	}
 	
 	public static function block_Wrap_Render($attributes, $content=''){
-	
+		
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return $content;
 		}
@@ -1323,7 +1323,7 @@ class Tpgb_Blocks_Global_Options {
 					$animDesktop = self::tpgbAnimationDevice($globalAnim, $attributes['globalAnimDirect'], 'md');
 				}
 			}
-				
+			
 			if(!empty($attributes['globalAnim']['sm']) && $attributes['globalAnim']['sm']!='none'){
 				$animationEffect = true;
 				$globalAnim = $attributes['globalAnim']['sm'];
@@ -1331,7 +1331,7 @@ class Tpgb_Blocks_Global_Options {
 					$animTablet = self::tpgbAnimationDevice($globalAnim, $attributes['globalAnimDirect'], 'sm');
 				}
 			}
-				
+			
 			if(!empty($attributes['globalAnim']['xs']) && $attributes['globalAnim']['xs']!='none'){
 				$animationEffect = true;
 				$globalAnim = $attributes['globalAnim']['xs'];
@@ -1339,7 +1339,7 @@ class Tpgb_Blocks_Global_Options {
 					$animMobile = self::tpgbAnimationDevice($globalAnim, $attributes['globalAnimDirect'], 'xs');
 				}
 			}
-				
+			
 			if(!empty($animationEffect)){
 				
 				if(!empty($attributes['globalAnimDuration']) && $attributes['globalAnimDuration']=='custom'){
@@ -1353,7 +1353,7 @@ class Tpgb_Blocks_Global_Options {
 				$animSettings['anime']['xs'] = !empty($animMobile) ? $animMobile : '';
 			}
 		}
-			
+		
 		$animationOutEffect = ['check' => false ];
 		if( (!empty($attributes['globalAnimOut'])) ){
 			
@@ -1374,12 +1374,12 @@ class Tpgb_Blocks_Global_Options {
 				$animSettings['animeOut']['xs'] = (isset($animationOutEffect['xs']) && !empty($animationOutEffect['xs']) ) ? $animationOutEffect['xs'] : '';
 			}
 		}
-			
+		
 		if(!empty($animationEffect) || !empty($animationOutEffect['check']) ){
 			$animClass .= ' tpgb-view-animation';
 			$animAttr .= 'data-animationSetting=\'' .htmlspecialchars(json_encode($animSettings), ENT_QUOTES, 'UTF-8'). '\'';
 		}
-			
+		
 		if(!empty($attributes['PlusMouseParallax']) && !empty($attributes['PlusMouseParallax']['tpgbReset'])){
 			$animClass .= ' tpgb-mouse-parallax';
 		}
@@ -1411,7 +1411,7 @@ class Tpgb_Blocks_Global_Options {
 		
 		$positionCss = ''; 
 		$target = '.tpgb-wrap-'.esc_attr($attributes['block_id']);
-	
+		
 		// Global Postion Css
 		if( !empty($attributes['globalPosition']) && ( ( isset($attributes['globalPosition']['md']) && !empty($attributes['globalPosition']['md']) ) || ( isset($attributes['globalPosition']['sm']) && !empty($attributes['globalPosition']['sm']) ) || ( isset($attributes['globalPosition']['xs']) && !empty($attributes['globalPosition']['xs']) ) ) ) {
 
@@ -1446,6 +1446,7 @@ class Tpgb_Blocks_Global_Options {
 				}
 
 			}
+			
 		}
 		if(has_filter('tpgb_hasWrapper')) {
 			$hasWrapper = apply_filters('tpgb_hasWrapper', $hasWrapper, $attributes);
@@ -1455,9 +1456,8 @@ class Tpgb_Blocks_Global_Options {
 		if(has_filter('tpgb_globalWrapAttr')){
 			$wrapperAttr = apply_filters('tpgb_globalWrapAttr', $wrapperAttr, $attributes);
 		}
-
 		if( !empty($hasWrapper) ){
-			
+		
 			if(has_filter('tpgb_globalWrapClass')){
 				$wrapClass = apply_filters('tpgb_globalWrapClass', $wrapClass, $attributes);
 			}
@@ -1479,7 +1479,7 @@ class Tpgb_Blocks_Global_Options {
 				$wrapClass .= ' tpgb-mobile-position-'.esc_attr($attributes['globalPosition']['md']);
 			}
 
-			$outputWrap .= '<div '.$wrapID.' class="tpgb-wrap-'.esc_attr($attributes['block_id']).' '.esc_attr($wrapClass).' '.esc_attr($animClass).'" '.$animAttr.' '.$wrapperAttr.' >';
+			$outputWrap .= '<div '.$wrapID.' class="tpgb-wrap-'.esc_attr($attributes['block_id']).' '.esc_attr($wrapClass).' '.esc_attr($animClass).'" '.$animAttr.' '.$wrapperAttr.'>';
 				ob_start();
 				do_action('tpgb_wrapper_inner_before', $attributes );
 				$outputWrap .= ob_get_contents();
@@ -1550,6 +1550,100 @@ class Tpgb_Blocks_Global_Options {
 				(object)[ "_key" => '0','displayKey' => 'authentication', 'tpgb_authentication_value' => 'authenticated', 'tpgb_role_value' => 'administrator', 'tpgb_os_value' => 'iphone', 'tpgb_browser_value' => 'ie', 'assigOpr' => 'is', 'tpgb_startdate_value' => '2021-10-13', 'tpgb_enddate_value' => '2021-10-15', 'tpgb_time_value' => '12:00', 'tpgb_day_value' => '[]' ,'tpgb_post_type_value' => '[]','tpgb_page_value' => '[]' ,'tpgb_post_value' => '[]' ,'tpgb_taxonomy_archive_value' => '[]', 'tpgb_author_archive_value' => '[]', 'tpgb_post_type_archive_value' => '[]', 'tpgb_static_page_value' => 'home', 'tpgb_date_archive_value' => 'day', 'tpgb_search_results_value' => '' , 'tpgb_single_terms_value' => '[]' , 'tpgb_single_archive_value' => '[]' ]
 			],
 		];
+	}
+
+	/*
+	 * Merge Attributes Options Block JSON
+	 * @since V4.0.0
+	 * */
+	public static function merge_options_json($block_path= '', $render_callback = '', $adv_opt = true, $carousel_opt = false, $plus_button = false){
+
+		if(empty($block_path)){
+			return;
+		}
+
+		$block_data = $block_path .'/block.json';
+		if(is_string( $block_data ) && file_exists( $block_data )){
+			$metadata_file = ( ! str_ends_with( $block_data, 'block.json' ) ) ? trailingslashit( $block_data ) . 'block.json' :	$block_data;
+			$metadata = wp_json_file_decode( $metadata_file, array( 'associative' => true ) );
+			
+			//carousel options
+			if(!empty($carousel_opt) && $carousel_opt===true){
+				$option_path = __DIR__ . '/global-carousel-option.json';
+				if (is_string($option_path) && file_exists($option_path)) {
+					$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+					if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+						$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+					}
+				}
+
+				if(defined('TPGBP_VERSION') && defined('TPGBP_PATH')){
+					$option_path = TPGBP_PATH.'classes/global-options/global-carousel-option.json';
+					if (is_string($option_path) && file_exists($option_path)) {
+						$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+						if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+							$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+						}
+					}
+				}
+			}
+			
+			//Plus button Options
+			if(!empty($plus_button) && $plus_button===true){
+				$option_path = __DIR__ . '/global-button-option.json';
+				if (is_string($option_path) && file_exists($option_path)) {
+					$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+					if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+						$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+					}
+				}
+			}
+
+			//advanced tab options
+			if(!empty($adv_opt) && $adv_opt===true){
+				$global_options = [
+					'global-option.json',
+					'global-position-option.json',
+					'global-plus-option.json',
+					'global-display-rules.json'
+				];
+		
+				foreach ($global_options as $option) {
+					$option_path = __DIR__ . '/' . $option;
+					if (is_string($option_path) && file_exists($option_path)) {
+						$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+						if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+							$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+						}
+					}
+				}
+
+				if(defined('TPGBP_VERSION') && defined('TPGBP_PATH')){
+					$global_pro_opt = [
+						'global-magic-scroll-option.json',
+						'global-plus-extras-option.json',
+					];
+
+					foreach ($global_pro_opt as $option) {
+						$option_path = TPGBP_PATH.'classes/global-options/' . $option;
+						if (is_string($option_path) && file_exists($option_path)) {
+							$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+							if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+								$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+							}
+						}
+					}
+				}
+			}
+			
+			//render block php
+			if(!empty($metadata) && !empty($render_callback)){  // && !empty($render)
+				$metadata['render_callback'] = $render_callback;
+			}
+			return $metadata;
+		}
+
+		return false;
 	}
 }
 

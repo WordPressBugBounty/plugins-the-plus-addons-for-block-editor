@@ -54,12 +54,12 @@ class Tpgb_Display_Conditions_Rules {
 	}
 	
 	public function register_attr_display_rules( $block_type ) {
-        if ( $block_type && isset($block_type->name) && $block_type->name!='ai/ai-block' && strpos($block_type->name, "tpgb/") === false && $block_type->attributes && ! array_key_exists( 'tpgbDisrule', $block_type->attributes ) ) {
+        if ( $block_type && isset($block_type->name) && $block_type->name!='ai/ai-block' && strpos($block_type->name, "tpgb/") === false && $block_type->attributes && ! array_key_exists( 'tpgbDisrule', $block_type->attributes )  ) {
             $attributes = self::tpgb_display_option();
             $block_type->attributes = array_merge( $block_type->attributes, $attributes );
-        }
+		}
     }
-	
+
 	/*
 	 * Display Rules Options
 	 * @since 1.0.6

@@ -1,5 +1,6 @@
-.tpgb-post-inner .author-avatar {
+.tpgb-post-author .tpgb-post-inner .author-avatar {
     position: relative;
+    display: inline-block;
     width: 100%;
     max-width: 130px;
     line-height: 0

@@ -342,6 +342,10 @@ function tpgb_post_meta_content() {
 				'default' => '',
 				'scopy' => true,
 			],
+			'dateType' => [
+				'type' => 'string',
+				'default' => 'published',
+			],
 			'dateIconSpace' => [
 				'type' => 'string',
 				'default' => '',

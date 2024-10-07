@@ -67,7 +67,7 @@ function tpgb_tp_smooth_scroll_render_callback( $attributes ) {
  * Render for the server-side
  */
 function tpgb_tp_smooth_scroll() {
-	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
+	/* $globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	
 	$attributesOptions = [
 			'block_id' => [
@@ -143,6 +143,8 @@ function tpgb_tp_smooth_scroll() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_smooth_scroll_render_callback'
-    ] );
+    ] ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_smooth_scroll_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_smooth_scroll' );

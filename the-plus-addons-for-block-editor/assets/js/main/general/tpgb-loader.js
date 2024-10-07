@@ -29,6 +29,11 @@ var onTpgbJsLoad = function onTpgbJsLoad() {
       tpgbLottieJs.src = tpgbLoadScripts.tpgbLottie;
       tpgbLottieJs.id = 'tpgb-lottie-js';
       document.body.appendChild(tpgbLottieJs); 
+      setTimeout(() => {
+        if( typeof tplottieAnim == 'function' ){
+          tplottieAnim(document)
+        }
+      }, 20);
     }, 150);
   }
   if(tpgbLoadScripts && tpgbLoadScripts.splineviewer){

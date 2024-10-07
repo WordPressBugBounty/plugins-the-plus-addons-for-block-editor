@@ -1,9 +1,9 @@
 <?php
 /*
-* Plugin Name: The Plus Addons for Block Editor
-* Plugin URI: https://theplusblocks.com/
-* Description: Highly Customizable 85+ Advanced WordPress Blocks for Performance-Driven Website.
-* Version: 3.3.3
+* Plugin Name: Nexter Blocks
+* Plugin URI: https://nexterwp.com/nexter-blocks/
+* Description: Highly customizable WordPress Gutenberg blocks to build professional websites with top-notch performance and sleek design. Includes 40+ FREE WordPress Blocks.
+* Version: 4.0.0
 * Author: POSIMYTH
 * Author URI: https://posimyth.com
 * Tested up to: 6.6
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '3.3.3' );
+defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.0.0' );
 define( 'TPGB_FILE__', __FILE__ );
 
 define( 'TPGB_PATH', plugin_dir_path( __FILE__ ) );
@@ -33,7 +33,7 @@ if ( ! version_compare( PHP_VERSION, '5.6.40', '>=' ) ) {
 }
 
 /**
- * The Plus Addons for Gutenberg check minimum PHP version.
+ * Nexter Blocks check minimum PHP version.
  *
  * Warning when the site doesn't have the minimum required PHP version.
  *
@@ -42,14 +42,14 @@ if ( ! version_compare( PHP_VERSION, '5.6.40', '>=' ) ) {
  * @return void
  */
 function tpgb_check_php_version() {	
-	/* translators: The Plus Addons for Block Editor requires PHP version %s+, plugin is currently NOT RUNNING. */
-	$check_message      = sprintf( esc_html__( 'The Plus Addons for Block Editor requires PHP version %s+, plugin is currently NOT RUNNING.', 'tpgb' ), '5.6.40' );
+	/* translators: Nexter Blocks requires PHP version %s+. The plugin is currently not running. Please update to the latest PHP version. */
+	$check_message      = sprintf( esc_html__( 'Nexter Blocks requires PHP version %s+. The plugin is currently not running. Please update to the latest PHP version.', 'tpgb' ), '5.6.40' );
 	$display_message = sprintf( '<div class="error">%s</div>', wpautop( $check_message ) );
 	echo wp_kses_post( $display_message );
 }
 
 /**
- * The Plus Addons for Gutenberg check minimum WordPress version.
+ * Nexter Blocks check minimum WordPress version.
  *
  * Warning when the site doesn't have the minimum required WordPress version.
  *
@@ -58,14 +58,14 @@ function tpgb_check_php_version() {
  * @return void
  */
 function tpgb_check_wp_version() {	
-	/* translators: The Plus Addons for Block Editor requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING. */
-	$check_message      = sprintf( esc_html__( 'The Plus Addons for Block Editor requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'tpgb' ), '4.7.1' );
+	/* translators: Nexter Blocks requires at least WordPress version %s+. Because you’re using an older version, the plugin is currently not running. Please update WordPress to the latest version. */
+	$check_message      = sprintf( esc_html__( 'Nexter Blocks requires at least WordPress version %s+. Because you’re using an older version, the plugin is currently not running. Please update WordPress to the latest version.', 'tpgb' ), '4.7.1' );
 	$display_message = sprintf( '<div class="error">%s</div>', wpautop( $check_message ) );
 	echo wp_kses_post( $display_message );
 }
 
 /* 
- * The Plus Addons for Gutenberg Plugin Update Message
+ * Nexter Blocks Plugin Update Message
  * @since 1.1.3
  */
 add_action('in_plugin_update_message-the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php','tpgb_plugin_update_message',10,2);

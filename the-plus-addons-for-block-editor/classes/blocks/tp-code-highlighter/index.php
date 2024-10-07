@@ -34,7 +34,7 @@ function tpgb_code_highlighter_render_callback( $attributes, $content) {
 	$copiedIcnType = (!empty($attributes['copiedIcnType'])) ? $attributes['copiedIcnType'] : 'none';
 	$copiedIconStore = (!empty($attributes['copiedIconStore'])) ? $attributes['copiedIconStore'] : '';
 	$lineNumber = (!empty($attributes['lineNumber'])) ? $attributes['lineNumber'] : false;
-
+	
 	if(class_exists('Tpgbp_Pro_Blocks_Helper')){
 		$lineHighlight = (!empty($attributes['lineHighlight'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($attributes['lineHighlight']) : '';
 		$dwnldBtnText = (!empty($attributes['dwnldBtnText'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($attributes['dwnldBtnText']) : '';
@@ -119,11 +119,11 @@ function tpgb_code_highlighter() {
 		],
 		'sourceCode' => [
 			'type' => 'string',
-			'default' => '<h1>Welcome To Posimyth Innovation</h1>',	
+			'default' => '<h1>Welcome To Posimyth Innovation</h1>',
 		],
 		'Alignment' => [
 			'type' => 'object',
-			'default' => 'left',
+			'default' => [ 'md' => 'left', 'sm' =>  '', 'xs' =>  '' ],
 			'style' => [
 				(object) [
 					'condition' => [(object) ['key' => 'themeType', 'relation' => '!=', 'value' => 'prism-coy' ]],

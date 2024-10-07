@@ -20,7 +20,7 @@ function tpgb_tp_empty_space_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_tp_empty_space() {
-  register_block_type( 'tpgb/tp-empty-space', array(
+  /* register_block_type( 'tpgb/tp-empty-space', array(
 		'attributes' => array(
 			'block_id' => array(
                 'type' => 'string',
@@ -53,6 +53,8 @@ function tpgb_tp_empty_space() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_empty_space_render_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_empty_space_render_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_empty_space' );

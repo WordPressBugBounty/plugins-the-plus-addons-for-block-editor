@@ -1,6 +1,6 @@
 <?php
 /**
- * The Plus Gutenberg Loader.
+ * Nexter Blocks Loader.
  * @since 1.0.0
  * @package TP_Gutenberg_Loader
  */
@@ -39,12 +39,6 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
          */
         public function __construct() {
             
-            //check Gutenberg plugin required
-            if ( !function_exists( 'register_block_type' ) ) {
-                add_action( 'admin_notices', array( $this, 'tpgb_check_gutenberg_req' ) );
-                return;
-            } 
-            
             $this->loader_helper();
             
             add_action( 'plugins_loaded', array( $this, 'tp_plugin_loaded' ) );
@@ -78,7 +72,7 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
                         $tpgb_normal_blocks_opts = [];
                     }
 					$tpgb_normal_blocks_opts['enable_normal_blocks']= array("tp-accordion","tp-breadcrumbs","tp-blockquote","tp-button-core","tp-button","tp-countdown","tp-container","tp-creative-image","tp-data-table","tp-draw-svg","tp-empty-space","tp-flipbox","tp-google-map","tp-heading","tp-heading-title","tp-hovercard","tp-icon-box","tp-infobox","tp-image","tp-messagebox","tp-number-counter","tp-pricing-list","tp-pricing-table","tp-pro-paragraph","tp-progress-bar","tp-row","tp-stylist-list","tp-social-icons","tp-tabs-tours","tp-testimonials","tp-video","tp-login-register");
-
+                    
                     $tpgb_normal_blocks_opts['tp_extra_option']= ['tp-advanced-border-radius','tp-display-rules','tp-equal-height','tp-event-tracking','tp-magic-scroll','tp-global-tooltip','tp-continuous-animation','tp-content-hover-effect','tp-mouse-parallax','tp-3d-tilt','tp-scoll-animation'];
 					
 					$deprecated = null;
@@ -125,44 +119,8 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
             require_once TPGB_PATH . 'classes/tp-core-init-blocks.php';
         }
         
-        /*
-         * Check Gutenberg Plugin Install / Activate Notice
-         *
-         * @since 1.0.0
-         *
-         */
-        public function tpgb_check_gutenberg_req() {
-            
-            $notice_class = 'notice notice-error';
-            
-            $plugin = 'gutenberg/gutenberg.php';
-            if ( $this->check_gutenberg_installed( $plugin ) ) {
-                if ( !current_user_can( 'activate_plugins' ) ) {
-                    return;
-                }
-                 /* translators: %1$sThe Plus Addons for Block Editor%2$s plugin requires %1$sGutenberg%2$s plugin activated. */
-                $message              = sprintf( __( '%1$sThe Plus Addons for Block Editor%2$s plugin requires %1$sGutenberg%2$s plugin activated.', 'tpgb' ), '<strong>', '</strong>' );
-                $button_text          = __( 'Activate Gutenberg', 'tpgb' );
-                $gutenberg_action_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin );
-                
-            } else {
-                
-                if ( !current_user_can( 'install_plugins' ) ) {
-                    return;
-                }
-                /* translators: %1$sThe Plus Addons for Block Editor%2$s plugin requires %1$sGutenberg%2$s plugin installed. */
-                $message              = sprintf( __( '%1$sThe Plus Addons for Block Editor%2$s plugin requires %1$sGutenberg%2$s plugin installed.', 'tpgb' ), '<strong>', '</strong>' );
-                $button_text          = __( 'Install Gutenberg', 'tpgb' );
-                $gutenberg_action_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=gutenberg' ), 'install-plugin_gutenberg' );
-            }
-            
-            $button = '<p><a href="' . $gutenberg_action_url . '" class="button-primary">' . $button_text . '</a></p>';
-            printf( '<div class="%1$s"><p>%2$s</p>%3$s</div>', esc_attr( $notice_class ), $message, $button );
-            
-        }
-        
         /**
-         * Load The Plus Addon Gutenberg Text Domain.
+         * Load Nexter Blocks Text Domain.
          * Text Domain : tpgb
          * @since  1.0.0
          * @return void
@@ -192,17 +150,17 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
         public function tpgb_settings_pro_link( $links ){
             // Settings link.
             if ( current_user_can( 'manage_options' ) ) {
-                $free_vs_pro = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://theplusblocks.com/free-vs-pro/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links'), __( 'FREE vs Pro', 'tpgb' ) );
+                $free_vs_pro = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/free-vs-pro/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'FREE vs Pro', 'tpgb' ) );
                 $links = (array) $links;
                 $links[] = $free_vs_pro;
-                $need_help = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://store.posimyth.com/get-support/tpag/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links'), __( 'Need Help?', 'tpgb' ) );
+                $need_help = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://store.posimyth.com/get-support-nexterwp/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'Need Help?', 'tpgb' ) );
                 $links = (array) $links;
                 $links[] = $need_help;
             }
 
             // Upgrade PRO link.
             if ( ! defined('TPGBP_VERSION') ) {
-                $pro_link = sprintf( '<a href="%s" target="_blank" style="color: #cc0000;font-weight: 700;" rel="noopener noreferrer">%s</a>', esc_url('https://theplusblocks.com/pricing/'), __( 'Upgrade PRO', 'tpgb' ) );
+                $pro_link = sprintf( '<a href="%s" target="_blank" style="color: #cc0000;font-weight: 700;" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/pricing/'), __( 'Upgrade PRO', 'tpgb' ) );
                 $links = (array) $links;
                 $links[] = $pro_link;
             }
@@ -218,12 +176,12 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
 
             if ( strpos( $plugin_file, TPGB_BASENAME ) !== false && current_user_can( 'manage_options' ) ) {
 				$new_links = array(
-						'official-site' => '<a href="'.esc_url('https://theplusblocks.com/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Visit Plugin site', 'tpgb' ).'</a>',
-						'docs' => '<a href="'.esc_url('https://theplusblocks.com/docs?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links').'" target="_blank" rel="noopener noreferrer" style="color:green;">'.esc_html__( 'Docs', 'tpgb' ).'</a>',
+						'official-site' => '<a href="'.esc_url('https://nexterwp.com/nexter-blocks/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Visit Plugin site', 'tpgb' ).'</a>',
+						'docs' => '<a href="'.esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" target="_blank" rel="noopener noreferrer" style="color:green;">'.esc_html__( 'Docs', 'tpgb' ).'</a>',
 						'video-tutorials' => '<a href="'.esc_url('https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Video Tutorials', 'tpgb' ).'</a>',
-						'join-community' => '<a href="'.esc_url('https://www.facebook.com/groups/theplus4gutenberg').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Join Community', 'tpgb' ).'</a>',
-						'whats-new' => '<a href="'.esc_url('https://roadmap.theplusblocks.com/updates').'" target="_blank" rel="noopener noreferrer" style="color: orange;">'.esc_html__( 'What\'s New?', 'tpgb' ).'</a>',
-						'req-feature' => '<a href="'.esc_url('https://roadmap.theplusblocks.com/boards/feature-requests').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Request Feature', 'tpgb' ).'</a>',
+						'join-community' => '<a href="'.esc_url('https://www.facebook.com/groups/nexterwpcommunity/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Join Community', 'tpgb' ).'</a>',
+						'whats-new' => '<a href="'.esc_url('https://roadmap.nexterwp.com/updates').'" target="_blank" rel="noopener noreferrer" style="color: orange;">'.esc_html__( 'What\'s New?', 'tpgb' ).'</a>',
+						'req-feature' => '<a href="'.esc_url('https://roadmap.nexterwp.com/boards/feature-requests/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Request Feature', 'tpgb' ).'</a>',
 						'rate-plugin-star' => '<a href="'.esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/reviews/?filter=5').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Rate 5 Stars', 'tpgb' ).'</a>'
 						);
 				 
@@ -232,7 +190,6 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
 			 
 			return $plugin_meta;
         }
-
     }
     
     TP_Gutenberg_Loader::get_instance();

@@ -1,6 +1,6 @@
 <?php
 /**
- * The Plus Block Generate BLocks Css 
+ * Nexter Blocks Generate BLocks Css 
  *
  * @since   1.1.3
  * @package TPGB
@@ -268,7 +268,7 @@ class Tp_Generate_Blocks_Css {
 	}
 	
 	/*
-	 * The Plus Dynamic Css Generator
+	 * Nexter Blocks Dynamic Css Generator
 	 */
 	public function tpgb_cssGenerator(){
 		$Make_CSS ='';
@@ -283,6 +283,14 @@ class Tp_Generate_Blocks_Css {
 				if (is_array($value) && !empty($value) ){
 					foreach($value as $block_key => $block_value) {
 						$blockID='';
+
+						//change position first block_id attr
+						if(isset($block_value['block_id']) && !empty($block_value['block_id'])){
+							$position_block_id = $block_value['block_id'];
+							unset($block_value['block_id']);
+							$block_value = array('block_id' => $position_block_id) + $block_value;
+						}
+
 						foreach($block_value as $attr_key => $attr_value) {
 						
 							$blockID = ( $attr_key==='block_id' && isset($attr_value['value'])) ? $attr_value['value'] : $blockID;

@@ -93,7 +93,7 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                     </div>
 
                     <div class="tpgb-modal-body">
-                        <h3 class="tpgb-feed-caption"><?php echo esc_html__( "If you have a moment, please let us know why you're deactivating The Plus Blocks for Gutenberg :", "tpgb" ); ?></h3>
+                        <h3 class="tpgb-feed-caption"><?php echo esc_html__( "If you have a moment, please let us know why you're deactivating Nexter Blocks :", "tpgb" ); ?></h3>
                         <form class="tpgb-feedback-dialog-form" method="post">
 
                             <input type="hidden" name="nonce" value="<?php echo esc_attr( $security ); ?>" />
@@ -146,7 +146,7 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                         
                     <div class="tpgb-help-link">
                         <span><?php echo esc_html__( 'If you require any help , ' , 'tpgb'); ?> <a href="<?php if(defined('TPGBP_VERSION')) { echo esc_url('https://store.posimyth.com/helpdesk/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links'); } else { echo esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/'); }  ?>" target="_blank" rel="noopener noreferrer" > <?php echo esc_html__( 'please add a ticket ', 'tpgb') ?> </a>. <?php echo esc_html__ ( 'We reply within 24 working hours.', 'tpgb' ); ?></span>
-                        <span> <?php echo esc_html__( 'Read') ?> <a href="<?php  echo esc_url('https://theplusblocks.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'tpgb') ?>   </a> </span> 
+                        <span> <?php echo esc_html__( 'Read') ?> <a href="<?php  echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'tpgb') ?>   </a> </span> 
                     </div>
                 </div>
             </div>

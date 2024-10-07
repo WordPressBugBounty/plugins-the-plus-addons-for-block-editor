@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"name": "tpgb/tp-tab-item",
+	"version": "0.1.0",
+	"title": "Tab Tours Inner",
+	"category": "tpgb",
+	"description": "Show content under tabbed button in horizontal or vertical direction",
+	"example": {
+		"attributes": {}
+	},
+	"supports": {
+		"inserter": false,
+		"reusable": false,
+		"html": false,
+        "align": ["wide","full"]
+	},
+    "parent": ["tpgb/tp-tabs-tours"],
+	"textdomain": "tpgb",
+    "attributes": {
+        "block_id": {
+            "type": "string",
+            "default": ""
+        },
+        "className": {
+            "type": "string",
+            "default": ""
+        },
+        "tabtoIndex": {
+            "type": "number",
+            "default": ""
+        },
+        "tabinTitle": {
+            "type": "string",
+            "default": ""
+        },
+        "uniqueKey": {
+            "type": "string",
+            "default": ""
+        },
+        "active": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}

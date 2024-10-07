@@ -302,7 +302,7 @@ class Tp_Blocks_Helper {
 		$filename = sprintf('classes/blocks/'.esc_attr($block_id).'/index.php');
 		
 		$block_path = TPGB_PATH;
-		if (defined('TPGBP_VERSION') && defined('TPGBP_PATH')) {
+		if (defined('TPGBP_VERSION') && defined('TPGBP_PATH') && version_compare( TPGB_VERSION, '4.0.0', '>=' )) {
 			$block_path = TPGBP_PATH;
 		}
 		
@@ -504,7 +504,8 @@ class Tp_Blocks_Helper {
 	
 	
 	/* Generate HTML of Breadcrumbs */
-	public static function theplus_breadcrumbs( $icontype='', $sepIconType='', $icons='', $homeTitle='', $sepIcons='', $activeTextDefault='',$breadcrumbs_last_sec_tri_normal='', $bdToggleHome='', $bdToggleParent='', $bdToggleCurrent='', $letterLimitParent='', $letterLimitCurrent='', $markupSch =false, $ctmHomeurl=[] ) {
+	/* Generate HTML of Breadcrumbs */
+	public static function theplus_breadcrumbs( $icontype='', $sepIconType='', $icons='', $homeTitle='', $sepIcons='', $activeTextDefault='',$breadcrumbs_last_sec_tri_normal='', $bdToggleHome='', $bdToggleParent='', $bdToggleCurrent='', $letterLimitParent='', $letterLimitCurrent='', $markupSch =false, $ctmHomeurl=[] , $showTerms = false , $taxonomySlug ='' ,  $showpartTerms =true , $showchildTerms = true) {
 		
         if($homeTitle != '') {
             $text['home'] = $homeTitle;
@@ -512,15 +513,15 @@ class Tp_Blocks_Helper {
             $text['home'] = 'Home';
         }
 		/* translators: Archive by: %s */
-        $text['category'] = esc_html__('Archive by "%s"', 'tpgb'); 
+		$text['category'] = esc_html__('Archive by "%s"', 'tpgb'); 
 		/* translators: Search Results for: %s */
-        $text['search']   = esc_html__('Search Results for "%s"', 'tpgb');
+		$text['search']   = esc_html__('Search Results for "%s"', 'tpgb');
 		/* translators: Posts Tagged for: %s */
-        $text['tag']      = esc_html__('Posts Tagged "%s"', 'tpgb');
+		$text['tag']      = esc_html__('Posts Tagged "%s"', 'tpgb');
 		/* translators: Articles Posted by for: %s */
-        $text['author']   = esc_html__('Articles Posted by %s', 'tpgb');
+		$text['author']   = esc_html__('Articles Posted by %s', 'tpgb');
 		/* translators: Error 404: %s */
-        $text['404']      = esc_html__('Error 404', 'tpgb');
+		$text['404']      = esc_html__('Error 404', 'tpgb');
         $showCurrent = 1; 
         $showOnHome  = 1; 
         $delimiter   = ' <span class="del"></span> '; 
@@ -565,17 +566,17 @@ class Tp_Blocks_Helper {
         
         $icons_content = '';
         if($icontype=='icon' && $icons != ''){
-            $icons_content = '<i class=" '.esc_attr($icons).' bread-home-icon" ></i>';
+            $icons_content = '<i class=" '.esc_attr($icons).' bread-home-icon"></i>';
         }
         if($icontype=='image' && $icons != ''){
-            $icons_content = '<img class="bread-home-img" src="'.esc_url($icons).'" />';
+            $icons_content = '<img class="bread-home-img" alt="'.esc_attr__('home','tpgb').'" src="'.esc_url($icons).'" />';
         }
         $icons_sep_content ='';
         if($sepIconType=='sep_icon' && $sepIcons != ''){
                 $icons_sep_content = '<i class=" '.esc_attr($sepIcons).' bread-sep-icon" ></i>';
         }
         if($sepIconType=='sep_image' && $sepIcons != ''){
-            $icons_sep_content = '<img class="bread-sep-icon" src="'.esc_url($sepIcons).'" />';		
+            $icons_sep_content = '<img class="bread-sep-icon" alt="'.esc_attr__('separator','tpgb').'" src="'.esc_url($sepIcons).'" />';		
         }
         
         global $post;
@@ -767,8 +768,62 @@ class Tp_Blocks_Helper {
                 } else if ( get_post_type() != 'post' ) {
                     $post_type = get_post_type_object(get_post_type());
                     $slug = $post_type->rewrite;
-					if($bdToggleParent != '' && $bdToggleParent = true){
+					if($bdToggleParent != '' && $bdToggleParent == true){
 						$crumbs_output .= $linkBefore . '<a href="'.esc_url($homeLink). '?post_type=' . esc_attr($slug["slug"]) . '">'.esc_html($post_type->labels->singular_name).$icons_sep_content.'</a>' . $linkAfter;
+					}
+
+					// Single Page Category Breadcumb 
+					if( $showTerms != '' && $showTerms == true ){
+						$terms = get_the_terms($post->ID, $taxonomySlug);
+
+						if (!is_wp_error($terms) && !empty($terms)) {
+							$parent_term = null;
+    						$child_term = null;
+							foreach ($terms as $term) {
+								if ($term->parent == 0) {
+									$parent_term = $term;
+
+									if($showpartTerms != '' && $showpartTerms == true){
+										$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.(count($terms) > 1 ? $icons_sep_content : '').'</a>'.$linkAfter;
+										$schemaArr['itemListElement'][] = array(
+											"@type" => "ListItem",
+											"position"=> ++$breadposi,
+											"name" =>$term->name,
+											"item" => esc_url(get_term_link($term->term_id, $taxonomySlug))
+										);
+										break;
+									}
+								}
+							}
+							foreach ($terms as $term) {
+								if (!empty($parent_term) && $term->parent == $parent_term->term_id) {
+									
+									// Show Parent Child Category
+									if($showchildTerms != '' && $showchildTerms == true){
+										$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.($bdToggleCurrent ? $icons_sep_content : '').'</a>'.$linkAfter;
+										$schemaArr['itemListElement'][] = array(
+											"@type" => "ListItem",
+											"position"=> ++$breadposi,
+											"name" =>$term->name,
+											"item" => esc_url(get_term_link($term->term_id, $taxonomySlug))
+										);
+										break;
+									}
+									
+								}else if($term->parent!=0){
+									
+									if($showpartTerms != '' && $showpartTerms == true){
+										$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug )).'">'.esc_html($term->name).''.($bdToggleCurrent ? $icons_sep_content : '').'</a>'.$linkAfter;
+										$schemaArr['itemListElement'][] = array(
+											"@type" => "ListItem",
+											"position"=> ++$breadposi,
+											"name" =>$term->name,
+											"item" => esc_url(get_term_link($term->term_id, $taxonomySlug))
+										);
+									}
+								}
+							}
+						}
 					}
                     if($letterLimitCurrent != '0'){
                         if ($showCurrent == 1) $crumbs_output .= $delimiter . $before .substr(get_the_title(),0,$letterLimitCurrent). $after;
@@ -788,7 +843,7 @@ class Tp_Blocks_Helper {
                         $cats = get_category_parents($cat, TRUE, $delimiter);
                         if ($showCurrent == 0) $cats = preg_replace("#^(.+)$delimiter$#", "$1", $cats);
                         $cats = str_replace('<a', $linkBefore . '<a', $cats);
-                        $cats = str_replace('</a>', $icons_sep_content.'</a>' . $linkAfter, $cats);						
+                        $cats = str_replace('</a>', $icons_sep_content.'</a>' . $linkAfter, $cats);			
                         if($bdToggleParent != '' && $bdToggleParent == true) {
                             $crumbs_output .= $cats;
 							$schemaArr['itemListElement'][] = array(
@@ -797,21 +852,73 @@ class Tp_Blocks_Helper {
 								"name" => $cat->term_id,
 								"item" => get_category_link($cat->term_id)
 							);
-                        }else{
-                            $crumbs_output .='';
-							$schemaArr['itemListElement'][] = array(
-								"@type" => "ListItem",
-								"position"=> ++$breadposi,
-								"name" =>get_the_title(),
-								"item" => get_the_permalink()
-							);
-                        }						
+                        }
                         
+						// Show Child Parent Category
+						if( $showTerms != '' && $showTerms == true ){
+							$terms = get_the_terms($post->ID, $taxonomySlug);
+	
+							if (!is_wp_error($terms) && !empty($terms)) {
+								$parent_term = null;
+								$child_term = null;
+								foreach ($terms as $term) {
+									if ($term->parent == 0) {
+										$parent_term = $term;
+	
+										if($showpartTerms != '' && $showpartTerms == true){
+											$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.(count($terms) > 1 ? $icons_sep_content : '').'</a>'.$linkAfter;
+											$schemaArr['itemListElement'][] = array(
+												"@type" => "ListItem",
+												"position"=> ++$breadposi,
+												"name" =>$term->name,
+												"item" => esc_url(get_term_link($term->term_id, $taxonomySlug))
+											);
+										}
+										break;
+									}
+								}
+								foreach ($terms as $term) {
+									if (!empty($parent_term) && $term->parent == $parent_term->term_id) {
+										
+										// Show Parent Child Category
+										if($showchildTerms != '' && $showchildTerms == true){
+											$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.($bdToggleCurrent ? $icons_sep_content : '').'</a>'.$linkAfter;
+											$schemaArr['itemListElement'][] = array(
+												"@type" => "ListItem",
+												"position"=> ++$breadposi,
+												"name" =>$term->name,
+												"item" => esc_url(get_term_link($term->term_id, $taxonomySlug))
+											);
+											break;
+										}
+										
+									}else if($term->parent!=0){
+										
+										if($showpartTerms != '' && $showpartTerms == true){
+											$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug )).'">'.esc_html($term->name).''.($bdToggleCurrent ? $icons_sep_content : '').'</a>'.$linkAfter;
+											$schemaArr['itemListElement'][] = array(
+												"@type" => "ListItem",
+												"position"=> ++$breadposi,
+												"name" =>$term->name,
+												"item" => esc_url(get_term_link($term->term_id, $taxonomySlug))
+											);
+										}
+									}
+								}
+							}
+						}
+
                         if($letterLimitCurrent != '0'){
                             if ($showCurrent == 1) $crumbs_output .= $before . substr(get_the_title(),0,$letterLimitCurrent) . $after;
                         }else{
                             if ($showCurrent == 1) $crumbs_output .= $before . get_the_title() . $after;
                         }
+						$schemaArr['itemListElement'][] = array(
+							"@type" => "ListItem",
+							"position"=> ++$breadposi,
+							"name" =>get_the_title(),
+							"item" => get_the_permalink()
+						);
                     }
                 }
             } elseif ( class_exists('WooCommerce') && is_product_category() ){
@@ -1053,12 +1160,13 @@ class Tp_Blocks_Helper {
 			$blockClass .= $className;
 		}
 		
+		
 		if( isset($attr['contwidFull']) && !empty($attr['contwidFull']) && $attr['contwidFull'] == 'full' ){
 			$blockClass .= ' alignfull';
 		}else if(!empty($align)){
 			$blockClass .= ' align'.$align;
 		}
-		
+
 		return $blockClass;
 	}
 

@@ -72,7 +72,7 @@ function tpgb_tp_grid() {
 				],
 				'style' => [
 					(object) [
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout,{{PLUS_WRAP}}.tpgb-container-col{ height: {{minHeight}}; }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout,{{PLUS_WRAP}}.tpgb-container-col{ height: {{minHeight}}; }',
 					],
 				],
 			],
@@ -368,7 +368,7 @@ function tpgb_tp_grid() {
 					],
 					(object) [
 						'condition' => [ (object) ['key' => 'flexreverse', 'relation' => '==', 'value' => false]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}} }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}} }',
 						'media' => 'md',
 						'backend' => true
 					],
@@ -379,7 +379,7 @@ function tpgb_tp_grid() {
 					],
 					(object) [
 						'condition' => [ (object) ['key' => 'flexreverse', 'relation' => '==', 'value' => true]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}}-reverse }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}}-reverse }',
 						'media' => 'md',
 						'backend' => true
 					],
@@ -390,7 +390,7 @@ function tpgb_tp_grid() {
 					],
 					(object) [
 						'condition' => [ (object) [ 'key' => 'flexRespreverse', 'relation' => '==', 'value' => false ]],
-						'selector' => '@media (max-width: 1024px) { {{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }' ,
+						'selector' => '@media (max-width: 1024px) { {{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }' ,
 						'media' => 'sm',
 						'backend' => true
 					],
@@ -405,7 +405,7 @@ function tpgb_tp_grid() {
 						'condition' => [ (object) [ 'key' => 'flexRespreverse', 'relation' => '==', 'value' => true ],
 							(object) ['key' => 'flexTabreverse', 'relation' => '==', 'value' => false] 
 						],
-						'selector' => '@media (max-width: 1024px) and (min-width:768px) { {{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }' ,
+						'selector' => '@media (max-width: 1024px) and (min-width:768px) { {{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }' ,
 						'media' => 'sm',
 						'backend' => true
 					],
@@ -420,7 +420,7 @@ function tpgb_tp_grid() {
 						'condition' => [ (object) [ 'key' => 'flexRespreverse', 'relation' => '==', 'value' => true ],
 							(object) ['key' => 'flexTabreverse', 'relation' => '==', 'value' => true] 
 						],
-						'selector' => '@media (max-width: 1024px) and (min-width:768px) { {{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}}-reverse } }',
+						'selector' => '@media (max-width: 1024px) and (min-width:768px) { {{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}}-reverse } }',
 						'media' => 'sm',
 						'backend' => true
 					],
@@ -431,7 +431,7 @@ function tpgb_tp_grid() {
 					],
 					(object) [
 						'condition' => [ (object) [ 'key' => 'flexRespreverse', 'relation' => '==', 'value' => false ]],
-						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px) { {{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }',
+						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px) { {{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }',
 						'media' => 'xs',
 						'backend' => true
 					],
@@ -446,7 +446,7 @@ function tpgb_tp_grid() {
 						'condition' => [ (object) [ 'key' => 'flexRespreverse', 'relation' => '==', 'value' => true ],
 							(object) ['key' => 'flexMobreverse', 'relation' => '==', 'value' => false] 
 						],
-						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px) { {{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }' ,
+						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px) { {{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}} } }' ,
 						'media' => 'xs',
 						'backend' => true
 					],
@@ -461,7 +461,7 @@ function tpgb_tp_grid() {
 						'condition' => [ (object) [ 'key' => 'flexRespreverse', 'relation' => '==', 'value' => true ], 
 							(object) ['key' => 'flexMobreverse', 'relation' => '==', 'value' => true] 
 						],
-						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px){ {{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-direction: {{flexDirection}}-reverse } }',
+						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px){ {{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-direction: {{flexDirection}}-reverse } }',
 						'media' => 'xs',
 						'backend' => true
 					],
@@ -473,7 +473,7 @@ function tpgb_tp_grid() {
 				'default' => [ 'md' => 'flex-start', 'sm' =>  '', 'xs' =>  '' ],
 				'style' => [
 					(object) [
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ align-items : {{flexAlign}} }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ align-items : {{flexAlign}} }',
 						'backend' => true
 					],
 					(object) [
@@ -487,7 +487,7 @@ function tpgb_tp_grid() {
 				'default' => [ 'md' => 'flex-start', 'sm' =>  '', 'xs' =>  '' ],
 				'style' => [
 					(object) [
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ justify-content : {{flexJustify}} }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ justify-content : {{flexJustify}} }',
 						'backend' => true
 					],
 					(object) [
@@ -504,7 +504,7 @@ function tpgb_tp_grid() {
 				],
 				'style' => [
 					(object) [
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ gap : {{flexGap}} }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ gap : {{flexGap}} }',
 						'backend' => true
 					],
 					(object) [
@@ -519,7 +519,7 @@ function tpgb_tp_grid() {
 				'style' => [
 					(object) [
 						'condition' => [ (object) [ 'key' => 'reverseWrap', 'relation' => '==', 'value' => false ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-wrap : {{flexwrap}} }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-wrap : {{flexwrap}} }',
 						'backend' => true
 					],
 					(object) [
@@ -528,7 +528,7 @@ function tpgb_tp_grid() {
 					],
 					(object) [
 						'condition' => [ (object) ['key' => 'reverseWrap', 'relation' => '==', 'value' => true]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ flex-wrap : {{flexwrap}}-reverse }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ flex-wrap : {{flexwrap}}-reverse }',
 						'backend' => true
 					],
 					(object) [
@@ -543,7 +543,7 @@ function tpgb_tp_grid() {
 				'default' => [ 'md' => 'flex-end', 'sm' =>  '', 'xs' =>  '' ],
 				'style' => [
 					(object) [
-						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor >  .block-editor-block-list__layout{ align-content : {{alignWrap}} }',
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-col-editor > .block-editor-block-list__layout{ align-content : {{alignWrap}} }',
 						'backend' => true
 					],
 					(object) [

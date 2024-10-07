@@ -218,11 +218,11 @@ function tpgb_tp_video_callback( $settings, $content) {
         if( $ShowBannerImg == true ) {
             if( !empty($settings[ 'VideoPopup' ]) ) {
                 if( $VideoType == 'youtube' ) {
-                    $video_content .= '<a href="https://www.youtube' . $youtube_privacy . '.com/embed/' . esc_attr ( $YoutubeID ) . '" data-fancybox="'.esc_attr($block_id).'" >' . $banner_url . '</a>';
+                    $video_content .= '<a href="https://www.youtube' . $youtube_privacy . '.com/embed/' . esc_attr ( $YoutubeID ) . '" data-fancybox >' . $banner_url . '</a>';
                 } else if( $VideoType == 'vimeo' ) {
-                    $video_content .= '<a href="https://player.vimeo.com/video/' . esc_attr ( $VimeoID ) . '" data-fancybox="'.esc_attr($block_id).'" >' . $banner_url . '</a>';
+                    $video_content .= '<a href="https://player.vimeo.com/video/' . esc_attr ( $VimeoID ) . '" data-fancybox >' . $banner_url . '</a>';
                 } else if( $VideoType == 'self-hosted' ) {
-                    $video_content .= '<a href="' . esc_url ( $mp4Url ) . '" data-fancybox="'.esc_attr($block_id).'" type="video/mp4">' . $banner_url . '</a>';
+                    $video_content .= '<a href="' . esc_url ( $mp4Url ) . '" data-fancybox type="video/mp4">' . $banner_url . '</a>';
                 }
                 $video_space = '';
             } else {
@@ -258,17 +258,17 @@ function tpgb_tp_video_callback( $settings, $content) {
         }
     } else if( $image_banner == 'only_icon' ) {
             if( $VideoType == 'youtube' ) {
-                $video_content .= '<a href="https://www.youtube.com/embed/' . esc_attr( $YoutubeID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox="'.esc_attr($block_id).'" >' . $only_image . '</a>';
+                $video_content .= '<a href="https://www.youtube.com/embed/' . esc_attr( $YoutubeID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox >' . $only_image . '</a>';
             } else if( $VideoType == 'vimeo' ) {
-                $video_content .= '<a href="https://player.vimeo.com/video/' . esc_attr( $VimeoID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox="'.esc_attr($block_id).'" >' . $only_image . '</a>';
+                $video_content .= '<a href="https://player.vimeo.com/video/' . esc_attr( $VimeoID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox >' . $only_image . '</a>';
             } else if( $VideoType == 'self-hosted' ) {
-                $video_content .= '<a href="' . esc_url( $mp4Url ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox="'.esc_attr($block_id).'" type="video/mp4">' . $only_image . '</a>';
+                $video_content .= '<a href="' . esc_url( $mp4Url ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox type="video/mp4">' . $only_image . '</a>';
             }
         $IconAlign_video = $settings[ 'IconAlign' ];
     }
 
 	$uid = 'video_player'.esc_attr($block_id);
-    $video_player = '<div class="tp-video tpgb-video-box tpgb-block-' . esc_attr($block_id) . ' ' . esc_attr( $uid ) . ' '.esc_attr($blockClass).' " data-id="'.esc_attr($block_id).'">';
+    $video_player = '<div class="tp-video tpgb-video-box tpgb-block-' . esc_attr($block_id) . ' ' . esc_attr( $uid ) . ' '.esc_attr($blockClass).' ">';
 		$video_player .= '<div class="tpgb_video_player tpgb-relative-block ' . esc_attr( $video_touchable ) . ' ' . esc_attr( $video_space ) . ' text-' . esc_attr( $IconAlign_video ) . '">';
 			$video_player .= $video_content;
 		$video_player .= '</div>';
@@ -281,7 +281,7 @@ function tpgb_tp_video_callback( $settings, $content) {
 
 function tpgb_tp_video_render() {
 	
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
+	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
 	$attributesOptions = [
@@ -676,6 +676,8 @@ function tpgb_tp_video_render() {
 		'editor_script' => 'tpgb-block-editor-js',
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_video_callback'
-    ) );
+    ) ); */
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_video_callback');
+	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_video_render' );

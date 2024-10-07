@@ -26,6 +26,7 @@
     content: "";
     position: absolute;
     left: 0;
+    top: calc(100% + 1px / 2);
     right: 0
 }
 .tpgb-stylist-list .tpgb-icon-list-item:before:last-child {
@@ -61,7 +62,8 @@
 .tpgb-stylist-list .tpgb-icon-list-icon {
     text-align: center;
     align-self: center;
-    display: inherit
+    display: inherit;
+    line-height: 0;
 }
 .tpgb-stylist-list.align-center .tpgb-icon-list-item,.tpgb-stylist-list.align-center .tpgb-icon-list-item a,.tpgb-stylist-list.align-center .tpgb-icon-list-items {
     justify-content: center;

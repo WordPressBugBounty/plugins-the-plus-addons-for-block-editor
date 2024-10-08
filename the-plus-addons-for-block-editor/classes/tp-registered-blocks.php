@@ -2704,8 +2704,8 @@ Class Tpgb_Library {
 				}
 			}
 
-			//4.0.0
-			if( version_compare( TPGB_VERSION, '4.0.0', '==' ) && !in_array( '4.0.0', $get_version ) ){
+			//4.0.1
+			if( version_compare( TPGB_VERSION, '4.0.1', '==' ) && !in_array( '4.0.1', $get_version ) ){
 				$this->remove_dir_files(TPGB_ASSET_PATH);
 				$this->remove_dir_dynamic_style_files(TPGB_ASSET_PATH);
 				$versions = array_unique( array_merge( $get_version, $versions ) );

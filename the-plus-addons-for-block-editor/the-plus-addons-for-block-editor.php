@@ -3,7 +3,7 @@
 * Plugin Name: Nexter Blocks
 * Plugin URI: https://nexterwp.com/nexter-blocks/
 * Description: Highly customizable WordPress Gutenberg blocks to build professional websites with top-notch performance and sleek design. Includes 40+ FREE WordPress Blocks.
-* Version: 4.0.0
+* Version: 4.0.1
 * Author: POSIMYTH
 * Author URI: https://posimyth.com
 * Tested up to: 6.6
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.0.0' );
+defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.0.1' );
 define( 'TPGB_FILE__', __FILE__ );
 
 define( 'TPGB_PATH', plugin_dir_path( __FILE__ ) );

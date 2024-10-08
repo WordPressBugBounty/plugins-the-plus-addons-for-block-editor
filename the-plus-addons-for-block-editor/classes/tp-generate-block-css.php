@@ -1,6 +1,6 @@
 <?php
 /**
- * Nexter Blocks Generate BLocks Css 
+ * Nexter Blocks Generate Css 
  *
  * @since   1.1.3
  * @package TPGB
@@ -138,6 +138,8 @@ class Tp_Generate_Blocks_Css {
 									$repeatField[$repeatKey][$key] = [ 'value' => $repeatValue ];
 									if( isset($schema['repeaterField'][0]->$key['style']) ){
 										$repeatField[$repeatKey][$key]['style'] = $schema['repeaterField'][0]->$key['style'];
+									}else if( is_array($schema['repeaterField'][0]) && isset($schema['repeaterField'][0][$key]['style']) ){
+										$repeatField[$repeatKey][$key]['style'] = $schema['repeaterField'][0][$key]['style'];
 									}
 								}
 							}
@@ -147,6 +149,8 @@ class Tp_Generate_Blocks_Css {
 									$repeatField[$repeatKey][$key] = [ 'value' => $repeatValue ];
 									if( isset($schema['repeaterField'][0]->$key['style']) ){
 										$repeatField[$repeatKey][$key]['style'] = $schema['repeaterField'][0]->$key['style'];
+									}else if( is_array($schema['repeaterField'][0]) && isset($schema['repeaterField'][0][$key]['style']) ){
+										$repeatField[$repeatKey][$key]['style'] = $schema['repeaterField'][0][$key]['style'];
 									}
 								}
 							}
@@ -159,6 +163,8 @@ class Tp_Generate_Blocks_Css {
 								$repeatField[$repeatKey] = [ 'value' => $repeat ];
 								if( isset($schema['groupField'][0]->$repeatKey['style']) ){
 									$repeatField[$repeatKey]['style'] = $schema['groupField'][0]->$repeatKey['style'];
+								}else if( is_array($schema['groupField'][0]) && isset($schema['groupField'][0][$repeatKey]['style']) ){
+									$repeatField[$repeatKey]['style'] = $schema['groupField'][0][$repeatKey]['style'];
 								}
 							}
 						}else if(isset($schema['groupField']) && isset($schema['default'])){
@@ -166,6 +172,8 @@ class Tp_Generate_Blocks_Css {
 								$repeatField[$repeatKey] = [ 'value' => $repeat ];
 								if( isset($schema['groupField'][0]->$repeatKey['style']) ){
 									$repeatField[$repeatKey]['style'] = $schema['groupField'][0]->$repeatKey['style'];
+								}else if( is_array($schema['groupField'][0]) && isset($schema['groupField'][0][$repeatKey]['style']) ){
+									$repeatField[$repeatKey]['style'] = $schema['groupField'][0][$repeatKey]['style'];
 								}
 							}
 						}
@@ -283,7 +291,7 @@ class Tp_Generate_Blocks_Css {
 				if (is_array($value) && !empty($value) ){
 					foreach($value as $block_key => $block_value) {
 						$blockID='';
-
+						
 						//change position first block_id attr
 						if(isset($block_value['block_id']) && !empty($block_value['block_id'])){
 							$position_block_id = $block_value['block_id'];

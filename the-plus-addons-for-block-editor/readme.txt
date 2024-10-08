@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.6
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -15,7 +15,7 @@ Best WordPress 90+ Gutenberg Blocks with 1000+ Ready to Use WordPress Pages & Se
 
 <strong>[Nexter WordPress Gutenberg Blocks](https://nexterwp.com/nexter-blocks/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong> is the ultimate no-code page builder plugin you need to create any type of website effortlessly with over <strong>90+ Gutenberg Blocks & 1000+ Ready to Use WordPress Templates for Starter Websites.</strong>
 
-Whether you’re a beginner or an experienced user, Nexter Blocks empowers you to build stunning websites with ease—no coding required!
+Whether you’re a beginner or an experienced user, Nexter Blocks empowers you to build stunning websites with ease—no coding required! 
 ###Looking for The Plus Blocks for Gutenberg? Nexter Blocks is Now The Plus Blocks for Gutenberg - [Read Why?](https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
 
 All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-blog-builder/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Mega Menu](https://nexterwp.com/nexter-blocks/builder/wordpress-mega-menu/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Dynamic Grid Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-custom-post-listing/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Popup Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-popup-builder/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Navigation Header Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-header-builder?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) and more.</strong>
@@ -24,7 +24,7 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 
 ~~~~~~~~~~~~~~~~
 
-[Nexter Website](https://nexterwp.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Nexter Blocks](https://nexterwp.com/nexter-blocks?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Video Tutorials]( https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1)| [Documentations](https://nexterwp.com/help/nexter-blocks/) | [Plugin Roadmap](https://roadmap.nexterwp.com/) | [Join Facebook Community](https://www.facebook.com/groups/nexterwpcommunity/) | [Free Support](https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/#new-topic-0) | [Premium Support](https://store.posimyth.com/helpdesk/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [ Compare FREE vs PRO](https://nexterwp.com/free-vs-pro?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [AI Chat (Instant Answers)](https://nexterwp.com/chat/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
+[Nexter Website](https://nexterwp.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Nexter Blocks](https://nexterwp.com/nexter-blocks?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Video Tutorials]( https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1)| [Documentations](https://nexterwp.com/docs) | [Plugin Roadmap](https://roadmap.nexterwp.com/) | [Join Facebook Community](https://www.facebook.com/groups/nexterwpcommunity/) | [Free Support](https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/#new-topic-0) | [Premium Support](https://store.posimyth.com/helpdesk/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [ Compare FREE vs PRO](https://nexterwp.com/free-vs-pro?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [AI Chat (Instant Answers)](https://nexterwp.com/chat/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
 
 ### 👑 What Makes Our WordPress Gutenberg Blocks Unique?
 
@@ -478,7 +478,11 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 12. Go Limitedness with Nexter WordPress Gutenberg Blocks
 
 == Changelog ==
-= 4.0.0 = 10 October 2024
+= 4.0.1 = 07 October 2024
+- Fixed : Breadcrumbs : Letter Limit Bug Fixed
+- Fixed : Regenerate All Assets : Repeater Field Css & Group Field Css Bug Fixed
+
+= 4.0.0 = 07 October 2024
 - Important Release: New era for Gutenberg blocks, We rebranded The Plus Blocks for Gutenberg to Nexter Blocks.
 - New : Revamped Dashboard
 - New : Revamped Block Controllers
@@ -487,8 +491,8 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 - New : Block Change Identifier Dot in Panel Setting
 - New : 100% Built on Vanilla JS - No JQuery Loaded at Frontend
 - New : Improved AJAX Loading with SEO Optimised
-- Improvement : Responsive Buttons in Block Controllers 
 - Improvement : Remove jQuery Dependency
+- Improvement : Optimized For Performance : All Blocks
 - Added : AJAX Base Template Load Using Class
 - Added: Container: Content Box layout option added in Container Full Width.
 - Added : Info Box : Add Carousel Remote Connection option
@@ -496,11 +500,15 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 - Added : Accordion : Add / Remove Accordions From Toolbar
 - Added : Tab Tours : Add / Remove tab From Toolbar
 - Added : Testimonials : Add / Remove Testimonial From Toolbar
+- Added : Breadcrumbs : Show Terms Taxonomy & Child Terms Taxonomy Option Added.
 - Revamped : Data Table : Converted in Vanilla JS for Top notch performance.
 - Revamped : Google Map : Converted in Vanilla JS for Top notch performance.
 - Revamped : Progress Bar : Converted in Vanilla JS for Top notch performance.
 - Revamped : Tab Tours : Converted in Vanilla JS for Top notch performance.
 - Revamped : Video Block : Converted in Vanilla JS for Top notch performance.
+- Fixed : Delay 3rd Party JS : LottieFiles Bug Fixed
+- Fixed : Stylist List : CSS Bug Fixed
+- Fixed : Bugs and Improvements
 
 = 3.3.3 = 08 August 2024
 - Improvement : Optimized for performance : Container block
@@ -1091,3 +1099,6 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 - Initial Release
 
 == Upgrade Notice ==
+= 4.0.1 =
+Important Update: The Plus Blocks for Gutenberg is now Nexter Blocks — Read What's Changed.
+[Read What's Changed](https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage)

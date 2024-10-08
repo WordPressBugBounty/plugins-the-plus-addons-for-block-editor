@@ -642,7 +642,7 @@ class Tp_Blocks_Helper {
             } elseif ( is_search() ) {
 				$searchdata = get_search_query();
 				if($letterLimitCurrent != '0'){
-					$searchdata = substr($searchdata , 0 , $letterLimitCurrent);
+					$searchdata = substr($searchdata , 0 , intval($letterLimitCurrent));
 				}
                 $crumbs_output .= $before . sprintf($text['search'], $searchdata) . $after;
 				$schemaArr['itemListElement'][] = array(
@@ -761,7 +761,7 @@ class Tp_Blocks_Helper {
                     }
                     
                     if($letterLimitCurrent != '0'){
-                        if ($showCurrent == 1) $crumbs_output .= $delimiter . $before .substr(get_the_title(),0,$letterLimitCurrent). $after;
+                        if ($showCurrent == 1) $crumbs_output .= $delimiter . $before .substr(get_the_title(),0,intval($letterLimitCurrent)). $after;
                     }else{
                         if ($showCurrent == 1) $crumbs_output .= $delimiter . $before .get_the_title(). $after;
                     }
@@ -826,7 +826,7 @@ class Tp_Blocks_Helper {
 						}
 					}
                     if($letterLimitCurrent != '0'){
-                        if ($showCurrent == 1) $crumbs_output .= $delimiter . $before .substr(get_the_title(),0,$letterLimitCurrent). $after;
+                        if ($showCurrent == 1) $crumbs_output .= $delimiter . $before .substr(get_the_title(),0,intval($letterLimitCurrent)). $after;
                     }else{
                         if ($showCurrent == 1) $crumbs_output .= $delimiter . $before .get_the_title(). $after;
                     }
@@ -909,7 +909,7 @@ class Tp_Blocks_Helper {
 						}
 
                         if($letterLimitCurrent != '0'){
-                            if ($showCurrent == 1) $crumbs_output .= $before . substr(get_the_title(),0,$letterLimitCurrent) . $after;
+                            if ($showCurrent == 1) $crumbs_output .= $before . substr(get_the_title(),0,intval($letterLimitCurrent)) . $after;
                         }else{
                             if ($showCurrent == 1) $crumbs_output .= $before . get_the_title() . $after;
                         }
@@ -1019,14 +1019,14 @@ class Tp_Blocks_Helper {
 					}
 
 					if($letterLimitCurrent != '0'){
-						if ($showCurrent == 1) $crumbs_output .= $delimiter . $before . substr(get_the_title(),0,$letterLimitCurrent) . $after;
+						if ($showCurrent == 1) $crumbs_output .= $delimiter . $before . substr(get_the_title(),0,intval($letterLimitCurrent)) . $after;
 					}else{
 						if ($showCurrent == 1) $crumbs_output .= $delimiter . $before . esc_html(get_the_title()) . $after;
 					}
                 }
             } elseif ( is_page() && !$post->post_parent ) {
 				if($letterLimitCurrent != '0'){
-					if ($showCurrent == 1) $crumbs_output .= $before . substr(get_the_title(),0,$letterLimitCurrent) . $after;
+					if ($showCurrent == 1) $crumbs_output .= $before . substr(get_the_title(),0,intval($letterLimitCurrent)) . $after;
 				}else{
 					if ($showCurrent == 1) $crumbs_output .= $before . esc_html(get_the_title()) . $after;
 				}
@@ -1065,7 +1065,7 @@ class Tp_Blocks_Helper {
                 }
                 if ($showCurrent == 1){
 					if($letterLimitCurrent != '0'){
-						$crumbs_output .= $delimiter . $before . substr(get_the_title(),0,$letterLimitCurrent) . $after;
+						$crumbs_output .= $delimiter . $before . substr(get_the_title(),0,intval($letterLimitCurrent)) . $after;
 					}else{
 						$crumbs_output .= $delimiter . $before . esc_html(get_the_title()) . $after;
 					}

@@ -1800,23 +1800,24 @@ class Tp_Blocks_Helper {
 		if ( !isset($_POST["tpgb_nonce"]) || !wp_verify_nonce( $nonce, 'tpgb-addons' ) ){
 			die ( 'Security checked!');
 		}
-
-		$post_id =  intval($_POST['postid']);
-		if( isset($post_id) && !empty($post_id) ) {
-			$content_post = get_post($post_id);
-			$content = '';
-			if(is_object($content_post)){
-				$content = $content_post->post_content;
-				$content = apply_filters('the_content', $content);
-				$content = str_replace('strokewidth', 'stroke-width', $content);
-				$content = str_replace('strokedasharray', 'stroke-dasharray', $content);
-				$content = str_replace('stopcolor', 'stop-color', $content);
-				$content = str_replace('loading="lazy"', '', $content);
-			}
-			if ($content) {
-				wp_send_json_success($content);
-			} else {
-				wp_send_json_success('fail');
+		if ( isset( $_POST['postid'] ) && !empty( $_POST['postid'] ) ) {
+			$post_id =  intval($_POST['postid']);
+			if( isset($post_id) && !empty($post_id) ) {
+				$content_post = get_post($post_id);
+				$content = '';
+				if(is_object($content_post)){
+					$content = $content_post->post_content;
+					$content = apply_filters('the_content', $content);
+					$content = str_replace('strokewidth', 'stroke-width', $content);
+					$content = str_replace('strokedasharray', 'stroke-dasharray', $content);
+					$content = str_replace('stopcolor', 'stop-color', $content);
+					$content = str_replace('loading="lazy"', '', $content);
+				}
+				if ($content) {
+					wp_send_json_success($content);
+				} else {
+					wp_send_json_success('fail');
+				}
 			}
 		}
 		wp_die();

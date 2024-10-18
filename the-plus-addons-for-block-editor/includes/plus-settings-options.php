@@ -246,10 +246,10 @@ class Tpgb_Gutenberg_Settings_Options {
 		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
 
 		if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'uichemy' ) ) );
+			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'tpgb' ) ) );
 		}
 
-		$plu_slug = ( isset( $_POST['slug'] ) && !empty( $_POST['slug'] ) ) ? $_POST['slug'] : '';
+		$plu_slug = ( isset( $_POST['slug'] ) && !empty( $_POST['slug'] ) ) ? sanitize_text_field($_POST['slug']) : '';
 
 		$installed_plugins = get_plugins();
 
@@ -413,10 +413,12 @@ class Tpgb_Gutenberg_Settings_Options {
 	 */
 	public function tpgb_performance_opt_cache_save_action(){
 		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
-		
-		if((isset($_POST['perf_caching']) && !empty($_POST['perf_caching'])) || isset($_POST['delay_js']) || isset($_POST['defer_js'])){
-			$action_page = 'tpgb_performance_cache';
-			$perf_caching = wp_unslash( sanitize_text_field( $_POST['perf_caching'] ) );
+		$action_page = 'tpgb_performance_cache';
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_redirect( esc_url( admin_url('admin.php?page='.$action_page) ) );
+		}
+		$perf_caching = wp_unslash( sanitize_text_field( $_POST['perf_caching'] ) );
+		if((isset($perf_caching) && !empty($perf_caching)) || isset($_POST['delay_js']) || isset($_POST['defer_js'])){
 			if ( FALSE === get_option($action_page) ){
 				add_option( $action_page, $perf_caching );
 			}else{
@@ -917,7 +919,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'keyword' => ['interactive circle', 'interactive', 'circle', 'info']
 			],
 			'tp-login-register' => [
-				'label' => esc_html__('Login Register','tpgb'),
+				'label' => __('Login & Signup', 'tpgb'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-login-form/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-login-and-registration-form/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
@@ -1134,7 +1136,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-progress-bar' => [
 				'label' => esc_html__('Progress Bar','tpgb'),
-				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-progress-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-reading-scroll-progress-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
@@ -1152,7 +1154,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-row' => [
 				'label' => esc_html__('Row','tpgb'),
-				'demoUrl' => 'https://theplusblocks.com/row/',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-container/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
@@ -1350,7 +1352,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-content-hover-effect' => [
 				'label' => esc_html__('Content Hover Effect', 'tpgb'),
-				'demoUrl' => 'https://theplusblocks.com/plus-extras/special-effects/',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/mouse-hover-animation-for-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Extras', 'tpgb'),
@@ -1394,7 +1396,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-mouse-parallax' => [
 				'label' => esc_html__('Mouse Parallax', 'tpgb'),
-				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/mouse-hover-parallax/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/mouse-hover-animation-for-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Extras', 'tpgb'),
@@ -1408,7 +1410,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-3d-tilt' => [
 				'label' => esc_html__('3D Tilt', 'tpgb'),
-				'demoUrl' => 'https://theplusblocks.com/plus-extras/special-effects/',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/mouse-hover-animation-for-wordpress/#tilt-3d',
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Extras', 'tpgb'),

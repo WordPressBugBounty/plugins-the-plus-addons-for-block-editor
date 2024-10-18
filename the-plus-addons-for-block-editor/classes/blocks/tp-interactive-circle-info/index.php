@@ -79,7 +79,7 @@ function tpgb_tp_interactive_circle_info_render_callback( $attributes, $content)
 						}
 						$target = (!empty($item['btnUrl']['target'])) ? 'target="_blank"' : '';
 						$nofollow = (!empty($item['btnUrl']['nofollow'])) ? 'rel="nofollow"' : '';
-						$ariaLabelT = (!empty($item['btnText'])) ? esc_attr($item['btnText']) : esc_attr__("Button", 'tpgbp');
+						$ariaLabelT = (!empty($item['btnText'])) ? esc_attr($item['btnText']) : esc_attr__("Button", 'tpgb');
 						if(!empty($item['btnText'])){
 							$getbutton .= '<div class="tpgb-adv-button button-'.esc_attr($btnStyle).'">';
 								$getbutton .= '<a href="'.esc_url($btnUrl).'" class="button-link-wrap" role="button" '.$target.' '.$nofollow.' '.$link_attr.' aria-label="'.$ariaLabelT.'">';

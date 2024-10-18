@@ -56,3 +56,40 @@
     color: #fff;
     box-shadow: none;
 }
+
+
+.nxt-plugin-update-notice {
+    position: relative;
+}
+.nxt-plugin-update-notice h4:before {
+    content: "\f14c";
+    color: #B32D2E;
+    margin-right: 6px;
+    vertical-align: top;
+    display: inline-block;
+    font: normal 20px / 1 dashicons;
+}
+.nxt-plugin-notice-dismiss {
+    position: absolute;
+    top: 0;
+    right: 1px;
+    margin: 0;
+    padding: 9px;
+    border: none;
+    background: none;
+    color: #787c82;
+    cursor: pointer;
+}
+.nxt-plugin-notice-dismiss:before {
+    content: "\f153";
+    font: normal 18px/22px dashicons;
+    display: block;
+    background: none;
+    color: #787c82;
+    speak: never;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

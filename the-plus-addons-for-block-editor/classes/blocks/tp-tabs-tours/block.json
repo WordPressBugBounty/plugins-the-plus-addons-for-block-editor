@@ -253,9 +253,10 @@
         },
         "titleColor": {
             "type": "string",
+            "default": "",
             "style": [
                 {
-                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-header{ color: {{titleColor}}; }{{PLUS_WRAP}} .mobile-accordion .tab-mobile-title{color: {{titleColor}};}"
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-header,{{PLUS_WRAP}} .mobile-accordion .tab-mobile-title{ color: {{titleColor}}; }"
                 }
             ],
             "scopy": true
@@ -265,7 +266,7 @@
             "default": "",
             "style": [
                 {
-                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-header.active,{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-header:hover{ color: {{titleActcolor}}; }{{PLUS_WRAP}} .mobile-accordion .tab-mobile-title.active{color: {{titleActcolor}};}"
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-header.active,{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-header:hover,{{PLUS_WRAP}} .mobile-accordion .tab-mobile-title.active{ color: {{titleActcolor}}; }"
                 }
             ],
             "scopy": true

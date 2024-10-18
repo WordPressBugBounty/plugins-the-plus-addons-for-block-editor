@@ -86,7 +86,7 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                 <div class="tpgb-modal-wrap">
                 
                     <div class="tpgb-modal-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"><g clip-path="url(#a)"><path fill="url(#b)" d="M30 0H0v30h30V0Z"/><g fill="#fff" opacity=".3"><path d="M15.5 13.1h-1v1.4h-1.4v1h1.4v1.3h1v-1.3h1.3v-1h-1.3v-1.4Z"/><path d="M15 5h-3.7v9.5H8.4v1h3v1.3h.9V6H15c1.4 0 2.6 1.2 2.6 2.6v2h1v-2A3.7 3.7 0 0 0 15 5Z"/><path d="M15.5 8.4h-1v3h-1.4v1H24V15c0 1.4-1.2 2.6-2.7 2.7h-1.9v1h2a3.6 3.6 0 0 0 3.5-3.7v-3.7h-9.4V8.4Z"/><path d="M18.6 13.1h-1V24H15a2.7 2.7 0 0 1-2.7-2.7v-1.9h-1v2a3.6 3.6 0 0 0 3.7 3.5h3.6v-9.4h3v-1h-3v-1.4Z"/><path d="M10.5 11.3H8.6A3.7 3.7 0 0 0 5 15v3.6h9.5v3h1v-3h1.3v-1H6V15c0-1.5 1.2-2.7 2.6-2.7h2v-1Z"/></g><path fill="#fff" d="M12.3 6H15c1.4 0 2.6 1.2 2.6 2.6v2h1v-2A3.7 3.7 0 0 0 15 5h-3.7v11.8h1V6Z"/><path fill="#fff" d="M17.8 14.5h-3.3v1h3.2V24H15a2.7 2.7 0 0 1-2.7-2.7v-1.9h-1v2a3.6 3.6 0 0 0 3.7 3.5h3.6V14.5h-.8Z"/></g><defs><linearGradient id="b" x1="56.3" x2="-8.5" y1="65.1" y2="55.1" gradientUnits="userSpaceOnUse"><stop offset=".2" stop-color="#7400CF"/><stop offset="1" stop-color="#7248F1"/></linearGradient><clipPath id="a"><path fill="#fff" d="M0 0h30v30H0z"/></clipPath></defs></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"><rect width="30" height="30" fill="#1717CC" rx="6"/><path fill="#fff" fill-rule="evenodd" d="M16.665 19.075V5.382a.323.323 0 0 0-.144-.288.52.52 0 0 0-.384-.144H13.35v14.894h2.306c.289 0 .529-.08.721-.24.224-.16.32-.337.288-.529Zm0 5.91.048-2.354a.788.788 0 0 0-.048-.24v-.048c-.032-.033-.048-.065-.048-.097v-.048a1.322 1.322 0 0 0-.384-.336c-.032-.032-.064-.048-.096-.048a1.066 1.066 0 0 0-.337-.048c0-.032-.016-.048-.048-.048H13.35v3.267h3.315Z" clip-rule="evenodd"/></svg>
                         <span class="tpgb-feed-head-title">
                             <?php echo esc_html__( 'Quick Feedback', 'tpgb' ); ?>
                         </span>
@@ -303,7 +303,7 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                 }
 
                 #tpgb-deactive-modal .tpgb-modal-footer .tpgb-modal-submit {
-                    background-color: #6f14f1;
+                    background-color: #1717CC;
                     color: #fff
                 }
 
@@ -328,12 +328,12 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                 }
 
                 #tpgb-deactive-modal input[type=radio]:focus,.tpgb-modal-deactive:focus,.tpgb-modal-submit:focus {
-                    border-color: #6f14f1!important;
+                    border-color: #1717CC!important;
                     box-shadow: none!important
                 }
 
                 #tpgb-deactive-modal input[type=radio]:checked::before {
-                    background: #6f14f1
+                    background: #1717CC
                 }
 
                 .tpgb-help-link span {
@@ -343,7 +343,7 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                 }
 
                 .tpgb-help-link span>a {
-                    color: #6f14f1;
+                    color: #1717CC;
                     text-decoration: none;
                     line-height: 1.8
                 }

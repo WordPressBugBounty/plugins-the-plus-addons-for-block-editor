@@ -77,7 +77,7 @@
         "maskImg": {
             "type": "object",
             "default": {
-                "url": "TPGB_ASSETS_URL+'assets/images/team-mask.png'"
+                "url": ""
             }
         },
         "titleTypo": {

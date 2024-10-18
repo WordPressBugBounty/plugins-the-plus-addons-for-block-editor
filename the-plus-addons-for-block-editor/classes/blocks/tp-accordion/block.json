@@ -114,7 +114,7 @@
         "howToimg": {
             "type": "object",
             "default": {
-                "url": "TPGB_ASSETS_URL/images\/tpgb-placeholder.jpg"
+                "url": ""
             }
         },
         "imageSize": {

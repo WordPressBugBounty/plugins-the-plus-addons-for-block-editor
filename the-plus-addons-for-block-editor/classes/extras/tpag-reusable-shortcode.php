@@ -119,7 +119,7 @@ if ( ! class_exists( 'Tpag_Resuable_Shortcode' ) ) {
 
 						?>
 						<div class="tpgb-modal-header">
-							<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="none"><rect width="44" height="44" fill="#fff" rx="4"/><g clip-path="url(#a)"><path fill="url(#b)" d="M15.6 28.4h-3.2V15.6h3.2v-3.2H9.2v19.2h6.4m1.8 1.6h3.3l6-22.4h-3.4m5.1 1.6v3.2h3.2v12.8h-3.2v3.2h6.4V12.4"/></g><defs><linearGradient id="b" x1="9.2" x2="42" y1="33.2" y2="33.2" gradientUnits="userSpaceOnUse"><stop stop-color="#6F14F1"/><stop offset="1" stop-color="#8072FC"/></linearGradient><clipPath id="a"><path fill="#fff" d="M6 6h32v32H6z"/></clipPath></defs></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="none"><rect width="44" height="44" fill="#fff" rx="4"/><g clip-path="url(#a)"><path fill="url(#b)" d="M15.6 28.4h-3.2V15.6h3.2v-3.2H9.2v19.2h6.4m1.8 1.6h3.3l6-22.4h-3.4m5.1 1.6v3.2h3.2v12.8h-3.2v3.2h6.4V12.4"/></g><defs><linearGradient id="b" x1="9.2" x2="42" y1="33.2" y2="33.2" gradientUnits="userSpaceOnUse"><stop stop-color="#1717cc"/><stop offset="1" stop-color="#8072FC"/></linearGradient><clipPath id="a"><path fill="#fff" d="M6 6h32v32H6z"/></clipPath></defs></svg>
 							<div>
 								<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'Regular Shortcodes', 'tpgb' ); ?> </h3>
 								<p class="tpgb-sc-desc"> <?php echo esc_html__( 'You can use below shortcodes to load this tempate load AJAX Way.', 'tpgb' ); ?> </p>
@@ -184,7 +184,7 @@ if ( ! class_exists( 'Tpag_Resuable_Shortcode' ) ) {
 						width: 100%;
 						padding: 6px 18px;
 						border: 0;
-						background: #6f14f1;
+						background: #1717cc;
 						color: #fff;
 						border-radius: 2px;
 						cursor: pointer
@@ -232,7 +232,7 @@ if ( ! class_exists( 'Tpag_Resuable_Shortcode' ) ) {
 					}
 
 					.tpgb-modal-header {
-						background: linear-gradient(90deg,#6f14f1 0,#8072fc 128.29%);
+						background: linear-gradient(93.13deg, #1717cc .37%, #0303a0 116.12%);
 						color: #fff;
 						display: flex;
 						align-items: center;
@@ -330,7 +330,7 @@ if ( ! class_exists( 'Tpag_Resuable_Shortcode' ) ) {
 					}
 
 					.copy-icon:hover {
-						background: #7248f1
+						background: #1717cc
 					}
 
 					.copy-icon:hover svg,.copy-icon:hover svg g,.copy-icon:hover svg path {

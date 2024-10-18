@@ -3,7 +3,7 @@
 * Plugin Name: Nexter Blocks
 * Plugin URI: https://nexterwp.com/nexter-blocks/
 * Description: Highly customizable WordPress Gutenberg blocks to build professional websites with top-notch performance and sleek design. Includes 40+ FREE WordPress Blocks.
-* Version: 4.0.1
+* Version: 4.0.2
 * Author: POSIMYTH
 * Author URI: https://posimyth.com
 * Tested up to: 6.6
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.0.1' );
+defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.0.2' );
 define( 'TPGB_FILE__', __FILE__ );
 
 define( 'TPGB_PATH', plugin_dir_path( __FILE__ ) );
@@ -29,6 +29,9 @@ if ( ! version_compare( PHP_VERSION, '5.6.40', '>=' ) ) {
 } elseif ( ! version_compare( get_bloginfo( 'version' ), '4.7.1', '>=' ) ) {
 	add_action( 'admin_notices', 'tpgb_check_wp_version' );
 } else {
+	if ( defined( 'TPGBP_VERSION' ) && ! version_compare( TPGBP_VERSION, '4.0.0', '>=' ) ) {
+		add_action( 'admin_notices', 'tpgb_free_check_tpag_version' );
+	}
 	require_once 'plus-block-loader.php';
 }
 
@@ -61,6 +64,24 @@ function tpgb_check_wp_version() {
 	/* translators: Nexter Blocks requires at least WordPress version %s+. Because you’re using an older version, the plugin is currently not running. Please update WordPress to the latest version. */
 	$check_message      = sprintf( esc_html__( 'Nexter Blocks requires at least WordPress version %s+. Because you’re using an older version, the plugin is currently not running. Please update WordPress to the latest version.', 'tpgb' ), '4.7.1' );
 	$display_message = sprintf( '<div class="error">%s</div>', wpautop( $check_message ) );
+	echo wp_kses_post( $display_message );
+}
+
+/**
+ * Nexter Blocks Pro check minimum version 4.0.0.
+ *
+ * Warning when the site doesn't have the minimum required Nexter Blocks version.
+ *
+ * @since 4.0.2
+ *
+ * @return void
+ */
+function tpgb_free_check_tpag_version() {
+	/* translators: Nexter Blocks Pro requires Nexter Blocks Free version %s+. Since you’re using an older version, the plugin is currently not active. */
+	$check_message      = sprintf( '<b>Note:</b>' . esc_html__( ' Please update the Pro version to at least V4.0.0. If you don’t see the upgrade notice, upload the zip manually to the latest version from the ', 'tpgb' ).'<a href="%s">store download.</a>', esc_url('https://store.posimyth.com/download/') );
+	
+	$display_message = sprintf( '<div class="error">%s</div>', wpautop( $check_message ) );
+	
 	echo wp_kses_post( $display_message );
 }
 

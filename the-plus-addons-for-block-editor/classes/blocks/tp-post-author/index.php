@@ -54,7 +54,7 @@ function tpgb_tp_post_author_render_callback( $attr, $content) {
 					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_website).'" aria-label="'.esc_attr__("website","tpgb").'" target="_blank"><i class="fas fa-globe-asia"></i></a></div>';
 				}
 				if(!empty($author_email)){
-					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_email).'" aria-label="'.esc_attr__("Email","tpgb").'" target="_blank"><i class="fas fa-envelope"></i></a></div>';
+					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="mailto:'.sanitize_email($author_email).'" aria-label="'.esc_attr__("Email","tpgb").'" target="_blank"><i class="fas fa-envelope"></i></a></div>';
 				}
 				if(!empty($author_facebook)){
 					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_facebook).'" aria-label="'.esc_attr__("facebook","tpgb").'" target="_blank"><i class="fab fa-facebook-f"></i></a></div>';

@@ -864,7 +864,7 @@ class Tp_Core_Init_Blocks {
 	}
 	
 	/*
-	 * Check Load Google Font In TPAG
+	 * Check Load Google Font In Nexter
 	 * @since 2.0.0
 	 * */
 	public function check_load_google_fonts(){
@@ -876,7 +876,7 @@ class Tp_Core_Init_Blocks {
 	}
 
 	/*
-	 * Check Global CSS In TPAG
+	 * Check Global CSS In Nexter
 	 * @since 2.0.9
 	 * */
 	public function check_load_global_css( $data = true ){

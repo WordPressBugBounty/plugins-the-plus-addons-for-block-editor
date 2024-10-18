@@ -46,7 +46,53 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
             if ( is_admin() ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
                 add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
+                add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
             }
+            add_action( 'wp_ajax_nxt_dismiss_plugin_rebranding', array( $this,'nxt_dismiss_plugin_rebranding_callback' ), 10, 1 );
+        }
+        
+         /**
+         * Adds a small banner to the plugins.php admin page
+         *
+         * @param $plugin_file
+         *
+         * @since 4.0.2
+         */
+        public function nxt_plugins_page_rebranding_banner( $plugin_file ) {
+            if ( ! get_option('nxt_rebranding_dismissed') ) {
+                
+                $plugin_file_array = explode( '/', $plugin_file );
+                if ( end( $plugin_file_array ) === 'the-plus-addons-for-block-editor.php' ) {
+                    echo '<tr class="nxt-plugin-rebranding-update">
+                        <td colspan="4" style="padding: 20px 40px; background: #f0f6fc; border-left: 4px solid #72aee6; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);">
+                        <div class="nxt-plugin-update-notice inline notice notice-alt notice-warning">
+                            <h4 style="margin-top:10px;margin-bottom:7px;font-size:14px;">' . esc_html__( "The Plus Blocks for Gutenberg is now Nexter Blocks : Better UI, Faster Performance & Improved Features", "tpgb" ) . '</h4>
+                            <a href="'.esc_url('https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings').'" style="text-decoration:underline;margin-bottom:10px;display:inline-block;">' . esc_html__( 'Read What\'s New & What Changed?', 'tpgb') . '</a>
+                            <span class="nxt-plugin-notice-dismiss"></span>
+                        </div>
+                        </td></tr>';
+                }
+            }
+        }
+
+        /**
+         * Rebranding Notice disable
+         * @since 4.0.2
+         */
+        public function nxt_dismiss_plugin_rebranding_callback() {
+            // Verify nonce for security
+            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
+                wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'tpgb') ) );
+            }
+        
+            if ( ! current_user_can( 'manage_options' ) ) {
+                wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'tpgb') ) );
+            }
+        
+            $option_key = 'nxt_rebranding_dismissed';
+            update_option( $option_key, true );
+        
+            wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'tpgb') ) );
         }
         
         /**
@@ -63,9 +109,8 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
 			} else if( is_admin() ){
 				$default_load=get_option( 'tpgb_normal_blocks_opts' );
 				if ( $default_load !== false && $default_load!='') {
-					$deprecated = null;
 					$autoload = 'no';
-					add_option( $option_name,$value, $deprecated, $autoload );
+					add_option( $option_name,$value, '', $autoload );
 				}else{
 					$tpgb_normal_blocks_opts=get_option( 'tpgb_normal_blocks_opts' );
                     if($tpgb_normal_blocks_opts === false){
@@ -75,10 +120,9 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
                     
                     $tpgb_normal_blocks_opts['tp_extra_option']= ['tp-advanced-border-radius','tp-display-rules','tp-equal-height','tp-event-tracking','tp-magic-scroll','tp-global-tooltip','tp-continuous-animation','tp-content-hover-effect','tp-mouse-parallax','tp-3d-tilt','tp-scoll-animation'];
 					
-					$deprecated = null;
 					$autoload = 'no';
-					add_option( 'tpgb_normal_blocks_opts',$tpgb_normal_blocks_opts, $deprecated, $autoload );
-					add_option( $option_name,$value, $deprecated, $autoload );
+					add_option( 'tpgb_normal_blocks_opts',$tpgb_normal_blocks_opts, '', $autoload );
+					add_option( $option_name,$value, '', $autoload );
                     $action_delay = 'tpgb_delay_css_js';
                     if ( false === get_option($action_delay) ){
                         add_option( $action_delay, 'true' );

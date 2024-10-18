@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-07 09:38+0530\n"
+"POT-Creation-Date: 2024-10-18 09:17+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,59 +18,87 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: plus-block-loader.php:153
+#: plus-block-loader.php:69
+msgid ""
+"The Plus Blocks for Gutenberg is now Nexter Blocks : Better UI, Faster "
+"Performance & Improved Features"
+msgstr ""
+
+#: plus-block-loader.php:70
+msgid "Read What's New & What Changed?"
+msgstr ""
+
+#: plus-block-loader.php:85
+msgid "Invalid nonce. Unauthorized request."
+msgstr ""
+
+#: plus-block-loader.php:89 includes/plus-settings-options.php:249
+msgid "Insufficient permissions."
+msgstr ""
+
+#: plus-block-loader.php:95
+msgid "Notice dismissed successfully."
+msgstr ""
+
+#: plus-block-loader.php:199
 msgid "FREE vs Pro"
 msgstr ""
 
-#: plus-block-loader.php:156
+#: plus-block-loader.php:202
 msgid "Need Help?"
 msgstr ""
 
-#: plus-block-loader.php:163
+#: plus-block-loader.php:209
 msgid "Upgrade PRO"
 msgstr ""
 
-#: plus-block-loader.php:179
+#: plus-block-loader.php:225
 msgid "Visit Plugin site"
 msgstr ""
 
-#: plus-block-loader.php:180
+#: plus-block-loader.php:226
 msgid "Docs"
 msgstr ""
 
-#: plus-block-loader.php:181
+#: plus-block-loader.php:227
 msgid "Video Tutorials"
 msgstr ""
 
-#: plus-block-loader.php:182
+#: plus-block-loader.php:228
 msgid "Join Community"
 msgstr ""
 
-#: plus-block-loader.php:183
+#: plus-block-loader.php:229
 msgid "What's New?"
 msgstr ""
 
-#: plus-block-loader.php:184
+#: plus-block-loader.php:230
 msgid "Request Feature"
 msgstr ""
 
-#: plus-block-loader.php:185
+#: plus-block-loader.php:231
 msgid "Rate 5 Stars"
 msgstr ""
 
-#: the-plus-addons-for-block-editor.php:46
+#: the-plus-addons-for-block-editor.php:49
 #, php-format
 msgid ""
 "Nexter Blocks requires PHP version %s+. The plugin is currently not running. "
 "Please update to the latest PHP version."
 msgstr ""
 
-#: the-plus-addons-for-block-editor.php:62
+#: the-plus-addons-for-block-editor.php:65
 #, php-format
 msgid ""
 "Nexter Blocks requires at least WordPress version %s+. Because you’re using "
 "an older version, the plugin is currently not running. Please update "
 "WordPress to the latest version."
+msgstr ""
+
+#: the-plus-addons-for-block-editor.php:81
+msgid ""
+" Please update the Pro version to at least V4.0.0. If you don’t see the "
+"upgrade notice, upload the zip manually to the latest version from the "
 msgstr ""
 
 #: classes/tp-block-helper.php:377
@@ -636,10 +664,6 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: includes/plus-settings-options.php:249
-msgid "Insufficient permissions."
-msgstr ""
-
 #: includes/plus-settings-options.php:282
 msgid "Failed to retrieve plugin information."
 msgstr ""
@@ -875,7 +899,7 @@ msgid "Interactive Circle Info"
 msgstr ""
 
 #: includes/plus-settings-options.php:920
-msgid "Login Register"
+msgid "Login & Signup"
 msgstr ""
 
 #: includes/plus-settings-options.php:929

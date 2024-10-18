@@ -1109,7 +1109,7 @@ Class Tpgb_Library {
     }
 
 	/*
-	 * Get Caching System Load TPAG
+	 * Get Caching System Load Nexter
 	 * @since 1.4.0
 	 */
 	public function get_caching_option(){

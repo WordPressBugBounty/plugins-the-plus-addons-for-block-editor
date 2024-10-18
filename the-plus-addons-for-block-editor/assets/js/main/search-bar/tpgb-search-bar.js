@@ -20,6 +20,7 @@ function searchbarInit(){
                 acfData = (sb.dataset.acfdata) ? JSON.parse(sb.dataset.acfdata) : [],
                 Generic = (sb.dataset.genericfilter) ? JSON.parse(sb.dataset.genericfilter) : [],
                 Rsetting = (sb.dataset.resultSetting) ? JSON.parse(sb.dataset.resultSetting) : [],
+                errorMessage = (sb.dataset.errormsg) ? sb.dataset.errormsg : '',
                 pagesetting = (sb.dataset.paginationData) ? JSON.parse(sb.dataset.paginationData) : [],
                 Defsetting = (sb.dataset.defaultData) ? JSON.parse(sb.dataset.defaultData) : [];
 
@@ -285,7 +286,7 @@ function searchbarInit(){
                                     }
                                 } else {
                                     ErrorHtml[0].style.cssText = "display:block";
-                                    ErrorHtml[0].innerHTML = Rsetting.errormsg;
+                                    ErrorHtml[0].innerHTML = errorMessage;
                                     Headerclass.style.cssText = "display:none";
                                     slideDownP(searcharea, 100);
                                     return;

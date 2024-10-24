@@ -69,7 +69,7 @@
     display: inline-block;
     font: normal 20px / 1 dashicons;
 }
-.nxt-plugin-notice-dismiss {
+.nxt-plugin-notice-dismiss,.nxt-halloween-notice-dismiss {
     position: absolute;
     top: 0;
     right: 1px;
@@ -80,7 +80,7 @@
     color: #787c82;
     cursor: pointer;
 }
-.nxt-plugin-notice-dismiss:before {
+.nxt-plugin-notice-dismiss:before,.nxt-halloween-notice-dismiss:before {
     content: "\f153";
     font: normal 18px/22px dashicons;
     display: block;

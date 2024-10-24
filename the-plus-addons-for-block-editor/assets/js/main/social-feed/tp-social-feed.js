@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             function readmoreText(event){
                 var target = event.target;
                 if (target.classList.contains('readbtn') && target.closest('.tpgb-social-feed')) {
+                    event.stopImmediatePropagation()
                     let getCsEl = target.closest('.tpgb-social-feed');
                     let gtCuText =  target.getAttribute('aria-label');
                     var div = target.closest('.tpgb-message');

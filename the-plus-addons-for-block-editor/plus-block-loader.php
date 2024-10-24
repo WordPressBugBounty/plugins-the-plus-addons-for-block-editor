@@ -42,15 +42,40 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
             $this->loader_helper();
             
             add_action( 'plugins_loaded', array( $this, 'tp_plugin_loaded' ) );
-
+            add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
             if ( is_admin() ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
                 add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
                 add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
             }
             add_action( 'wp_ajax_nxt_dismiss_plugin_rebranding', array( $this,'nxt_dismiss_plugin_rebranding_callback' ), 10, 1 );
+            add_action( 'wp_ajax_nxt_dismiss_plugin_halloween', array( $this,'nxt_dismiss_plugin_halloween' ), 10, 1 );
         }
         
+        /**
+         * Halloween Sale Admin Notice
+         *
+         * @param $plugin_file
+         *
+         * @since 4.0.3
+         */
+        public function nxt_halloween_offer() {
+            if ( ! get_option('nxt_halloween_dismissed') ) {
+                echo '<div class="nxt-plugin-halloween notice">
+                        
+                        <div class="inline nxt-plugin-halloween-notice" style="display: flex;column-gap: 12px;align-items: center;padding: 15px;position: relative;    margin-left: 0px;">
+                            <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/halloween.png' ).'" />
+                            <div style="margin: .7rem .8rem .8rem;">  
+                                <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $270!", "tpgb" ) . '</h3>
+                                <p> '. esc_html__( "Our Halloween Sale is live! Upgrade now and save $270 on the pro version.", "tpgb" ) .' </p>
+                                <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates").'</span>  <span> • '. esc_html__("90+ WordPress Blocks").'</span>  <span> • '. esc_html__("Trusted by 10K+ Users").'</span> </p>
+                                <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'tpgb') . '</a>
+                            </div>
+                            <span class="nxt-halloween-notice-dismiss"></span>
+                        </div></div>';
+            }
+        }
+
          /**
          * Adds a small banner to the plugins.php admin page
          *
@@ -73,6 +98,26 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
                         </td></tr>';
                 }
             }
+        }
+
+        /**
+         * Halloween Notice disable
+         * @since 4.0.3
+         */
+        public function nxt_dismiss_plugin_halloween() {
+            // Verify nonce for security
+            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
+                wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'tpgb') ) );
+            }
+        
+            if ( ! current_user_can( 'manage_options' ) ) {
+                wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'tpgb') ) );
+            }
+        
+            $option_key = 'nxt_halloween_dismissed';
+            update_option( $option_key, true );
+        
+            wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'tpgb') ) );
         }
 
         /**

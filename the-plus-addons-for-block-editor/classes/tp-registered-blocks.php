@@ -1232,7 +1232,7 @@ Class Tpgb_Library {
 		
 		$blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 		
-		//Plus Extras Options Array
+		//Nexter Extras Options Array
 		$all_tpgb_blocks = $this->tpgb_registered_blocks;
 		$plus_extras = array_filter($all_tpgb_blocks, function ($key) {
 			return strpos($key, 'tpgb/') === 0 ? '' : $key;

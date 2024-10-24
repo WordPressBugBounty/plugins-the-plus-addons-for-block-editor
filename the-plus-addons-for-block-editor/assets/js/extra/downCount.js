@@ -3,7 +3,11 @@
 function downCount(selector, options, callback) {
     var settings = Object.assign({
         date: null,
-        offset: null
+        offset: null,
+        text_day: 'day',
+        text_hour: 'hour',
+        text_minute: 'minute',
+        text_second: 'second'
     }, options);
 
     // Throw error if date is not set
@@ -75,10 +79,10 @@ function downCount(selector, options, callback) {
         seconds = (String(seconds).length >= 2) ? seconds : '0' + seconds;
 
         // based on the date change the reference wording
-        var ref_days = (days === 1) ? 'day' : 'days',
-            ref_hours = (hours === 1) ? 'hour' : 'hours',
-            ref_minutes = (minutes === 1) ? 'minute' : 'minutes',
-            ref_seconds = (seconds === 1) ? 'second' : 'seconds';
+        var ref_days = (days === 1) ? settings.text_day : settings.text_day ;
+        var ref_hours = (hours === 1) ? settings.text_hour : settings.text_hour ;
+        var ref_minutes = (minutes === 1) ? settings.text_minute : settings.text_minute ;
+        var ref_seconds = (seconds === 1) ? settings.text_second : settings.text_second;
 
         // set to DOM
         container.querySelector('.days').textContent = days;
@@ -98,4 +102,3 @@ function downCount(selector, options, callback) {
 
 // Expose the downCount function globally
 window.downCount = downCount;
-

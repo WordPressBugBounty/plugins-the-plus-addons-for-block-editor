@@ -26,13 +26,19 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 	$metafieldRep = (!empty($attr['metafieldRep'])) ? $attr['metafieldRep'] : [] ;
     $readPrefix = (!empty($attr['readPrefix'])) ? $attr['readPrefix'] : '';
 	$showreadTime = (!empty($attr['showreadTime'])) ? $attr['showreadTime'] : false;
+	$dateType = (!empty($attr['dateType'])) ? $attr['dateType'] : '';
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attr );
 	
 	$outputDate='';
 	if($showDate){
 		$datePrefix = (!empty($attr['datePrefix'])) ? '<span class="tpgb-meta-date-label">'.wp_kses_post($attr['datePrefix']).'</span>' : '';
 		$dateIcon = (!empty($attr['dateIcon'])) ? '<i class="meta-date-icon '.esc_attr($attr['dateIcon']).'"></i>' : '';
-		$outputDate .='<span class="tpgb-meta-date" >'.$datePrefix.'<a href="'.esc_url(get_the_permalink()).'">'.$dateIcon.esc_html(get_the_date()).'</a></span>';
+
+		if ($dateType === 'modified') {
+			$outputDate .= '<span class="tpgb-meta-date">' . $datePrefix . '<a href="' . esc_url(get_the_permalink()) . '">' . $dateIcon . esc_html(get_the_modified_date()) . '</a></span>';
+		} else {
+			$outputDate .= '<span class="tpgb-meta-date">' . $datePrefix . '<a href="' . esc_url(get_the_permalink()) . '">' . $dateIcon . esc_html(get_the_date()) . '</a></span>';
+		}
 	}
 	
 	

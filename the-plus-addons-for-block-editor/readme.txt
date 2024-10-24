@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.6
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -478,6 +478,12 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 12. Go Limitedness with Nexter WordPress Gutenberg Blocks
 
 == Changelog ==
+= 4.0.3 = 24 October 2024
+- Added : Post Meta : Post Publish Date / Post Modified Option added
+- Fixed : FSE Theme : Dynamic Css Bug Fix
+- Fixed : Count Down : Style-1 Dynamic Label Bug Fix. 
+- Fixed : Accordion Inner : Editor Deprecated Block Bug Fixed
+
 = 4.0.2 = 18 October 2024
 - Fixed : Regenerate All Assets : Tab Tours Tab Color Bug Fix.
 - Fixed : Display Rules Kadence Block Compatibility Bug Fix.
@@ -582,9 +588,9 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 - Fix : Interactive Circle Info : CSS Bug Fix.
 
 = 3.2.4 = 31 January 2024
-- Added : Plus Extra All Global Option Added.
+- Added : Nexter Extra All Global Option Added.
 - Fix : Carousel : Slider Responsive Arrow Bug Fix
-- Fix : Plus Blocks Settings : Scan Unused Blocks For White Label Bug Fix
+- Fix : Nexter Blocks Settings : Scan Unused Blocks For White Label Bug Fix
 - Fix : Accordion : Popup Builder block conflict CSS Bug Fix
 
 = 3.2.3 = 10 January 2024

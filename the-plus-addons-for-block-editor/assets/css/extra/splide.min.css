@@ -278,3 +278,9 @@
 .splide__sr {
     display: none;
 }
+.tpgb-view-animation .splide.is-initialized{
+    visibility: hidden !important;
+}
+.tpgb-view-animation.tpgb_animated .splide.is-initialized{
+    visibility: visible !important;
+}

@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.6
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -15,7 +15,7 @@ Best WordPress 90+ Gutenberg Blocks with 1000+ Ready to Use WordPress Pages & Se
 
 <strong>[Nexter WordPress Gutenberg Blocks](https://nexterwp.com/nexter-blocks/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong> is the ultimate no-code page builder plugin you need to create any type of website effortlessly with over <strong>90+ Gutenberg Blocks & 1000+ Ready to Use WordPress Templates for Starter Websites.</strong>
 
-Whether you’re a beginner or an experienced user, Nexter Blocks empowers you to build stunning websites with ease—no coding required! 
+Whether you’re a beginner or an experienced user, Nexter Blocks empowers you to build stunning websites with ease—no coding required!
 ###Looking for The Plus Blocks for Gutenberg? Nexter Blocks is Now The Plus Blocks for Gutenberg - [Read Why?](https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
 
 All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-blog-builder/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Mega Menu](https://nexterwp.com/nexter-blocks/builder/wordpress-mega-menu/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Dynamic Grid Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-custom-post-listing/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Popup Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-popup-builder/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), [WordPress Navigation Header Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-header-builder?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) and more.</strong>
@@ -478,6 +478,11 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 12. Go Limitedness with Nexter WordPress Gutenberg Blocks
 
 == Changelog ==
+= 4.0.4 = 30 October 2024
+- Fixed : Breadcrumb : Latter Limit Bug Fix.
+- Fixed : Minor Bug Fixes and Improvements.
+- Fixed : Component : Range Field : Unit value bug Fix.
+
 = 4.0.3 = 24 October 2024
 - Added : Post Meta : Post Publish Date / Post Modified Option added
 - Fixed : FSE Theme : Dynamic Css Bug Fix

@@ -42,7 +42,9 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
             $this->loader_helper();
             
             add_action( 'plugins_loaded', array( $this, 'tp_plugin_loaded' ) );
-            add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
+            if ( ! defined('TPGBP_VERSION') ) {
+                add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
+            }
             if ( is_admin() ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
                 add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
@@ -62,14 +64,13 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
         public function nxt_halloween_offer() {
             if ( ! get_option('nxt_halloween_dismissed') ) {
                 echo '<div class="nxt-plugin-halloween notice">
-                        
                         <div class="inline nxt-plugin-halloween-notice" style="display: flex;column-gap: 12px;align-items: center;padding: 15px;position: relative;    margin-left: 0px;">
                             <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/halloween.png' ).'" />
                             <div style="margin: .7rem .8rem .8rem;">  
                                 <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $270!", "tpgb" ) . '</h3>
                                 <p> '. esc_html__( "Our Halloween Sale is live! Upgrade now and save $270 on the pro version.", "tpgb" ) .' </p>
                                 <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates").'</span>  <span> • '. esc_html__("90+ WordPress Blocks").'</span>  <span> • '. esc_html__("Trusted by 10K+ Users").'</span> </p>
-                                <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'tpgb') . '</a>
+                                <a target="_blank" rel="noopener noreferrer" href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'tpgb') . '</a>
                             </div>
                             <span class="nxt-halloween-notice-dismiss"></span>
                         </div></div>';
@@ -92,7 +93,7 @@ if ( !class_exists( 'TP_Gutenberg_Loader' ) ) {
                         <td colspan="4" style="padding: 20px 40px; background: #f0f6fc; border-left: 4px solid #72aee6; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);">
                         <div class="nxt-plugin-update-notice inline notice notice-alt notice-warning">
                             <h4 style="margin-top:10px;margin-bottom:7px;font-size:14px;">' . esc_html__( "The Plus Blocks for Gutenberg is now Nexter Blocks : Better UI, Faster Performance & Improved Features", "tpgb" ) . '</h4>
-                            <a href="'.esc_url('https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings').'" style="text-decoration:underline;margin-bottom:10px;display:inline-block;">' . esc_html__( 'Read What\'s New & What Changed?', 'tpgb') . '</a>
+                            <a target="_blank" rel="noopener noreferrer" href="'.esc_url('https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings').'" style="text-decoration:underline;margin-bottom:10px;display:inline-block;">' . esc_html__( 'Read What\'s New & What Changed?', 'tpgb') . '</a>
                             <span class="nxt-plugin-notice-dismiss"></span>
                         </div>
                         </td></tr>';

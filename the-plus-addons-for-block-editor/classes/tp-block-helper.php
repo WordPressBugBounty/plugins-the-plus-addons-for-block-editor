@@ -1013,7 +1013,7 @@ class Tp_Blocks_Helper {
 					);
                    
 					if($letterLimitParent != '0'){
-						printf($link, get_permalink($parent), substr($parent->post_title,0,$letterLimitParent));
+						printf($link, get_permalink($parent), substr($parent->post_title,0,intval($letterLimitParent)));
 					}else{
 						printf($link, get_permalink($parent), $parent->post_title);
 					}
@@ -1044,7 +1044,7 @@ class Tp_Blocks_Helper {
 					$posi++;
                     $page = get_page($parent_id);
 					if($letterLimitParent != '0'){
-						$breadcrumbs[] = sprintf($link, get_permalink($page->ID), substr(get_the_title($page->ID),0,$letterLimitParent));
+						$breadcrumbs[] = sprintf($link, get_permalink($page->ID), substr(get_the_title($page->ID),0,intval($letterLimitParent)));
 					}else{
 						$breadcrumbs[] = sprintf($link, get_permalink($page->ID), get_the_title($page->ID));
 					}

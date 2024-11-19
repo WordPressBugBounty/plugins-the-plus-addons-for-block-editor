@@ -3,8 +3,8 @@ Contributors: posimyththemes, nirmalkavaiya, sagarpatel124, jigar9998
 Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
-Tested up to: 6.6
-Stable tag: 4.0.4
+Tested up to: 6.7
+Stable tag: 4.0.5
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -478,6 +478,10 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 12. Go Limitedness with Nexter WordPress Gutenberg Blocks
 
 == Changelog ==
+= 4.0.5 = 19 November 2024
+- Compatibility : WordPress 6.7
+- Fixed : Hover Card : Sanitize bug Fix.
+ 
 = 4.0.4 = 30 October 2024
 - Fixed : Breadcrumb : Latter Limit Bug Fix.
 - Fixed : Minor Bug Fixes and Improvements.

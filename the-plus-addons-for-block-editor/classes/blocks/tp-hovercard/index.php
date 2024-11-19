@@ -799,7 +799,7 @@ function tpgb_get_html_structure($attr,$load=''){
 
 		//Output Html
 		if(!empty($open_tag)){ 
-			$html .= '<'.esc_attr($open_tag).' class="tp-repeater-item-'.esc_attr($item ['_key']).' '.$uniClass.' '.(!empty($item['className']) ? esc_attr($item['className']) : '' ).' '.(!empty($item['Hvrclass'] ) ? esc_attr($item['Hvrclass']) : '' ).' '.(($item['content'] == 'text' && !empty($item['customtxtHvr']) && $item['txtHvrclass'] != '') ? esc_attr($item['txtHvrclass']) : '').'  '.(($item['content'] == 'img' && !empty($item['customimgHvr']) && $item['Hvrimgclass'] != '') ? esc_attr($item['Hvrimgclass']) : '').'  " '.($item['openTag']=="a" ? $linkattr :'').' >';
+			$html .= '<'.Tp_Blocks_Helper::validate_html_tag($open_tag).' class="tp-repeater-item-'.esc_attr($item ['_key']).' '.$uniClass.' '.(!empty($item['className']) ? esc_attr($item['className']) : '' ).' '.(!empty($item['Hvrclass'] ) ? esc_attr($item['Hvrclass']) : '' ).' '.(($item['content'] == 'text' && !empty($item['customtxtHvr']) && $item['txtHvrclass'] != '') ? esc_attr($item['txtHvrclass']) : '').'  '.(($item['content'] == 'img' && !empty($item['customimgHvr']) && $item['Hvrimgclass'] != '') ? esc_attr($item['Hvrimgclass']) : '').'  " '.($item['openTag']=="a" ? $linkattr :'').' >';
 		}
 		// Content
 		if(!empty($item['content']) && $item['content'] != 'none'){
@@ -830,7 +830,7 @@ function tpgb_get_html_structure($attr,$load=''){
 		}
 
 		if(!empty($item['closeTag']) && $item['closeTag']!='none'){
-			$html .= '</'.esc_attr($close_tag).'>';
+			$html .= '</'.Tp_Blocks_Helper::validate_html_tag($close_tag).'>';
 		}
 
 		// Add css For Custom Hover Class For OpenTag

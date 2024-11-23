@@ -142,13 +142,14 @@ if(!class_exists('Tpgb_Rollback')){
 			}
 
 			$rv = self::get_rollback_versions();
-			if ( empty( $_GET['version'] ) || ! in_array( $_GET['version'], $rv ) ) {
+			$version = isset($_GET['version']) && !empty($_GET['version']) ? sanitize_text_field( wp_unslash( $_GET['version'] ) ) : '';
+			if ( empty( $version ) || ! in_array( $version, $rv ) ) {
 				wp_die( esc_html__( 'Error, Try selecting another version.', 'tpgb' ) );
 			}
 
 			$plugin_slug = basename( TPGB_FILE__, '.php' );
 			
-			$this->version = $_GET['version'];
+			$this->version = $version;
 			$this->plugin_name = TPGB_BASENAME;
 			$this->plugin_slug = $plugin_slug;
 			$this->pakg_url = sprintf( 'https://downloads.wordpress.org/plugin/%s.%s.zip', $this->plugin_slug, $this->version );

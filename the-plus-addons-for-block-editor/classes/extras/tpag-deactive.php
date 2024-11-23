@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( ! class_exists( 'Tpag_Deactive' ) ) {
+if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 
-	class Tpag_Deactive {
+	class Tpgb_Deactive {
 
 
         /**
@@ -146,7 +146,7 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                         
                     <div class="tpgb-help-link">
                         <span><?php echo esc_html__( 'If you require any help , ' , 'tpgb'); ?> <a href="<?php if(defined('TPGBP_VERSION')) { echo esc_url('https://store.posimyth.com/helpdesk/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links'); } else { echo esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/'); }  ?>" target="_blank" rel="noopener noreferrer" > <?php echo esc_html__( 'please add a ticket ', 'tpgb') ?> </a>. <?php echo esc_html__ ( 'We reply within 24 working hours.', 'tpgb' ); ?></span>
-                        <span> <?php echo esc_html__( 'Read') ?> <a href="<?php  echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'tpgb') ?>   </a> </span> 
+                        <span> <?php echo esc_html__( 'Read', 'tpgb') ?> <a href="<?php  echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'tpgb') ?>   </a> </span> 
                     </div>
                 </div>
             </div>
@@ -384,7 +384,7 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
                     });
 
                     // Deactivate Button Click Action
-                    document.getElementById('deactivate-the-plus-addons-for-block-editor').addEventListener('click', function(e) {
+                    document.getElementById('deactivate-nexter-blocks').addEventListener('click', function(e) {
                         e.preventDefault();
                         var modal = document.getElementById('tpgb-deactive-modal');
                         modal.classList.add('modal-active');
@@ -521,5 +521,5 @@ if ( ! class_exists( 'Tpag_Deactive' ) ) {
         }
     }
 
-    Tpag_Deactive::get_instance();
+    Tpgb_Deactive::get_instance();
 }

@@ -124,7 +124,7 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 		$minutes_to_read = max( 1, (int) round( tpgb_word_count( $content, $word_count_type ) / $average_reading_rate ) );
 		/* translators: %s minute */
 		$minutes_to_read_string = sprintf(
-			_n( '%s minute', '%s minutes', $minutes_to_read ),
+			_n( '%s minute', '%s minutes', $minutes_to_read  , 'tpgb' ),
 			$minutes_to_read
 		);
 

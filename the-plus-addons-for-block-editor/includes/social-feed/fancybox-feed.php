@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if($FancyStyle == 'style-1'){
 	include TPGB_INCLUDES_URL."social-feed/fancybox-feed-style-1.php";
 }else if($FancyStyle == 'style-2'){

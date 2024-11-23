@@ -1561,8 +1561,8 @@ Class Tpgb_Library {
 			$plus_version = $this->get_enqueue_version( $post_id );
 			
 			$plus_css=get_post_meta( $post_id, '_tpgb_css', true );
-			if( !empty($plus_css) && isset($plus_css['font_link']) && !empty($plus_css['font_link']) && class_exists('Tp_Core_Init_Blocks')){
-				$tp_core = Tp_Core_Init_Blocks::get_instance();
+			if( !empty($plus_css) && isset($plus_css['font_link']) && !empty($plus_css['font_link']) && class_exists('Tpgb_Core_Init_Blocks')){
+				$tp_core = Tpgb_Core_Init_Blocks::get_instance();
 				$tp_core->tpgb_load_google_fonts($post_id, $plus_css['font_link']);
 			}
 			if( isset($_GET['preview']) && $_GET['preview'] == true && file_exists($preview_css_path)){
@@ -1579,8 +1579,8 @@ Class Tpgb_Library {
 				$css_file_url = trailingslashit($upload_dir['baseurl']);
 				$css_url     = $css_file_url . "theplus_gutenberg/plus-css-{$post_id}.css";
 				wp_enqueue_style("plus-post-{$post_id}", esc_url($css_url), $deps, $plus_version);
-			}else if(!file_exists($css_path) && class_exists('Tp_Core_Init_Blocks')){
-				$tp_core = Tp_Core_Init_Blocks::get_instance();
+			}else if(!file_exists($css_path) && class_exists('Tpgb_Core_Init_Blocks')){
+				$tp_core = Tpgb_Core_Init_Blocks::get_instance();
 				$tp_core->make_block_css_by_post_id($post_id);
 			}
 		}
@@ -1959,8 +1959,8 @@ Class Tpgb_Library {
 		}
 
 		//First time load in footer
-		if ( $this->get_caching_option() == 'separate' && !empty($in_footer) && class_exists( 'Tp_Core_Init_Blocks' ) ) {
-			$load_enqueue = Tp_Core_Init_Blocks::get_instance();
+		if ( $this->get_caching_option() == 'separate' && !empty($in_footer) && class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
+			$load_enqueue = Tpgb_Core_Init_Blocks::get_instance();
 			
 			if ( !empty($load_enqueue) && is_callable( array( $load_enqueue, 'tpgb_compatibility_plugins' ) ) ) {
 				$load_enqueue->tpgb_compatibility_plugins();
@@ -2075,8 +2075,8 @@ Class Tpgb_Library {
 							$this->localize = $load_localize;
 							$this->load_localize_data( $load_localize );
 						}
-						if ( class_exists( 'Tp_Core_Init_Blocks' ) ) {
-							$load_init = Tp_Core_Init_Blocks::get_instance();
+						if ( class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
+							$load_init = Tpgb_Core_Init_Blocks::get_instance();
 							if ( !empty($load_init) && is_callable( array( $load_init, 'enqueue_post_css' ) ) ) {
 								$load_init->enqueue_post_css( $post_id, [] );
 							}
@@ -2219,8 +2219,8 @@ Class Tpgb_Library {
 				$post_obj->tpgb_post_block_css($type, $dynamic_id);
 				
 				if(isset($post_obj->transient_blocks) && !empty($post_obj->transient_blocks)){
-					if(class_exists('Tp_Core_Init_Blocks')){
-						$tp_core = Tp_Core_Init_Blocks::get_instance();
+					if(class_exists('Tpgb_Core_Init_Blocks')){
+						$tp_core = Tpgb_Core_Init_Blocks::get_instance();
 						$tp_core->make_block_css_by_post_id($dynamic_id);
 					}
 					$post_obj->enqueue_scripts( $this->dependency );
@@ -2364,8 +2364,8 @@ Class Tpgb_Library {
 
 		}
 		if( !empty($global_css) && isset($global_css['font_link']) && !empty($global_css['font_link']) ){
-			if ( class_exists( 'Tp_Core_Init_Blocks' ) ) {
-				$Tp_Core = Tp_Core_Init_Blocks::get_instance();
+			if ( class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
+				$Tp_Core = Tpgb_Core_Init_Blocks::get_instance();
 				$Tp_Core->tpgb_load_google_fonts( 'global', $global_css['font_link']);
 			}
 		}
@@ -2599,10 +2599,10 @@ Class Tpgb_Library {
         if (!is_dir($path_url) || !file_exists($path_url)) {
             return;
         }
-		if(get_option('tpgb_backend_cache_at') === false){
-			add_option('tpgb_backend_cache_at', strtotime('now'),false);
-		}else{
-			update_option('tpgb_backend_cache_at', strtotime('now'),false);
+		if (get_option('tpgb_backend_cache_at') === false) {
+			add_option('tpgb_backend_cache_at', strtotime('now'), '', 'no');
+		} else {
+			update_option('tpgb_backend_cache_at', strtotime('now'));
 		}
         foreach (scandir($path_url) as $item) {
             if ($item == '.' || $item == '..') {
@@ -2627,10 +2627,10 @@ Class Tpgb_Library {
 		if(file_exists(TPGB_ASSET_PATH . '/theplus.min.js')){
 			unlink($this->secure_path_url(TPGB_ASSET_PATH . DIRECTORY_SEPARATOR . '/theplus.min.js'));
 		}
-		if(get_option('tpgb_backend_cache_at') === false){
-			add_option('tpgb_backend_cache_at', strtotime('now'),false);
-		}else{
-			update_option('tpgb_backend_cache_at', strtotime('now'),false);
+		if (get_option('tpgb_backend_cache_at') === false) {
+			add_option('tpgb_backend_cache_at', strtotime('now'), '', 'no');
+		} else {
+			update_option('tpgb_backend_cache_at', strtotime('now'));
 		}
     }
 	
@@ -2805,8 +2805,8 @@ Class Tpgb_Library {
 				if(!empty($matches) && array_key_exists( 2, $matches ) && has_shortcode( $block_content, $matches[2][0] )){
 					$attrs=shortcode_parse_atts($matches[3][0]);
 					if(!empty($attrs) && isset($attrs['id']) && !empty($attrs['id'])){
-						if ( class_exists( 'Tp_Core_Init_Blocks' ) ) {
-							$css_file = Tp_Core_Init_Blocks::get_instance();
+						if ( class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
+							$css_file = Tpgb_Core_Init_Blocks::get_instance();
 							if ( !empty($css_file) && is_callable( array( $css_file, 'enqueue_post_css' ) ) ) {
 								$css_file->enqueue_post_css( $attrs['id'] );
 							}
@@ -2835,8 +2835,8 @@ Class Tpgb_Library {
 							$ref_id = $match[1];
 							$newContent = $this->plus_do_block($ref_id);
 							
-							if (class_exists('Tp_Core_Init_Blocks')) {
-								$css_file = Tp_Core_Init_Blocks::get_instance();
+							if (class_exists('Tpgb_Core_Init_Blocks')) {
+								$css_file = Tpgb_Core_Init_Blocks::get_instance();
 								if (!empty($css_file) && is_callable([$css_file, 'enqueue_post_css'])) {
 									$css_file->enqueue_post_css($ref_id);
 								}
@@ -2858,8 +2858,8 @@ Class Tpgb_Library {
 								$this->plus_template_blocks[] = $ref_id;
 								$this->plus_do_block($ref_id);
 								
-								if (class_exists('Tp_Core_Init_Blocks')) {
-									$css_file = Tp_Core_Init_Blocks::get_instance();
+								if (class_exists('Tpgb_Core_Init_Blocks')) {
+									$css_file = Tpgb_Core_Init_Blocks::get_instance();
 									if (!empty($css_file) && is_callable([$css_file, 'enqueue_post_css'])) {
 										$css_file->enqueue_post_css($ref_id);
 									}
@@ -3007,8 +3007,8 @@ Class Tpgb_Library {
 
 		$maybe_wpa_helper_id = apply_filters( 'wpv_filter_wpv_get_wpa_helper_post', $wpa_id );
 
-		if ( !empty($maybe_wpa_helper_id) && class_exists( 'Tp_Core_Init_Blocks' ) ) {
-			$load_enqueue = Tp_Core_Init_Blocks::get_instance();
+		if ( !empty($maybe_wpa_helper_id) && class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
+			$load_enqueue = Tpgb_Core_Init_Blocks::get_instance();
 			
 			if ( !empty($load_enqueue) && is_callable( array( $load_enqueue, 'enqueue_post_css' ) ) ) {
 				$load_enqueue->enqueue_post_css( $maybe_wpa_helper_id );
@@ -3033,8 +3033,8 @@ Class Tpgb_Library {
 			return;
 		}
 
-		if ( !empty($maybe_ct_selected) && class_exists( 'Tp_Core_Init_Blocks' ) ) {
-			$load_enqueue = Tp_Core_Init_Blocks::get_instance();
+		if ( !empty($maybe_ct_selected) && class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
+			$load_enqueue = Tpgb_Core_Init_Blocks::get_instance();
 			
 			if ( !empty($load_enqueue) && is_callable( array( $load_enqueue, 'enqueue_post_css' ) ) ) {
 				$load_enqueue->enqueue_post_css( $maybe_ct_selected );

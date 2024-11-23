@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( ! class_exists( 'Tpag_Resuable_Shortcode' ) ) {
+if ( ! class_exists( 'Tpgb_Resuable_Shortcode' ) ) {
 
-	class Tpag_Resuable_Shortcode {
+	class Tpgb_Resuable_Shortcode {
 		
 		const TPGB_SHORTCODE = 'tpgb-reusable'; //Patterns Blocks
 		
@@ -417,4 +417,4 @@ if ( ! class_exists( 'Tpag_Resuable_Shortcode' ) ) {
 	}
 }
 
-Tpag_Resuable_Shortcode::get_instance();
+Tpgb_Resuable_Shortcode::get_instance();

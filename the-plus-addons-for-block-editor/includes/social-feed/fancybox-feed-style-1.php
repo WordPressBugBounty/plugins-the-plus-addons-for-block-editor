@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
-<div class="tpgb-block-<?php echo esc_attr($block_id); ?> fancybox-si fancy-<?php echo esc_attr($FancyStyle); ?>" id="Fancy-<?php echo esc_attr($PopupSylNum); ?>" data-FancyFeedType="<?php echo $selectFeed ?>" >
+<div class="tpgb-block-<?php echo esc_attr($block_id); ?> fancybox-si fancy-<?php echo esc_attr($FancyStyle); ?>" id="Fancy-<?php echo esc_attr($PopupSylNum); ?>" data-FancyFeedType="<?php echo esc_attr($selectFeed) ?>" >
 
     <?php
         include TPGB_INCLUDES_URL."social-feed/fancybox-feed-post.php";

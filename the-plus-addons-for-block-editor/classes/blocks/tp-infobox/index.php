@@ -309,7 +309,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 			}
 			$output .= '<div class="post-loop-inner splide__track">';
 				$output .= '<div class="splide__list">';
-					$output .= getCInfobox($attributes);
+					$output .= tpgb_getCInfobox($attributes);
 				$output .= '</div>';
 			$output .= '</div>';
 		}else{
@@ -375,7 +375,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
     return $output;
 }
 
-function getCInfobox($attributes){
+function tpgb_getCInfobox($attributes){
 	$styleType = (!empty($attributes['styleType'])) ? $attributes['styleType'] : 'style-1';
 	$iboxcarousel = (!empty($attributes['iboxcarousel'])) ? $attributes['iboxcarousel'] : [];
 	$carouselBtn = (!empty($attributes['carouselBtn'])) ? $attributes['carouselBtn'] : false;

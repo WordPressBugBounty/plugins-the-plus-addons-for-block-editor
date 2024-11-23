@@ -4,12 +4,12 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 4.0.5
+Stable tag: 4.0.7
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
-Best WordPress 90+ Gutenberg Blocks with 1000+ Ready to Use WordPress Pages & Sections Templates. With Most Advanced Customization & Unique Features.
+WordPress 90+ Gutenberg Blocks with 1000+ Ready to Use WordPress Pages & Sections Templates. With Most Advanced Customization & Unique Features.
 
 == Description ==
 
@@ -387,7 +387,6 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 * <strong> [ Image Gallery](https://nexterwp.com/nexter-blocks/listing/wordpress-image-gallery/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
 
 
-## Best Alternative for Kadence Blocks, Spectra Blocks, Stackable Blocks, Otter Blocks, Stackable, Essential Blocks, Ultimate Blocks, PostX, Gutenverse, Greenshift, Getwid Blocks, PublishPress, Qi Blocks, Gutentor, Genesis, Gutenbee, GutenKit, Premium Blocks, Qubely, Gutenify
 
 ###🔍 OUR PRODUCTS
 
@@ -477,7 +476,38 @@ Thank you so much for showing interest in shaping the features of Nexter Blocks.
 11. Real-time Live Ajax Search for Blogs, Woo Products, Dynamic Listing & Filters
 12. Go Limitedness with Nexter WordPress Gutenberg Blocks
 
+== External services ==
+
+This plugin relies on external services to provide enhanced features and functionalities. Below is a list of the external services used, along with the details of their usage, the data transmitted, and links to their respective terms of service and privacy policies.
+
+1. Instagram Embedded Content
+Purpose: Embeds Instagram content in the plugin blocks.
+Data Sent: None from the user. The plugin loads the Instagram embedding script (//www.instagram.com/embed.js) to display content.
+Privacy Policy & Terms: Instagram [Privacy Policy](https://privacycenter.instagram.com/policy) | [Terms of Use](https://help.instagram.com/581066165581870)
+2. Facebook SDK and Embedded Content
+Purpose: Integrates Facebook SDK for sharing and embeds Facebook content in plugin blocks.
+Data Sent: None from the user. The plugin requests the Facebook SDK (https://connect.facebook.net/en_US/sdk.js) and embed scripts for sharing or displaying posts.
+Privacy Policy & Terms: Facebook [Privacy Policy](https://www.facebook.com/privacy/policy/) | [Terms of Service](https://www.facebook.com/terms.php)
+3. Google Maps API
+Purpose: Displays Google Maps for various plugin functionalities, such as embedding maps or getting directions.
+Data Sent: Google Maps API key provided by the user during setup.
+Privacy Policy & Terms: Google [Privacy Policy](https://maps.google.com/intl/en-US/policies/privacy/archive/20171002/) | [Google Maps Terms](https://cloud.google.com/maps-platform/terms)
+4. Vimeo Embedded Content
+Purpose: Embeds Vimeo videos in the plugin blocks.
+Data Sent: None from the user. The plugin loads Vimeo's embed script (https://player.vimeo.com/video/{video_id}).
+Privacy Policy & Terms: Vimeo [Privacy Policy](https://vimeo.com/privacy) | [Terms of Service](https://vimeo.com/terms)
+5. ThePlus Addons API
+Purpose: Connects to theplusaddons.com to fetch templates and social review data.
+Data Sent: Minimal anonymous data (e.g., timestamp for caching).
+Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
+
 == Changelog ==
+= 4.0.7 = 22 November 2024
+- Fixed : Minor Bug Fixes and Improvements.
+
+= 4.0.6 = 22 November 2024
+- Fixed : Minor Bug Fixes and Improvements.
+
 = 4.0.5 = 19 November 2024
 - Compatibility : WordPress 6.7
 - Fixed : Hover Card : Sanitize bug Fix.

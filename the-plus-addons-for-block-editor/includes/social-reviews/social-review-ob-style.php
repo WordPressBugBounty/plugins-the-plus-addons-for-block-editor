@@ -1,5 +1,7 @@
 <?php 
-	 $Description_HTML='';
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+    
+	$Description_HTML='';
     ob_start();
         echo '<div class="tpgb-sr-content tpgb-trans-linear">';
             include TPGB_INCLUDES_URL. "social-reviews/social-review-showmore.php";

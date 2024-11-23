@@ -11,13 +11,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         }
 
         if(!empty($Massage)){
-            echo $Massage_html;
+            echo wp_kses_post($Massage_html);
         }
         
         if(!empty($Description)){ 
             include TPGB_INCLUDES_URL."social-feed/feed-Description.php";  
         }       
-            echo $Header_html;
+            echo wp_kses_post($Header_html);
 
             include TPGB_INCLUDES_URL."social-feed/feed-footer.php"; 
     ?>

@@ -165,7 +165,7 @@ class csstidy_print {
 		}
 
 		if ($this->parser->get_cfg('timestamp')) {
-			array_unshift($this->tokens, array(COMMENT, ' CSSTidy ' . $this->parser->version . ': ' . date('r') . ' '));
+			array_unshift($this->tokens, array(TPGB_COMMENT, ' CSSTidy ' . $this->parser->version . ': ' . date('r') . ' '));
 		}
 
 		if (!empty($this->charset)) {
@@ -202,7 +202,7 @@ class csstidy_print {
 
 		foreach ($this->tokens as $key => $token) {
 			switch ($token[0]) {
-				case AT_START:
+				case TPGB_AT_START:
 					$out .= $template[0] . $this->_htmlsp($token[1], $plain) . $template[1];
 					$indent_level++;
 					if (!isset($in_at_out[$indent_level])) {
@@ -211,14 +211,14 @@ class csstidy_print {
 					$out = & $in_at_out[$indent_level];
 					break;
 
-				case SEL_START:
+				case TPGB_SEL_START:
 					if ($this->parser->get_cfg('lowercase_s'))
 						$token[1] = strtolower($token[1]);
 					$out .= ( $token[1][0] !== '@') ? $template[2] . $this->_htmlsp($token[1], $plain) : $template[0] . $this->_htmlsp($token[1], $plain);
 					$out .= $template[3];
 					break;
 
-				case PROPERTY:
+				case TPGB_PROPERTY:
 					if ($this->parser->get_cfg('case_properties') === 2) {
 						$token[1] = strtoupper($token[1]);
 					} elseif ($this->parser->get_cfg('case_properties') === 1) {
@@ -227,22 +227,22 @@ class csstidy_print {
 					$out .= $template[4] . $this->_htmlsp($token[1], $plain) . ':' . $template[5];
 					break;
 
-				case VALUE:
+				case TPGB_VALUE:
 					$out .= $this->_htmlsp($token[1], $plain);
-					if ($this->_seeknocomment($key, 1) == SEL_END && $this->parser->get_cfg('remove_last_;')) {
+					if ($this->_seeknocomment($key, 1) == TPGB_SEL_END && $this->parser->get_cfg('remove_last_;')) {
 						$out .= str_replace(';', '', $template[6]);
 					} else {
 						$out .= $template[6];
 					}
 					break;
 
-				case SEL_END:
+				case TPGB_SEL_END:
 					$out .= $template[7];
-					if ($this->_seeknocomment($key, 1) != AT_END)
+					if ($this->_seeknocomment($key, 1) != TPGB_AT_END)
 						$out .= $template[8];
 					break;
 
-				case AT_END:
+				case TPGB_AT_END:
 					if (strlen($template[10])) {
 						// indent the bloc we are closing
 						$out = str_replace("\n\n", "\r\n", $out); // don't fill empty lines
@@ -255,7 +255,7 @@ class csstidy_print {
 						$out = & $output;
 					}
 					$out .= $template[10] . $in_at_out[$indent_level];
-					if ($this->_seeknocomment($key, 1) != AT_END) {
+					if ($this->_seeknocomment($key, 1) != TPGB_AT_END) {
 						$out .= $template[9];
 					} else {
 						$out .= rtrim($template[9]);
@@ -265,8 +265,8 @@ class csstidy_print {
 					$indent_level--;
 					break;
 
-				case IMPORTANT_COMMENT:
-				case COMMENT:
+				case TPGB_IMPORTANT_COMMENT:
+				case TPGB_COMMENT:
 					$out .= $template[11] . '/*' . $this->_htmlsp($token[1], $plain) . '*/' . $template[12];
 					break;
 			}
@@ -297,7 +297,7 @@ class csstidy_print {
 			if (!isset($this->tokens[$i])) {
 				return;
 			}
-			if ($this->tokens[$i][0] == COMMENT) {
+			if ($this->tokens[$i][0] == TPGB_COMMENT) {
 				$move += 1;
 				continue;
 			}
@@ -318,29 +318,29 @@ class csstidy_print {
 
 		// important comment section ?
 		if (isset($this->css['!'])) {
-			$this->parser->_add_token(IMPORTANT_COMMENT, rtrim($this->css['!']), true);
+			$this->parser->_add_token(TPGB_IMPORTANT_COMMENT, rtrim($this->css['!']), true);
 			unset($this->css['!']);
 		}
 
 		foreach ($this->css as $medium => $val) {
 			if ($sort_selectors)
 				ksort($val);
-			if (intval($medium) < DEFAULT_AT) {
+			if (intval($medium) < TPGB_DEFAULT_AT) {
 				// un medium vide (contenant @font-face ou autre @) ne produit aucun conteneur
 				if (strlen(trim($medium))) {
 					$parts_to_open = explode('{', $medium);
 					foreach ($parts_to_open as $part) {
-						$this->parser->_add_token(AT_START, $part, true);
+						$this->parser->_add_token(TPGB_AT_START, $part, true);
 					}
 				}
 			} elseif ($default_media) {
-				$this->parser->_add_token(AT_START, $default_media, true);
+				$this->parser->_add_token(TPGB_AT_START, $default_media, true);
 			}
 
 			foreach ($val as $selector => $vali) {
 				if ($sort_properties)
 					ksort($vali);
-				$this->parser->_add_token(SEL_START, $selector, true);
+				$this->parser->_add_token(TPGB_SEL_START, $selector, true);
 
 				$invalid = array(
 					'*' => array(), // IE7 hacks first
@@ -354,30 +354,30 @@ class csstidy_print {
 						if ($sort_properties && preg_match('/^(\*|_|\/|-)(?!(ms|moz|o\b|xv|atsc|wap|khtml|webkit|ah|hp|ro|rim|tc)-)/', $property, $matches)) {
 							$invalid[$matches[1]][$property] = $valj;
 						} else {
-							$this->parser->_add_token(PROPERTY, $property, true);
-							$this->parser->_add_token(VALUE, $valj, true);
+							$this->parser->_add_token(TPGB_PROPERTY, $property, true);
+							$this->parser->_add_token(TPGB_VALUE, $valj, true);
 						}
 					}
 				}
 				foreach ($invalid as $prefix => $props) {
 					foreach ($props as $property => $valj) {
-						$this->parser->_add_token(PROPERTY, $property, true);
-						$this->parser->_add_token(VALUE, $valj, true);
+						$this->parser->_add_token(TPGB_PROPERTY, $property, true);
+						$this->parser->_add_token(TPGB_VALUE, $valj, true);
 					}
 				}
-				$this->parser->_add_token(SEL_END, $selector, true);
+				$this->parser->_add_token(TPGB_SEL_END, $selector, true);
 			}
 
-			if (intval($medium) < DEFAULT_AT) {
+			if (intval($medium) < TPGB_DEFAULT_AT) {
 				// un medium vide (contenant @font-face ou autre @) ne produit aucun conteneur
 				if (strlen(trim($medium))) {
 					$parts_to_close = explode('{', $medium);
 					foreach (array_reverse($parts_to_close) as $part) {
-						$this->parser->_add_token(AT_END, $part, true);
+						$this->parser->_add_token(TPGB_AT_END, $part, true);
 					}
 				}
 			} elseif ($default_media) {
-				$this->parser->_add_token(AT_END, $default_media, true);
+				$this->parser->_add_token(TPGB_AT_END, $default_media, true);
 			}
 		}
 	}

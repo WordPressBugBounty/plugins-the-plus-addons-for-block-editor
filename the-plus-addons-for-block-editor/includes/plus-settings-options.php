@@ -463,10 +463,10 @@ class Tpgb_Gutenberg_Settings_Options {
 				else{
 					$update_value = array('enable_normal_blocks' => '');
 					if(isset($_POST['enable_normal_blocks']) && !empty($_POST['enable_normal_blocks'])){
-						$blockList = json_decode(stripslashes( $_POST['enable_normal_blocks'] ),true);
-						
+						$blockList = map_deep(wp_unslash(json_decode(stripslashes($_POST['enable_normal_blocks']), true)), 'sanitize_text_field');
+
 						if(is_array($blockList)){
-							$update_value = array('enable_normal_blocks' => map_deep( wp_unslash( $blockList ), 'sanitize_text_field' ));
+							$update_value = array('enable_normal_blocks' => $blockList );
 						}else{
 							$update_value = array('enable_normal_blocks' => sanitize_text_field($blockList) );
 						}
@@ -474,9 +474,10 @@ class Tpgb_Gutenberg_Settings_Options {
 					
 					$update_extra_val = array('tp_extra_option' => '');
 					if(isset($_POST['tp_extra_option']) && !empty($_POST['tp_extra_option'])){
-						$extraList = json_decode(stripslashes( $_POST['tp_extra_option'] ),true);
+						$extraList = map_deep(wp_unslash(json_decode(stripslashes($_POST['tp_extra_option']), true)), 'sanitize_text_field');
+    
 						if(is_array($extraList)){
-							$update_extra_val = array('tp_extra_option' => map_deep( wp_unslash( $extraList ), 'sanitize_text_field' ));
+							$update_extra_val = array('tp_extra_option' =>  $extraList);
 						}else{
 							$update_extra_val = array('tp_extra_option' => sanitize_text_field($extraList) );
 						}
@@ -507,12 +508,12 @@ class Tpgb_Gutenberg_Settings_Options {
 			if ( ! isset( $_POST['nonce_tpgb_connection_data'] ) || ! wp_verify_nonce( sanitize_key($_POST['nonce_tpgb_connection_data']), 'tpgb-dash-ajax-nonce' ) ) {
 				wp_redirect( esc_url(admin_url('admin.php?page='.$action_page)) );
 			} else {
-				$getArr = $_POST;
+				$getArr = array_map('sanitize_text_field', $_POST);
 				unset($getArr['nonce_tpgb_connection_data']);
 				unset($getArr['_wp_http_referer']);
 				unset($getArr['action']);
 				unset($getArr['submit-key']);
-				
+
 				$getArr = json_decode(stripslashes( $getArr['tpgb_connection_data'] ),true);
 				if ( FALSE === get_option($action_page) ){
 					$added = add_option($action_page,$getArr);
@@ -1441,7 +1442,11 @@ class Tpgb_Gutenberg_Settings_Options {
 	 * @since 1.3.1
 	 */
 	public function tpgb_is_block_used_not_fun(){
-		if( defined('DOING_AJAX') && DOING_AJAX && isset( $_POST['nonce'] ) && !empty($_POST['nonce']) && wp_verify_nonce( $_POST['nonce'], 'tpgb-dash-ajax-nonce' ) ){
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && 
+			isset( $_POST['nonce'] ) && 
+			!empty( $_POST['nonce'] ) && 
+			wp_verify_nonce( sanitize_text_field( wp_unslash ($_POST['nonce']) ), 'tpgb-dash-ajax-nonce' ) 
+		) {
 			global $wpdb;
 			$block_scan =[];
 			
@@ -1449,11 +1454,14 @@ class Tpgb_Gutenberg_Settings_Options {
 				$this->block_listout();
 				if(!empty($this->block_lists)){
 					foreach($this->block_lists as $key => $block){
-						$found_in_posts = $wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_status IN ( {$this->get_post_statuses_sql()} ) AND post_content LIKE '%<!-- wp:tpgb/" . $key . "%' LIMIT 1");
+						$sql_posts = $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_status IN ( {$this->get_post_statuses_sql()} ) AND post_content LIKE %s LIMIT 1", '%<!-- wp:tpgb/' . $wpdb->esc_like($key) . '%' );
+                        $found_in_posts = $wpdb->get_var($sql_posts);
 						
 						$block_scan[$key]= $found_in_posts ? 1 : 0;
 						if( ! $found_in_posts ){
-							$found_in_widgets = $wpdb->get_var("SELECT option_id FROM {$wpdb->options} WHERE option_name = 'widget_block' AND option_value LIKE '%<!-- wp:tpgb/" . $key . "%' LIMIT 1");
+							$sql_widgets = $wpdb->prepare( "SELECT option_id FROM {$wpdb->options} WHERE option_name = %s AND option_value LIKE %s LIMIT 1", 'widget_block','%<!-- wp:tpgb/' . $wpdb->esc_like($key) . '%');
+                            $found_in_widgets = $wpdb->get_var($sql_widgets);
+							
 							$block_scan[$key]= $found_in_widgets ? 1 : 0;
 						}
 					}
@@ -1467,11 +1475,13 @@ class Tpgb_Gutenberg_Settings_Options {
 								$core_key = str_replace( 'core/', '', $key );
 								$core_key = esc_sql( $core_key );
 								$pass_key = str_replace( 'core/', 'core-', $key );
-								$found_in_posts = $wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_status IN ( {$this->get_post_statuses_sql()} ) AND post_content LIKE '%<!-- wp:" . $core_key . "%' LIMIT 1");
-						
+								$sql_posts = $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_status IN ( {$this->get_post_statuses_sql()} ) AND post_content LIKE %s LIMIT 1", '%<!-- wp:' . $wpdb->esc_like($core_key) . '%');
+                                $found_in_posts = $wpdb->get_var($sql_posts);
+								
 								$block_scan[$pass_key]= $found_in_posts ? 1 : 0;
 								if( ! $found_in_posts ){
-									$found_in_widgets = $wpdb->get_var("SELECT option_id FROM {$wpdb->options} WHERE option_name = 'widget_block' AND option_value LIKE '%<!-- wp:" . $core_key . "%' LIMIT 1");
+									$sql_widgets = $wpdb->prepare( "SELECT option_id FROM {$wpdb->options} WHERE option_name = %s AND option_value LIKE %s LIMIT 1", 'widget_block', '%<!-- wp:' . $wpdb->esc_like($core_key) .'%' );
+                                    $found_in_widgets = $wpdb->get_var($sql_widgets);
 									$block_scan[$pass_key]= $found_in_widgets ? 1 : 0;
 								}
 							}
@@ -1490,20 +1500,22 @@ class Tpgb_Gutenberg_Settings_Options {
 	 * @since 1.4.4
 	 */
 	public function tpgb_disable_unsed_block_fun(){
-		if( defined('DOING_AJAX') && DOING_AJAX && isset( $_POST['nonce'] ) && !empty($_POST['nonce']) && wp_verify_nonce( $_POST['nonce'], 'tpgb-dash-ajax-nonce') ){
+		if( defined('DOING_AJAX') && DOING_AJAX && isset( $_POST['nonce'] ) && !empty($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash ($_POST['nonce'] ) ), 'tpgb-dash-ajax-nonce') ){
 			
 			if(!isset($_POST['blocks']) || empty($_POST['blocks'])){
 				echo 0;
 				exit;
 			}
-			if(isset($_POST['default_block']) && $_POST['default_block']!='' && $_POST['default_block']=='false'){
-				$blocks = json_decode(stripslashes($_POST['blocks']),true);
+			$default_block = (isset($_POST['default_block']) && $_POST['default_block']!='') ? sanitize_text_field( wp_unslash ($_POST['default_block'] ) ) : '';
+			if(isset($default_block) && $default_block!='' && $default_block=='false'){
+				$blocks = map_deep(wp_unslash(json_decode(stripslashes($_POST['blocks']), true)), 'sanitize_text_field');
+				
 				$action_page = 'tpgb_normal_blocks_opts';
 				$all_block = get_option($action_page);
 				$update_block = [];
 				if(is_array($blocks)){
 					foreach($blocks as $key => $val){
-						if($val===1){
+						if($val==1){
 							$update_block[] = $key;
 						}
 					}

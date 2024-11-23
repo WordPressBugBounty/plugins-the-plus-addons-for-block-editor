@@ -2103,28 +2103,25 @@ function tpgb_FacebookFeed($social,$attr){
 	return $FbArr;
 }
 
-function tpgb_api_call($API,$SSL){
-	$CURLOPT_SSL_VERIFYPEER = $SSL;
-	$curl = curl_init();
-			curl_setopt_array($curl, array(
-				CURLOPT_URL => $API,
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => '',
-				CURLOPT_MAXREDIRS => 10,
-				CURLOPT_TIMEOUT => 0,
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_CUSTOMREQUEST => 'GET',
-				CURLOPT_SSL_VERIFYPEER => $CURLOPT_SSL_VERIFYPEER
-			));
-	$response = json_decode(curl_exec($curl),true);
-	$statuscode = array("HTTP_CODE"=>curl_getinfo($curl, CURLINFO_HTTP_CODE));
-	
+function tpgb_api_call( $API, $SSL = true ){
 	$Final=[];
-	if(is_array($statuscode) && is_array($response)){
-		$Final = array_merge($statuscode,$response);
+
+	$args = array(
+        'method'  => 'GET',
+        'timeout' => 30,
+        'sslverify' => $SSL,
+    );
+
+	$URL = wp_remote_get($API, $args);
+	
+	$status_code = wp_remote_retrieve_response_code($URL);
+	$body = wp_remote_retrieve_body($URL);
+	$status_code = array( "HTTP_CODE" => $status_code );
+
+	$Response = json_decode($body, true);
+	if( is_array($status_code) && is_array($Response) ){
+		$Final = array_merge($status_code, $Response);
 	}
-	curl_close($curl);
 	return $Final;
 }
 

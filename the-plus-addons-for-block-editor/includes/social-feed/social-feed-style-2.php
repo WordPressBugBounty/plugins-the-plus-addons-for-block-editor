@@ -5,10 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
     <?php 
         include TPGB_INCLUDES_URL."social-feed/social-feed-ob-style.php";
-            echo $Header_html;
+            echo wp_kses_post($Header_html);
         
         if(!empty($Massage)){
-            echo $Massage_html;
+            echo wp_kses_post($Massage_html);
         }
         
         if(!empty($Description) && empty($DescripBTM)){ 

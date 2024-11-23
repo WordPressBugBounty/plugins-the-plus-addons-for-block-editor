@@ -36,16 +36,16 @@ defined( 'ABSPATH' ) || exit;
  * Defines constants
  * @todo //TODO: make them class constants of csstidy
  */
-if(!defined('AT_END')){
-	define('AT_START',         1);
-	define('AT_END',           2);
-	define('SEL_START',        3);
-	define('SEL_END',          4);
-	define('PROPERTY',         5);
-	define('VALUE',            6);
-	define('COMMENT',          7);
-	define('IMPORTANT_COMMENT',8);
-	define('DEFAULT_AT',      41);
+if(!defined('TPGB_AT_END')){
+	define('TPGB_AT_START',         1);
+	define('TPGB_AT_END',           2);
+	define('TPGB_SEL_START',        3);
+	define('TPGB_SEL_END',          4);
+	define('TPGB_PROPERTY',         5);
+	define('TPGB_VALUE',            6);
+	define('TPGB_COMMENT',          7);
+	define('TPGB_IMPORTANT_COMMENT',8);
+	define('TPGB_DEFAULT_AT',      41);
 }
 
 /**
@@ -397,15 +397,15 @@ class csstidy {
 	public function _add_token($type, $data, $do = false) {
 		if ($this->get_cfg('preserve_css') || $do) {
 			// nested @... : if opening a new part we just closed, remove the previous closing instead of adding opening
-			if ($type === AT_START
+			if ($type === TPGB_AT_START
 				and count($this->tokens)
 				and $last = end($this->tokens)
-				and $last[0] === AT_END
+				and $last[0] === TPGB_AT_END
 				and $last[1] === trim($data)) {
 				array_pop($this->tokens);
 			}
 			else {
-				$this->tokens[] = array($type, ($type == COMMENT or $type == IMPORTANT_COMMENT) ? $data : trim($data));
+				$this->tokens[] = array($type, ($type == TPGB_COMMENT or $type == TPGB_IMPORTANT_COMMENT) ? $data : trim($data));
 			}
 		}
 	}
@@ -611,7 +611,7 @@ class csstidy {
 						} elseif ($string[$i] === '{') {
 							$this->status = 'is';
 							$this->at = $this->css_new_media_section($this->at, $cur_at);
-							$this->_add_token(AT_START, $this->at);
+							$this->_add_token(TPGB_AT_START, $this->at);
 						} elseif ($string[$i] === ',') {
 							$cur_at = trim($cur_at) . ',';
 						} elseif ($string[$i] === '\\') {
@@ -643,7 +643,7 @@ class csstidy {
 								if (!strcasecmp(substr($string, $i + 1, strlen($name)), $name)) {
 									($type === 'at') ? $cur_at = '@' . $name : $this->selector = '@' . $name;
 									if ($type === 'atis') {
-										$this->next_selector_at = ($this->next_selector_at?$this->next_selector_at:($this->at?$this->at:DEFAULT_AT));
+										$this->next_selector_at = ($this->next_selector_at?$this->next_selector_at:($this->at?$this->at:TPGB_DEFAULT_AT));
 										$this->at = $this->css_new_media_section($this->at, ' ', true);
 										$type = 'is';
 									}
@@ -683,13 +683,13 @@ class csstidy {
 						} elseif ($string[$i] === '{') {
 							$this->status = 'ip';
 							if ($this->at == '') {
-								$this->at = $this->css_new_media_section($this->at, DEFAULT_AT);
+								$this->at = $this->css_new_media_section($this->at, TPGB_DEFAULT_AT);
 							}
 							$this->selector = $this->css_new_selector($this->at,$this->selector);
-							$this->_add_token(SEL_START, $this->selector);
+							$this->_add_token(TPGB_SEL_START, $this->selector);
 							$this->added = false;
 						} elseif ($string[$i] === '}') {
-							$this->_add_token(AT_END, $this->at);
+							$this->_add_token(TPGB_AT_END, $this->at);
 							$this->at = $this->css_close_media_section($this->at);
 							$this->selector = '';
 							$this->sel_separate = array();
@@ -718,7 +718,7 @@ class csstidy {
 							$this->status = 'iv';
 							if (!$this->get_cfg('discard_invalid_properties') || $this->property_is_valid($this->property)) {
 								$this->property = $this->css_new_property($this->at,$this->selector,$this->property);
-								$this->_add_token(PROPERTY, $this->property);
+								$this->_add_token(TPGB_PROPERTY, $this->property);
 							}
 						} elseif ($string[$i] === '/' && @$string[$i + 1] === '*' && $this->property == '') {
 							$this->status = 'ic';
@@ -728,7 +728,7 @@ class csstidy {
 							$this->explode_selectors();
 							$this->status = 'is';
 							$this->invalid_at = false;
-							$this->_add_token(SEL_END, $this->selector);
+							$this->_add_token(TPGB_SEL_END, $this->selector);
 							$this->selector = '';
 							$this->property = '';
 							if ($this->next_selector_at) {
@@ -798,7 +798,7 @@ class csstidy {
 						}
 						if (($string[$i] === '}' || $string[$i] === ';' || $pn) && !empty($this->selector)) {
 							if ($this->at == '') {
-								$this->at = $this->css_new_media_section($this->at,DEFAULT_AT);
+								$this->at = $this->css_new_media_section($this->at,TPGB_DEFAULT_AT);
 							}
 
 							// case settings
@@ -829,7 +829,7 @@ class csstidy {
 							$valid = $this->property_is_valid($this->property);
 							if ((!$this->invalid_at || $this->get_cfg('preserve_css')) && (!$this->get_cfg('discard_invalid_properties') || $valid)) {
 								$this->css_add_property($this->at, $this->selector, $this->property, $this->value);
-								$this->_add_token(VALUE, $this->value);
+								$this->_add_token(TPGB_VALUE, $this->value);
 								$this->optimise->shorthands();
 							}
 							if (!$valid) {
@@ -846,7 +846,7 @@ class csstidy {
 						}
 						if ($string[$i] === '}') {
 							$this->explode_selectors();
-							$this->_add_token(SEL_END, $this->selector);
+							$this->_add_token(TPGB_SEL_END, $this->selector);
 							$this->status = 'is';
 							$this->invalid_at = false;
 							$this->selector = '';
@@ -948,11 +948,11 @@ class csstidy {
 						$this->status = array_pop($this->from);
 						$i++;
 						if (strlen($cur_comment) > 1 and strncmp($cur_comment, '!', 1) === 0) {
-							$this->_add_token(IMPORTANT_COMMENT, $cur_comment);
+							$this->_add_token(TPGB_IMPORTANT_COMMENT, $cur_comment);
 							$this->css_add_important_comment($cur_comment);
 						}
 						else {
-							$this->_add_token(COMMENT, $cur_comment);
+							$this->_add_token(TPGB_COMMENT, $cur_comment);
 						}
 						$cur_comment = '';
 					} else {
@@ -1134,7 +1134,7 @@ class csstidy {
 		// if we already are in a media and CSS level is 3, manage nested medias
 		if ($current_media
 			&& !$at_root
-			// numeric $current_media means DEFAULT_AT or inc
+			// numeric $current_media means TPGB_DEFAULT_AT or inc
 			&& !is_numeric($current_media)
 			&& strncmp($this->get_cfg('css_level'), 'CSS3', 4) == 0) {
 

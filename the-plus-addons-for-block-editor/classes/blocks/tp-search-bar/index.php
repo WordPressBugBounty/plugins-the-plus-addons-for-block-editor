@@ -4206,7 +4206,8 @@ add_action( 'init', 'tpgb_search_bar' );
 
 //Get Html For Select Drop Down
 function tpgb_search($onLoadAttr = []){
-	$new_Post = (!empty($onLoadAttr)) ? $onLoadAttr : $_POST;
+	
+    $new_Post = map_deep(wp_unslash($_POST), 'sanitize_text_field');
 
 	$searchData=[];	
 	if(!empty($onLoadAttr)){
@@ -4849,21 +4850,23 @@ function tpgb_search_drop_down($data, $name, $id, $taxo, $repeater, $inputDis, $
 }
 
 
-function custom_search_filter($query) {
+function tpgb_custom_search_filter($query) {
     if ($query->is_search && !is_admin() && isset($_GET)) {
 		$tax_query = [];
 		$PostType = '';
 		if(isset($_GET['post_type']) && !empty($_GET['post_type'])){
-			$PostType = $_GET['post_type'];
+			$PostType = sanitize_text_field($_GET['post_type']);
 		}
 		foreach ($_GET as $key => $value) {
-			if (strpos($key, 'taxonomy_') !== false) {
-				$modifiedKey = str_replace('taxonomy_', '', $key);
+			$sanitizedKey = sanitize_text_field($key);
+			if (strpos($sanitizedKey, 'taxonomy_') !== false) {
+				$modifiedKey = str_replace('taxonomy_', '', $sanitizedKey);
 				if (isset($value) && !empty($value) ) {
+					$sanitizedValue = is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value);
 					$tax_query[] = [
 						'taxonomy' => $modifiedKey,
 						'field'    => 'term_id',
-						'terms'    => $value
+						'terms'    => $sanitizedValue
 					];
 				}
 				$taxonomy = get_taxonomy( $modifiedKey );
@@ -4871,7 +4874,7 @@ function custom_search_filter($query) {
 					$post_types = $taxonomy->object_type;
 					$PostType = $post_types[0];
 				}else if(!empty($_GET['post_type'])){
-					$PostType = $_GET['post_type'];
+					$PostType = sanitize_text_field($_GET['post_type']);
 				}else{
 					$PostType = 'any';
 				}
@@ -4887,4 +4890,4 @@ function custom_search_filter($query) {
     }
     return $query;
 }
-add_action('pre_get_posts', 'custom_search_filter');
+add_action('pre_get_posts', 'tpgb_custom_search_filter');

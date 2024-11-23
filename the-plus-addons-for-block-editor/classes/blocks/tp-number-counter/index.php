@@ -75,7 +75,7 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content) {
 		$startValue = (!empty($startValue) && class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($startValue) : $startValue;
 
 		$getCounterNo .= '<span class="counter-number-inner numscroller" data-min="'.esc_attr($startValue).'" data-max="'.esc_attr($numValue).'" data-delay="'.esc_attr($timeDelay).'" data-increment="'.esc_attr($numGap).'" data-numeration="'.esc_attr($numeration).'">';
-			$getCounterNo .= formatNumber($startValue, $numeration);
+			$getCounterNo .= tpgb_formatNumber($startValue, $numeration);
 		$getCounterNo .= '</span>';
 		if( (!empty($symbol) && $symbolPos=='after') || $symbolPos=='both' ){
 			$getCounterNo .= '<span class="counter-symbol-text">'.wp_kses_post($symbol).'</span>';
@@ -176,7 +176,7 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content) {
     return $output;
 }
 
-function formatNumber($number, $numeration) {
+function tpgb_formatNumber($number, $numeration) {
 	if($numeration == 'indian'){
 		$x = strval($number);
 		$lastThree = substr($x, -3);

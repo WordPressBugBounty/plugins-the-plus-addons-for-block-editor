@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     			}   
     		echo '</div>';
     		if( (!empty($socialIcon) && $style != "style-3") || (empty($ImageURL) && $style == "style-3") ){
-    			echo $Iconlogo;
+    			echo wp_kses_post($Iconlogo);
     		}
     	echo '</div>';
     $Header_html = ob_get_clean();

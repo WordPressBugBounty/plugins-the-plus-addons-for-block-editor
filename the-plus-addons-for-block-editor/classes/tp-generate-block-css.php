@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-class Tp_Generate_Blocks_Css {
+class Tpgb_Generate_Blocks_Css {
 	
 	/**
 	 * Member Variable

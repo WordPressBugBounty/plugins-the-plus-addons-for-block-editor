@@ -384,6 +384,10 @@ Class Tpgb_Get_Blocks {
 				$this->transient_blocks[] = 'tpgb-pagination';
 			}
 
+			if ($options['layout']=='metro') {
+                $this->transient_blocks[] = 'tpx-post-metro';
+            }
+
 			if(!empty($options) && !empty($options['style']) ){
 				$this->transient_blocks[] = 'tpx-post-listing-'.$options['style'];
 			}else{
@@ -570,10 +574,13 @@ Class Tpgb_Get_Blocks {
 
 		/*Stylist List*/
 		if($blockname=='tpgb/tp-stylist-list' && !empty($options)){
-			if( !empty($options['hoverInverseEffect']) ){
-				$this->transient_blocks[] = 'tpx-stylist-list-hover-inverse';
-			}
-		}
+            if( !empty($options['hover_bg_style']) ){
+                $this->transient_blocks[] = 'tpx-stylist-list-hover-bg';
+            }
+            if( !empty($options['hoverInverseEffect']) ){
+                $this->transient_blocks[] = 'tpx-stylist-list-hover-inverse';
+            }
+        }
 		
 		/*tabs tours*/
 		if($blockname=='tpgb/tp-tabs-tours' && !empty($options) && !empty($options['tabLayout']) && $options['tabLayout']=='vertical'){
@@ -611,6 +618,18 @@ Class Tpgb_Get_Blocks {
 		}
 		if(has_filter('tpgb_has_blocks_condition')) {
 			$this->transient_blocks = apply_filters('tpgb_has_blocks_condition', $this->transient_blocks, $options, $blockname );
+		}
+
+		/* Pricing Table */
+		if($blockname=='tpgb/tp-pricing-table'){
+			/* Content */
+			if( !empty($options) && !empty($options['contentStyle'])) {
+				$this->transient_blocks[] = 'tpx-pricing-table-content-'.$options['contentStyle'];
+			}
+			/* Ribbon */
+			if( !empty($options) && !empty($options['disRibbon'])) {
+				$this->transient_blocks[] = 'tpx-pricing-table-ribbon';
+			}
 		}
 
 		return $this->transient_blocks;

@@ -340,19 +340,37 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'classes/blocks/tp-testimonials/tp-testimonials-style-2.css',
 			],
 		],
+		'tpx-testimonials-style-3' => [
+			'css' => [
+				$tpgb_free .'classes/blocks/tp-testimonials/tp-testimonials-style-3.css',
+			],
+		],
 		'tpx-testimonials-scroll' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-testimonials/tp-testimonials-scroll.css',
 			],
 		],
 		TPGB_CATEGORY.'/tp-stylist-list' => [
-			'css' => [
-				$tpgb_free .'classes/blocks/tp-stylist-list/style.css',
-			],
-			'js' => [
-				$tpgb_free .'assets/js/main/stylist-list/tp-stylist-list.min.js',
-			],
-		],
+            'css' => [
+                $tpgb_free .'assets/css/extra/tippy.css',
+                $tpgb_free .'classes/blocks/tp-stylist-list/style.css',
+            ],
+            'js' => [
+                $tpgb_free .'assets/js/extra/popper.min.js',
+                $tpgb_free .'assets/js/extra/tippy.min.js',
+                $tpgb_free .'assets/js/main/stylist-list/tp-stylist-list.min.js',
+            ],
+        ],
+        'tpx-stylist-list-hover-bg' => [
+            'css' => [
+                $tpgb_free .'classes/blocks/tp-stylist-list/style-hover-bg.css',
+            ],
+        ],
+        'tpx-stylist-list-hover-inverse' => [
+            'css' => [
+                $tpgb_free .'classes/blocks/tp-stylist-list/style-hover-inverse.css',
+            ],
+        ],
 		'tpx-stylist-list-hover-inverse' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-stylist-list/style-hover-inverse.css',
@@ -512,6 +530,16 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'classes/blocks/tp-pricing-list/masking.css',
 			],
 		],
+		TPGB_CATEGORY.'/tp-navigation-builder' => [
+            'css' => [
+                $tpgb_free .'classes/blocks/tp-navigation-builder/style.css',
+            ],
+            'js' => [
+                $tpgb_free .'assets/js/main/common-created/tpgb-slidetoggle-block.min.js',
+                $tpgb_free .'assets/js/main/common-created/tpgb-fade-in-out.min.js',
+                $tpgb_free . 'assets/js/main/navigation-builder/tpgb-nav.min.js',
+            ],
+        ],
 		TPGB_CATEGORY.'/tp-number-counter' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-number-counter/style.css',
@@ -784,6 +812,15 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'classes/blocks/tp-social-reviews/review/style-3.css',
 			],
 		],
+		TPGB_CATEGORY.'/tp-switcher' => [
+			'css' => [
+				$tpgb_free .'classes/blocks/tp-switcher/style.css',
+			],
+			'js' => [
+				$tpgb_free . 'assets/js/main/switcher/tpgb-switcher.min.js',
+			],
+		],
+		TPGB_CATEGORY.'/tp-switch-inner' => [],
 		TPGB_CATEGORY.'/tp-post-title' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-post-title/style.css',
@@ -829,6 +866,14 @@ function tpgb_registered_blocks(){
 		'tpgb-pagination' => [
 			'css' => [
 				$tpgb_free .'assets/css/main/post-listing/tpgb-pagination.css',
+			],
+		],
+		'tpx-post-metro' => [
+			'css' => [
+				$tpgb_free .'classes/blocks/tp-post-listing/tp-post-metro.css',
+			],
+			'js' => [
+				$tpgb_free . 'assets/js/main/post-listing/post-metro.js',
 			],
 		],
 		TPGB_CATEGORY.'/tp-post-author' => [
@@ -899,6 +944,12 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'assets/js/main/smooth-scroll/tpgb-smooth-scroll.min.js',
 			],
 		],
+		TPGB_CATEGORY.'/tp-team-listing' => [
+            'css' => [
+                $tpgb_free .'classes/blocks/tp-team-listing/style.css',
+                $tpgb_free .'assets/css/extra/bootstrap-grid.min.css',
+            ],
+        ],
 		TPGB_CATEGORY.'/tp-social-embed' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-social-embed/style.css',
@@ -907,6 +958,19 @@ function tpgb_registered_blocks(){
 		TPGB_CATEGORY.'/tp-pricing-table' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-pricing-table/style.css',
+			],
+			'js'=>[
+				$tpgb_free . 'assets/js/main/pricing-table/tp-pricing-table.min.js',
+			]
+		],
+		'tpx-pricing-table-content-stylish' => [
+			'css' => [              
+				$tpgb_free .'classes/blocks/tp-pricing-table/content/stylish.css',
+			],
+		],
+		'tpx-pricing-table-ribbon' => [
+			'css' => [              
+				$tpgb_free .'classes/blocks/tp-pricing-table/ribbon/style.css',
 			],
 		],
 		'carouselSlider' => [
@@ -1196,6 +1260,7 @@ Class Tpgb_Library {
 			TPGB_CATEGORY.'/tp-infobox' => TPGB_CATEGORY.'/tp-infobox',
 			TPGB_CATEGORY.'/tp-interactive-circle-info' => TPGB_CATEGORY.'/tp-interactive-circle-info',
 			TPGB_CATEGORY.'/tp-messagebox' => TPGB_CATEGORY.'/tp-messagebox',
+			TPGB_CATEGORY.'/tp-navigation-builder' => TPGB_CATEGORY.'/tp-navigation-builder',
 			TPGB_CATEGORY.'/tp-number-counter' => TPGB_CATEGORY.'/tp-number-counter',
 			TPGB_CATEGORY.'/tp-pricing-list' => TPGB_CATEGORY.'/tp-pricing-list',
 			TPGB_CATEGORY.'/tp-pricing-table' => TPGB_CATEGORY.'/tp-pricing-table',
@@ -1210,6 +1275,7 @@ Class Tpgb_Library {
 			TPGB_CATEGORY.'/tp-social-reviews' => TPGB_CATEGORY.'/tp-social-reviews',
 			TPGB_CATEGORY.'/tp-tabs-tours' => TPGB_CATEGORY.'/tp-tabs-tours',
 			TPGB_CATEGORY.'/tp-tab-item' => TPGB_CATEGORY.'/tp-tab-item',
+			TPGB_CATEGORY.'/tp-team-listing' => TPGB_CATEGORY.'/tp-team-listing',
 			TPGB_CATEGORY.'/tp-testimonials' => TPGB_CATEGORY.'/tp-testimonials',
 			TPGB_CATEGORY.'/tp-video' => TPGB_CATEGORY.'/tp-video',
 			TPGB_CATEGORY.'/tp-post-title' => TPGB_CATEGORY.'/tp-post-title',
@@ -1222,6 +1288,8 @@ Class Tpgb_Library {
 			TPGB_CATEGORY.'/tp-site-logo' => TPGB_CATEGORY.'/tp-site-logo',
 			TPGB_CATEGORY.'/tp-smooth-scroll' => TPGB_CATEGORY.'/tp-smooth-scroll',
 			TPGB_CATEGORY.'/tp-social-embed' => TPGB_CATEGORY.'/tp-social-embed',
+			TPGB_CATEGORY.'/tp-switcher' => TPGB_CATEGORY.'/tp-switcher', 
+			TPGB_CATEGORY.'/tp-switch-inner' => TPGB_CATEGORY.'/tp-switch-inner',
 			TPGB_CATEGORY.'/tp-container' => TPGB_CATEGORY.'/tp-container',
 			TPGB_CATEGORY.'/tp-container-inner' => TPGB_CATEGORY.'/tp-container-inner',
 		];
@@ -2599,10 +2667,10 @@ Class Tpgb_Library {
         if (!is_dir($path_url) || !file_exists($path_url)) {
             return;
         }
-		if (get_option('tpgb_backend_cache_at') === false) {
-			add_option('tpgb_backend_cache_at', strtotime('now'), '', 'no');
-		} else {
-			update_option('tpgb_backend_cache_at', strtotime('now'));
+		if(get_option('tpgb_backend_cache_at') === false){
+			add_option('tpgb_backend_cache_at', strtotime('now'),false);
+		}else{
+			update_option('tpgb_backend_cache_at', strtotime('now'),false);
 		}
         foreach (scandir($path_url) as $item) {
             if ($item == '.' || $item == '..') {
@@ -2627,10 +2695,10 @@ Class Tpgb_Library {
 		if(file_exists(TPGB_ASSET_PATH . '/theplus.min.js')){
 			unlink($this->secure_path_url(TPGB_ASSET_PATH . DIRECTORY_SEPARATOR . '/theplus.min.js'));
 		}
-		if (get_option('tpgb_backend_cache_at') === false) {
-			add_option('tpgb_backend_cache_at', strtotime('now'), '', 'no');
-		} else {
-			update_option('tpgb_backend_cache_at', strtotime('now'));
+		if(get_option('tpgb_backend_cache_at') === false){
+			add_option('tpgb_backend_cache_at', strtotime('now'),false);
+		}else{
+			update_option('tpgb_backend_cache_at', strtotime('now'),false);
 		}
     }
 	

@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 4.0.7
+Stable tag: 4.0.8
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -502,6 +502,28 @@ Data Sent: Minimal anonymous data (e.g., timestamp for caching).
 Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
 
 == Changelog ==
+= 4.0.8 = 03 December 2024
+- Added : Navigation Builder : Add Repeater Base Navigation Menu
+- Added : Stylish List : Move to Pro to Free.
+- Added : Team Listing : Style 1 Added.
+- Added : Switcher : Style 1 Added.
+- Added : Post Listing : Metro Style Added.
+- Added : Testimonial : New Style Added With 2 Different layout.
+- Added : Pricing Table : Title Alignment Option Added.
+- Added : Pricing Table : Price Alignment Option Added.
+- Added : Pricing Table : Call to action Option Added.
+- Added : Pricing Table : Content Area Stylist list Option Added.
+- Added : Pricing Table : Content Area Stylist list Option Added.
+- Added : Pricing Table : Style-1 for Ribbon option Added 
+- Added : Accordion : Content Border & Border Radius Option Added.
+- Added : Tab Tours : Responsive Option Added.
+- Improvement : Deactivate Form Design & Functionality Improve.
+- Improvement : DashBoard Responsive View Improve.
+- Fixed : Draw SVG Load Bug Fix.
+- Fixed : Video Block Popup Bug Fix.
+- Fixed : More Translation strings updated, all need text domain.
+- Fixed : Minor Bug Fixes and Improvements.
+
 = 4.0.7 = 22 November 2024
 - Fixed : Minor Bug Fixes and Improvements.
 

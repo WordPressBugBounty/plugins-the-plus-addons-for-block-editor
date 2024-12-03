@@ -1,6 +1,6 @@
 /* CSS For Pricing Table
    Front End + Back End */
-.tpgb-pricing-table .pricing-table-button{
+   .tpgb-pricing-table .pricing-table-button{
 	text-align: center;
 }
 .tpgb-pricing-table-widget {
@@ -223,4 +223,15 @@
     background: #fff;
     border-color: #4f6df5;
     color: #4f6df5
+}
+/* cta */
+.tpgb-pricing-table .pricing-table-inner .pricing-cta-text {
+    text-align: center;
+    display: block;
+    font-size: 14px;
+    line-height: 1.2;
+    margin-bottom: 15px
+}
+.tpgb-pricing-table .tpgb-icon-list-items .tpgb-icon-list-item .tpgb-icon-list-icon{
+    margin-right: 8px;
 }

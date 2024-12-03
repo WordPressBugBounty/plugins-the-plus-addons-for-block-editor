@@ -1101,6 +1101,721 @@
       "type": "string",
       "default": "",
       "scopy": true
+    },
+    "titleAlign": {
+      "type": "object",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "title",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-title { text-align: {{titleAlign}}; }"
+        },
+        {
+          "condition": [
+            {
+              "key": "subTitle",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-subtitle { text-align: {{titleAlign}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "priceAlign": {
+      "type": "object",
+      "default": "",
+      "style": [
+        {
+          "selector": "{{PLUS_WRAP}} .pricing-price-wrap { text-align: {{priceAlign}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "ctaText": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaAlign": {
+      "type": "object",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "ctaText",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-cta-text { text-align: {{ctaAlign}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "ctaTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "ctaText",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-cta-text, {{PLUS_WRAP}} .pricing-table-inner .pricing-cta-text p"
+        }
+      ],
+      "scopy": true
+    },
+    "ctaColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "ctaText",
+              "relation": "!=",
+              "value": ""
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-cta-text, {{PLUS_WRAP}} .pricing-table-inner .pricing-cta-text p{ color: {{ctaColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "stylishList": {
+      "type": "array",
+      "repeaterField": [
+        {
+          "listDesc": {
+            "type": "string",
+            "default": "Feature 1"
+          },
+          "iconStore": {
+            "type": "string",
+            "default": "fas fa-plus"
+          },
+          "iconNmlColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} {{TP_REPEAT_ID}} .tpgb-icon-list-icon { color: {{iconNmlColor}}; }"
+              }
+            ]
+          },
+          "iconHvrColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover {{TP_REPEAT_ID}} .tpgb-icon-list-icon { color: {{iconHvrColor}}; }"
+              }
+            ]
+          },
+          "eIcnToggle": {
+            "type": "boolean",
+            "default": false
+          },
+          "eIconStore": {
+            "type": "string",
+            "default": "fas fa-question-circle"
+          },
+          "eIconNColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} {{TP_REPEAT_ID}} .tpgb-extra-list-icon { color: {{eIconNColor}}; }"
+              }
+            ]
+          },
+          "eIconHColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover {{TP_REPEAT_ID}} .tpgb-extra-list-icon { color: {{eIconHColor}}; }"
+              }
+            ]
+          }
+        }
+      ],
+      "default": [
+        {
+          "_key": "0",
+          "listDesc": "Feature 1",
+          "iconStore": "fas fa-check-circle",
+          "iconNmlColor": "",
+          "iconHvrColor": "",
+          "eIcnToggle": false,
+          "eIconStore": "fas fa-question-circle",
+          "eIconNColor": "",
+          "eIconHColor": ""
+        },
+        {
+          "_key": "1",
+          "listDesc": "Feature 2",
+          "iconStore": "fas fa-check-circle",
+          "iconNmlColor": "",
+          "iconHvrColor": "",
+          "eIcnToggle": false,
+          "eIconStore": "fas fa-question-circle",
+          "eIconNColor": "",
+          "eIconHColor": ""
+        },
+        {
+          "_key": "2",
+          "listDesc": "Feature 3",
+          "iconStore": "fas fa-check-circle",
+          "iconNmlColor": "",
+          "iconHvrColor": "",
+          "eIcnToggle": false,
+          "eIconStore": "fas fa-question-circle",
+          "eIconNColor": "",
+          "eIconHColor": ""
+        }
+      ]
+    },
+    "readMoreToggle": {
+      "type": "boolean",
+      "default": false
+    },
+    "showListToggle": {
+      "type": "string",
+      "default": "3"
+    },
+    "readMoreText": {
+      "type": "string",
+      "default": "+ Show all options"
+    },
+    "readLessText": {
+      "type": "string",
+      "default": "- Less options"
+    },
+    "tipOffset": {
+      "type": "string",
+      "default": "",
+      "scopy": true
+    },
+    "ribbonStyle": {
+      "type": "string",
+      "default": "style-1"
+    },
+    "ribbonText": {
+      "type": "string",
+      "default": "Recommended"
+    },
+    "toggleIndent": {
+      "type": "object",
+      "default": {
+        "md": 0
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "readMoreToggle",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .listing-content.style-1 a.read-more-options{margin-top: {{toggleIndent}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "toggleHoverColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "readMoreToggle",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .listing-content.style-1 a.read-more-options:hover{color: {{toggleHoverColor}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "toggleNormalColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "readMoreToggle",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .listing-content.style-1 a.read-more-options{color: {{toggleNormalColor}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "toggleTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "readMoreToggle",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .listing-content.style-1 a.read-more-options"
+        }
+      ],
+      "scopy": true
+    },
+    "listBColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            },
+            {
+              "key": "conListStyle",
+              "relation": "==",
+              "value": "style-2"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner .pricing-content-wrap.listing-content.style-2 .tpgb-icon-list-items .tpgb-icon-list-item{ border-color: {{listBColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listSpace": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            },
+            {
+              "key": "conListStyle",
+              "relation": "==",
+              "value": "style-1"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .listing-content.style-1 .tpgb-icon-list-item{ margin-bottom: {{listSpace}}; }"
+        },
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            },
+            {
+              "key": "conListStyle",
+              "relation": "==",
+              "value": "style-2"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .listing-content.style-2 .tpgb-icon-list-items .tpgb-icon-list-item{ padding: {{listSpace}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "extraIcnHColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .tpgb-extra-list-icon{ color: {{extraIcnHColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listIcnHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .tpgb-icon-list-icon{ color: {{listIcnHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listTextHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-table-inner:hover .tpgb-icon-list-text{ color: {{listTextHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "extraIcnNColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .tpgb-icon-list-items .tpgb-extra-list-icon{ color: {{extraIcnNColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listIcnNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .tpgb-icon-list-items .tpgb-icon-list-icon{ color: {{listIcnNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listTextNmlColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .tpgb-icon-list-items .tpgb-icon-list-text{ color: {{listTextNmlColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listAlign": {
+      "type": "string",
+      "default": "flex-start",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            },
+            {
+              "key": "conListStyle",
+              "relation": "==",
+              "value": "style-1"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .tpgb-icon-list-items .tpgb-icon-list-item{ justify-content: {{listAlign}}; }"
+        },
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            },
+            {
+              "key": "conListStyle",
+              "relation": "==",
+              "value": "style-2"
+            },
+            {
+              "key": "listAlign",
+              "relation": "==",
+              "value": "flex-start"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-content-wrap.listing-content.style-2{ text-align: left; }"
+        },
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            },
+            {
+              "key": "conListStyle",
+              "relation": "==",
+              "value": "style-2"
+            },
+            {
+              "key": "listAlign",
+              "relation": "==",
+              "value": "flex-end"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-content-wrap.listing-content.style-2{ text-align: right; }"
+        }
+      ],
+      "scopy": true
+    },
+    "extraIconSize": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .tpgb-icon-list-items .tpgb-extra-list-icon{ font-size: {{extraIconSize}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listIconSize": {
+      "type": "object",
+      "default": {
+        "md": "",
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .tpgb-icon-list-items .tpgb-icon-list-icon{ font-size: {{listIconSize}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "listContentTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "stylish"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .tpgb-icon-list-items .tpgb-icon-list-text"
+        }
+      ],
+      "scopy": true
+    },
+    "pinS3BG": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disRibbon",
+              "relation": "==",
+              "value": true
+            },
+            {
+              "key": "ribbonStyle",
+              "relation": "==",
+              "value": "style-2"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-ribbon-pin.style-2{ background: {{pinS3BG}}; }  {{PLUS_WRAP}} .pricing-ribbon-pin.style-3:after{ border-top-color: {{pinS3BG}}; border-left-color: {{pinS3BG}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "pinBRadius": {
+      "type": "object",
+      "default": {
+        "md": {
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "unit": "px"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disRibbon",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-ribbon-pin.style-1 .ribbon-pin-inner , {{PLUS_WRAP}} .pricing-ribbon-pin.style-2 {border-radius: {{pinBRadius}};}"
+        }
+      ],
+      "scopy": true
+    },
+    "pinBG": {
+      "type": "object",
+      "default": {
+        "openBg": 0,
+        "bgType": "color"
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disRibbon",
+              "relation": "==",
+              "value": true
+            },
+            {
+              "key": "ribbonStyle",
+              "relation": "==",
+              "value": "style-1"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-ribbon-pin.style-1 .ribbon-pin-inner"
+        }
+      ],
+      "scopy": true
+    },
+    "pinColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disRibbon",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-ribbon-pin .ribbon-pin-inner{ color: {{pinColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
+    "pinTypo": {
+      "type": "object",
+      "default": {
+        "openTypography": 0,
+        "size": {
+          "md": "",
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "disRibbon",
+              "relation": "==",
+              "value": true
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-ribbon-pin .ribbon-pin-inner"
+        }
+      ],
+      "scopy": true
+    },
+    "extbtnPosition": {
+        "type": "string",
+        "default": "top",
+        "scopy": true
+    },
+    "extBtnAlignment": {
+        "type": "object",
+        "default": {
+            "md": "center"
+        },
+        "style": [
+            {
+            "selector": "{{PLUS_WRAP}} .pricing-table-button{ text-align: {{extBtnAlignment}}; }"
+            }
+        ],
+        "scopy": true
     }
   }
 }

@@ -151,6 +151,7 @@ class Tp_Blocks_Helper {
 			'tp-infobox' => TPGB_CATEGORY.'/tp-infobox',
 			'tp-interactive-circle-info' => TPGB_CATEGORY.'/tp-interactive-circle-info',
 			'tp-messagebox' => TPGB_CATEGORY.'/tp-messagebox',
+			'tp-navigation-builder' => TPGB_CATEGORY.'/tp-navigation-builder',
 			'tp-number-counter' => TPGB_CATEGORY.'/tp-number-counter',
 			'tp-post-author' => TPGB_CATEGORY.'/tp-post-author',
 			'tp-post-comment' => TPGB_CATEGORY.'/tp-post-comment',
@@ -174,7 +175,9 @@ class Tp_Blocks_Helper {
 			'tpgb-settings' => TPGB_CATEGORY.'/tpgb-settings',
 			'tp-smooth-scroll' => TPGB_CATEGORY.'/tp-smooth-scroll',
 			'tp-social-embed' => TPGB_CATEGORY.'/tp-social-embed',
+			'tp-switcher' => TPGB_CATEGORY.'/tp-switcher',
 			'tp-tabs-tours' => TPGB_CATEGORY.'/tp-tabs-tours',
+			'tp-team-listing' => TPGB_CATEGORY.'/tp-team-listing',
 			'tp-testimonials' => TPGB_CATEGORY.'/tp-testimonials',
 			'tp-video' => TPGB_CATEGORY.'/tp-video',
 		);

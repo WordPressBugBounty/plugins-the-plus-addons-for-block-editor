@@ -8,13 +8,13 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 	$output = '';
     $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
     $style = (!empty($attributes['style'])) ? $attributes['style'] : 'style-1';
-   
+	$styleLayout = (!empty($attributes['styleLayout'])) ? $attributes['styleLayout'] : 'style-1';
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	$showDots = (!empty($attributes['showDots'])) ? $attributes['showDots'] : [ 'md' => false ];
 	$dotsStyle = (!empty($attributes['dotsStyle'])) ? $attributes['dotsStyle'] : false;
 	$showArrows = (!empty($attributes['showArrows'])) ? $attributes['showArrows'] : [ 'md' => false ];
 	$arrowsStyle = (!empty($attributes['arrowsStyle'])) ? $attributes['arrowsStyle'] : 'style-1';
-	
+	$arrowsPosition = (!empty($attributes['arrowsPosition'])) ? $attributes['arrowsPosition'] : 'top-right';
 	$ItemRepeater = (!empty($attributes['ItemRepeater'])) ? $attributes['ItemRepeater'] : [];
 	
 	$telayout = (!empty($attributes['telayout'])) ? $attributes['telayout'] : '';
@@ -27,6 +27,10 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 	$redmorTxt = (!empty($attributes['redmorTxt'])) ? $attributes['redmorTxt'] : '';
 	$redlesTxt = (!empty($attributes['redlesTxt'])) ? $attributes['redlesTxt'] : '';
 
+	$Style3Layout ='';
+	if($style=='style-3' && !empty($styleLayout)){
+		$Style3Layout ='layout-'.$styleLayout;
+	} 
 
 	//Carousel Options
 	
@@ -69,10 +73,10 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 		$column_class .= isset($attributes['columns']['xs']) ? " tpgb-col-".$attributes['columns']['xs'] : ' tpgb-col-6';
 	}
 
-    $output .= '<div class="tpgb-testimonials tpgb-relative-block testimonial-'.esc_attr($style).' tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' '.esc_attr($Sliderclass).' '.esc_attr($list_layout).' " '.$dataAttr.' data-layout="'.esc_attr($telayout).'" data-id="'.esc_attr($block_id).'" >';
+    $output .= '<div class="tpgb-testimonials tpgb-relative-block testimonial-'.esc_attr($style).' '.esc_attr($Style3Layout).' tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' '.esc_attr($Sliderclass).' '.esc_attr($list_layout).' " '.$dataAttr.' data-layout="'.esc_attr($telayout).'" data-id="'.esc_attr($block_id).'" >';
 
 		if( $telayout == 'carousel' && ( isset($showArrows['md']) && !empty($showArrows['md']) ) || ( isset($showArrows['sm']) && !empty($showArrows['sm']) ) || ( isset($showArrows['xs']) && !empty($showArrows['xs']) ) ){
-			$output .= Tp_Blocks_Helper::tpgb_carousel_arrow($arrowsStyle,'');
+			$output .= Tp_Blocks_Helper::tpgb_carousel_arrow($arrowsStyle,$arrowsPosition);
 		}
 		$output .= '<div class="post-loop-inner '.($telayout == 'carousel' ? 'splide__track' : 'tpgb-row').'">';
 			if($telayout == 'carousel'){
@@ -153,6 +157,10 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 												$output .= $itemContent;
 												$output .= $itemAuthorTitle;
 											}
+											if($style=="style-3"){
+                                                $output .= $itemAuthorTitle;
+                                                $output .= $itemContent;
+                                            }
 										$output .= '</div>';
 									}
 									
@@ -163,6 +171,12 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 										if($style=="style-1" || $style=="style-2"){
 											$output .= $itemTitle;
 											$output .= $itemDesignation;
+										}
+										if($style=="style-3"){
+											$output .= '<div class="author-left-text">';
+												$output .= $itemTitle;
+												$output .= $itemDesignation;
+											$output .= '</div>';
 										}
 									$output .= '</div>';
 									

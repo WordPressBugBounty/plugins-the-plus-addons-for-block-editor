@@ -8,10 +8,10 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content) {
 	
 	$block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] :'';
 	$pattern = '/\btpgb-block-'.esc_attr($block_id).'/';
-   
-	if (preg_match($pattern, $content)) {
-		return $content;
-	}
+    
+    if (preg_match($pattern, $content)) {
+       return $content;
+    }
 	$tabLayout =  (!empty($attributes['tabLayout'])) ? $attributes['tabLayout'] :'horizontal';
 	$navAlign =  (!empty($attributes['navAlign'])) ? $attributes['navAlign'] :'text-center';
 	$fullwidthIcon = (!empty($attributes['fullwidthIcon'])) ? $attributes['fullwidthIcon'] :false;
@@ -22,6 +22,8 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content) {
 	$navPosition = (!empty($attributes['navPosition'])) ? $attributes['navPosition'] :'top' ;
 	$VerticalAlign = (!empty($attributes['VerticalAlign'])) ? $attributes['VerticalAlign'] :'';
 	$tabType = (!empty($attributes['tabType'])) ? $attributes['tabType'] :'';
+	$tabnavResp =  (!empty($attributes['tabnavResp'])) ? $attributes['tabnavResp'] :'';
+	$activeTab = (!empty($attributes['activeTab'])) ? $attributes['activeTab'] :'1';
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	
 	$output = '';
@@ -52,7 +54,14 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content) {
 
 	//Set responsive class
 	$responsive_class = '';
-	
+	if($tabnavResp == 'nav_full'){
+		$responsive_class = 'nav-full-width';
+	}else if($tabnavResp == 'nav_one'){
+		$responsive_class = "nav-one-by-one";
+	}else if($tabnavResp == 'tab_accordion'){
+		$responsive_class = 'mobile-accordion';
+	}
+
 
 	//Set Vertival TabAlign class
 	$alignclass = '';
@@ -72,7 +81,7 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content) {
 			$j++;
 			// Set active class
 			$active='';
-			if($j=='1'){
+			if($j==$activeTab){
 				$active=' active';
 			}
 
@@ -115,7 +124,7 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content) {
 			
 				// Set active class
 				$active='';
-				if($i=='1'){
+				if($i==$activeTab){
 					$active=' active';
 				}
 
@@ -149,7 +158,7 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content) {
 
 	$tab_content .= '<div class="tpgb-tabs-content-wrapper tpgb-trans-linear" >' .$content_loop. '</div>';
 	
-	$output .= '<div class="tpgb-tabs-tours tpgb-block-'.esc_attr($block_id).'  tab-view-'.esc_attr($tabLayout).' '.esc_attr($blockClass).'">';
+	$output .= '<div class="tpgb-tabs-tours tpgb-block-'.esc_attr($block_id).'  tab-view-'.esc_attr($tabLayout).' '.esc_attr($blockClass).' '.esc_attr($responsive_class).'">';
 		$output .= '<div class="tpgb-tabs-wrapper tpgb-relative-block '.esc_attr($responsive_class).' "    data-tab-default="1" data-tab-hover="no" >';
 			if($navPosition == 'top' || $navPosition == 'left'  ){
 				$output .= $tab_nav.$tab_content;

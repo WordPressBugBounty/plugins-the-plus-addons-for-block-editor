@@ -33,6 +33,7 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 		 *  Constructor
 		 */
 		public function __construct() {
+            
             add_action( 'current_screen', function () {
                 if ( ! in_array( get_current_screen()->id, [ 'plugins', 'plugins-network' ] ) ) {
                     return;
@@ -145,8 +146,9 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     </div>
                         
                     <div class="tpgb-help-link">
+                        <span><?php echo esc_html__( "After you submit the form, we'll collect your site URL and email to reach out and assist you. If you'd prefer not to, simply click 'Skip & Deactivate'." , 'tpgb'); ?></span>
                         <span><?php echo esc_html__( 'If you require any help , ' , 'tpgb'); ?> <a href="<?php if(defined('TPGBP_VERSION')) { echo esc_url('https://store.posimyth.com/helpdesk/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links'); } else { echo esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/'); }  ?>" target="_blank" rel="noopener noreferrer" > <?php echo esc_html__( 'please add a ticket ', 'tpgb') ?> </a>. <?php echo esc_html__ ( 'We reply within 24 working hours.', 'tpgb' ); ?></span>
-                        <span> <?php echo esc_html__( 'Read', 'tpgb') ?> <a href="<?php  echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'tpgb') ?>   </a> </span> 
+                        <span> <?php echo esc_html__( 'Read' , 'tpgb') ?> <a href="<?php  echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'tpgb') ?>   </a> </span> 
                     </div>
                 </div>
             </div>
@@ -304,7 +306,8 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 
                 #tpgb-deactive-modal .tpgb-modal-footer .tpgb-modal-submit {
                     background-color: #1717CC;
-                    color: #fff
+                    color: #fff;
+                    width: 115px
                 }
 
                 #tpgb-deactive-modal .tpgb-modal-footer .tpgb-modal-deactive {
@@ -355,7 +358,14 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                         transform:rotate(359deg)
                     }
                 }
-                #tpgb-deactive-modal .tpgb-modal-submit.tpgb-loading:before{display:inline-block;content:"\f463";font:18px dashicons;animation:tp-rotation 2s infinite linear}
+                #tpgb-deactive-modal .tpgb-modal-submit.tpgb-loading:before{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    content: "\f463";
+                    font: 18px dashicons;
+                    animation: tp-rotation 2s infinite linear;
+                }
             </style>
         <?php }
         
@@ -384,14 +394,17 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     });
 
                     // Deactivate Button Click Action
-                    document.getElementById('deactivate-nexter-blocks').addEventListener('click', function(e) {
-                        e.preventDefault();
-                        var modal = document.getElementById('tpgb-deactive-modal');
-                        modal.classList.add('modal-active');
-                        var href = this.getAttribute('href');
-                        document.querySelector('.tpgb-modal-deactive').setAttribute('href', href);
-                        document.querySelector('.tpgb-modal-submit').setAttribute('href', href);
-                    });
+                    let element = document.getElementById('deactivate-nexter-blocks') || document.getElementById('deactivate-the-plus-addons-for-block-editor');
+                    if(element !== null){
+                        element.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            var modal = document.getElementById('tpgb-deactive-modal');
+                            modal.classList.add('modal-active');
+                            var href = this.getAttribute('href');
+                            document.querySelector('.tpgb-modal-deactive').setAttribute('href', href);
+                            document.querySelector('.tpgb-modal-submit').setAttribute('href', href);
+                        });
+                    }
 
                     // Submit to Remote Server
                     document.addEventListener('click', function(e) {
@@ -468,12 +481,17 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 
 			$deactreson = ! empty( $_POST['deactreson'] ) ? sanitize_text_field( wp_unslash( $_POST['deactreson'] ) ) : '';
 			$tprestxt =  isset( $_POST['tprestxt'] ) && !empty( $_POST['tprestxt'] ) ? sanitize_text_field( wp_unslash( $_POST['tprestxt'] ) ) : '';
+            
+            // Get User Email
+            $admin_user = wp_get_current_user();
+            $admin_email = $admin_user->user_email; 
 
 			$api_params = array(
 				'site_url'    => esc_url( home_url() ),
 				'reason_key'  => $deactreson,
 				'reason_text' => $tprestxt,
                 'tpgb_version' => TPGB_VERSION,
+                'admin_email'=>$admin_email,
 			);
 
 			$response = wp_remote_post( 
@@ -486,9 +504,9 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
             );
             
             if (is_wp_error($response)) {
-				echo wp_send_json([ 'deactivated' => false ]);
+				wp_send_json([ 'deactivated' => false ]);
 			} else {
-				echo wp_send_json([ 'deactivated' => true ]);
+				wp_send_json([ 'deactivated' => true ]);
 			}
 
 			wp_die();

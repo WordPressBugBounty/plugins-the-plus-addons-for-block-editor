@@ -539,6 +539,36 @@
                 }
             ],
             "scopy": true
+        },
+        "descBorder": {
+            "type": "object",
+            "default": {
+                "openBorder": 0
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-accordion-content"
+                }
+            ],
+            "scopy": true
+        },
+        "descBRedius": {
+            "type": "object",
+            "default": {
+                "md": {
+                    "top": "",
+                    "bottom": "",
+                    "left": "",
+                    "right": ""
+                },
+                "unit": "px"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-accordion-content{ border-radius : {{descBRedius}} }"
+                }
+            ],
+            "scopy": true
         }
     }
 }

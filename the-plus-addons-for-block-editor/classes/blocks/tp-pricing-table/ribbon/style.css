@@ -1,0 +1,31 @@
+/* ribbion */
+.pricing-ribbon-pin {
+    z-index: 1
+}
+.pricing-ribbon-pin.style-1 {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    width: 100%
+}
+.pricing-ribbon-pin .ribbon-pin-inner {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: .2px;
+    color: #fff;
+    line-height: 20px
+}
+.pricing-ribbon-pin.style-1 .ribbon-pin-inner {
+    background: #212121;
+    padding: 6px 15px
+}
+.pricing-ribbon-pin .ribbon-pin-inner p {
+    margin-bottom: 0;
+    color: #fff;
+    transition: all 0.3s
+}
+.pricing-style-3 .pricing-ribbon-pin.style-1 {
+    bottom: auto;
+    top: 0;
+}

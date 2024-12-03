@@ -821,6 +821,150 @@
                 }
             ],
             "scopy": true
+        },
+        "tabnavResp": {
+            "type": "string",
+            "default": "",
+            "scopy": true
+        },
+        "ActaccorBshadow": {
+            "type": "object",
+            "default": {
+                "openShadow": 0,
+                "inset": 0,
+                "horizontal": 0,
+                "vertical": 4,
+                "blur": 8,
+                "spread": 0,
+                "color": "rgba(0,0,0,0.40)"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title.active"
+                }
+            ],
+            "scopy": true
+        },
+        "ActaccorBgtype": {
+            "type": "object",
+            "default": {
+                "openBg": 0,
+                "bgType": "color"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title.active"
+                }
+            ],
+            "scopy": true
+        },
+        "accorboxShadow": {
+            "type": "object",
+            "default": {
+                "openShadow": 0,
+                "inset": 0,
+                "horizontal": 0,
+                "vertical": 4,
+                "blur": 8,
+                "spread": 0,
+                "color": "rgba(0,0,0,0.40)"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title"
+                }
+            ],
+            "scopy": true
+        },
+        "accorbgType": {
+            "type": "object",
+            "default": {
+                "openBg": 0,
+                "bgType": "color"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title"
+                }
+            ],
+            "scopy": true
+        },
+        "accorBActredius": {
+            "type": "object",
+            "default": {
+                "md": {
+                    "top": "",
+                    "bottom": "",
+                    "left": "",
+                    "right": ""
+                },
+                "unit": "px"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title.active{ border-radius :{{accorBActredius}} }"
+                }
+            ],
+            "scopy": true
+        },
+        "ActaccorBorder": {
+            "type": "object",
+            "default": {
+                "openBorder": 0
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title.active"
+                }
+            ],
+            "scopy": true
+        },
+        "accorBredius": {
+            "type": "object",
+            "default": {
+                "md": {
+                    "top": "",
+                    "bottom": "",
+                    "left": "",
+                    "right": ""
+                },
+                "unit": "px"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title{ border-radius : {{accorBredius}} }"
+                }
+            ],
+            "scopy": true
+        },
+        "navBtnSpace": {
+            "type": "string",
+            "default": {
+                "md": 1,
+                "unit": "px"
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}}.tab-view-horizontal .tpgb-tabs-wrapper.nav-one-by-one .tpgb-tabs-nav .tpgb-tab-header{ margin-top :{{navBtnSpace}} } {{PLUS_WRAP}}.tab-view-horizontal .tpgb-tabs-wrapper.nav-one-by-one .tpgb-tabs-nav .tpgb-tab-li:first-child .tpgb-tab-header{ margin-top : 0 }  {{PLUS_WRAP}}.tab-view-horizontal.tpgb-tabs-wrapper.nav-one-by-one .tpgb-tabs-nav .tpgb-tab-li:last-child .tpgb-tab-header{ margin-bottom : 0 }"
+                }
+            ],
+            "scopy": true
+        },
+        "accorBorder": {
+            "type": "object",
+            "default": {
+                "openBorder": 0
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-wrapper.mobile-accordion .tab-mobile-title"
+                }
+            ],
+            "scopy": true
+        },
+        "activeTab": {
+            "type": "string",
+            "default": "1"
         }
     }
 }

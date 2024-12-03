@@ -42,18 +42,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             $this->loader_helper();
             
             add_action( 'plugins_loaded', array( $this, 'tp_plugin_loaded' ) );
-            $show_notice = true;
-            if(defined('TPGBP_VERSION')){
-                $white_label = get_option( 'tpgb_white_label' );
-                if(!empty($white_label) && isset($white_label['tpgb_hidden_label']) && !empty($white_label['tpgb_hidden_label'])){
-                    $show_notice = false;
-                }
-                $activate_pro = get_option( 'tpgbp_license_status' );
-                if(!empty($activate_pro) && isset($activate_pro['status']) && $activate_pro['status']=='valid' && isset($activate_pro['expired']) && $activate_pro['expired'] == 'lifetime'){
-                    $show_notice = false;
-                }
-            }
-            if ( !empty($show_notice) ) {
+            if ( ! defined('TPGBP_VERSION') ) {
                 add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
             }
             if ( is_admin() ) {
@@ -74,14 +63,15 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
          */
         public function nxt_halloween_offer() {
 
-            if ( ! get_option('nxt_blackfriday_dismissed')) {
-                echo '<div class="nxt-plugin-halloween notice">
+            if ( ! get_option('nxt_cybermonday_dismissed') && !defined('TPGBP_VERSION') ) {
+                echo '<div class="nxt-plugin-halloween notice" style="border-left-color: #1717cc;">
+                        
                         <div class="inline nxt-plugin-halloween-notice" style="display: flex;column-gap: 12px;align-items: center;padding: 15px;position: relative;    margin-left: 0px;">
-                            <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/black-friday-admin.png' ).'" />
+                            <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/cyber-monday.png' ).'" />
                             <div style="margin: .7rem .8rem .8rem;">  
                                 <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $300!", "tpgb" ) . '</h3>
-                                <p> '. esc_html__( "Our Black Friday Sale is live! Upgrade now and save $300 on the pro version.", "tpgb" ) .' </p>
-                                <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates", "tpgb").'</span>  <span> • '. esc_html__("90+ WordPress Blocks", "tpgb").'</span>  <span> • '. esc_html__("Trusted by 10K+ Users", "tpgb").'</span> </p>
+                                <p> '. esc_html__( "Our Cyber Monday Sale is live! Upgrade now and save $300 on the pro version.", "tpgb" ) .' </p>
+                                <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates", "tpgb").'</span>  <span> • '. esc_html__("90+ WordPress Blocks", "tpgb").'</span>  <span> • '. esc_html__("Trusted by 10K+ Users", 'tpgb').'</span> </p>
                                 <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'tpgb') . '</a>
                             </div>
                             <span class="nxt-halloween-notice-dismiss"></span>
@@ -127,9 +117,12 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
                 wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'tpgb') ) );
             }
         
-            $option_key = 'nxt_blackfriday_dismissed';
+            $option_key = 'nxt_cybermonday_dismissed';
             update_option( $option_key, true );
-
+            
+            if ( get_option( 'nxt_blackfriday_dismissed' ) !== false ) {
+                delete_option( 'nxt_blackfriday_dismissed' );
+            }
             if ( get_option( 'nxt_halloween_dismissed' ) !== false ) {
                 delete_option( 'nxt_halloween_dismissed' );
             }

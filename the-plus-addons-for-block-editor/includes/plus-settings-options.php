@@ -223,7 +223,8 @@ class Tpgb_Gutenberg_Settings_Options {
 			];
 		}
 
-		wp_enqueue_script( 'tpgb-dashscript', TPGB_URL . 'dashboard/build/index.js', array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element' ), TPGB_VERSION, true );
+		wp_enqueue_script( 'tpgb-dashscript', TPGB_URL . 'dashboard/build/index.js', array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element','wp-i18n' ), TPGB_VERSION, true );
+		wp_set_script_translations( 'tpgb-dashscript', 'tpgb' );
 		wp_localize_script(
 			'tpgb-dashscript',
 			'tpgb_ajax_object',
@@ -987,7 +988,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-navigation-menu/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
-				'tag' => 'pro',
+				'tag' => 'freemium',
 				'block_cate' => esc_html__('Builder', 'tpgb'),
 				'keyword' => ['navigation menu', 'mega menu', 'header builder', 'sticky menu', 'navigation bar', 'header menu', 'menu', 'navigation builder','vertical menu', 'swiper menu']
 			],
@@ -1176,7 +1177,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-stylish-list/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '#video',
-				'tag' => 'freemium',
+				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'tpgb'),
 				'keyword' => ['Stylish list', 'listing', 'item listing'],
 			],
@@ -1274,7 +1275,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-content-switcher/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-content-switcher/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '#video',
-				'tag' => 'pro',
+				'tag' => 'freemium',
 				'block_cate' => esc_html__('Tabbed', 'tpgb'),
 				'keyword' => ['Switcher', 'on/off', 'switch control', 'toggle', 'true/false', 'toggle switch', 'state', 'binary']
 			],
@@ -1310,7 +1311,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-team-members/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
-				'tag' => 'pro',
+				'tag' => 'freemium',
 				'block_cate' => esc_html__('Listing', 'tpgb'),
 				'keyword' => ['Team Member Gallery', 'Team Gallery', 'Team Member Carousel']
 			],

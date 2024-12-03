@@ -4,6 +4,10 @@
  */
 defined( 'ABSPATH' ) || exit;
 
+function tpgbp_metro_class($col = '1', $metroCol = '3', $metrosty = 'style-1') {
+    return (!empty($metroCol) && $metroCol == '3' && $metrosty == 'style-1' && $col > 10) ? ($col % 10) : $col;
+}
+
 function tpgb_tp_post_listing_render_callback( $attributes ) {
 	$output = '';
 	$query_args = tpgb_post_query($attributes);
@@ -49,6 +53,8 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	$order		= isset($attributes['order']) ? $attributes['order'] : 'desc';
 	$postLodop = isset($attributes['postLodop']) ? $attributes['postLodop'] : '';
 	$authorTxt = !empty($attributes['authorTxt']) ? $attributes['authorTxt'] : '';
+	$metrocolumns = isset($attributes['metrocolumns']) ? $attributes['metrocolumns'] : [ 'md' => '3' ] ;
+	$metroStyle = isset($attributes['metroStyle']) ? $attributes['metroStyle'] : '';
 
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 
@@ -67,7 +73,9 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	$list_layout = '';
 	if($layout=='grid' || $layout=='masonry'){
 		$list_layout = 'tpgb-isotope';
-	}else{
+	}else if($layout=='metro'){
+        $list_layout = 'tpgb-metro';
+    }else{
 		$list_layout = 'tpgb-isotope';
 	}
 	
@@ -82,6 +90,56 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	$classattr .= ' '.$list_layout;
 	$classattr .= ' '.$styleLayoutclass;
 
+	if ($layout == 'metro') {
+		// Desktop columns
+		if (isset($metrocolumns['md']) && !empty($metrocolumns['md'])) {
+			$metroAttr['metro_col'] = (int)$metrocolumns['md'];
+		}
+		
+		// Tablet columns
+		if (isset($metrocolumns['sm']) && !empty($metrocolumns['sm'])) {
+			$metroAttr['tab_metro_col'] = (int)$metrocolumns['sm'];
+		} else if (isset($metrocolumns['md']) && !empty($metrocolumns['md'])) {
+			$metroAttr['tab_metro_col'] = (int)$metrocolumns['md'];
+		}
+		
+		// Mobile columns
+		if (isset($metrocolumns['xs']) && !empty($metrocolumns['xs'])) {
+			$metroAttr['mobile_metro_col'] = (int)$metrocolumns['xs'];
+		} else if (isset($metrocolumns['sm']) && !empty($metrocolumns['sm'])) {
+			$metroAttr['mobile_metro_col'] = (int)$metrocolumns['sm'];
+		} else if (isset($metrocolumns['md']) && !empty($metrocolumns['md'])) {
+			$metroAttr['mobile_metro_col'] = (int)$metrocolumns['md'];
+		}
+		
+		// Desktop style
+		if (isset($metroStyle['md']) && !empty($metroStyle['md'])) {
+			$metroAttr['metro_style'] = (string)$metroStyle['md'];
+		}
+		
+		// Tablet style
+		if (isset($metroStyle['sm']) && !empty($metroStyle['sm'])) {
+			$metroAttr['tab_metro_style'] = (string)$metroStyle['sm'];
+		} else if (isset($metroStyle['md']) && !empty($metroStyle['md'])) {
+			$metroAttr['tab_metro_style'] = (string)$metroStyle['md'];
+		}
+		
+		// Mobile style
+		if (isset($metroStyle['xs']) && !empty($metroStyle['xs'])) {
+			$metroAttr['mobile_metro_style'] = (string)$metroStyle['xs'];
+		} else if (isset($metroStyle['sm']) && !empty($metroStyle['sm'])) {
+			$metroAttr['mobile_metro_style'] = (string)$metroStyle['sm'];
+		} else if (isset($metroStyle['md']) && !empty($metroStyle['md'])) {
+			$metroAttr['mobile_metro_style'] = (string)$metroStyle['md'];
+		}
+		
+		// Properly encode the JSON and create the data attribute
+		$metroAttrJson = htmlspecialchars(json_encode($metroAttr), ENT_QUOTES, 'UTF-8');
+		$metroDataAttr = 'data-metroAttr="' . $metroAttrJson . '"';
+	} else {
+	    $metroDataAttr = '';
+	}
+
 	if($query->found_posts !=''){
 		$total_posts=$query->found_posts;
 		$post_offset = (isset($offsetPosts)) ? $offsetPosts : 0;
@@ -95,11 +153,11 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	}else{
 		$load_page=1;
 	}
-
+	$ji=1;$col=$tabCol=$moCol='';
 	if ( ! $query->have_posts() ) {
 		$output .='<h3 class="tpgb-no-posts-found">'.esc_html__( "No Posts found", "tpgb" ).'</h3>';
 	}else{
-		$output .= '<div id="'.esc_attr($block_id).'" class="tpgb-post-listing tpgb-relative-block  '.esc_attr($blockClass).' '.esc_attr($classattr).' " data-id="'.esc_attr($block_id).'" data-style="'.esc_attr($list_style).'"  data-layout="'.esc_attr($layout).'"  data-connection="tpgb_search"  >';
+		$output .= '<div id="'.esc_attr($block_id).'" class="tpgb-post-listing tpgb-relative-block  '.esc_attr($blockClass).' '.esc_attr($classattr).' " data-id="'.esc_attr($block_id).'" data-style="'.esc_attr($list_style).'" '.( $layout == 'metro' ? $metroDataAttr : '' ).'  data-layout="'.esc_attr($layout).'"  data-connection="tpgb_search"  >';
 			
 			$output .= '<div class="tpgb-row post-loop-inner" >';
 				while ( $query->have_posts() ) {
@@ -107,7 +165,19 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 					$query->the_post();
 					$post = $query->post;
 					
-					$output .= '<div class="grid-item tpgb-col '.esc_attr($column_class).' ">';
+					if( $layout == 'metro' ){
+						if( ( isset($metrocolumns['md']) && !empty($metrocolumns['md']) ) && ( isset($metroStyle['md']) && !empty($metroStyle['md']) ) ){
+							$col= tpgbp_metro_class($ji , $metrocolumns['md'] , $metroStyle['md']  );
+						}
+						if( ( isset($metrocolumns['sm']) && !empty($metrocolumns['sm']) ) && ( isset($metroStyle['sm']) && !empty($metroStyle['sm']) ) ){
+							$tabCol = tpgbp_metro_class($ji, $metrocolumns['sm'] , $metroStyle['sm']  );
+						}
+						if( ( isset($metrocolumns['xs']) && !empty($metrocolumns['xs']) ) && ( isset($metroStyle['xs']) && !empty($metroStyle['xs']) ) ){
+							$moCol = tpgbp_metro_class($ji , $metrocolumns['xs'] , $metroStyle['xs'] );
+						}
+					}
+
+					$output .= '<div class="grid-item tpgb-col ' . esc_attr($column_class) . ( $layout=='metro' ? ' tpgb-metro-'.esc_attr($col).' '.( !empty($tabCol) ? ' tpgb-tab-metro-'.esc_attr($tabCol).''  : '' ).' '.( !empty($moCol) ? ' tpgb-mobile-metro-'.esc_attr($moCol).''  : '' ).' ' : '' ) . '">';
 					if(!empty($style) && $style!=='custom'){
 						ob_start();
 						if(file_exists(TPGB_PATH. 'includes/blog/'.sanitize_file_name('blog-'.$style.'.php'))){
@@ -122,6 +192,7 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 						ob_end_clean();
 					}
 					$output .= '</div>';
+					$ji++;
 				}
 			$output .= '</div>';
 
@@ -1039,7 +1110,14 @@ function tpgb_tp_post_listing() {
 				],
 				'scopy' => true,
 			],
-
+			'metrocolumns' => [
+				'type' => 'object',
+				'default' => [ 'md' => '3','sm' => '3','xs' => '3' ],
+			],
+			'metroStyle' => [
+				'type' => 'object',
+				'default' => [ 'md' => 'style-1','sm' => 'style-1','xs' => 'style-1' ],
+			],
 		];
 	
 	$attributesOptions = array_merge($attributesOptions,$globalBgOption,$globalpositioningOption,$globalPlusExtrasOption);

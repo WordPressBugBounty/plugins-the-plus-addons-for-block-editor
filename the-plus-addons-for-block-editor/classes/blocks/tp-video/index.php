@@ -218,11 +218,15 @@ function tpgb_tp_video_callback( $settings, $content) {
         if( $ShowBannerImg == true ) {
             if( !empty($settings[ 'VideoPopup' ]) ) {
                 if( $VideoType == 'youtube' ) {
-                    $video_content .= '<a href="https://www.youtube' . $youtube_privacy . '.com/embed/' . esc_attr ( $YoutubeID ) . '" data-fancybox >' . $banner_url . '</a>';
+                    $video_content .= '<a href="https://www.youtube' . $youtube_privacy . '.com/embed/' . esc_attr ( $YoutubeID ) . '" data-fancybox="'.esc_attr($block_id).'">' . $banner_url . '</a>';
                 } else if( $VideoType == 'vimeo' ) {
-                    $video_content .= '<a href="https://player.vimeo.com/video/' . esc_attr ( $VimeoID ) . '" data-fancybox >' . $banner_url . '</a>';
+					$vimAutoplay = '';
+					if(! empty ( $settings[ 'autoPlay' ] )){
+						$vimAutoplay = '?autoplay=1';
+					}
+                    $video_content .= '<a data-type="iframe" href="https://player.vimeo.com/video/' . esc_attr ( $VimeoID ) . esc_attr($vimAutoplay). '" data-fancybox="'.esc_attr($block_id).'">' . $banner_url . '</a>';
                 } else if( $VideoType == 'self-hosted' ) {
-                    $video_content .= '<a href="' . esc_url ( $mp4Url ) . '" data-fancybox type="video/mp4">' . $banner_url . '</a>';
+                    $video_content .= '<a href="' . esc_url ( $mp4Url ) . '" data-fancybox="'.esc_attr($block_id).'" type="video/mp4">' . $banner_url . '</a>';
                 }
                 $video_space = '';
             } else {
@@ -268,7 +272,7 @@ function tpgb_tp_video_callback( $settings, $content) {
     }
 
 	$uid = 'video_player'.esc_attr($block_id);
-    $video_player = '<div class="tp-video tpgb-video-box tpgb-block-' . esc_attr($block_id) . ' ' . esc_attr( $uid ) . ' '.esc_attr($blockClass).' ">';
+    $video_player = '<div class="tp-video tpgb-video-box tpgb-block-' . esc_attr($block_id) . ' ' . esc_attr( $uid ) . ' '.esc_attr($blockClass).' " data-id="'.esc_attr($block_id).'">';
 		$video_player .= '<div class="tpgb_video_player tpgb-relative-block ' . esc_attr( $video_touchable ) . ' ' . esc_attr( $video_space ) . ' text-' . esc_attr( $IconAlign_video ) . '">';
 			$video_player .= $video_content;
 		$video_player .= '</div>';

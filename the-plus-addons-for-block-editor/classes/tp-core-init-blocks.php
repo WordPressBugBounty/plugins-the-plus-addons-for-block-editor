@@ -219,7 +219,7 @@ class Tpgb_Core_Init_Blocks {
     public function editor_assets() {
 		
 		if (!defined('TPGBP_VERSION')) {
-			wp_enqueue_style('tpgb-block-editor-css', TPGB_ASSETS_URL.'assets/css/admin/tpgb-blocks-editor.min.css', array('wp-edit-blocks'),TPGB_VERSION);
+			wp_enqueue_style('tpgb-block-editor-css', TPGB_ASSETS_URL.'assets/css/admin/blocks.css', array('wp-edit-blocks'),TPGB_VERSION);
 		}
 		
 		wp_enqueue_script( 'tpgb-xdlocalstorage-js', TPGB_ASSETS_URL . 'assets/js/extra/xdlocalstorage.js', array( 'wp-blocks' ), TPGB_VERSION, false );
@@ -228,7 +228,9 @@ class Tpgb_Core_Init_Blocks {
 			$scripts_dep = array( 'moment', 'react', 'react-dom', 'wp-block-editor', 'wp-element', 'wp-wordcount', 'wp-blocks', 'wp-i18n','wp-plugins', 'wp-components','wp-api-fetch');
 			if ( 'widgets.php' !== $pagenow && 'customize.php' !== $pagenow ) {
 				$scripts_dep = array_merge($scripts_dep, array('wp-editor', 'wp-edit-post'));
-				wp_enqueue_script('tpgb-block-editor-js', TPGB_ASSETS_URL.'assets/js/admin/tpgb-blocks-editor.min.js', $scripts_dep,TPGB_VERSION, false);
+				wp_enqueue_script('tpgb-block-editor-js', TPGB_ASSETS_URL.'assets/js/admin/blocks.js', $scripts_dep,TPGB_VERSION, false);
+
+				wp_set_script_translations( 'tpgb-block-editor-js', 'tpgb' , TPGB_PATH . '/lang/' );
 			}
 		}
 		
@@ -518,7 +520,12 @@ class Tpgb_Core_Init_Blocks {
 		try {
 			if ( isset( $params['post_id'] ) ) {
 				$post_data = get_post( $params['post_id'] );
-				$content = (isset($post_data->post_content)) ? $post_data->post_content : ''; 
+				if (!$post_data || $post_data->post_status != 'publish' || post_password_required($post_data)) {
+					$content = '';
+				}else if ( $post_data && get_post_status( $post_data ) === 'publish' ) {
+					$content = isset( $post_data->post_content ) ? $post_data->post_content : '';
+				}
+
 				return array(
 					'success' => true,
 					'data'    => $content,
@@ -829,8 +836,8 @@ class Tpgb_Core_Init_Blocks {
 			$upload_dir = wp_upload_dir();
 			$dir = trailingslashit($upload_dir['basedir']) . 'theplus_gutenberg/';
 			$block_css ='';
-			if( class_exists('Tpgb_Generate_Blocks_Css') ){
-				$generateClass = new Tpgb_Generate_Blocks_Css();
+			if( class_exists('Tp_Generate_Blocks_Css') ){
+				$generateClass = new Tp_Generate_Blocks_Css();
 				$block_css = $generateClass->generate_dynamic_css( $post_id );
 			}
 			if( !empty($block_css) ){

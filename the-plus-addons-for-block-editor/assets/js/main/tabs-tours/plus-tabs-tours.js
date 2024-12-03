@@ -18,6 +18,41 @@ function tabtoursInit(doc){
                     }
                 });
             }
+
+            /* Responsive Mobile Accordion */
+            if(currentTab.classList.contains("mobile-accordion")) {
+                window.addEventListener('resize', function() {
+                    if(window.innerWidth <= 600) {
+                        currentTab.classList.add("mobile-accordion-tab");
+                    }
+                });
+        
+                var mobileAccordionTabs = currentTab.querySelectorAll('.tpgb-tabs-content-wrapper .tab-mobile-title');
+                if(mobileAccordionTabs){
+                    mobileAccordionTabs.forEach(function(tab) {
+                        tab.addEventListener('click', function() {
+                            var currentTabIndex = this.dataset.tab;
+                            var tabsContainer = this.closest('.tpgb-tabs-wrapper');
+                            var tabsNav = tabsContainer.querySelectorAll('.tpgb-tabs-content-wrapper .tab-mobile-title');
+                            var tabsContent = tabsContainer.querySelectorAll('.tpgb-tabs-content-wrapper .tpgb-tab-content');
+                            
+                            tabsNav.forEach(function(nav) {
+                                nav.classList.remove('active', 'default-active');
+                                nav.classList.add('inactive');
+                            });
+                            this.classList.add('active');
+                            this.classList.remove('inactive');
+                            
+                            tabsContent.forEach(function(content) {
+                                content.classList.remove('active');
+                                content.classList.add('inactive');
+                            });
+                            tabsContainer.querySelector(".tpgb-tabs-content-wrapper .tpgb-tab-content[data-tab='" + currentTabIndex + "']").classList.add('active');
+                            tabsContainer.querySelector(".tpgb-tabs-content-wrapper .tpgb-tab-content[data-tab='" + currentTabIndex + "']").classList.remove('inactive');
+                        });
+                    });
+                }
+            }
         });
     }
 }

@@ -42,9 +42,21 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 	$svgstroColor = (!empty($attributes['svgstroColor'])) ? $attributes['svgstroColor'] : '';
 	$svgfillColor = (!empty($attributes['svgfillColor'])) ? $attributes['svgfillColor'] : 'none';
 	$svgDura = (!empty($attributes['svgDura'])) ? $attributes['svgDura'] : 90;
-	
+	$ctaText = (!empty($attributes['ctaText'])) ? $attributes['ctaText'] : '';
+	$stylishList = (!empty($attributes['stylishList'])) ? $attributes['stylishList'] : [];
+	$readMoreToggle = (!empty($attributes['readMoreToggle'])) ? $attributes['readMoreToggle'] : false;
+    $showListToggle = (!empty($attributes['showListToggle'])) ? (int)$attributes['showListToggle'] : 3;
+    $readMoreText = (!empty($attributes['readMoreText'])) ? $attributes['readMoreText'] : '';
+    $readLessText = (!empty($attributes['readLessText'])) ? $attributes['readLessText'] : '';
+	$disRibbon = (!empty($attributes['disRibbon'])) ? $attributes['disRibbon'] : false;
+	$ribbonStyle = (!empty($attributes['ribbonStyle'])) ? $attributes['ribbonStyle'] : 'style-1';
+	$ribbonText = (!empty($attributes['ribbonText'])) ? $attributes['ribbonText'] : '';
+	$extbtnPosition = (!empty($attributes['extbtnPosition'])) ? $attributes['extbtnPosition'] : '';
+
 	$i = 0;
-	
+	$contentOverlay = '';
+	$contentOverlay .= '<div class="content-overlay-bg-color tpgb-trans-easeinout"></div>';
+
 	//Get Icon
 	$getPriceIcon = '';
 	$icon_style = '';
@@ -87,6 +99,13 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 		$getPriceSubTitle .= '</div>'; 
 	}
 	
+	$getRibbon = '';
+	if(!empty($disRibbon) && !empty($ribbonText)){
+		$getRibbon .= '<div class="pricing-ribbon-pin tpgb-relative-block '.esc_attr($ribbonStyle).'">';
+			$getRibbon .= '<div class="ribbon-pin-inner '.esc_attr($trlinr).'">'.wp_kses_post($ribbonText).'</div>';
+		$getRibbon .= '</div>';
+	}
+
 	//Get Title-SubTitle Content
 	$getTitleContent = '';
 	$getTitleContent .= '<div class="pricing-title-content tpgb-relative-block '.esc_attr($titleStyle).'">';
@@ -126,6 +145,61 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 		$getBtnCta .= '</div>';
 	}
 	
+	if(!empty($ctaText)){
+		$getBtnCta .= '<div class="pricing-cta-text">'.wp_kses_post($ctaText).'</div>';
+	}
+
+	$getStylishContent = '';
+	if($contentStyle=='stylish'){
+		$getStylishContent .= '<div class="pricing-content-wrap listing-content tpgb-relative-block '.esc_attr($conListStyle).'">';
+			if(!empty($stylishList)){
+				$getStylishContent .= '<div class="tpgb-icon-list-items '.esc_attr($trlinr).'">';
+					foreach ( $stylishList as $index => $item ) :
+						
+						$i++;
+
+						$contentItem =[];
+						// Item Content
+						$getStylishContent .= '<div class="tpgb-icon-list-item '.esc_attr($trlinr).' tp-repeater-item-'.esc_attr($item['_key']).'">';
+						
+							//Get Item Icon
+							$getItemIcon = '';
+							$getItemIcon .= '<span class="tpgb-icon-list-icon '.esc_attr($trlinr).'">'; 
+								$getItemIcon .='<i class="'.esc_attr($item['iconStore']).'" aria-hidden="true"></i>';
+							$getItemIcon .= '</span>';
+
+							//Get Item Extra Icon
+							$getItemExIcon = '';
+							if(!empty($item['eIcnToggle']) && !empty($item['eIconStore'])){
+								$getItemExIcon .= '<span class="tpgb-extra-list-icon '.esc_attr($trlinr).'">'; 
+									$getItemExIcon .='<i class="'.esc_attr($item['eIconStore']).'" aria-hidden="true"></i>';
+								$getItemExIcon .= '</span>';
+							}
+							
+							//Get Item Description
+							$getItemDesc = '';
+							if(!empty($item['listDesc'])){
+								$getItemDesc .= '<span class="tpgb-icon-list-text '.esc_attr($trlinr).'">'.wp_kses_post($item['listDesc']).'</span>';
+							}
+							$getStylishContent .= $getItemIcon;
+							$getStylishContent .= $getItemDesc;
+							$getStylishContent .= $getItemExIcon;
+						$getStylishContent .= "</div>";
+						
+					endforeach;
+				$getStylishContent .= "</div>";
+				
+				if($conListStyle!='style-2' && !empty($readMoreToggle) && $i > $showListToggle){
+					$getStylishContent .= '<a href="#" class="read-more-options tpgb-relative-block '.esc_attr($trlinr).' more" data-default-load="'.(int)$showListToggle.'" data-more-text="'.esc_attr($readMoreText).'" data-less-text="'.esc_attr($readLessText).'">'.wp_kses_post($readMoreText).'</a>';
+				}
+				if($conListStyle=='style-1'){
+					$getStylishContent .= $contentOverlay;
+				}
+			}
+		$getStylishContent .= "</div>";
+	}
+	
+
 	//Get wysiwyg Content
 	$getWysiwygContent = '';
 	if($contentStyle=='wysiwyg'){
@@ -141,13 +215,25 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 	$output = '';
     $output .= '<div class="tpgb-pricing-table tpgb-relative-block '.esc_attr($trlinr).' pricing-'.esc_attr($style).' '.esc_attr($hoverStyle).' tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).'">';
 		$output .= '<div class="pricing-table-inner '.esc_attr($trlinr).'">';
-			if($style=='style-1'){
+		if($style=='style-1'){
+			if($extbtnPosition==='bottom'){
+				$output .= $getRibbon;
+				$output .= $getTitleContent;
+				$output .= $getPriceContent;
+				$output .= $getStylishContent;
+				$output .= $getWysiwygContent;
+				$output .= $getBtnCta;
+				$output .= '<div class="pricing-overlay-color tpgb-trans-easeinout"></div>';
+			} else {
+				$output .= $getRibbon;
 				$output .= $getTitleContent;
 				$output .= $getPriceContent;
 				$output .= $getBtnCta;
+				$output .= $getStylishContent;
 				$output .= $getWysiwygContent;
 				$output .= '<div class="pricing-overlay-color tpgb-trans-easeinout"></div>';
 			}
+		}
 		$output .= '</div>';
 	$output .= '</div>';
 
@@ -976,7 +1062,7 @@ function tpgb_pricing_table() {
 		'editor_style'  => 'tpgb-block-editor-css',
         'render_callback' => 'tpgb_tp_pricing_table_render_callback'
     ) ); */
-	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_pricing_table_render_callback', true , false, true);
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_pricing_table_render_callback', true, false, true);
 	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_pricing_table' );

@@ -125,7 +125,7 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 		/* translators: %s minute */
 		$minutes_to_read_string = sprintf(
 			_n( '%s minute', '%s minutes', $minutes_to_read  , 'tpgb' ),
-			$minutes_to_read
+			$minutes_to_read,
 		);
 
 		$postRead .= '<span class="tpgb-meta-read" >';

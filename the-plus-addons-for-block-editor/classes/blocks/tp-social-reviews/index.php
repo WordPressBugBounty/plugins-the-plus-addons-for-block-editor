@@ -178,7 +178,7 @@ function tpgb_Facebook_Reviews($RData,$attr){
 
     $API = '';
     if(!empty($PageId) && !empty($Token)){
-        $API = "https://graph.facebook.com/v9.0/{$PageId}?access_token={$Token}&fields=ratings.fields(reviewer{id,name,picture.width(120).height(120)},created_time,rating,recommendation_type,review_text,open_graph_story{id}).limit($MaxR),overall_star_rating,rating_count";
+        $API = "https://graph.facebook.com/v20.0/{$PageId}?access_token={$Token}&fields=ratings.fields(reviewer{id,name,picture.width(120).height(120)},created_time,rating,recommendation_type,review_text,open_graph_story{id}).limit($MaxR),overall_star_rating,rating_count";
     }
 	
     $Fbdata=$FbArr=[];

@@ -1963,7 +1963,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 }
 
 function tpgb_FacebookFeed($social,$attr){
-	$BaseURL = 'https://graph.facebook.com/v11.0';
+	$BaseURL = 'https://graph.facebook.com/v20.0';
 	$FbKey = (!empty($social['_key'])) ? $social['_key'] : '';
 	$FbAcT = (!empty($social['RAToken'])) ? $social['RAToken'] : '';
 	$FbPType = (!empty($social['ProfileType'])) ? $social['ProfileType'] : 'post';

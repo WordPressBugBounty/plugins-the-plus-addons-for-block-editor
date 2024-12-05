@@ -384,7 +384,7 @@ Class Tpgb_Get_Blocks {
 				$this->transient_blocks[] = 'tpgb-pagination';
 			}
 
-			if ($options['layout']=='metro') {
+			if ( isset($options['layout']) && !empty($options['layout']) && $options['layout']=='metro' ) {
                 $this->transient_blocks[] = 'tpx-post-metro';
             }
 

@@ -836,8 +836,8 @@ class Tpgb_Core_Init_Blocks {
 			$upload_dir = wp_upload_dir();
 			$dir = trailingslashit($upload_dir['basedir']) . 'theplus_gutenberg/';
 			$block_css ='';
-			if( class_exists('Tp_Generate_Blocks_Css') ){
-				$generateClass = new Tp_Generate_Blocks_Css();
+			if( class_exists('Tpgb_Generate_Blocks_Css') ){
+				$generateClass = new Tpgb_Generate_Blocks_Css();
 				$block_css = $generateClass->generate_dynamic_css( $post_id );
 			}
 			if( !empty($block_css) ){

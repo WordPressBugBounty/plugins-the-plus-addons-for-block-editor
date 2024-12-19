@@ -787,7 +787,7 @@ class Tp_Blocks_Helper {
 									$parent_term = $term;
 
 									if($showpartTerms != '' && $showpartTerms == true){
-										$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.(count($terms) > 1 ? $icons_sep_content : '').'</a>'.$linkAfter;
+										$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.(count($terms) > 1  && $showchildTerms == true  ? $icons_sep_content : '').'</a>'.$linkAfter;
 										$schemaArr['itemListElement'][] = array(
 											"@type" => "ListItem",
 											"position"=> ++$breadposi,
@@ -869,7 +869,7 @@ class Tp_Blocks_Helper {
 										$parent_term = $term;
 	
 										if($showpartTerms != '' && $showpartTerms == true){
-											$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.(count($terms) > 1 ? $icons_sep_content : '').'</a>'.$linkAfter;
+											$crumbs_output .= $linkBefore.'<a href="'.esc_url(get_term_link($term->term_id, $taxonomySlug)).'">'.esc_html($term->name).''.(count($terms) > 1  && $showchildTerms == true ? $icons_sep_content : '').'</a>'.$linkAfter;
 											$schemaArr['itemListElement'][] = array(
 												"@type" => "ListItem",
 												"position"=> ++$breadposi,

@@ -10,6 +10,10 @@ function tpgb_tp_accordion_render_callback( $attributes, $content) {
 	$pattern = '/\btpgb-block-'.esc_attr($block_id).'/';
    
 	if (preg_match($pattern, $content)) {
+		if( class_exists('Tpgb_Blocks_Global_Options') ){
+            $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
+            $content = $global_blocks::block_row_conditional_render($attributes,$content);
+        }
 		return $content;
 	}
 	$accordianList = (!empty($attributes['accordianList'])) ? $attributes['accordianList'] : [];

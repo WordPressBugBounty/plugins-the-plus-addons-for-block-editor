@@ -334,7 +334,7 @@
       },
       "style": [
         {
-          "selector": "{{PLUS_CLIENT_ID}}:not(.tpgb-image){ position : {{globalPosition}};width : 100%; }",
+          "selector": "{{PLUS_CLIENT_ID}}:not(.tpgb-image){ position : {{globalPosition}}; }",
           "backend": true
         }
       ]
@@ -420,6 +420,10 @@
           "backend": true
         }
       ]
+    },
+    "dislazyLoad" : {
+      "type": "boolean",
+		  "default": false
     }
   }
 }

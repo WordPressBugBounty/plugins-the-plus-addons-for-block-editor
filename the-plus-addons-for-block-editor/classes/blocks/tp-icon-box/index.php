@@ -8,6 +8,11 @@ function tpgb_tp_icon_box_callback($attr, $content) {
     $pattern = '/\btpgb-wrap-/';
     
     if (preg_match($pattern, $content)) {
+        // Check Display Condition
+        if( class_exists('Tpgb_Blocks_Global_Options') ){
+            $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
+            $content = $global_blocks::block_row_conditional_render($attr,$content);
+        }
        return $content;
     }
 	return Tpgb_Blocks_Global_Options::block_Wrap_Render($attr, $content);

@@ -8,6 +8,10 @@ function tpgb_tp_switch_inner_render_callback( $attributes, $content) {
 	$pattern = '/\bswitch-content-/';
     
 	if (preg_match($pattern, $content)) {
+		if( class_exists('Tpgb_Blocks_Global_Options') ){
+            $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
+            $content = $global_blocks::block_row_conditional_render($attributes,$content);
+        }
 	   return $content;
 	}
 	$output = '';

@@ -76,7 +76,7 @@ class Tpgb_Gutenberg_Settings_Options {
      * @since 1.0.0
      */
 	public function add_options_page(){
-		add_menu_page( $this->setting_name, $this->setting_name, 'manage_options', 'nexter_welcome_page', array( $this, 'admin_page_display' ),'dashicons-tpgb-plus-settings' , 67.2 );
+		add_menu_page( $this->setting_name, $this->setting_name, 'manage_options', 'nexter_welcome_page', array( $this, 'admin_page_display' ),'dashicons-tpgb-plus-settings' , 58.5 );
 
 		add_submenu_page( 'nexter_welcome_page', esc_html__( 'Patterns', 'tpgb' ), esc_html__( 'Patterns', 'tpgb' ), 'manage_options', esc_url( admin_url('edit.php?post_type=wp_block') ));
 

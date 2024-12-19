@@ -765,7 +765,7 @@
             },
             "style": [
                 {
-                    "selector": "{{PLUS_WRAP}}.testimonial-style-1 .testimonial-content-text,{{PLUS_WRAP}}.testimonial-style-2 .testimonial-list-content"
+                    "selector": "{{PLUS_WRAP}}.testimonial-style-1 .testimonial-content-text,{{PLUS_WRAP}}.testimonial-style-2 .testimonial-list-content, {{PLUS_WRAP}}.testimonial-style-3 .testimonial-list-content"
                 }
             ]
         },

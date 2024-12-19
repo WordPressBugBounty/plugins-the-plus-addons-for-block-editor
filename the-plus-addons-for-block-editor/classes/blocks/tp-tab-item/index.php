@@ -8,6 +8,10 @@ function tpgb_tp_tab_item_render_callback( $attributes, $content) {
 	$pattern = '/\btpgb-tab-content/';
     
 	if (preg_match($pattern, $content)) {
+		if( class_exists('Tpgb_Blocks_Global_Options') ){
+            $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
+            $content = $global_blocks::block_row_conditional_render($attributes,$content);
+        }
 	   return $content;
 	}
 	$output = '';

@@ -42,16 +42,16 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             $this->loader_helper();
             
             add_action( 'plugins_loaded', array( $this, 'tp_plugin_loaded' ) );
-            if ( ! defined('TPGBP_VERSION') ) {
-                add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
-            }
+            // if ( ! defined('TPGBP_VERSION') ) {
+            //     add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
+            // }
             if ( is_admin() ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
                 add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
                 add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
             }
             add_action( 'wp_ajax_nxt_dismiss_plugin_rebranding', array( $this,'nxt_dismiss_plugin_rebranding_callback' ), 10, 1 );
-            add_action( 'wp_ajax_nxt_dismiss_plugin_halloween', array( $this,'nxt_dismiss_plugin_halloween' ), 10, 1 );
+            // add_action( 'wp_ajax_nxt_dismiss_plugin_halloween', array( $this,'nxt_dismiss_plugin_halloween' ), 10, 1 );
         }
         
         /**
@@ -61,23 +61,23 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
          *
          * @since 4.0.3
          */
-        public function nxt_halloween_offer() {
+        // public function nxt_halloween_offer() {
 
-            if ( ! get_option('nxt_cybermonday_dismissed') && !defined('TPGBP_VERSION') ) {
-                echo '<div class="nxt-plugin-halloween notice" style="border-left-color: #1717cc;">
+        //     if ( ! get_option('nxt_cybermonday_dismissed') && !defined('TPGBP_VERSION') ) {
+        //         echo '<div class="nxt-plugin-halloween notice" style="border-left-color: #1717cc;">
                         
-                        <div class="inline nxt-plugin-halloween-notice" style="display: flex;column-gap: 12px;align-items: center;padding: 15px;position: relative;    margin-left: 0px;">
-                            <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/cyber-monday.png' ).'" />
-                            <div style="margin: .7rem .8rem .8rem;">  
-                                <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $300!", "tpgb" ) . '</h3>
-                                <p> '. esc_html__( "Our Cyber Monday Sale is live! Upgrade now and save $300 on the pro version.", "tpgb" ) .' </p>
-                                <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates", "tpgb").'</span>  <span> • '. esc_html__("90+ WordPress Blocks", "tpgb").'</span>  <span> • '. esc_html__("Trusted by 10K+ Users", 'tpgb').'</span> </p>
-                                <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'tpgb') . '</a>
-                            </div>
-                            <span class="nxt-halloween-notice-dismiss"></span>
-                        </div></div>';
-            }
-        }
+        //                 <div class="inline nxt-plugin-halloween-notice" style="display: flex;column-gap: 12px;align-items: center;padding: 15px;position: relative;    margin-left: 0px;">
+        //                     <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/cyber-monday.png' ).'" />
+        //                     <div style="margin: .7rem .8rem .8rem;">  
+        //                         <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $300!", "tpgb" ) . '</h3>
+        //                         <p> '. esc_html__( "Our Cyber Monday Sale is live! Upgrade now and save $300 on the pro version.", "tpgb" ) .' </p>
+        //                         <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates", "tpgb").'</span>  <span> • '. esc_html__("90+ WordPress Blocks", "tpgb").'</span>  <span> • '. esc_html__("Trusted by 10K+ Users", 'tpgb').'</span> </p>
+        //                         <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'tpgb') . '</a>
+        //                     </div>
+        //                     <span class="nxt-halloween-notice-dismiss"></span>
+        //                 </div></div>';
+        //     }
+        // }
 
          /**
          * Adds a small banner to the plugins.php admin page
@@ -107,28 +107,28 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
          * Halloween Notice disable
          * @since 4.0.3
          */
-        public function nxt_dismiss_plugin_halloween() {
-            // Verify nonce for security
-            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
-                wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'tpgb') ) );
-            }
+        // public function nxt_dismiss_plugin_halloween() {
+        //     // Verify nonce for security
+        //     if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
+        //         wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'tpgb') ) );
+        //     }
         
-            if ( ! current_user_can( 'manage_options' ) ) {
-                wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'tpgb') ) );
-            }
+        //     if ( ! current_user_can( 'manage_options' ) ) {
+        //         wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'tpgb') ) );
+        //     }
         
-            $option_key = 'nxt_cybermonday_dismissed';
-            update_option( $option_key, true );
+        //     $option_key = 'nxt_cybermonday_dismissed';
+        //     update_option( $option_key, true );
             
-            if ( get_option( 'nxt_blackfriday_dismissed' ) !== false ) {
-                delete_option( 'nxt_blackfriday_dismissed' );
-            }
-            if ( get_option( 'nxt_halloween_dismissed' ) !== false ) {
-                delete_option( 'nxt_halloween_dismissed' );
-            }
+        //     if ( get_option( 'nxt_blackfriday_dismissed' ) !== false ) {
+        //         delete_option( 'nxt_blackfriday_dismissed' );
+        //     }
+        //     if ( get_option( 'nxt_halloween_dismissed' ) !== false ) {
+        //         delete_option( 'nxt_halloween_dismissed' );
+        //     }
         
-            wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'tpgb') ) );
-        }
+        //     wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'tpgb') ) );
+        // }
 
         /**
          * Rebranding Notice disable

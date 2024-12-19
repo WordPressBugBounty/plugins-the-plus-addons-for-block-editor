@@ -461,17 +461,6 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'classes/blocks/tp-heading-title/style/style-8.css',
 			],
 		],
-		'tpx-heading-title-style-9' => [
-			'css' => [
-				$tpgb_free .'classes/blocks/tp-heading-title/style/style-9.css',
-			],
-			'js' => [
-				$tpgb_free .'assets/js/extra/waypoints.min.js',
-				$tpgb_free .'assets/js/extra/tweenmax/gsap.min.js',
-				$tpgb_free .'assets/js/extra/splittext.min.js',
-				$tpgb_free .'assets/js/main/heading-title/tpgb-heading-title.min.js',
-			],
-		],
 		TPGB_CATEGORY.'/tp-progress-bar' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-progress-bar/style.css',
@@ -2944,7 +2933,9 @@ Class Tpgb_Library {
 				$styletag = '/<style>(.*?)<\/style>/m';
 				if(preg_match_all( $styletag , $block['innerHTML'], $style_matches )){
 					$style = ($style_matches[0] && $style_matches[0][0]) ? $style_matches[0][0] : '';
-					$block_content = $block_content.$style;
+					if (strpos($block_content, $style) === false) {
+						$block_content .= $style;
+					}
 				}
 			}
 		}

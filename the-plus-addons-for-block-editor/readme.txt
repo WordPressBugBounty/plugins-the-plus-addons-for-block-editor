@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 4.0.11
+Stable tag: 4.0.12
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -502,6 +502,9 @@ Data Sent: Minimal anonymous data (e.g., timestamp for caching).
 Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
 
 == Changelog ==
+= 4.0.12 = 20 December 2024
+- Fixed : Tab Tours : Image Icon Bug Fixed.
+
 = 4.0.11 = 19 December 2024
 - Added : Image Block Disable Lazy Loading Option Added For Performance Improve
 - Fixed : Tab Tours : Editor Mobile Force Accordion Bug Fixed.

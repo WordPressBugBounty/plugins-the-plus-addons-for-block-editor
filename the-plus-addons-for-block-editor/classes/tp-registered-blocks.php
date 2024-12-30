@@ -862,7 +862,7 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'classes/blocks/tp-post-listing/tp-post-metro.css',
 			],
 			'js' => [
-				$tpgb_free . 'assets/js/main/post-listing/post-metro.js',
+				$tpgb_free . 'assets/js/main/post-listing/post-metro.min.js',
 			],
 		],
 		TPGB_CATEGORY.'/tp-post-author' => [

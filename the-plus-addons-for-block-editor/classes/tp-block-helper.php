@@ -1731,7 +1731,8 @@ class Tp_Blocks_Helper {
 		global $wpdb;
 		$transient = [];
 			$table_name = $wpdb->prefix . "options";
-			$DataBash = $wpdb->get_results( "SELECT * FROM $table_name" );
+			$query = $wpdb->prepare("SELECT * FROM %s", $table_name);
+			$DataBash = $wpdb->get_results($query);
 			$blockName = !empty($_POST['blockName']) ? sanitize_text_field(wp_unslash($_POST['blockName'])) : '';
 			
 			if($blockName == 'SocialFeed'){
@@ -1798,8 +1799,8 @@ class Tp_Blocks_Helper {
 	}
 
 	public function tpgb_get_template_content(){
-		$nonce = (isset($_POST["tpgb_nonce"])) ? wp_unslash( $_POST["tpgb_nonce"] ) : '';
-
+		$nonce = isset($_POST['tpgb_nonce']) ? sanitize_text_field(wp_unslash($_POST['tpgb_nonce'])) : '';
+		
 		if ( !isset($_POST["tpgb_nonce"]) || !wp_verify_nonce( $nonce, 'tpgb-addons' ) ){
 			die ( 'Security checked!');
 		}

@@ -317,56 +317,6 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 				$output .=$getInfoBox;
 			$output .= '</div>';
 		}
-
-		$style = $styleSm = $styleXs = '';
-		if(!empty($iconOverlay) || !empty($imgOverlay)){
-			$attributes = json_decode(json_encode($attributes), true);
-			$boxPadding = (!empty($attributes['boxPadding'])) ? $attributes['boxPadding'] : '';
-			
-			if($styleType=='style-1'){
-				$boxPaddingMd = (!empty($boxPadding['md']) && !empty($boxPadding['md']['left'])) ? $boxPadding['md']['left'] : '15';
-				$boxPaddingSm = (!empty($boxPadding['sm']) && !empty($boxPadding['sm']['left'])) ? $boxPadding['sm']['left'] : '';
-				$boxPaddingXs = (!empty($boxPadding['xs']) && !empty($boxPadding['xs']['left'])) ? $boxPadding['xs']['left'] : '';
-			}
-			if($styleType=='style-2'){
-				$boxPaddingMd = (!empty($boxPadding['md']) && !empty($boxPadding['md']['right'])) ? $boxPadding['md']['right'] : '15';
-				$boxPaddingSm = (!empty($boxPadding['sm']) && !empty($boxPadding['sm']['right'])) ? $boxPadding['sm']['right'] : '';
-				$boxPaddingXs = (!empty($boxPadding['xs']) && !empty($boxPadding['xs']['right'])) ? $boxPadding['xs']['right'] : '';
-			}
-			if($styleType=='style-3'){
-				$boxPaddingMd = (!empty($boxPadding['md']) && !empty($boxPadding['md']['top'])) ? $boxPadding['md']['top'] : '15';
-				$boxPaddingSm = (!empty($boxPadding['sm']) && !empty($boxPadding['sm']['top'])) ? $boxPadding['sm']['top'] : '';
-				$boxPaddingXs = (!empty($boxPadding['xs']) && !empty($boxPadding['xs']['top'])) ? $boxPadding['xs']['top'] : '';
-			}
-			
-			$boxPaddingMd = (!empty($boxPaddingMd)) ? $boxPaddingMd.$boxPadding['unit'] : '15px';
-			$boxPaddingSm = (!empty($boxPaddingSm)) ? $boxPaddingSm.$boxPadding['unit'] : '';
-			$boxPaddingXs = (!empty($boxPaddingXs)) ? $boxPaddingXs.$boxPadding['unit'] : '';
-			
-			if($styleType=='style-1'){
-				$style .= '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-1 .icon-overlay .m-r-16{left: calc(0% - '.esc_attr($boxPaddingMd).');}';
-				$styleSm .= (!empty($boxPaddingSm)) ? '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-1 .icon-overlay .m-r-16{left: calc(0% - '.esc_attr($boxPaddingSm).');}' : '';
-				$styleXs .= (!empty($boxPaddingXs)) ? '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-1 .icon-overlay .m-r-16{left: calc(0% - '.esc_attr($boxPaddingXs).');}' : '';
-			}
-			if($styleType=='style-2'){
-				$style .= '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-2 .icon-overlay .m-l-16{right: calc(0% - '.esc_attr($boxPaddingMd).');}';
-				$styleSm .= (!empty($boxPaddingSm)) ? '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-2 .icon-overlay .m-l-16{right: calc(0% - '.esc_attr($boxPaddingSm).');}' : '';
-				$styleXs .= (!empty($boxPaddingXs)) ? '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-2 .icon-overlay .m-l-16{right: calc(0% - '.esc_attr($boxPaddingXs).');}' : '';
-			}
-			if($styleType=='style-3'){
-				$style .= '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-3 .icon-overlay .info-icon-content{top: calc(0% - '.esc_attr($boxPaddingMd).');}';
-				$styleSm .= (!empty($boxPaddingSm)) ? '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-3 .icon-overlay .info-icon-content{top: calc(0% - '.esc_attr($boxPaddingSm).');}' : '';
-				$styleXs .= (!empty($boxPaddingXs)) ? '.tpgb-block-'.esc_attr($block_id).'.tpgb-infobox.info-box-style-3 .icon-overlay .info-icon-content{top: calc(0% - '.esc_attr($boxPaddingXs).');}' : '';
-			}
-		}
-
-		if(!empty($style) || !empty($styleSm) || !empty($styleXs)){
-			$output .= '<style>';
-				$output .= $style;
-				$output .= (!empty($styleSm)) ? '@media (max-width:1024px) and (min-width:768px){'.$styleSm.'}' : '';
-				$output .= (!empty($styleXs)) ? '@media (max-width:767px){'.$styleXs.'}' : '';
-			$output .= '</style>';
-		}
     $output .= '</div>';
 	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);
 	if($layoutType=='carousel' && !empty($arrowCss)){

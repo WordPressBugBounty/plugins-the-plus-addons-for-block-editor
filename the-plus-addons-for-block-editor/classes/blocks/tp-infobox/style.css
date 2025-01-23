@@ -12,6 +12,7 @@
 }
 .text-alignment{
 	text-align: center;
+    width: 100%;
 }
 .tpgb-infobox .info-box-bg-box {
     position: relative;

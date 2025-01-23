@@ -89,7 +89,7 @@ class Tpgb_Core_Init_Blocks {
 		add_filter( 'tpgb_google_font_load', array( $this,'check_load_google_fonts') );
 		add_filter( 'tpgb_global_css_load', array( $this,'check_load_global_css') );
 		add_filter('mpcs_classroom_style_handles', array( $this,'memberpress_remove_style') );
-
+		add_filter( 'tpgb_dashicons_icon_disable', array( $this,'check_tpgb_dashicons_icon') );
 
 	}
 	
@@ -219,7 +219,7 @@ class Tpgb_Core_Init_Blocks {
     public function editor_assets() {
 		
 		if (!defined('TPGBP_VERSION')) {
-			wp_enqueue_style('tpgb-block-editor-css', TPGB_ASSETS_URL.'assets/css/admin/blocks.css', array('wp-edit-blocks'),TPGB_VERSION);
+			wp_enqueue_style('tpgb-block-editor-css', TPGB_ASSETS_URL.'assets/css/admin/blocks.css', array('wp-edit-blocks' , 'dashicons'),TPGB_VERSION);
 		}
 		
 		wp_enqueue_script( 'tpgb-xdlocalstorage-js', TPGB_ASSETS_URL . 'assets/js/extra/xdlocalstorage.js', array( 'wp-blocks' ), TPGB_VERSION, false );
@@ -247,11 +247,23 @@ class Tpgb_Core_Init_Blocks {
 		
 		$googleFonts = apply_filters( 'tpgb_google_font_load', true );
 		$globalCSS = apply_filters( 'tpgb_global_css_load', true );
+		$dashIcons = apply_filters( 'tpgb_dashicons_icon_disable', true );
 		
 		$googleFonts_list = apply_filters( 'tpgb_custom_fonts_list', [] );
 		if(empty($googleFonts_list)){
 			$googleFonts_list = false;
 		}
+
+		// Check WDesignkit Installed Or Not
+		$wdadded = false;
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		$pluginslist = get_plugins();
+		if ( isset( $pluginslist[ 'wdesignkit/wdesignkit.php' ] ) && !empty( $pluginslist[ 'wdesignkit/wdesignkit.php' ] ) ) {
+				if( is_plugin_active('wdesignkit/wdesignkit.php') ){
+						$wdadded = true;
+				}
+		}
+
 		$wp_localize_tpgb = array(
 			'activeTheme' => esc_html( get_template() ),
 			'category' => TPGB_CATEGORY,
@@ -279,6 +291,9 @@ class Tpgb_Core_Init_Blocks {
 			'taxonomy_list' => Tp_Blocks_Helper::tpgb_get_post_taxonomies(),
 			'custom_font' => Tp_Blocks_Helper::tpgb_custom_font(),
 			'tpgb_extra_opt' => Tp_Blocks_Helper::get_extra_opt_enabled(),
+			'pluginnonce' => wp_create_nonce( 'tpgb-dash-ajax-nonce' ),
+			'WDesignkit_in' => $wdadded,
+			'dashicons_icon' => $dashIcons
 		);
 		
 		if(has_filter('tpgb_load_localize')) {
@@ -1812,6 +1827,19 @@ class Tpgb_Core_Init_Blocks {
 			}
 		}
 		return $results;
+	}
+
+	/*
+	* Disables DashIcons Filter
+	* @since 4.1.0
+	* */
+
+	public function check_tpgb_dashicons_icon( $data = true){
+		$check_dashicons_icon = Tp_Blocks_Helper::get_extra_option('tpgb_dashicons_icon');
+		if( !empty($check_dashicons_icon) && $check_dashicons_icon === 'enable' ){
+			$data = false;
+		}
+		return $data;
 	}
 }
 

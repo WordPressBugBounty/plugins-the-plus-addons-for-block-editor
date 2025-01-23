@@ -26,6 +26,7 @@ class Tpgb_Generate_Blocks_Css {
 	}
 	
 	protected static $all_attributes= []; 
+	protected static $all_dynamicattr= false; 
 	
 	/**
 	 * Constructor
@@ -50,7 +51,7 @@ class Tpgb_Generate_Blocks_Css {
 	 * Generate Dynamic Css
  	 */
 	public function generate_dynamic_css( $post_id = '', $dynamic = false ){
-		
+		self::$all_dynamicattr = $dynamic;
 		self::$all_attributes = [];
 		$post_id = (!empty($post_id)) ? $post_id : $this->is_post_id();
 		$post_data = get_post( $post_id );
@@ -257,7 +258,7 @@ class Tpgb_Generate_Blocks_Css {
 					}
 					$attributes = $dynamicAttr;
 				}
-				
+
 				//Tpgb Block 
 				if(preg_match('/\btpgb\/\b/', $block['blockName'])){
 					$settings[ $block['blockName'] ] = $attributes;
@@ -284,7 +285,7 @@ class Tpgb_Generate_Blocks_Css {
 		$sm = [];
 		$xs = [];
 		$notResponsiveCss = [];
-		
+		$tabCss = '';
 		if(!empty(self::$all_attributes)){
 			foreach(self::$all_attributes as $key => $value){
 				
@@ -300,7 +301,6 @@ class Tpgb_Generate_Blocks_Css {
 						}
 
 						foreach($block_value as $attr_key => $attr_value) {
-						
 							$blockID = ( $attr_key==='block_id' && isset($attr_value['value'])) ? $attr_value['value'] : $blockID;
 							
 							if( isset( $attr_value['style'] ) && !empty( $attr_value['style'] ) ){
@@ -794,8 +794,176 @@ class Tpgb_Generate_Blocks_Css {
 								}
 							}
 						}
+						
+						// Global Postion Css
+						if( !empty($block_value['globalPosition']) && !empty($block_value['globalPosition']['value']) && ( ( isset($block_value['globalPosition']['value']['md']) && !empty($block_value['globalPosition']['value']['md']) ) || ( isset($block_value['globalPosition']['value']['sm']) && !empty($block_value['globalPosition']['value']['sm']) ) || ( isset($block_value['globalPosition']['value']['xs']) && !empty($block_value['globalPosition']['value']['xs']) ) ) ) {
+							$target = '.tpgb-wrap-'.esc_attr($block_value['block_id']['value']);
+							
+							if( ( isset($block_value['gloabhorizoOri']['value']) && !empty($block_value['gloabhorizoOri']['value']) ) && ( isset($block_value['glohoriOffset']['value']) ) && ( isset($block_value['glohoriOffset']['value']['unit']) ) ){
+		
+								if(( isset($block_value['gloabhorizoOri']['value']['md']) && isset($block_value['glohoriOffset']['value']['md']) )){
+									array_push( $md, ''.$target.'{ '.$block_value['gloabhorizoOri']['value']['md'].' : '.$block_value['glohoriOffset']['value']['md'].$block_value['glohoriOffset']['value']['unit'].' }' );
+								}
+		
+								if( isset($block_value['gloabhorizoOri']['value']['sm']) && isset($block_value['glohoriOffset']['value']['sm']) ){
+									$tabCss .= '@media (max-width:1024px) and (min-width:767px)  { '.$target.'{ '.$block_value['gloabhorizoOri']['value']['sm'].' : '.$block_value['glohoriOffset']['value']['sm'].$block_value['glohoriOffset']['value']['unit'].'} } ';
+								}
+		
+								if( isset($block_value['gloabhorizoOri']['value']['xs']) && isset($block_value['glohoriOffset']['value']['xs']) ){
+									array_push( $sm, ''.$target.'{ '.$block_value['gloabhorizoOri']['value']['xs'].' : '.$block_value['glohoriOffset']['value']['xs'].$block_value['glohoriOffset']['value']['unit'].' }' );
+								}
+		
+							}
+		
+							if( ( isset($block_value['gloabverticalOri']['value']) && !empty($block_value['gloabverticalOri']['value']) ) && ( isset($block_value['gloverticalOffset']['value']) ) && ( isset($block_value['gloverticalOffset']['value']['unit']) ) ){
+		
+								if(( isset($block_value['gloabverticalOri']['value']['md']) && isset($block_value['gloverticalOffset']['value']['md']) )){
+									array_push( $md, ''.$target.'{ '.$block_value['gloabverticalOri']['value']['md'].' : '.$block_value['gloverticalOffset']['value']['md'].$block_value['gloverticalOffset']['value']['unit'].' }');
+								}
+		
+								if( isset($block_value['gloabverticalOri']['value']['sm']) && isset($block_value['gloverticalOffset']['value']['sm']) ){
+									$tabCss .= '@media (max-width:1024px) and (min-width:767px)  { '.$target.'{ '.$block_value['gloabverticalOri']['value']['sm'].' : '.$block_value['gloverticalOffset']['value']['sm'].$block_value['gloverticalOffset']['value']['unit'].' } } ';
+								}
+		
+								if( isset($block_value['gloabverticalOri']['value']['xs']) && isset($block_value['gloverticalOffset']['value']['xs']) ){
+									array_push( $sm, ''.$target.'{ '.$block_value['gloabverticalOri']['value']['xs'].' : '.$block_value['gloverticalOffset']['value']['xs'].$block_value['gloverticalOffset']['value']['unit'].' }' );
+								}
+							}
+							
+						}
+
+						// Pro All Inline Css
+						if( has_filter('tpgb_generate_inline_css') && self::$all_dynamicattr == false ) {
+							$adborCss = apply_filters('tpgb_generate_inline_css', $block_value , $block_key );
+
+							if( isset($adborCss['noResponsive']) &&  !empty($adborCss['noResponsive']) ){
+								array_push( $notResponsiveCss, $adborCss['noResponsive'] );
+							}
+							if( isset($adborCss['md']) &&  !empty($adborCss['md']) ){
+								array_push( $md, $adborCss['md'] );
+							}
+							if( isset($adborCss['sm']) &&  !empty($adborCss['sm']) ){
+								array_push( $sm, $adborCss['sm'] );
+							}
+							if( isset($adborCss['xs']) &&  !empty($adborCss['xs']) ){
+								array_push( $xs, $adborCss['xs'] );
+							}
+							if( isset($adborCss['tabCss']) &&  !empty($adborCss['tabCss']) ){
+								$tabCss .= $adborCss['tabCss'];
+							}
+						}
+
+						if( $block_key  === 'tpgb/tp-creative-image' ){
+							$uid = 'bg-image'.esc_attr($block_value['block_id']['value']);
+							if(!empty($block_value["showMaskImg"]['value']) && isset($block_value['MaskImg']) && isset($block_value['MaskImg']['value']['url']) && !empty($block_value['MaskImg']['value']['url'])) {
+								array_push($notResponsiveCss , '.' . esc_attr( $uid ) . '.tpgb-animate-image .tpgb-creative-img-wrap.tpgb-creative-mask-media{mask-image: url('.esc_url($block_value['MaskImg']['value']['url']).');-webkit-mask-image: url('.esc_url($block_value['MaskImg']['value']['url']).');}');
+							}
+						}
+
+						if ($block_key === 'tpgb/tp-heading-title' && self::$all_dynamicattr == false) {
+							if( !empty( $block_value['Alignment'] ) && isset( $block_value['Alignment']['value'] ) && !empty( $block_value['Alignment']['value'] ) ){
+								$styleCss = $styleMD = $styleSM = $styleXS = '';
+								$Alignment = $block_value['Alignment']['value'] ?? '';
+								$block_id = esc_attr($block_value['block_id']['value']);
+								$style = $block_value['style']['value'];
+								$styles = ['style-3', 'style-6', 'style-8'];
+							
+								if (in_array($style, $styles)) {
+									foreach (['md', 'sm', 'xs'] as $size) {
+										if (!empty($Alignment[$size])) {
+											$align = $Alignment[$size];
+											$selector = ".tpgb-block-$block_id.";
+											if ($style === 'style-6') {
+												$selector .= "heading-style-6 .head-title:after";
+												$margin = ($align === 'center') ? '-30px' : '0';
+												$left = ($align === 'left') ? '15px' : 'auto';
+												$right = ($align === 'right') ? '15px' : 'auto';
+												${"style" . strtoupper($size)} = "$selector { margin-left: $margin; left: $left; right: $right; }";
+											} else {
+												$selector .= "tpgb-heading-title .seprator";
+												$margin = ($align === 'center') ? '0 auto' : (($align === 'left') ? '0 auto 0 0' : '0 0 0 auto');
+												${"style" . strtoupper($size)} = "$selector { margin: $margin; }";
+											}
+										}
+									}
+									array_push($md, $styleMD ?: '');
+									array_push($sm, $styleSM ?: '');
+									array_push($xs, $styleXS ?: '');
+								}
+							}
+						}
+
+						if( $block_key === 'tpgb/tp-infobox' && self::$all_dynamicattr === false ){
+
+							if( ( isset($block_value['iconOverlay']['value']) && !empty($block_value['iconOverlay']['value']) ) || ( !empty($block_value['imgOverlay']['value']) ) ){
+								$boxPadding = ( isset($block_value['boxPadding']['value'] ) && !empty($block_value['boxPadding']['value'])) ? $block_value['boxPadding']['value'] : '';
+								$styleType = ( isset($block_value['styleType']['value'] ) && !empty($block_value['styleType']['value'])) ? $block_value['styleType']['value'] : '';
+								
+								if($styleType=='style-1'){
+									$boxPaddingMd = (!empty($boxPadding['md']) && !empty($boxPadding['md']['left'])) ? $boxPadding['md']['left'] : '15';
+									$boxPaddingSm = (!empty($boxPadding['sm']) && !empty($boxPadding['sm']['left'])) ? $boxPadding['sm']['left'] : '';
+									$boxPaddingXs = (!empty($boxPadding['xs']) && !empty($boxPadding['xs']['left'])) ? $boxPadding['xs']['left'] : '';
+								}
+								if($styleType=='style-2'){
+									$boxPaddingMd = (!empty($boxPadding['md']) && !empty($boxPadding['md']['right'])) ? $boxPadding['md']['right'] : '15';
+									$boxPaddingSm = (!empty($boxPadding['sm']) && !empty($boxPadding['sm']['right'])) ? $boxPadding['sm']['right'] : '';
+									$boxPaddingXs = (!empty($boxPadding['xs']) && !empty($boxPadding['xs']['right'])) ? $boxPadding['xs']['right'] : '';
+								}
+								if($styleType=='style-3'){
+									$boxPaddingMd = (!empty($boxPadding['md']) && !empty($boxPadding['md']['top'])) ? $boxPadding['md']['top'] : '15';
+									$boxPaddingSm = (!empty($boxPadding['sm']) && !empty($boxPadding['sm']['top'])) ? $boxPadding['sm']['top'] : '';
+									$boxPaddingXs = (!empty($boxPadding['xs']) && !empty($boxPadding['xs']['top'])) ? $boxPadding['xs']['top'] : '';
+								}
+								
+								$boxPaddingMd = (!empty($boxPaddingMd) && isset($boxPadding['unit'])) ? $boxPaddingMd.$boxPadding['unit'] : '15px';
+								$boxPaddingSm = (!empty($boxPaddingSm) && isset($boxPadding['unit']) ) ? $boxPaddingSm.$boxPadding['unit'] : '';
+								$boxPaddingXs = (!empty($boxPaddingXs) && isset($boxPadding['unit']) ) ? $boxPaddingXs.$boxPadding['unit'] : '';
+								
+								if($styleType=='style-1'){
+									array_push($md , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-1 .icon-overlay .m-r-16{left: -'.esc_attr($boxPaddingMd).';}');
+
+									if( !empty($boxPaddingSm) ){
+										array_push($sm , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-1 .icon-overlay .m-r-16{left: -'.esc_attr($boxPaddingSm).';}' );
+									}
+									
+									if(!empty($boxPaddingXs)){
+										array_push($xs , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-1 .icon-overlay .m-r-16{left: -'.esc_attr($boxPaddingXs).';}');
+									}
+								}
+								if($styleType=='style-2'){
+									array_push($md , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-2 .icon-overlay .m-l-16{right: -'.esc_attr($boxPaddingMd).';}');
+
+									if(!empty($boxPaddingSm)){
+										array_push($sm , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-2 .icon-overlay .m-l-16{right: -'.esc_attr($boxPaddingSm).';}');
+									}
+
+									if(!empty($boxPaddingXs)){
+										array_push($xs , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-2 .icon-overlay .m-l-16{right: -'.esc_attr($boxPaddingXs).';}');
+									}
+								}
+								if($styleType=='style-3'){
+									array_push($md , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-3 .icon-overlay .info-icon-content{top: -'.esc_attr($boxPaddingMd).';}');
+
+									if(!empty($boxPaddingSm)){
+										array_push($sm , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-3 .icon-overlay .info-icon-content{top: -'.esc_attr($boxPaddingSm).';}');
+									}
+
+									if(!empty($boxPaddingXs)){
+										array_push($xs , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-infobox.info-box-style-3 .icon-overlay .info-icon-content{top: -'.esc_attr($boxPaddingXs).';}');
+									}
+								}
+							}
+						}
+
+						if ( $block_key === 'tpgb/tp-pricing-list' ) {
+							if( !empty( $block_value['imgShape']['value'] ) && $block_value['imgShape']['value'] == 'custom' && isset( $block_value['maskImg'] ) && isset($block_value['maskImg']['value']['url']) && !empty( $block_value['maskImg']['value']['url'] ) ) {
+
+								array_push( $notResponsiveCss , '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-pricing-list .food-img.img-custom{mask-image: url('.esc_url( $block_value['maskImg']['value']['url'] ).');-webkit-mask-image: url('.esc_url($block_value['maskImg']['value']['url']).');}' );
+								
+							}
+						}
+
 					}
-				
 				}
 			}
 			
@@ -824,6 +992,12 @@ class Tpgb_Generate_Blocks_Css {
 			if ( !empty($sm) ) {
 				$Make_CSS .= '@media (max-width: 1024px) {' . join("",$sm) . '}';
 			}
+
+			// Tab Position Css
+			if(!empty($tabCss)){
+				$Make_CSS .= $tabCss;
+			}
+			
 			if ( !empty($xs) ) {
 				$Make_CSS .= '@media (max-width: 767px) {' . join("",$xs) . '}';
 			}

@@ -317,7 +317,7 @@ function tpNav(doc) {
                         if (gtParent.classList.contains("tpgb-cont-in")) {
                             // offeset = navWrap.closest(".tpgb-cont-in");
                             offsetLeft = 0 - gtParent.offsetLeft;
-                            tpgbresleftCss(offsetLeft, windowWidth, menuContent);
+                            tpgbresleftCss(offsetLeft, windowWidth, menuContent , 'tpgb-cont-in');
                         }
 
                         if (gtParent.classList.contains('tpgb-section')) {
@@ -520,18 +520,23 @@ function menuSubMenuHover(type, element) {
 
 function tpgbresleftCss(offset_left, window_width, menu_content) {
     var body = document.querySelector('body');
-    if (body.classList.contains("rtl")) {
-        menu_content.style.right = 'unset';
-        menu_content.style.boxSizing = 'border-box';
+    
+    if( pareEle && pareEle == 'tpgb-cont-in' ){
         menu_content.style.width = window_width + 'px';
-        menu_content.style.left = offset_left + 'px';
-    } else {
-        menu_content.style.right = offset_left + 'px';
-        menu_content.style.boxSizing = 'border-box';
-        menu_content.style.width = window_width + 'px';
-        menu_content.style.left = 'unset';
+        menu_content.style.left = -(offset_left) + 'px';
+    }else{
+        if (body.classList.contains("rtl")) {
+            menu_content.style.right = 'unset';
+            menu_content.style.boxSizing = 'border-box';
+            menu_content.style.width = window_width + 'px';
+            menu_content.style.left = offset_left + 'px';
+        } else {
+            menu_content.style.right = offset_left + 'px';
+            menu_content.style.boxSizing = 'border-box';
+            menu_content.style.width = window_width + 'px';
+            menu_content.style.left = 'unset';
+        }
     }
-
 }
 
 function tpgbresCss(offset_left, window_width, menu_content) {

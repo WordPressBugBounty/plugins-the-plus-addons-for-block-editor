@@ -1919,6 +1919,12 @@ Class Tpgb_Library {
 
 		$scripts_loader = array();
 
+		// DashIcon CSS Enqueue
+		$nxtdepend = ( apply_filters( 'tpgb_dashicons_icon_disable', true ) ) ? true : false;
+		if( !empty( $nxtdepend ) && $nxtdepend == true ){
+			wp_enqueue_style('dashicons');
+		}
+
 		//Google Map
 		$GoogleMap_Enable = Tp_Blocks_Helper::get_extra_option('gmap_api_switch');
 		if(!empty($GoogleMap_Enable) && (($GoogleMap_Enable=='enable' && has_block( 'tpgb/tp-google-map' )) || ($GoogleMap_Enable=='enable' && class_exists( 'GeneratePress_Elements_Helper' )) || (!empty($elements) && in_array('tpgb/tp-google-map',$elements)) )){
@@ -1938,6 +1944,7 @@ Class Tpgb_Library {
 		
 		$load_localize ='';
 		
+
 		//caching type load
 		if( $this->get_caching_option() == 'separate' && !empty($elements) && $in_footer == false ){
 			$separate_path = $this->load_separate_file($elements);
@@ -1958,7 +1965,7 @@ Class Tpgb_Library {
 						if($iji === $total_eng){
 							$enq_name = 'tpgb-plus-block-front-css';
 						}
-						wp_enqueue_style( $enq_name , esc_url($css_sep_url), false,$plus_version);
+						wp_enqueue_style( $enq_name , esc_url($css_sep_url), false ,$plus_version);
 						$iji++;
 					}
 				}
@@ -2761,8 +2768,8 @@ Class Tpgb_Library {
 				}
 			}
 
-			//4.0.1
-			if( version_compare( TPGB_VERSION, '4.0.1', '==' ) && !in_array( '4.0.1', $get_version ) ){
+			//4.1.0
+			if( version_compare( TPGB_VERSION, '4.1.0', '==' ) && !in_array( '4.1.0', $get_version ) ){
 				$this->remove_dir_files(TPGB_ASSET_PATH);
 				$this->remove_dir_dynamic_style_files(TPGB_ASSET_PATH);
 				$versions = array_unique( array_merge( $get_version, $versions ) );

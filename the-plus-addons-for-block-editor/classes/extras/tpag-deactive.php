@@ -307,7 +307,7 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                 #tpgb-deactive-modal .tpgb-modal-footer .tpgb-modal-submit {
                     background-color: #1717CC;
                     color: #fff;
-                    width: 115px
+                    width: 120px
                 }
 
                 #tpgb-deactive-modal .tpgb-modal-footer .tpgb-modal-deactive {

@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 4.0.13
+Stable tag: 4.1.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -502,6 +502,18 @@ Data Sent: Minimal anonymous data (e.g., timestamp for caching).
 Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
 
 == Changelog ==
+= 4.1.0 = 22 January 2024
+- Added : Dash Icon Disabled : Global Option add for Improved Performance 
+- Improvement : Global Position : Merge all inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
+- Improvement : Advance Image : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
+- Improvement : Advance Heading : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
+- Improvement : Info Box : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
+- Improvement : Pricing List : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
+- Fixed : Site Logo : Sticky Logo Compatibility Bug Fix.
+- Fixed : Image : Image Alt Text Bug Fix.
+- Fixed : Post Meta : Sorting Meta Field Bug Fix.
+- Fixed : Minor Bugs and Improvements.
+
 = 4.0.13 = 30 December 2024
 - Fixed : Minor Bug Fixed and Improvements
 

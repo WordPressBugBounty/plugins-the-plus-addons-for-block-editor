@@ -83,11 +83,7 @@ function tpgb_tp_creative_image_callback( $settings, $content) {
 	}
 
 	$uid= 'bg-image'.esc_attr($block_id);
-	$cssRule=$cssData=$animatedClass='';
-
-	if(!empty($settings["showMaskImg"]) && !empty($settings['MaskImg']['url'])) {
-		$cssData .= '.' . esc_attr( $uid ) . '.tpgb-animate-image .tpgb-creative-img-wrap.tpgb-creative-mask-media{mask-image: url('.esc_url($settings['MaskImg']['url']).');-webkit-mask-image: url('.esc_url($settings['MaskImg']['url']).');}';
-	}
+	$animatedClass='';
 	$cssClass = '';
 	$cssClass = ' text-' . esc_attr($settings["Alignment"]['md']) . ' '.esc_attr($animatedClass);
 	$cssClass .= (!empty($settings["Alignment"]['sm'])) ? ' text-tablet-' . esc_attr($settings["Alignment"]['sm']) : '';
@@ -102,18 +98,11 @@ function tpgb_tp_creative_image_callback( $settings, $content) {
 				$output .= '</figure>';
 			$output .='</div>';
 		$output .= '</div>';
-
-		$cssRule='';
-		if(!empty($cssData)){
-			$cssRule='<style>';
-			$cssRule .= $cssData;
-			$cssRule .= '</style>';
-		}
 	$output .= '</div>';
 	
 	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($settings, $output);
 	
-	return $cssRule.$output;
+	return $output;
 }
 
 function tpgb_tp_creative_image_render() {

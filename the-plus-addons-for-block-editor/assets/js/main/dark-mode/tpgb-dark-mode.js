@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function darkmodeInit(doc){
 	doc.querySelectorAll('.tpgb-dark-mode').forEach(function(el){
 		if(el.classList.contains('dark-pos-fixed')){
-			document.body.insertAdjacentHTML('afterbegin', el.outerHTML);
+            document.body.prepend(el);
 		}
 	})
 

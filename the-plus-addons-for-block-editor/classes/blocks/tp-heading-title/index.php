@@ -127,77 +127,6 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 			$getSubTitle .= '</'.Tp_Blocks_Helper::validate_html_tag($subTitleType).'>';
 			$getSubTitle .= '</div>';
 	}
-
-	$styleCss = $styleMD = $styleSM = $styleXS =  '';
-	$Alignment = (!empty($attributes['Alignment'])) ? $attributes['Alignment'] : '';
-	if($style=='style-3' || $style=='style-6' || $style=='style-8'){
-		if(!empty($Alignment['md'])){
-			if($Alignment['md'] == 'left'){
-				if($style=='style-6'){
-					$styleMD = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: 0; left:15px; right: auto; }';
-				}else{
-					$styleMD = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin-left: 0; margin-right: auto; }';
-				}
-			}else if($Alignment['md'] == 'center'){
-				if($style=='style-6'){
-					$styleMD = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: -30px; left:auto; right: auto; }';
-				}else{
-					$styleMD = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin: 0 auto; }';
-				}
-			}else if($Alignment['md'] == 'right'){
-				if($style=='style-6'){
-					$styleMD = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: 0; left:auto; right: 15px; }';
-				}else{
-					$styleMD = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin-right: 0; margin-left: auto; }';
-				}
-			}
-		}
-		if(!empty($Alignment['sm'])){
-			if($Alignment['sm'] == 'left'){
-				if($style=='style-6'){
-					$styleSM = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: 0; left:15px; right: auto; }';
-				}else{
-					$styleSM = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin-left: 0; margin-right: auto; }';
-				}
-			}else if($Alignment['sm'] == 'center'){
-				if($style=='style-6'){
-					$styleSM = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: -30px; left:auto; right: auto; }';
-				}else{
-					$styleSM = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin: 0 auto; }';
-				}
-			}else if($Alignment['sm'] == 'right'){
-				if($style=='style-6'){
-					$styleSM = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: 0; left:auto; right: 15px; }';
-				}else{
-					$styleSM = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin-right: 0; margin-left: auto; }';
-				}
-			}
-		}
-		if(!empty($Alignment['xs'])){
-			if($Alignment['xs'] == 'left'){
-				if($style=='style-6'){
-					$styleXS = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: 0; left:15px; right: auto; }';
-				}else{
-					$styleXS = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin-left: 0; margin-right: auto; }';
-				}
-			}else if($Alignment['xs'] == 'center'){
-				if($style=='style-6'){
-					$styleXS = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: -30px; left:auto; right: auto; }';
-				}else{
-					$styleXS = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin: 0 auto; }';
-				}
-			}else if($Alignment['xs'] == 'right'){
-				if($style=='style-6'){
-					$styleXS = '.tpgb-block-'.esc_attr($block_id).'.heading-style-6 .head-title:after { margin-left: 0; left:auto; right: 15px; }';
-				}else{
-					$styleXS = '.tpgb-block-'.esc_attr($block_id).'.tpgb-heading-title .seprator { margin-right: 0; margin-left: auto; }';
-				}
-			}
-		}
-		$styleCss .= (!empty($styleMD)) ? $styleMD : '';
-		$styleCss .= (!empty($styleSM)) ? '@media (max-width:1024px){'.$styleSM.'}' : '';
-		$styleCss .= (!empty($styleXS)) ? '@media (max-width:767px){'.$styleXS.'}' : '';
-	}
 	
     $output .= '<div '.$anchor.' class="tpgb-heading-title tpgb-relative-block heading_style tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' heading-'.esc_attr($style).'">';
 		if($style!='style-9'){
@@ -263,9 +192,6 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 				$Title = (class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($Title) : $Title;
 				$output .= wp_kses_post($Title);
 			$output .='</'.Tp_Blocks_Helper::validate_html_tag($titleType).'>';
-		}
-		if(!empty($styleCss)){
-			$output .= '<style>'.$styleCss.'</style>';
 		}
 	$output .= '</div>';
 	

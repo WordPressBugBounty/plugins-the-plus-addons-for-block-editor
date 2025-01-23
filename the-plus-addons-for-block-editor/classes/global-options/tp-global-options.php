@@ -1409,45 +1409,6 @@ class Tpgb_Blocks_Global_Options {
 			}
 		}
 		
-		$positionCss = ''; 
-		$target = '.tpgb-wrap-'.esc_attr($attributes['block_id']);
-		
-		// Global Postion Css
-		if( !empty($attributes['globalPosition']) && ( ( isset($attributes['globalPosition']['md']) && !empty($attributes['globalPosition']['md']) ) || ( isset($attributes['globalPosition']['sm']) && !empty($attributes['globalPosition']['sm']) ) || ( isset($attributes['globalPosition']['xs']) && !empty($attributes['globalPosition']['xs']) ) ) ) {
-
-			if( ( isset($attributes['gloabhorizoOri']) && !empty($attributes['gloabhorizoOri']) ) && ( isset($attributes['glohoriOffset']) ) && ( isset($attributes['glohoriOffset']['unit']) ) ){
-
-				if(( isset($attributes['gloabhorizoOri']['md']) && isset($attributes['glohoriOffset']['md']) )){
-					$positionCss .= ''.$target.'{ '.$attributes['gloabhorizoOri']['md'].' : '.$attributes['glohoriOffset']['md'].$attributes['glohoriOffset']['unit'].' }';
-				}
-
-				if( isset($attributes['gloabhorizoOri']['sm']) && isset($attributes['glohoriOffset']['sm']) ){
-					$positionCss .= ' @media (max-width:1024px) and (min-width:767px) { '.$target.'{ '.$attributes['gloabhorizoOri']['sm'].' : '.$attributes['glohoriOffset']['sm'].$attributes['glohoriOffset']['unit'].' } }';
-				}
-
-				if( isset($attributes['gloabhorizoOri']['xs']) && isset($attributes['glohoriOffset']['xs']) ){
-					$positionCss .= '@media (max-width:767px) { '.$target.'{ '.$attributes['gloabhorizoOri']['xs'].' : '.$attributes['glohoriOffset']['xs'].$attributes['glohoriOffset']['unit'].' } }';
-				}
-
-			}
-
-			if( ( isset($attributes['gloabverticalOri']) && !empty($attributes['gloabverticalOri']) ) && ( isset($attributes['gloverticalOffset']) ) && ( isset($attributes['gloverticalOffset']['unit']) ) ){
-
-				if(( isset($attributes['gloabverticalOri']['md']) && isset($attributes['gloverticalOffset']['md']) )){
-					$positionCss .= ''.$target.'{ '.$attributes['gloabverticalOri']['md'].' : '.$attributes['gloverticalOffset']['md'].$attributes['gloverticalOffset']['unit'].' }';
-				}
-
-				if( isset($attributes['gloabverticalOri']['sm']) && isset($attributes['gloverticalOffset']['sm']) ){
-					$positionCss .= ' @media (max-width:1024px) and (min-width:767px) { '.$target.'{ '.$attributes['gloabverticalOri']['sm'].' : '.$attributes['gloverticalOffset']['sm'].$attributes['gloverticalOffset']['unit'].' } }';
-				}
-
-				if( isset($attributes['gloabverticalOri']['xs']) && isset($attributes['gloverticalOffset']['xs']) ){
-					$positionCss .= '@media (max-width:767px) { '.$target.'{ '.$attributes['gloabverticalOri']['xs'].' : '.$attributes['gloverticalOffset']['xs'].$attributes['gloverticalOffset']['unit'].' } }';
-				}
-
-			}
-			
-		}
 		if(has_filter('tpgb_hasWrapper')) {
 			$hasWrapper = apply_filters('tpgb_hasWrapper', $hasWrapper, $attributes);
 		}
@@ -1496,10 +1457,6 @@ class Tpgb_Blocks_Global_Options {
 
 		}else{
 			$outputWrap .= $content;
-		}
-		
-		if(!empty($positionCss)){
-			$outputWrap .= '<style>'.wp_kses_post($positionCss).'</style>';
 		}
 
 		if( isset($attributes[ 'tpgbDisrule' ]) && !empty($attributes[ 'tpgbDisrule' ]) && class_exists('Tpgb_Display_Conditions_Rules') ){
@@ -1573,7 +1530,7 @@ class Tpgb_Blocks_Global_Options {
 				if (is_string($option_path) && file_exists($option_path)) {
 					$option_data = wp_json_file_decode($option_path, ['associative' => true]);
 					if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
-						$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+						$metadata['attributes'] = array_merge( $option_data , $metadata['attributes'] );
 					}
 				}
 
@@ -1582,7 +1539,7 @@ class Tpgb_Blocks_Global_Options {
 					if (is_string($option_path) && file_exists($option_path)) {
 						$option_data = wp_json_file_decode($option_path, ['associative' => true]);
 						if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
-							$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+							$metadata['attributes'] = array_merge( $option_data , $metadata['attributes']);
 						}
 					}
 				}

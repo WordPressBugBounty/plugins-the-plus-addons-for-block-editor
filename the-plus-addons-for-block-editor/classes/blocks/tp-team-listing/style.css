@@ -34,7 +34,8 @@
 .tpgb-team-member-list .tpgb-team-profile img {
     transition: all .3s ease-in-out;
     border-radius: 6px;
-    width: 100%
+    width: 100%;
+    height: auto
 }
 
 .tpgb-team-member-list .post-content-bottom {
@@ -78,31 +79,6 @@
         margin-right: 0
     }
 }
-
-/* Col 8 css */
-
-@media (min-width: 576px) {
-    .tpgb-team-member-list .grid-item.tpgb-col-sm-8 {
-        flex: 0 0 12.5%;
-        max-width: 12.5%
-    }
-}
-
-@media (min-width: 768px) {
-    .tpgb-team-member-list .grid-item.tpgb-col-md-8 {
-        flex: 0 0 12.5%;
-        max-width: 12.5%
-    }
-}
-
-@media (min-width: 992px) {
-    .tpgb-team-member-list .grid-item.tpgb-col-lg-8 {
-        flex: 0 0 12.5%;
-        max-width: 12.5%
-    }
-}
-
-/* Col 8 css */
 
 /* Twenty Twenty Three Theme Image */
 .theme-twentytwentythree .tpgb-team-member-list .tpgb-team-profile img {

@@ -54,9 +54,15 @@ class Tpgb_Gutenberg_Settings_Options {
 			// Remove All Notice From Dashboard Screnn
 			add_action( 'admin_head', array( $this,'nxt_remove_admin_notices_page') );
 
-				
 			// Install Nexter Theme
 			add_action( 'wp_ajax_nxt_install_theme', array( $this,'nxt_install_theme') );
+
+			// add Filter to Enable All Block 
+			add_filter( 'tpgb_blocks_enable_all', array( $this, 'tpgb_blocks_enable_all_filter' ) );
+
+			// Scan Unused Block & Disabled it filter function
+			add_filter( 'tpgb_disable_unsed_block_filter', array( $this, 'tpgb_disable_unsed_block_filter_fun' ) );
+			
 		}
 		
     }
@@ -199,11 +205,8 @@ class Tpgb_Gutenberg_Settings_Options {
 					'profileLink' => esc_url( get_avatar_url( $user->ID ) )
 				],
 				'blockList' => array_merge($this->block_lists,$this->block_extra),
-				'avtiveBlock' => count( $default_load['enable_normal_blocks'] ),
-				'enableBlock' => array_merge(
-					$default_load['enable_normal_blocks'], 
-					isset($default_load['tp_extra_option']) && is_array($default_load['tp_extra_option']) ? $default_load['tp_extra_option'] : []
-				),
+				'avtiveBlock' => isset( $default_load['enable_normal_blocks']) && is_array($default_load['enable_normal_blocks']) ? count($default_load['enable_normal_blocks']) : 0,
+				'enableBlock' => array_merge( is_array($default_load['enable_normal_blocks']) ? $default_load['enable_normal_blocks'] : [], isset($default_load['tp_extra_option']) && is_array($default_load['tp_extra_option']) ? $default_load['tp_extra_option'] : [] ),
 				'extOption' => get_option('tpgb_connection_data'),
 				'cacheData' => [ get_option('tpgb_performance_cache') , get_option('tpgb_delay_css_js') , get_option('tpgb_defer_css_js') ],
 				'customCode' => get_option('tpgb_custom_css_js'),
@@ -455,7 +458,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			if ( ! isset( $_POST['nonce_tpgb_normal_blocks_opts'] ) || ! wp_verify_nonce( sanitize_key($_POST['nonce_tpgb_normal_blocks_opts']), 'tpgb-dash-ajax-nonce' ) ) { //nonce_tpgb_normal_blocks_action
 			   wp_redirect( esc_url(admin_url('admin.php?page='.$action_page)) );
 			} else {
-			Tpgb_Library()->remove_backend_dir_files();
+				Tpgb_Library()->remove_backend_dir_files();
 				if ( FALSE === get_option($action_page) ){
 					$default_value = array('enable_normal_blocks' => '' , 'tp_extra_option' => '');
 					add_option($action_page,$default_value);
@@ -1531,6 +1534,91 @@ class Tpgb_Gutenberg_Settings_Options {
 		}
 		echo 0;
 		exit;
+	}
+
+	/*
+	 * Filter to Enable All Block For WDesignkit
+	 * @since 4.0.14
+	 */
+
+	 public function tpgb_blocks_enable_all_filter() {
+		$this->block_listout();
+		$default_value = array(
+			'enable_normal_blocks' => array(),
+			'tp_extra_option' => array()
+		);
+	
+		$free_enable = !defined('TPGBP_VERSION');
+	
+		$process_blocks = function ($blocks, $key) use (&$default_value, $free_enable) {
+			foreach ($blocks as $block_key => $block) {
+				if (class_exists('Tpgb_Library') && method_exists('Tpgb_Library', 'remove_backend_dir_files')) {
+					Tpgb_Library()->remove_backend_dir_files();
+				}
+
+				if (!$free_enable || ( isset($block['tag']) && $block['tag'] === 'free' )) {
+					$default_value[$key][] = $block_key;
+				}
+			}
+		};
+	
+		if (!empty($this->block_lists)) {
+			$process_blocks($this->block_lists, 'enable_normal_blocks');
+		}
+		if (!empty($this->block_extra)) {
+			$process_blocks($this->block_extra, 'tp_extra_option');
+		}
+
+		$option_exists = get_option('tpgb_normal_blocks_opts');
+		return $option_exists === false ? add_option('tpgb_normal_blocks_opts', $default_value) : update_option('tpgb_normal_blocks_opts', $default_value);
+	}
+
+	/*
+	 * Unused Disable Blocks Filter Function For WDesignkit
+	 * @since 4.0.1
+	 */
+
+	public function tpgb_disable_unsed_block_filter_fun() {
+		global $wpdb;
+	
+		$this->block_listout();
+		$block_scan = [];
+	
+		if (!empty($this->block_lists)) {
+			foreach ($this->block_lists as $key => $block) {
+				$post_statuses = $this->get_post_statuses_sql();
+				$like_key = '%<!-- wp:tpgb/' . $wpdb->esc_like($key) . '%';
+	
+				$sql_posts = $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_status IN ($post_statuses) AND post_content LIKE %s LIMIT 1", $like_key );
+				$found_in_posts = $wpdb->get_var($sql_posts);
+	
+				$block_scan[$key] = $found_in_posts ? 1 : 0;
+	
+				if (!$found_in_posts) {
+					$sql_widgets = $wpdb->prepare( "SELECT option_id FROM {$wpdb->options} WHERE option_name = %s AND option_value LIKE %s LIMIT 1", 'widget_block', $like_key );
+					$found_in_widgets = $wpdb->get_var($sql_widgets);
+	
+					$block_scan[$key] = $found_in_widgets ? 1 : 0;
+				}
+			}
+	
+			$action_page = 'tpgb_normal_blocks_opts';
+			$all_block = get_option($action_page);
+	
+			if (is_array($block_scan)) {
+				foreach ($block_scan as $key => $val) {
+					if ($val == 1) {
+						$update_block[] = $key;
+					}
+				}
+				$all_block['enable_normal_blocks'] = map_deep(wp_unslash($update_block), 'sanitize_text_field');
+				update_option($action_page, $all_block);
+	
+				if (class_exists('Tpgb_Library') && method_exists('Tpgb_Library', 'remove_backend_dir_files')) {
+					Tpgb_Library()->remove_backend_dir_files();
+				}
+			}
+		}
 	}
 
 }

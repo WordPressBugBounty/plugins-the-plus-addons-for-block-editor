@@ -60,10 +60,7 @@ function tpgb_pricing_list( $attributes, $content) {
 		$box_Align=$boxAlign;
 		$hover_effect=$hoverEffect;
 	}
-	$cssData = '' ;
-	if ($imgShape=='custom' && !empty($maskImg['url'] ) ) {
-		$cssData .= '.tpgb-block-'.esc_attr($block_id).'.tpgb-pricing-list .food-img.img-custom{mask-image: url('.esc_url($maskImg['url']).');-webkit-mask-image: url('.esc_url($maskImg['url']).');}';
-	}
+
 	$output = '';
     	$output .= '<div class="tpgb-pricing-list tpgb-relative-block tpgb-block-'.esc_attr($block_id).' food-menu-'.esc_attr($style).' '.esc_attr($blockClass).'">';
 			$output .='<div class="food-menu-box '.esc_attr($box_Align).'">';
@@ -115,9 +112,6 @@ function tpgb_pricing_list( $attributes, $content) {
 					$output .='</div></div></div>';
 				}
 			$output .='</div>';
-			if(!empty($cssData)){
-				$output .= '<style>'.$cssData.'</style>';
-			}
 		$output .='</div>';
 		
 		$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);

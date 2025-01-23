@@ -220,7 +220,7 @@
     display: block
 }
 
-.tpgb-navbuilder .tpgb-nav-item .navbar-nav li.dropdown:not(.tpgb-fw) .dropdown-menu li > a {
+.tpgb-navbuilder .tpgb-nav-item .navbar-nav li.dropdown:not(.tpgb-fw) .dropdown-menu li {
     padding: 10px 15px
 }
 

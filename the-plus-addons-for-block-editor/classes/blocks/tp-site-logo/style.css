@@ -56,10 +56,17 @@ Front End + Back End CSS
 .tpgb-nav-sticky-sec .image-logo-wrap {
     transition: all 0.3s linear;
 }
-.tpgb-nav-sticky-sec.tpgb-fixed-sticky .normal-image.tp-sticky-logo-cls {
+/* .tpgb-nav-sticky-sec.tpgb-fixed-sticky .normal-image.tp-sticky-logo-cls {
     opacity: 0;
     transform: translateY(-100px);
 }
 .tpgb-nav-sticky-sec.tpgb-fixed-sticky .sticky-image {
+    opacity: 1;
+} */
+.normal-fixed-sticky .normal-image.tp-sticky-logo-cls {
+    opacity: 0;
+    transform: translateY(-100px);
+}
+.normal-fixed-sticky .sticky-image {
     opacity: 1;
 }

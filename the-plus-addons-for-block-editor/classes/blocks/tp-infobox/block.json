@@ -245,7 +245,7 @@
         "style": [
           {
             "condition": [{ "key": "Title", "relation": "!=", "value": "" }],
-            "selector": "{{PLUS_WRAP}} .service-title"
+            "selector": "{{PLUS_WRAP}}.tpgb-infobox .service-title"
           }
         ],
         "scopy": true

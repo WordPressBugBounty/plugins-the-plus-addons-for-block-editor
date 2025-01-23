@@ -122,9 +122,10 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 		$average_reading_rate = 189;
 		$word_count_type = tpgb_get_word_count_type();
 		$minutes_to_read = max( 1, (int) round( tpgb_word_count( $content, $word_count_type ) / $average_reading_rate ) );
-		/* translators: %s minute */
+
+		/* translators: %s: the number of minutes to read the post. */
 		$minutes_to_read_string = sprintf(
-			_n( '%s minute', '%s minutes', $minutes_to_read  , 'tpgb' ),
+			_n( '%s minute', '%s minutes', $minutes_to_read ),
 			$minutes_to_read,
 		);
 
@@ -176,7 +177,7 @@ function tpgb_post_meta_content() {
 				'default' => 'layout-1',
 			],
 			'metaSort' => [
-                'type' => 'array',
+                'type' => 'object',
 				'default' => (object)[
 					'sort' => ['Date', 'Category', 'Author', 'Comments' , 'Post Reading Time'],
 				],

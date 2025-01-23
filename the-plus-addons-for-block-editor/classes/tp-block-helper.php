@@ -261,36 +261,28 @@ class Tp_Blocks_Helper {
 				self::$get_block_deactivate = $deactivate_block;
 			}else{
 				foreach ( $load_blocks as $block_id => $block ) {
-					self::$get_load_block[] = $block_id;
-					$this->include_block( $block_id );
+					self::$get_block_deactivate[] = $block_id;
 					if(!empty($block_id) && $block_id=='tp-row'){
-						self::$get_load_block[] = 'tp-column';
-						$this->include_block( 'tp-column' );
+						self::$get_block_deactivate[] = 'tp-column';
 					}
 					if(!empty($block_id) && $block_id=='tp-container'){
-						self::$get_load_block[] = 'tp-container-inner';
-						$this->include_block( 'tp-container-inner' );
+						self::$get_block_deactivate[] = 'tp-container-inner';
 					}
 					if(!empty($block_id) && $block_id=='tp-accordion'){
-						self::$get_load_block[] = 'tp-accordion-inner';
-						$this->include_block( 'tp-accordion-inner' );	
+						self::$get_block_deactivate[] = 'tp-accordion-inner';
 					}
 					if(!empty($block_id) && $block_id=='tp-tabs-tours'){
-						self::$get_load_block[] = 'tp-tab-item';
-						$this->include_block( 'tp-tab-item' );	
+						self::$get_block_deactivate[] = 'tp-tab-item';
 					}
 					if(!empty($block_id) && $block_id=='tp-anything-carousel'){
-						self::$get_load_block[] = 'tp-anything-slide';
-						$this->include_block( 'tp-anything-slide' );	
+						self::$get_block_deactivate[] = 'tp-anything-slide';
 					}
 					if ( defined('TPGBP_VERSION') ) {
 						if(!empty($block_id) && $block_id=='tp-switcher'){
-							self::$get_load_block[] = 'tp-switch-inner';
-							$this->include_block( 'tp-switch-inner' );	
+							self::$get_block_deactivate[] = 'tp-switch-inner';
 						}
 						if(!empty($block_id) && $block_id=='tp-timeline'){
-							self::$get_load_block[] = 'tp-timeline-inner';
-							$this->include_block( 'tp-timeline-inner' );	
+							self::$get_block_deactivate[] = 'tp-timeline-inner';
 						}
 					}
 				}
@@ -1188,7 +1180,7 @@ class Tp_Blocks_Helper {
 			'speed' => isset( $attr['slideSpeed'] ) ? (int)$attr['slideSpeed'] : 1500,
 			'interval' => isset( $attr['slideAutoplaySpeed'] ) ? (int)$attr['slideAutoplaySpeed'] : '',
 			'drag' => isset( $attr['slideDraggable']['md'] ) ? $attr['slideDraggable']['md'] : false  ,
-			'type' => !empty( $attr['slideInfinite'] ) ? 'loop' : 'slide',
+			'type' => !empty( $attr['slideInfinite'] ) ? 'loop' : ( isset($attr['carType']) && !empty($attr['carType']) ? $attr['carType'] : 'slide' ),
 			'pauseOnHover' => isset( $attr['slideHoverPause'] ) ? $attr['slideHoverPause'] : false,
 			'pagination' => isset( $attr['showDots']['md'] ) ? $attr['showDots']['md'] : false ,
 			'arrows' => ( !empty($attr['showArrows']['md']) || !empty($attr['showArrows']['sm']) || !empty($attr['showArrows']['xs']) ) ? true : false,
@@ -1224,7 +1216,9 @@ class Tp_Blocks_Helper {
 		}else{
 			$settings['focus'] =  false;
 		}
-		
+		if( isset($attr['carType']) && !empty($attr['carType']) && $attr['carType'] == 'fade' ){
+			$settings['rewind'] = isset( $attr['rewindFade'] ) ? $attr['rewindFade'] : false;
+		}
 		
 		if(isset($attr['centerMode']['sm']) && $attr['centerMode']['sm'] == true){
 			$settings['breakpoints']['1024']['focus'] =  'center';

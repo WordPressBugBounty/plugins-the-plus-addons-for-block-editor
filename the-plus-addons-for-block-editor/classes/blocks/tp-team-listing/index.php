@@ -200,8 +200,6 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 				}
 			}
 		$TeamMember .= "</div>";
-
-		$TeamMember .= (!empty($cssMasking) ? '<style>'.esc_attr($cssMasking).'</style>' :'');
 	$TeamMember .= "</div>";
 	
 	$TeamMember = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $TeamMember);

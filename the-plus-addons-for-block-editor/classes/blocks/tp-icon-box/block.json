@@ -150,7 +150,7 @@
               "value": "fontAwesome"
             }
           ],
-          "selector": "{{PLUS_WRAP}} .tpgb-nicon{ font-size: {{ioSize}}; }"
+          "selector": "{{PLUS_WRAP}} .tpgb-nicon{ font-size: {{ioSize}}; } {{PLUS_WRAP}} .tpgb-nicon.dashicons{ width:auto; height:auto; }"
         },
         {
           "condition": [

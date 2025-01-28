@@ -186,6 +186,14 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
                     if ( false === get_option($action_defer) ){
                         add_option( $action_defer, 'true' );
                     }
+
+                    // Add option For Init Nexter Block Version
+                    $nxtData = [
+                        "install-version" => TPGB_VERSION , 
+                        "install-date" => date('d-m-Y') 
+                    ];
+                    add_option( 'nexter-installed-data', $nxtData );
+
 				}
 			}
 			
@@ -248,23 +256,19 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 		 */
         public function tpgb_settings_pro_link( $links ){
             // Settings link.
+            $nxtlink = [];
             if ( current_user_can( 'manage_options' ) ) {
-                $free_vs_pro = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/free-vs-pro/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'FREE vs Pro', 'tpgb' ) );
-                $links = (array) $links;
-                $links[] = $free_vs_pro;
-                $need_help = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://store.posimyth.com/get-support-nexterwp/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'Need Help?', 'tpgb' ) );
-                $links = (array) $links;
-                $links[] = $need_help;
+                $nxtlinks[] = sprintf( '<a href="%s" rel="noopener noreferrer">%s</a>', admin_url( 'admin.php?page=nexter_welcome_page'), __( 'Settings', 'tpgb' ) );
+                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/free-vs-pro/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'FREE vs Pro', 'tpgb' ) );
+                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://store.posimyth.com/get-support-nexterwp/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'Need Help?', 'tpgb' ) );
             }
 
             // Upgrade PRO link.
             if ( ! defined('TPGBP_VERSION') ) {
-                $pro_link = sprintf( '<a href="%s" target="_blank" style="color: #cc0000;font-weight: 700;" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/pricing/'), __( 'Upgrade PRO', 'tpgb' ) );
-                $links = (array) $links;
-                $links[] = $pro_link;
+                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" style="color: #cc0000;font-weight: 700;" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/pricing/'), __( 'Upgrade PRO', 'tpgb' ) );
             }
 
-            return $links;
+            return array_merge( $nxtlinks, $links );
         }
 
         /*
@@ -279,7 +283,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 						'docs' => '<a href="'.esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" target="_blank" rel="noopener noreferrer" style="color:green;">'.esc_html__( 'Docs', 'tpgb' ).'</a>',
 						'video-tutorials' => '<a href="'.esc_url('https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Video Tutorials', 'tpgb' ).'</a>',
 						'join-community' => '<a href="'.esc_url('https://www.facebook.com/groups/nexterwpcommunity/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Join Community', 'tpgb' ).'</a>',
-						'whats-new' => '<a href="'.esc_url('https://roadmap.nexterwp.com/updates').'" target="_blank" rel="noopener noreferrer" style="color: orange;">'.esc_html__( 'What\'s New?', 'tpgb' ).'</a>',
+						'whats-new' => '<a href="'.esc_url('https://roadmap.nexterwp.com/updates?filter=Nexter+Blocks+-+FREE').'" target="_blank" rel="noopener noreferrer" style="color: orange;">'.esc_html__( 'What\'s New?', 'tpgb' ).'</a>',
 						'req-feature' => '<a href="'.esc_url('https://roadmap.nexterwp.com/boards/feature-requests/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Request Feature', 'tpgb' ).'</a>',
 						'rate-plugin-star' => '<a href="'.esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/reviews/?filter=5').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Rate 5 Stars', 'tpgb' ).'</a>'
 						);

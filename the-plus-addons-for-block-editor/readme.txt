@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -502,6 +502,11 @@ Data Sent: Minimal anonymous data (e.g., timestamp for caching).
 Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
 
 == Changelog ==
+= 4.1.1 = 28 January 2024
+- Compatibility: Cartify Theme Compatibility with Nexter Block
+- Added : Plugin Page Settings Link Added.
+- Fixed : Minor Bugs and Improvements.
+
 = 4.1.0 = 22 January 2024
 - Added : Dash Icon Disabled : Global Option add for Improved Performance 
 - Improvement : Global Position : Merge all inline CSS styles into a dynamic CSS file, replacing inline <style> tags.

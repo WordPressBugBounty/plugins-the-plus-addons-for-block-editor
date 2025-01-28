@@ -16,7 +16,10 @@ function postimageInit(doc){
                     if (closestSection) {
                         closestSection.insertAdjacentHTML('afterbegin', tpOuterHTML(pi));
                     } else {
-                        pi.closest('.tpgb-container-row').insertAdjacentHTML('afterbegin', tpOuterHTML(pi));
+                        if( pi.closest('.tpgb-container-row') ){
+                             pi.closest('.tpgb-container-row').insertAdjacentHTML('afterbegin', tpOuterHTML(pi));
+                        }
+                       
                     }
                     pi.remove();
                 } else if (setting.imgType === 'background' && setting.imgLocation === 'column') {
@@ -24,7 +27,10 @@ function postimageInit(doc){
                     if (closestColumn) {
                         closestColumn.insertAdjacentHTML('afterbegin', tpOuterHTML(pi));
                     } else {
-                        pi.closest('.tpgb-container-col').insertAdjacentHTML('afterbegin', tpOuterHTML(pi));
+                        if( pi.closest('.tpgb-container-col') ){
+                            pi.closest('.tpgb-container-col').insertAdjacentHTML('afterbegin', tpOuterHTML(pi));
+                        }
+                        
                     }
                     pi.remove();
                 }

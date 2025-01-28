@@ -1043,6 +1043,38 @@ class Tpgb_Core_Init_Blocks {
 			}
 		}
 
+		//Agni Builder & Cartify
+		$footer_block_id = $header_block_id = '';
+		if(defined('AGNI_PLUGIN_URL')){
+			if( get_query_var( 'term' ) ){
+				$footer_block_id = esc_attr( get_term_meta(get_the_ID(), 'agni_term_footer_block_id', true) );
+				$header_block_id = get_term_meta($post_id, 'agni_term_header_id', true);
+			}else{
+				$footer_block_id = esc_attr( get_post_meta(get_the_ID(), 'agni_footer_block_id', true) );
+				$header_block_id = get_post_meta($post_id, 'agni_page_header_choice', true);
+			}
+		}
+		if( $footer_block_id == '' && function_exists( 'cartify_get_theme_option' ) ){
+			$footer_block_id = cartify_get_theme_option( 'footer_settings_content_block_choice', '' );
+		}
+		if($header_block_id=='' && function_exists( 'cartify_get_theme_option' )){
+			$headers = get_options('agni_header_builder_headers_list');
+			if(!empty($headers)){
+				foreach ($headers as $key => $header) {
+                    if($header['default']){
+                        $header_id = $header['id'];
+						$this->enqueue_post_css( $header_id );
+                    }
+                }
+			}
+		}else if(!empty($header_block_id)){
+			$this->enqueue_post_css( $header_block_id );
+		}
+
+		if(!empty($footer_block_id)){
+			$this->enqueue_post_css( $footer_block_id );
+		}
+		
 		//Kadence Theme Pro
 		if ( is_admin() || is_singular( 'kadence_element' ) || is_singular( 'kadence_wootemplate' ) ) {
 			return;

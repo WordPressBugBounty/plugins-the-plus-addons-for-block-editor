@@ -485,6 +485,7 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
             // Get User Email
             $admin_user = wp_get_current_user();
             $admin_email = $admin_user->user_email; 
+            $nxt_install_data = get_option( 'nexter-installed-data' );
 
 			$api_params = array(
 				'site_url'    => esc_url( home_url() ),
@@ -493,6 +494,10 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                 'tpgb_version' => TPGB_VERSION,
                 'admin_email'=>$admin_email,
 			);
+
+            if( !empty( $nxt_install_data ) ){
+                $api_params = array_merge($api_params , $nxt_install_data);
+            }
 
 			$response = wp_remote_post( 
                 $deavtive_url,

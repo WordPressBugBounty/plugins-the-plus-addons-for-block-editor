@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -502,6 +502,16 @@ Data Sent: Minimal anonymous data (e.g., timestamp for caching).
 Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
 
 == Changelog ==
+= 4.1.2 = 11 February 2025
+- Added : Container Grid CSS option added.
+- Compatibility : BerqWP Cache Plugin.
+- Fixed : Advanced Button : Multiple popup same content display bug fixed.
+- Fixed : Navigation Builder : Sub-menu open bug fixed in editor side & responsive bug fixed.
+- Fixed : Breadcrumb : SVG bug fixed.
+- Fixed : Social Embed : YouTube link bug fixed.
+- Fixed : Navigation Builder : Live copy-paste menu text removal bug fixed.
+- Minor bugs and improvements. 
+
 = 4.1.1 = 28 January 2024
 - Compatibility: Cartify Theme Compatibility with Nexter Block
 - Added : Plugin Page Settings Link Added.

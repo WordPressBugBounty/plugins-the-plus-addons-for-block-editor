@@ -48,7 +48,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             if ( is_admin() ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
                 add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
-                add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
+                // add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
             }
             add_action( 'wp_ajax_nxt_dismiss_plugin_rebranding', array( $this,'nxt_dismiss_plugin_rebranding_callback' ), 10, 1 );
             // add_action( 'wp_ajax_nxt_dismiss_plugin_halloween', array( $this,'nxt_dismiss_plugin_halloween' ), 10, 1 );
@@ -86,7 +86,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
          *
          * @since 4.0.2
          */
-        public function nxt_plugins_page_rebranding_banner( $plugin_file ) {
+        /* public function nxt_plugins_page_rebranding_banner( $plugin_file ) {
             if ( ! get_option('nxt_rebranding_dismissed') ) {
                 
                 $plugin_file_array = explode( '/', $plugin_file );
@@ -101,7 +101,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
                         </td></tr>';
                 }
             }
-        }
+        } */
 
         /**
          * Halloween Notice disable

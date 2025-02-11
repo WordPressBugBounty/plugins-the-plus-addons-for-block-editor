@@ -4,7 +4,7 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-function tpgb_button_render_callback( $attributes ) {
+function tpgb_button_render_callback( $attributes, $content ) {
 	$output = '';
     $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
 	$styleType = (!empty($attributes['styleType'])) ? $attributes['styleType'] : 'style-1';
@@ -202,7 +202,7 @@ function tpgb_button_render_callback( $attributes ) {
 	 
 	if(!empty($fancyBox)){
 		global $post;
-		$extrAttr .= 'data-src="#tpgb-query-'.(isset($post->ID) ? $post->ID : get_queried_object_id() ).'" data-touch="false" href="javascript:;" ';
+		$extrAttr .= 'data-src="#tpgb-query-'.esc_attr($block_id).'" data-touch="false" href="javascript:;" ';
 		
 		$autoDimen = (!empty($attributes['autoDimen'])) ? $attributes['autoDimen'] : false ;
 
@@ -231,7 +231,7 @@ function tpgb_button_render_callback( $attributes ) {
 
 		// Load Fancy Box Content 
 		if(!empty($fancyBox)){
-			$output .= '<div class="tpgb-btn-fpopup" id="tpgb-query-'.(isset($post->ID) ? $post->ID : get_queried_object_id() ).'" >';
+			$output .= '<div class="tpgb-btn-fpopup" id="tpgb-query-'.esc_attr($block_id).'" >';
 				ob_start();
 				if(!empty($attributes['templates']) && $attributes['templates'] != 'none') {
 					echo Tpgb_Library()->plus_do_block($attributes['templates']);

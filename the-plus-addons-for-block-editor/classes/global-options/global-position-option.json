@@ -189,7 +189,12 @@
       "default": false,
       "style": [
         {
-          "selector": "@media (min-width: 1201px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} {{PLUS_WRAP}}{ display:none !important; } }"
+            "selector": "@media (min-width: 1201px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} }",
+            "backend": true
+        },
+        {
+            "selector": "@media (min-width: 1201px){ {{PLUS_WRAP}}{ display:none !important; } }",
+            "backend": false
         }
       ],
       "scopy": true
@@ -199,7 +204,12 @@
       "default": false,
       "style": [
         {
-          "selector": "@media (min-width: 768px) and (max-width: 1200px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} {{PLUS_WRAP}}{ display:none !important; } }"
+            "selector": "@media (min-width: 768px) and (max-width: 1200px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} }",
+            "backend": true
+        },
+        {
+            "selector": "@media (min-width: 768px) and (max-width: 1200px){ {{PLUS_WRAP}}{ display:none !important; } }",
+            "backend": false
         }
       ],
       "scopy": true
@@ -209,9 +219,14 @@
       "default": false,
       "style": [
         {
-          "selector": "@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} {{PLUS_WRAP}}{ display:none !important; } }"
+            "selector": "@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} }",
+            "backend": true
+        },
+        {
+            "selector": "@media (max-width: 1024px){ {{PLUS_WRAP}}{ display:none !important; } }",
+            "backend": false
         }
-      ],
+    ],
       "scopy": true
     },
     "globalClasses": {

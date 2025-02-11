@@ -747,7 +747,13 @@ class Tpgb_Core_Init_Blocks {
 				}else if(method_exists('LiteSpeed_Cache_API', 'purge_all')){
 					LiteSpeed_Cache_API::purge_all();
 				}
-
+                
+                //berqCache Cache
+                if (class_exists('berqCache') && method_exists('berqCache', 'purge_page')) {
+                    $post_url = get_permalink( $post_id );
+                    berqCache::purge_page($post_url, true);
+                }
+                                            
 				// Purge WP-Optimize
 				if (class_exists('WP_Optimize')) {
 					$wpop = new WP_Optimize();

@@ -66,6 +66,9 @@ Front End + Back End */
 .tpgb-social-icons .tpgb-social-list > div:last-child .tpgb-icon-link {
     margin-right: 0
 }
+span.tpgb-social-icn {
+    line-height: 0;
+}
 @media (min-width: 768px) and (max-width:1024px) {
     .tsocialtext-center {
         text-align:center!important;

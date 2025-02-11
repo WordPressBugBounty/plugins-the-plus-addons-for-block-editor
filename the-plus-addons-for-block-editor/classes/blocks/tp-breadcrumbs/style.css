@@ -63,8 +63,11 @@
 .pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner a.home_bread_tab.on-off-home,.pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner a.parent_sub_bread_tab.on-off-parent,.pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner .current.on-off-current,.pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner .current_active.on-off-current {
     display: none!important
 }
-.pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner nav#breadcrumbs .bread-sep-icon, .pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner nav#breadcrumbs img.bread-sep-icon {
+.pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner nav#breadcrumbs .bread-sep-icon:not(svg), .pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner nav#breadcrumbs img.bread-sep-icon {
     padding: 10px;
+}
+.pt_plus_breadcrumbs_bar .pt_plus_breadcrumbs_bar_inner nav#breadcrumbs svg.bread-sep-icon{
+    margin: 10px;
 }
 .pt_plus_breadcrumbs_bar img.bread-home-img {
     max-width: 40px;

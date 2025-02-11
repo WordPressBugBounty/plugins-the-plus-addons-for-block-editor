@@ -963,6 +963,28 @@ class Tpgb_Generate_Blocks_Css {
 							}
 						}
 
+						if( $block_key === 'tpgb/tp-container' ){
+
+							//Grid CSS for Column 
+							if(!empty( $block_value['columnsRepeater'] )){
+								array_push( $md, $this->generate_grid_styles($block_value['columnsRepeater'], $block_value['contentWidth']['value'], $block_value['block_id']['value'], 'column','md'));
+
+								array_push( $sm, $this->generate_grid_styles($block_value['columnsRepeater'], $block_value['contentWidth']['value'], $block_value['block_id']['value'], 'column','sm'));
+
+								array_push( $xs, $this->generate_grid_styles($block_value['columnsRepeater'], $block_value['contentWidth']['value'], $block_value['block_id']['value'], 'column','xs'));
+							}
+
+							//Grid CSS for row 
+							if(!empty( $block_value['rowsRepeater'] )){
+
+								array_push( $md, $this->generate_grid_styles($block_value['rowsRepeater'], $block_value['contentWidth']['value'], $block_value['block_id']['value'], 'row','md'));
+
+								array_push( $sm, $this->generate_grid_styles($block_value['rowsRepeater'], $block_value['contentWidth']['value'], $block_value['block_id']['value'], 'row','sm'));
+								
+								array_push( $xs, $this->generate_grid_styles($block_value['rowsRepeater'], $block_value['contentWidth']['value'], $block_value['block_id']['value'], 'row','xs'));
+							}
+						}
+
 					}
 				}
 			}
@@ -1006,6 +1028,59 @@ class Tpgb_Generate_Blocks_Css {
 		}
 	}
 	
+	/*
+	 * Container Grid Style CSS Generate
+	 */
+
+	public function generate_grid_styles($gridRepeater, $contentWidth, $block_id, $type = 'column', $mediaSize = 'md') {
+
+		$gridValues = ['md' => [], 'sm' => [], 'xs' => []];
+		$gridStyles = '';
+	
+		if (!empty($gridRepeater)) {
+			$childSele = '';
+	
+			if (!empty($contentWidth) && $contentWidth !== 'full') {
+				$childSele = ".tpgb-block-{$block_id}.alignwide.tpgb-container-wide.tpgb-grid > .tpgb-cont-in ";
+			} else {
+				$childSele = ".tpgb-block-{$block_id}.alignfull.tpgb-container-full.tpgb-grid ";
+			}
+	
+			foreach ($gridRepeater as $item) {
+				$propertyKey = $type === 'column' ? 'gridProperty' : 'gridRowProperty';
+				$customKey = $type === 'column' ? 'gridWidth' : 'gridHeight';
+				$minKey = $type === 'column' ? 'gridMin' : 'gridRowMin';
+				$maxKey = $type === 'column' ? 'gridMax' : 'gridRowMax';
+	
+				foreach (['md', 'sm', 'xs'] as $size) {
+
+					if (isset($item[$propertyKey][$size]) && $item[$propertyKey][$size] === 'auto') {
+						
+						$gridValues[$size][] = 'minmax(1px, auto)';
+					}
+	
+					if (isset($item[$propertyKey][$size], $item[$customKey][$size], $item[$customKey]['unit']) && $item[$propertyKey][$size] === 'custom' && !empty($item[$customKey][$size]) && !empty($item[$customKey]['unit'])) {
+
+						$gridValues[$size][] = 'minmax(1px, ' . $item[$customKey][$size] . $item[$customKey]['unit'] . ')';
+					}
+	
+					if (isset($item[$propertyKey][$size], $item[$minKey][$size], $item[$minKey]['unit'], $item[$maxKey][$size], $item[$maxKey]['unit']) && $item[$propertyKey][$size] === 'minmax' && $item[$minKey][$size] !== '1px' && !empty($item[$minKey]['unit']) && !empty($item[$maxKey][$size]) && !empty($item[$maxKey]['unit'])) {
+
+						$gridValues[$size][] = 'minmax(' . $item[$minKey][$size] . $item[$minKey]['unit'] . ', ' . $item[$maxKey][$size] . $item[$maxKey]['unit'] . ')';
+					}
+				}
+			}
+	
+			$gridTemplateProperty = $type === 'column' ? 'grid-template-columns' : 'grid-template-rows';
+			if (!empty($gridValues[$mediaSize])) {
+				$templateValues = implode(' ', $gridValues[$mediaSize]);
+				$gridStyles = "{$childSele} { $gridTemplateProperty: $templateValues; }";
+			}
+		}
+	
+		return $gridStyles;
+	}
+
 	/*
 	 * Condition attribute Style
 	 */

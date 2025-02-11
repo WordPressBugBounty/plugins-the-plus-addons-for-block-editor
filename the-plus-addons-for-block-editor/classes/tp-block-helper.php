@@ -1449,7 +1449,14 @@ class Tp_Blocks_Helper {
 									foreach($val as $sub_key => $sub_val) {
 										if( isset( $sub_val['url'] ) && ( isset( $sub_val['Id'] ) || isset( $sub_val['id'] ) ) && !empty( $sub_val['url'] ) ){
 											$new_media = Tpgb_Import_Images::media_import( $sub_val );
-											$block_data['attributes'][$block_key][$key][$sub_key] = $new_media;
+
+                                            if( is_array($sub_val) && is_array($new_media) ){
+                                                $block_data['attributes'][$block_key][$key][$sub_key] = array_merge($sub_val , $new_media);
+                                            }else{
+                                                $block_data['attributes'][$block_key][$key][$sub_key] =  $new_media;
+                                            }
+											
+
 										}else if( isset( $sub_val['url'] ) && !empty( $sub_val['url'] ) && preg_match('/\.(jpg|png|jpeg|gif|svg|webp)$/', $sub_val['url'])) {
 											$new_media = Tpgb_Import_Images::media_import( $sub_val );
 											$block_data['attributes'][$block_key][$key][$sub_key] = $new_media;
@@ -1457,7 +1464,11 @@ class Tp_Blocks_Helper {
 											foreach($sub_val as $sub_key1 => $sub_val1) {
 												if( isset( $sub_val1['url'] ) && ( isset( $sub_val1['Id'] ) || isset( $sub_val1['id'] ) ) && !empty( $sub_val1['url'] ) ){
 													$new_media = Tpgb_Import_Images::media_import( $sub_val1 );
-													$block_data['attributes'][$block_key][$key][$sub_key][$sub_key1] = $new_media;
+                                                    if( is_array($sub_val1) && is_array($new_media) ){
+													    $block_data['attributes'][$block_key][$key][$sub_key][$sub_key1] = array_merge($sub_val1 , $new_media);
+                                                    }else{
+                                                        $block_data['attributes'][$block_key][$key][$sub_key][$sub_key1] = $new_media;
+                                                    }
 												}else if( isset( $sub_val1['url'] ) && !empty( $sub_val1['url'] ) && preg_match('/\.(jpg|png|jpeg|gif|svg|webp)$/', $sub_val1['url'])) {
 													$new_media = Tpgb_Import_Images::media_import( $sub_val1 );
 													$block_data['attributes'][$block_key][$key][$sub_key][$sub_key1] = $new_media;

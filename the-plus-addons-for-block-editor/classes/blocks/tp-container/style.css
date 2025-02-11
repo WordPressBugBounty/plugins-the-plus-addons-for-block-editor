@@ -73,3 +73,13 @@
     max-width: 100vw !important;
 }
 /*kadence*/
+
+/* Grid Layout CSS */
+.tpgb-grid {
+    padding: 15px 0px;
+}
+.tpgb-container-row.tpgb-grid:not(.tpgb-container-row-editor) .tpgb-cont-in,.tpgb-container-row.tpgb-container-full.tpgb-grid:not(.tpgb-container-row-editor) {
+    display: grid;
+    gap: 10px;
+    grid-auto-flow: row;
+}

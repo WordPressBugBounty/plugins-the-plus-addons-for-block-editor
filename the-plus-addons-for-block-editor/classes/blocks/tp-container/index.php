@@ -20,6 +20,8 @@ function tpgb_tp_container_render_callback( $attributes, $content) {
 	$tagName = (!empty($attributes['tagName'])) ? $attributes['tagName'] : '';
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 
+	$selectedLayout = (!empty($attributes['selectedLayout'])) ? $attributes['selectedLayout'] : '';
+
 	$sectionClass = '';
 	if( !empty( $height ) ){
 		$sectionClass .= ' tpgb-section-height-'.esc_attr($height);
@@ -43,14 +45,16 @@ function tpgb_tp_container_render_callback( $attributes, $content) {
 		$linkdata .= Tp_Blocks_Helper::add_link_attributes($attributes['rowUrl']);
 	}
 
-	$output .= '<'.Tp_Blocks_Helper::validate_html_tag($tagName).' '.$customId.' class="tpgb-container-row tpgb-block-'.esc_attr($block_id).' '.esc_attr($sectionClass).' '.esc_attr($customClass).' '.esc_attr($blockClass).' '.($colDir == 'c100' || $colDir == 'r100' ? ' tpgb-container-inline' : '').'  tpgb-container-'.esc_attr($contentWidth).' " data-id="'.esc_attr($block_id).'" '.$linkdata.' >';
+	$output .= '<'.Tp_Blocks_Helper::validate_html_tag($tagName).' '.$customId.' class="tpgb-container-row tpgb-block-'.esc_attr($block_id).' '.esc_attr($sectionClass).' '.esc_attr($customClass).' '.esc_attr($blockClass).' '.($colDir == 'c100' || $colDir == 'r100' ? ' tpgb-container-inline' : '').'  tpgb-container-'.esc_attr($contentWidth).' '.($selectedLayout == 'grid' ? 'tpgb-grid' : '').'" data-id="'.esc_attr($block_id).' " '.$linkdata.' >';
 	if($contentWidth=='wide'){
 		$output .= '<div class="tpgb-cont-in">';
 	}
 		$output .= $content;
+
 	if($contentWidth=='wide'){
 		$output .= '</div>';
 	}
+
 	$output .= "</".Tp_Blocks_Helper::validate_html_tag($tagName).">";
 	
 	
@@ -958,6 +962,409 @@ function tpgb_tp_container_row() {
 						'backend' => false,
 					],
 				],
+			],
+
+			// Grid Layouts Attributes
+			'columnsRepeater' => [
+				"type" => "array",
+				"repeaterField" => array(
+					array(
+						'gridProperty' => [
+							'type' => 'object',
+							'default' => [
+								'md' => 'custom',
+							],
+						],
+						'gridMin' => [
+							'type' => 'object',
+							'default' => [
+								'md' => '10',
+								'unit'=>'px'
+							],
+						],
+						'gridMax' => [
+							'type' => 'object',
+							'default' => [
+								'md' => '1',
+								'unit'=>'fr'
+							],
+						],
+						'gridWidth' => [
+							'type' => 'object',
+							'default' => [
+								'md' => '1',
+								'unit'=>'fr'
+							],
+
+						],
+					),
+				),
+				"default" => array(
+					array(
+						"_key" => "0",
+						'gridProperty' => [ 
+							'md' =>'custom'
+						],
+						'gridMin'=>[
+							'md' => '10',
+							'unit'=>'px'
+						],
+						'gridMax'=>[
+							'md' => '1',
+							'unit'=>'fr'
+						],
+						'gridWidth'=>[
+							'md' => '1',
+							'unit'=>'fr'
+						],
+
+					),
+				),
+			],
+			'rowsRepeater' => [
+				"type" => "array",
+				"repeaterField" => array(
+					array(
+						'gridRowProperty' => [
+							'type' => 'object',
+							'default' => [
+								'md' => 'custom',
+							],
+						],
+						'gridRowMin' => [
+							'type' => 'object',
+							'default' => [
+								'md' => '10',
+								'unit'=>'px'
+							],
+						],
+						'gridRowMax' => [
+							'type' => 'object',
+							'default' => [
+								'md' => '1',
+								'unit'=>'fr'
+							],
+						],
+						'gridHeight' => [
+							'type' => 'object',
+							'default' => [
+								'md' => '1',
+								'unit'=>'fr'
+							],
+
+						],
+					),
+				),
+				"default" => array(
+					array(
+						"_key" => "0",
+						'gridRowProperty' =>  [ 
+							'md' =>'custom'
+						],
+						'gridRowMin'=>[
+							'md' => '10',
+							'unit'=>'px'
+						],
+						'gridRowMax'=>[
+							'md' => '1',
+							'unit'=>'fr'
+						],
+						'gridHeight'=>[
+							'md' => '1',
+							'unit'=>'fr'
+						],
+
+					),
+				),
+			],
+			'gridFlow' => [
+				'type' => 'string',
+				'default'=>'row',				
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} .tpgb-grid > .block-editor-block-list__layout, {{PLUS_CLIENT_ID}} .tpgb-container-row-editor.tpgb-grid > .tpgb-cont-in > .block-editor-block-list__layout { grid-auto-flow: {{gridFlow}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-grid .tpgb-cont-in, {{PLUS_WRAP}}.tpgb-container-full.tpgb-container-row.tpgb-grid { grid-auto-flow: {{gridFlow}}; }',
+						'backend' => false,
+					],
+				],
+			],
+			'gridJustify' => [
+                'type' => 'object',
+                'default'=>[
+                    'md' => 0,
+                ],
+                'style' => [
+                    (object) [
+                        'selector' => '{{PLUS_CLIENT_ID}} .tpgb-grid > .block-editor-block-list__layout, .tpgb-container-row-editor.tpgb-grid > .tpgb-cont-in > .block-editor-block-list__layout {justify-content: {{gridJustify}}; }',
+                        'backend' => true,
+                    ],
+                    (object) [
+                        'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-grid .tpgb-cont-in,
+                        {{PLUS_WRAP}}.tpgb-container-full.tpgb-container-row.tpgb-grid {justify-content: {{gridJustify}}; }',
+                        'backend' => false,
+                    ],
+                ],
+            ],
+			'gridAlign' => [
+				'type' => 'object',
+				'default'=>[ 
+					'md' => 0,
+				],				
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} .tpgb-grid > .block-editor-block-list__layout, {{PLUS_CLIENT_ID}} .tpgb-container-row-editor.tpgb-grid > .tpgb-cont-in > .block-editor-block-list__layout {align-items: {{gridAlign}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-grid .tpgb-cont-in,
+						{{PLUS_WRAP}}.tpgb-container-full.tpgb-container-row.tpgb-grid {align-items: {{gridAlign}}; }',
+						'backend' => false,
+					],
+				],
+			],
+			'gridAlignCon' => [
+                'type' => 'object',
+                'default' => [ 'md' => '', 'sm' =>  '', 'xs' =>  '' ],
+                'style' => [
+                    (object) [
+                        'selector' => '{{PLUS_CLIENT_ID}} .tpgb-grid > .block-editor-block-list__layout, .tpgb-container-row-editor.tpgb-grid > .tpgb-cont-in > .block-editor-block-list__layout {align-content : {{gridAlignCon}} }',
+                        'backend' => true,
+                    ],
+                    (object) [
+                        'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-grid .tpgb-cont-in,
+                        {{PLUS_WRAP}}.tpgb-container-full.tpgb-container-row.tpgb-grid {align-content : {{gridAlignCon}} }',
+                        'backend' => false,
+                    ],
+                ],
+                'scopy' => true,
+            ],
+            'gridJustItems' => [
+                'type' => 'object',
+                'default' => [ 'md' => '', 'sm' =>  '', 'xs' =>  '' ],
+                'style' => [
+                    (object) [
+                        'selector' => '{{PLUS_CLIENT_ID}} .tpgb-grid > .block-editor-block-list__layout, .tpgb-container-row-editor.tpgb-grid > .tpgb-cont-in > .block-editor-block-list__layout {justify-items : {{gridJustItems}}; }',
+                        'backend' => true,
+                    ],
+                    (object) [
+                        'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-grid .tpgb-cont-in,
+                        {{PLUS_WRAP}}.tpgb-container-full.tpgb-container-row.tpgb-grid { justify-items : {{gridJustItems}}; }',
+                        'backend' => false,
+                    ],
+                ],
+                'scopy' => true,
+            ],
+			'selectedLayout' => [
+				'type' => 'string',
+				'default' => '',
+			],
+			'gridStyle' => [
+				'type' => 'string',
+				'default' => '',
+			],
+
+			'isrootContainer' => [
+				'type' => 'boolean',
+				'default' => false,
+			],
+			'iscontGrid' => [
+				'type' => 'boolean',
+				'default' => false,
+			],
+			'colWidth' => [
+				'type' => 'object',
+				'default' => [ 
+					'md' => '',
+				],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} {grid-column: span {{colWidth}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row {grid-column: span {{colWidth}}; }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+			],
+			'rowHeight' => [
+				'type' => 'object',
+				'default' => [ 
+					'md' => '',
+				],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} {grid-row: span {{rowHeight}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row {grid-row: span {{rowHeight}};  }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+			],
+			'colStart' => [
+				'type' => 'object',
+				'default' => [
+					'md' => ''
+				],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} {grid-column-start: {{colStart}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row { grid-column-start: {{colStart}}; }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+
+			],
+			'colEnd' => [
+				'type' => 'object',
+				'default' => [
+					'md' => ''
+				],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} {grid-column-end: {{colEnd}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row { grid-column-end: {{colEnd}}; }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+
+			],
+			'rowStart' => [
+				'type' => 'object',
+				'default' => [
+					'md' => ''
+				],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} {grid-row-start: {{rowStart}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row { grid-row-start: {{rowStart}}; }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+
+			],
+			'rowEnd' => [
+				'type' => 'object',
+				'default' => [
+					'md' => ''
+				],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} {grid-row-end: {{rowEnd}}; }',
+						'backend' => true,
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row { grid-row-end: {{rowEnd}}; }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+
+			],
+			'gridFlexAlign' => [
+				'type' => 'object',
+				'default' => [ 'md' => '', 'sm' =>  '', 'xs' =>  '' ],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} { align-items : {{gridFlexAlign}} }',
+						'backend' => true
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row { align-items : {{gridFlexAlign}} }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+			],
+			'gridFlexJustify' => [
+				'type' => 'object',
+				'default' => [ 'md' => '', 'sm' =>  '', 'xs' =>  '' ],
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_CLIENT_ID}} { justify-content : {{gridFlexJustify}} }',
+						'backend' => true
+					],
+					(object) [
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row { justify-content : {{gridFlexJustify}} }',
+						'backend' => false,
+					],
+				],
+				'scopy' => true,
+			],
+			'colGap' => [
+				'type' => 'object',
+				'default' => [ 
+					'md' => '',	
+					"unit" => 'px',
+				],
+				'style' => [
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'wide']],
+						'selector' => '{{PLUS_WRAP}} > .tpgb-cont-in > .tpgb-contain-block-editor.block-editor-block-list__layout {grid-column-gap: {{colGap}}; }',
+						'backend' => true
+					],
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'full']],
+						'selector' => '{{PLUS_WRAP}} > .tpgb-contain-block-editor.block-editor-block-list__layout {grid-column-gap: {{colGap}}; }',
+						'backend' => true
+					],
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'wide']],
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-container-wide.tpgb-grid .tpgb-cont-in {grid-column-gap: {{colGap}}; }',
+					],
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'full']],
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-container-full.tpgb-grid {grid-column-gap: {{colGap}}; }',
+					],
+				],
+				'scopy' => true,
+			],
+			'rowGap' => [
+				'type' => 'object',
+				'default' => [ 
+					'md' => '',	
+					"unit" => 'px',
+				],
+				'style' => [
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'wide']],
+						'selector' => '{{PLUS_WRAP}} > .tpgb-cont-in > .tpgb-contain-block-editor.block-editor-block-list__layout {grid-row-gap: {{rowGap}}; }',
+						'backend' => true
+					],
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'full']],
+						'selector' => '{{PLUS_WRAP}} > .tpgb-contain-block-editor.block-editor-block-list__layout {grid-row-gap: {{rowGap}}; }',
+						'backend' => true
+					],
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'wide']],
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-container-wide.tpgb-grid .tpgb-cont-in {grid-row-gap: {{rowGap}};}',
+					],
+					(object) [
+						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'full']],
+						'selector' => '{{PLUS_WRAP}}.tpgb-container-row.tpgb-container-full.tpgb-grid {grid-row-gap: {{rowGap}}; }',
+					],
+				],
+				'scopy' => true,
 			],
  		];
 		

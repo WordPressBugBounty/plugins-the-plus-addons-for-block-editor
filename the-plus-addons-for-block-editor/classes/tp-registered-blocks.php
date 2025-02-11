@@ -2769,7 +2769,7 @@ Class Tpgb_Library {
 			}
 
 			//4.1.0
-			if( version_compare( TPGB_VERSION, '4.1.1', '==' ) && !in_array( '4.1.0', $get_version ) ){
+			if( version_compare( TPGB_VERSION, '4.1.0', '==' ) && !in_array( '4.1.0', $get_version ) ){
 				$this->remove_dir_files(TPGB_ASSET_PATH);
 				$this->remove_dir_dynamic_style_files(TPGB_ASSET_PATH);
 				$versions = array_unique( array_merge( $get_version, $versions ) );
@@ -2780,6 +2780,13 @@ Class Tpgb_Library {
 				if(method_exists('LiteSpeed_Cache_API', 'purge_all')){
 					LiteSpeed_Cache_API::purge_all();
 				}
+
+                //berqCache All cache
+				if (class_exists('berqCache') && method_exists('berqCache', 'delete_cache_files')) {
+					$berqCache = new berqCache();
+					$berqCache->delete_cache_files();
+				}
+
 
 				// W3 Total Cache.
 				if ( function_exists( 'w3tc_flush_all' ) ) {

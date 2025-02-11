@@ -263,7 +263,19 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 			
 			if($ytType == "ytSV"){
 				$ytVideoId = (!empty($attributes['ytVideoId']) ) ? $attributes['ytVideoId'] : '';
-				$ytSrc = 'https://www.youtube-nocookie.com/embed/'.esc_attr($ytVideoId).'?'.esc_attr($YT_Parameters);
+				$videoId = $ytVideoId;
+				if (strpos($ytVideoId, 'https://www.youtube.com/watch') === 0) {
+					$urlParts = wp_parse_url($ytVideoId);
+					
+					if (!empty($urlParts['query'])) {
+						parse_str($urlParts['query'], $queryParams);
+						if (!empty($queryParams['v']) && preg_match('/^[a-zA-Z0-9_-]{11}$/', $queryParams['v'])) {
+							$videoId = sanitize_text_field($queryParams['v']);
+						}
+					}
+				}
+
+				$ytSrc = 'https://www.youtube-nocookie.com/embed/'.esc_attr($videoId).'?'.esc_attr($YT_Parameters);
 			}else if($ytType == "ytPlayV"){
 				$ytPlaylistId = (!empty($attributes['ytPlaylistId']) ) ? $attributes['ytPlaylistId'] : '';
 				$ytSrc = 'https://www.youtube-nocookie.com/embed?listType=playlist&list='.esc_attr($ytPlaylistId).'&'.esc_attr($YT_Parameters);

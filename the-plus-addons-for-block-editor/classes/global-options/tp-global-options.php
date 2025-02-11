@@ -612,7 +612,12 @@ class Tpgb_Blocks_Global_Options {
 				'default' => false,
 				'style' => [
 					(object) [
-						'selector' => '@media (min-width: 1201px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} {{PLUS_WRAP}}{ display:none !important; } }',
+						'selector' => '@media (min-width: 1201px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} }',
+                        'backend' => true,
+					],
+                    (object) [
+						'selector' => '@media (min-width: 1201px){ {{PLUS_WRAP}}{ display:none !important; } }',
+                        'backend' => false,
 					],
 				],
 				'scopy' => true,
@@ -622,7 +627,12 @@ class Tpgb_Blocks_Global_Options {
 				'default' => false,
 				'style' => [
 					(object) [
-						'selector' => '@media (min-width: 768px) and (max-width: 1200px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} {{PLUS_WRAP}}{ display:none !important; } }',
+						'selector' => '@media (min-width: 768px) and (max-width: 1200px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} }',
+                        'backend' => true,
+					],
+                    (object) [
+						'selector' => '@media (min-width: 768px) and (max-width: 1200px){ {{PLUS_WRAP}}{ display:none !important; } }',
+                        'backend' => false,
 					],
 				],
 				'scopy' => true,
@@ -632,7 +642,12 @@ class Tpgb_Blocks_Global_Options {
 				'default' => false,
 				'style' => [
 					(object) [
-						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} {{PLUS_WRAP}}{ display:none !important; } }',
+						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px){ .edit-post-visual-editor {{PLUS_WRAP}},.editor-styles-wrapper {{PLUS_WRAP}}{display: block;opacity: .5;} }',
+                        'backend' => true,
+					],
+                    (object) [
+						'selector' => '@media (max-width: 1024px){.text-center{text-align: center;}}@media (max-width: 767px){ {{PLUS_WRAP}}{ display:none !important; } }',
+                        'backend' => false,
 					],
 				],
 				'scopy' => true,

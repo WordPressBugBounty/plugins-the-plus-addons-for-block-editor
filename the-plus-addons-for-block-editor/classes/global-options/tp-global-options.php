@@ -23,6 +23,10 @@ class Tpgb_Blocks_Global_Options {
 	 */
 	private static $instance;
 	
+    public static $merge_options = array();
+    public static $global_options = array();
+    public static $global_pro_opt = array();
+
 	/**
 	 *  Initiator
 	 */
@@ -1528,6 +1532,7 @@ class Tpgb_Blocks_Global_Options {
 	 * Merge Attributes Options Block JSON
 	 * @since V4.0.0
 	 * */
+    
 	public static function merge_options_json($block_path= '', $render_callback = '', $adv_opt = true, $carousel_opt = false, $plus_button = false){
 
 		if(empty($block_path)){
@@ -1541,32 +1546,53 @@ class Tpgb_Blocks_Global_Options {
 			
 			//carousel options
 			if(!empty($carousel_opt) && $carousel_opt===true){
-				$option_path = __DIR__ . '/global-carousel-option.json';
-				if (is_string($option_path) && file_exists($option_path)) {
-					$option_data = wp_json_file_decode($option_path, ['associative' => true]);
-					if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
-						$metadata['attributes'] = array_merge( $option_data , $metadata['attributes'] );
+				if(!empty(self::$merge_options) && isset(self::$merge_options['global-carousel']) && !empty(self::$merge_options['global-carousel'])){
+					$metadata['attributes'] = array_merge( self::$merge_options['global-carousel'] , $metadata['attributes'] );
+				}else{
+					$option_path = __DIR__ . '/global-carousel-option.json';
+					if (is_string($option_path) && file_exists($option_path)) {
+						$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+						if(!empty($option_data)){
+							self::$merge_options['global-carousel'] = $option_data;
+						}
+						if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+							$metadata['attributes'] = array_merge( $option_data , $metadata['attributes'] );
+						}
 					}
 				}
 
 				if(defined('TPGBP_VERSION') && defined('TPGBP_PATH')){
-					$option_path = TPGBP_PATH.'classes/global-options/global-carousel-option.json';
-					if (is_string($option_path) && file_exists($option_path)) {
-						$option_data = wp_json_file_decode($option_path, ['associative' => true]);
-						if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
-							$metadata['attributes'] = array_merge( $option_data , $metadata['attributes']);
+					if(!empty(self::$merge_options) && isset(self::$merge_options['global-pro-carousel']) && !empty(self::$merge_options['global-pro-carousel'])){
+						$metadata['attributes'] = array_merge( self::$merge_options['global-pro-carousel'] , $metadata['attributes'] );
+					}else{
+						$option_path = TPGBP_PATH.'classes/global-options/global-carousel-option.json';
+						if (is_string($option_path) && file_exists($option_path)) {
+							$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+							if(!empty($option_data)){
+								self::$merge_options['global-pro-carousel'] = $option_data;
+							}
+							if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+								$metadata['attributes'] = array_merge( $option_data , $metadata['attributes']);
+							}
 						}
 					}
 				}
 			}
-			
+
 			//Plus button Options
 			if(!empty($plus_button) && $plus_button===true){
-				$option_path = __DIR__ . '/global-button-option.json';
-				if (is_string($option_path) && file_exists($option_path)) {
-					$option_data = wp_json_file_decode($option_path, ['associative' => true]);
-					if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
-						$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+				if(!empty(self::$merge_options) && isset(self::$merge_options['global-button']) && !empty(self::$merge_options['global-button'])){
+					$metadata['attributes'] = array_merge( $metadata['attributes'],self::$merge_options['global-button'] );
+				}else{
+					$option_path = __DIR__ . '/global-button-option.json';
+					if (is_string($option_path) && file_exists($option_path)) {
+						$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+						if(!empty($option_data)){
+							self::$merge_options['global-button'] = $option_data;
+						}
+						if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+							$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+						}
 					}
 				}
 			}
@@ -1580,12 +1606,21 @@ class Tpgb_Blocks_Global_Options {
 					'global-display-rules.json'
 				];
 		
-				foreach ($global_options as $option) {
-					$option_path = __DIR__ . '/' . $option;
-					if (is_string($option_path) && file_exists($option_path)) {
-						$option_data = wp_json_file_decode($option_path, ['associative' => true]);
-						if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
-							$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+				if(!empty(self::$global_options)){
+					if(!empty($metadata) && isset($metadata['attributes'])){
+						$metadata['attributes'] = array_merge($metadata['attributes'], self::$global_options);
+					}
+				}else{
+					foreach ($global_options as $option) {
+						$option_path = __DIR__ . '/' . $option;
+						if (is_string($option_path) && file_exists($option_path)) {
+							$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+							if(!empty($option_data)){
+								self::$global_options = array_merge(self::$global_options, $option_data);
+							}
+							if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+								$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+							}
 						}
 					}
 				}
@@ -1596,12 +1631,22 @@ class Tpgb_Blocks_Global_Options {
 						'global-plus-extras-option.json',
 					];
 
-					foreach ($global_pro_opt as $option) {
-						$option_path = TPGBP_PATH.'classes/global-options/' . $option;
-						if (is_string($option_path) && file_exists($option_path)) {
-							$option_data = wp_json_file_decode($option_path, ['associative' => true]);
-							if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
-								$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+					if(!empty(self::$global_pro_opt)){
+						if(!empty($metadata) && isset($metadata['attributes'])){
+							$metadata['attributes'] = array_merge($metadata['attributes'], self::$global_pro_opt);
+						}
+					}else{
+
+						foreach ($global_pro_opt as $option) {
+							$option_path = TPGBP_PATH.'classes/global-options/' . $option;
+							if (is_string($option_path) && file_exists($option_path)) {
+								$option_data = wp_json_file_decode($option_path, ['associative' => true]);
+								if(!empty($option_data)){
+									self::$global_pro_opt = array_merge(self::$global_pro_opt, $option_data);
+								}
+								if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+									$metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+								}
 							}
 						}
 					}
@@ -1609,7 +1654,7 @@ class Tpgb_Blocks_Global_Options {
 			}
 			
 			//render block php
-			if(!empty($metadata) && !empty($render_callback)){  // && !empty($render)
+			if(!empty($metadata) && !empty($render_callback)){
 				$metadata['render_callback'] = $render_callback;
 			}
 			return $metadata;

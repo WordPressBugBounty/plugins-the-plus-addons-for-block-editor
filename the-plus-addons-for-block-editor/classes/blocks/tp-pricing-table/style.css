@@ -123,6 +123,9 @@
 .pricing-content-wrap.content-desc.style-1 .pricing-content {
     padding: 0 4%
 }
+.pricing-content-wrap.content-desc .pricing-content{
+    transition: all 0.3s;
+}
 /* wysiwyg style-1 end */
 .tpgb-pricing-table .pricing-table-inner .pricing-icon {
     margin: 0 auto 8px;
@@ -187,6 +190,7 @@
     background: #fff;
     border-radius: 3px;
 	border: 1px solid #ddd;
+    transform: scale(1);
 }
 .tpgb-pricing-table.pricing-style-1 .pricing-title-content {
     margin-bottom: 20px

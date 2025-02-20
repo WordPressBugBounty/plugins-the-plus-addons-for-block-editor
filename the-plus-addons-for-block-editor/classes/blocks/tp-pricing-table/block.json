@@ -772,6 +772,23 @@
       ],
       "scopy": true
     },
+    "wysiwygTextHvrColor": {
+      "type": "string",
+      "default": "",
+      "style": [
+        {
+          "condition": [
+            {
+              "key": "contentStyle",
+              "relation": "==",
+              "value": "wysiwyg"
+            }
+          ],
+          "selector": "{{PLUS_WRAP}} .pricing-content-wrap.content-desc .pricing-content:hover , {{PLUS_WRAP}} .pricing-content-wrap.content-desc .pricing-content p:hover{ color: {{wysiwygTextHvrColor}}; }"
+        }
+      ],
+      "scopy": true
+    },
     "wyBorderWidth": {
       "type": "object",
       "default": {
@@ -1477,6 +1494,61 @@
         }
       ],
       "scopy": true
+    },
+    "areaBorder": {
+        "type": "object",
+        "default": {
+          "openBorder": 0,
+          "type": "",
+          "color": "",
+          "width": {
+            "md": {
+              "top": "",
+              "left": "",
+              "bottom": "",
+              "right": ""
+            },
+            "unit": "px"
+          }
+        },
+        "style": [
+          {
+            "condition": [
+                {
+                    "key": "conListStyle",
+                    "relation": "==",
+                    "value": "style-1"
+                }
+            ],
+            "selector": "{{PLUS_WRAP}} .pricing-content-wrap.listing-content.style-1 .tpgb-icon-list-items"
+          }
+        ],
+        "scopy": true
+    },
+    "areaPadding": {
+        "type": "object",
+        "default": {
+          "md": {
+            "top": "",
+            "right": "",
+            "bottom": "",
+            "left": ""
+          },
+          "unit": "px"
+        },
+        "style": [
+          {
+            "condition": [
+                {
+                    "key": "conListStyle",
+                    "relation": "==",
+                    "value": "style-1"
+                }
+            ],
+            "selector": "{{PLUS_WRAP}} .pricing-content-wrap.listing-content.style-1 .tpgb-icon-list-items{padding: {{areaPadding}};}"
+          }
+        ],
+        "scopy": true
     },
     "listIcnHvrColor": {
       "type": "string",

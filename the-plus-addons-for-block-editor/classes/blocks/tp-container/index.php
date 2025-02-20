@@ -406,7 +406,12 @@ function tpgb_tp_container_row() {
 				],
 				'style' => [
 					(object) [
+						'condition' => [ (object) ['key' => 'align', 'relation' => '!=', 'value' => 'full']],
 						'selector' => '{{PLUS_WRAP}}{margin: {{Margin}} !important; }',
+					],
+					(object) [
+						'condition' => [ (object) ['key' => 'align', 'relation' => '==', 'value' => 'full']],
+						'selector' => '{{PLUS_WRAP}}.alignfull{margin: {{Margin}}; }',
 					],
 				],
 				'scopy' => true,

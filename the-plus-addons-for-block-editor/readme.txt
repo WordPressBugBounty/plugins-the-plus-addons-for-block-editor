@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 4.1.3
+Stable tag: 4.1.4
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -501,14 +501,21 @@ Purpose: Connects to theplusaddons.com to fetch templates and social review data
 Data Sent: Minimal anonymous data (e.g., timestamp for caching).
 Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
 
+
 == Changelog ==
+= 4.1.4 = 19 February 2025
+- Added : Pricing Table : Text Hover Colour Added in Content area text.
+- Added : Pricing Table : Content Area Stylish List with Border & Padding Options in Stylish List Style-1. 
+- Fixed : Container Full-Width Bug in Editor.
+- Fixed : Info Box : Template Kit import From WDesignkit Bug Fix.
+– Minor Bugs and Improvements.
+
 = 4.1.3 = 13 February 2025
 - Compatibility : Rank Math Plugin.
 - Improvement : Optimize Code to Reduce Memory Usage in Blocks.
 - Fixed : Container : Grid Layout Auto Column CSS bug Fix.
 - Minor Bugs and Improvements.
 
-== Changelog ==
 = 4.1.2 = 11 February 2025
 - Added : Container Grid CSS option added.
 - Compatibility : BerqWP Cache Plugin.

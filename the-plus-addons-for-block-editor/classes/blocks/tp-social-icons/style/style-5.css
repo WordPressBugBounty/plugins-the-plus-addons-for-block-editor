@@ -29,3 +29,6 @@
 .tpgb-social-icons.style-5 .tpgb-social-list > div .tpgb-icon-link,.tpgb-social-icons.style-5 .tpgb-social-list > div .tpgb-icon-link .tpgb-social-icn  {
     transition: all 0.15s ease-in-out
 }
+.tpgb-social-icons.style-5 span.tpgb-social-icn{
+    line-height: unset;
+}

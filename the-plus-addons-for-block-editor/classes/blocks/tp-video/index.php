@@ -185,7 +185,7 @@ function tpgb_tp_video_callback( $settings, $content) {
     if( ! empty ( $settings[ "VideoColor" ] ) ) {
         if( $VideoType == 'vimeo' ) {
             $VideoColor      = str_replace ( '#', '', $settings[ 'VideoColor' ] );
-            $vimeo_frame_attr .= '&amp;color=' . $VideoColor . ';';
+            $vimeo_frame_attr .= '&amp;color=' . $VideoColor . '';
         }
     }
     if( ! empty ( $settings[ "VimeoTitle" ] ) ) {

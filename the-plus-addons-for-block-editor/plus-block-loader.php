@@ -48,7 +48,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             if ( is_admin() ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
                 add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
-                // add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
+            //    add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
             }
             add_action( 'wp_ajax_nxt_dismiss_plugin_rebranding', array( $this,'nxt_dismiss_plugin_rebranding_callback' ), 10, 1 );
             // add_action( 'wp_ajax_nxt_dismiss_plugin_halloween', array( $this,'nxt_dismiss_plugin_halloween' ), 10, 1 );
@@ -79,14 +79,8 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
         //     }
         // }
 
-         /**
-         * Adds a small banner to the plugins.php admin page
-         *
-         * @param $plugin_file
-         *
-         * @since 4.0.2
-         */
-        /* public function nxt_plugins_page_rebranding_banner( $plugin_file ) {
+         /*
+        public function nxt_plugins_page_rebranding_banner( $plugin_file ) {
             if ( ! get_option('nxt_rebranding_dismissed') ) {
                 
                 $plugin_file_array = explode( '/', $plugin_file );
@@ -224,6 +218,10 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 
             require_once TPGB_PATH . 'classes/tp-get-blocks.php';
             require_once TPGB_PATH . 'classes/tp-core-init-blocks.php';
+            
+            if(defined('AGNI_PLUGIN_URL') || class_exists( 'AgniBuilder' )){
+                require_once TPGB_PATH . 'classes/extras/compatibility/class-tpag-cartify.php';
+            }
         }
         
         /**

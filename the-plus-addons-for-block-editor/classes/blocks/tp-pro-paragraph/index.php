@@ -31,7 +31,7 @@ function tpgb_tp_pro_paragraph_render_callback( $attributes ) {
 			}
 
 			$output .= '<div class="pro-paragraph-inner '.( !empty($dropCap) ? ' tpgb-drop-cap tpgb-drop-'.esc_attr($dcapView).'' : '' ).'">';
-				$output .= '<'.Tp_Blocks_Helper::validate_html_tag($descTag).'>'.wp_kses_post($content).'</'.Tp_Blocks_Helper::validate_html_tag($descTag).'>';
+				$output .= '<'.Tp_Blocks_Helper::validate_html_tag($descTag).' class="tpgb-propara-txt">'.wp_kses_post($content).'</'.Tp_Blocks_Helper::validate_html_tag($descTag).'>';
 			$output .= '</div>';
 		}
 	$output .= "</div>";

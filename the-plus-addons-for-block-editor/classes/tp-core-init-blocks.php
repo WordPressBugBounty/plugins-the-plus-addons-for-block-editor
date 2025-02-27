@@ -747,13 +747,13 @@ class Tpgb_Core_Init_Blocks {
 				}else if(method_exists('LiteSpeed_Cache_API', 'purge_all')){
 					LiteSpeed_Cache_API::purge_all();
 				}
-                
-                //berqCache Cache
-                if (class_exists('berqCache') && method_exists('berqCache', 'purge_page')) {
-                    $post_url = get_permalink( $post_id );
-                    berqCache::purge_page($post_url, true);
-                }
-                                            
+
+				//berqCache Cache
+				if (class_exists('berqCache') && method_exists('berqCache', 'purge_page')) {
+					$post_url = get_permalink( $post_id );
+       			 	berqCache::purge_page($post_url, true);
+				}
+
 				// Purge WP-Optimize
 				if (class_exists('WP_Optimize')) {
 					$wpop = new WP_Optimize();
@@ -1049,172 +1049,13 @@ class Tpgb_Core_Init_Blocks {
 			}
 		}
 
-		//Agni Builder & Cartify
-		$footer_block_id = $header_block_id = '';
-		if(defined('AGNI_PLUGIN_URL')){
-			$post_id = get_the_id();
-
-            if( function_exists('is_shop') && is_shop() ){
-                $post_id = wc_get_page_id('shop');
+        // kadence Plugin Compatibility
+        if ( ! ( is_admin() || is_singular( 'kadence_element' ) || is_singular( 'kadence_wootemplate' ) ) ) {
+            if ( class_exists('Kadence_Pro') || class_exists('Kadence_Pro\Elements_Controller') || class_exists('Kadence_Pro\Elements_Post_Type_Controller') ) {
+                require_once TPGB_PATH . 'classes/extras/compatibility/class-kadence-theme.php';
             }
+        }
 
-            if( get_query_var( 'term' ) ){
-                $term = get_queried_object();
-
-                if( isset( $term->term_id ) ){
-                    $post_id = $term->term_id;
-                }
-            }
-			if( get_query_var( 'term' ) ){
-				$footer_block_id = esc_attr( get_term_meta($post_id, 'agni_term_footer_block_id', true) );
-				$header_block_id = get_term_meta($post_id, 'agni_term_header_id', true);
-			}else{
-				$footer_block_id = esc_attr( get_post_meta($post_id, 'agni_footer_block_id', true) );
-				$header_block_id = get_post_meta($post_id, 'agni_page_header_choice', true);
-			}
-		}
-		if( $footer_block_id == '' && function_exists( 'cartify_get_theme_option' ) ){
-			$footer_block_id = cartify_get_theme_option( 'footer_settings_content_block_choice', '' );
-		}
-		if($header_block_id=='' && function_exists( 'cartify_get_theme_option' )){
-			$headers = get_option('agni_header_builder_headers_list');
-			if(!empty($headers)){
-				foreach ($headers as $key => $header) {
-                    if(isset($header['default'])){
-                        $header_id = $header['id'];
-						$this->enqueue_post_css( $header_id );
-                    }
-                }
-			}
-		}else if(!empty($header_block_id)){
-			$this->enqueue_post_css( $header_block_id );
-		}
-
-		if(!empty($footer_block_id)){
-			$this->enqueue_post_css( $footer_block_id );
-		}
-		if( class_exists('WooCommerce') && is_product() ){
-			$block_choices = [];
-			$layout_list = get_option('agni_product_builder_layouts_list');
-			if(!empty($layout_list)){
-				foreach ($layout_list as $key => $layout) {
-					if( isset( $layout['default'] ) && $layout['default'] ){
-						$layout_id = $layout['id'];
-					}else if( $layout['id'] == '0' ){
-						$layout_id = $layout['id'];
-					}
-				}
-			}
-
-            if( !empty( $layout_list ) ){
-                foreach ($layout_list as $key => $layout) {
-                    if( $layout['id'] == $layout_id ){
-                        foreach ( $layout['content'] as $placement ) {
-                            if( !empty( $placement['content'] ) ){
-                                foreach ($placement['content'] as $key => $block) {
-                                    $block_choices = $this->processParsedProductLayoutBlockLoop( $block, $block_choices );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-    
-            if(!empty($block_choices)){
-				foreach ($block_choices as $key => $temp_id) {
-                	$this->enqueue_post_css( $temp_id );
-            	}
-			}
-		}
-		
-		//Kadence Theme Pro
-		if ( is_admin() || is_singular( 'kadence_element' ) || is_singular( 'kadence_wootemplate' ) ) {
-			return;
-		}
-
-		if(!class_exists('Kadence_Pro') && !class_exists('Kadence_Pro\Elements_Controller') && !class_exists('Kadence_Pro\Elements_Post_Type_Controller')){
-			return;
-		}
-
-		$kadence_element = [];
-		if(class_exists('Kadence_Pro\Elements_Post_Type_Controller')){
-			$kadence_element = Kadence_Pro\Elements_Post_Type_Controller::get_instance();
-		}else if(class_exists('Kadence_Pro\Elements_Controller')){
-			$kadence_element = Kadence_Pro\Elements_Controller::get_instance();
-		}
-		
-		$kadence_args = array(
-			'post_type'              => 'kadence_element',
-			'no_found_rows'          => true,
-			'update_post_term_cache' => false,
-			'post_status'            => 'publish',
-			'numberposts'            => 333,
-			'order'                  => 'ASC',
-			'orderby'                => 'menu_order',
-			'suppress_filters'       => false,
-		);
-
-		$kadence_posts = get_posts( $kadence_args );
-
-		if( !empty($kadence_posts) && !empty($kadence_element) ){
-			foreach ( $kadence_posts as $post ) {
-				$meta = $kadence_element->get_post_meta_array( $post );
-				if ( apply_filters( 'kadence_element_display', $kadence_element->check_element_conditionals( $post, $meta ), $post, $meta ) ) {
-					$this->enqueue_post_css( $post->ID );
-				}
-			}
-		}
-
-		if(class_exists('Kadence_Woo_Block_Editor_Templates')){
-			$kadence_woo_element = Kadence_Woo_Block_Editor_Templates::get_instance();
-			$woo_args = array(
-				'post_type'              => 'kadence_wootemplate',
-				'no_found_rows'          => true,
-				'update_post_term_cache' => false,
-				'post_status'            => 'publish',
-				'numberposts'            => 333,
-				'order'                  => 'ASC',
-				'orderby'                => 'menu_order',
-				'suppress_filters'       => false,
-			);
-		
-			$kadence_woo_posts = get_posts( $woo_args );
-			if( !empty($kadence_woo_posts) && !empty($kadence_woo_element) ){
-				foreach ( $kadence_woo_posts as $post ) {
-					
-					$meta = $kadence_woo_element->get_post_meta_array( $post );
-					/* $kadence_woo_element::$single_override = null;
-					$kadence_woo_element::$archive_override = null;
-					$kadence_woo_element::$loop_override = null; */
-					//if ( apply_filters( 'kadence_wootemplate_display', $kadence_woo_element->check_woo_template_conditionals( $post, $meta ), $post, $meta ) ) {
-						if ( 'single' === $meta['type'] ) {
-						//$kadence_woo_element::$single_override = $post->ID;
-							$this->enqueue_post_css( $post->ID );
-						} else if ( 'archive' === $meta['type'] ) {
-							//$kadence_woo_element::$archive_override = $post->ID;
-							$this->enqueue_post_css( $post->ID );
-						} else if ( 'loop' === $meta['type'] ) {
-							//$kadence_woo_element::$loop_override = $post->ID;
-							$this->enqueue_post_css( $post->ID );
-						}
-					//}
-				}
-			}
-		}
-	}
-
-    public function processParsedProductLayoutBlockLoop( $block, $block_choices ){
-		if( $block['slug'] == 'content_block' && isset($block['settings']['id'])){
-			array_push($block_choices, $block['settings']['id']);
-		}else if( isset($block['slug']) && $block['slug'] == 'columns' ){
-			foreach ($block['content'] as $key => $column) {
-				foreach ($column['content'] as $key => $inner_block) {
-					$block_choices = $this->processParsedProductLayoutBlockLoop( $inner_block, $block_choices );
-				}
-			}
-		}
-
-		return $block_choices;
 	}
 
 	/*

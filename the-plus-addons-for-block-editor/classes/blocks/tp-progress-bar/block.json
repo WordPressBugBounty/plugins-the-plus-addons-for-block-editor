@@ -351,16 +351,26 @@
       "type": "string",
       "default": "",
       "style": [
-          {
-              "condition": [
-                  {
-                      "key": "iconType",
-                      "relation": "==",
-                      "value": "iconIcon"
-                  }
-              ],
-              "selector": "{{PLUS_WRAP}} .progres-ims { color: {{iconColor}}; }"
-          }
+        {
+            "condition": [
+                {
+                    "key": "iconType",
+                    "relation": "==",
+                    "value": "iconIcon"
+                }
+            ],
+            "selector": "{{PLUS_WRAP}} .progres-ims { color: {{iconColor}}; }"
+        },
+        {
+            "condition": [
+                {
+                    "key": "heightType",
+                    "relation": "==",
+                    "value": "large-height"
+                }
+            ],
+            "selector": "{{PLUS_WRAP}} .progress-bar-media.large .prog-title.prog-icon.large .progres-ims { color: {{iconColor}}; }"
+        }
       ],
       "scopy": true
   },

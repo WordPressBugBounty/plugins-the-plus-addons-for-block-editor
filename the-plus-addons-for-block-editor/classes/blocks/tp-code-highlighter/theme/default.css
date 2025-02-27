@@ -60,7 +60,9 @@
 	opacity: .7
 }
 .code-prism-default .token.property, .code-prism-default .token.tag, .code-prism-default .token.boolean, .code-prism-default .token.number, .code-prism-default .token.constant, .code-prism-default .token.symbol, .code-prism-default .token.deleted {
-	color: #905
+	color: #905;
+    position: relative;
+    z-index: 9
 }
 .code-prism-default .token.selector, .code-prism-default .token.attr-name, .code-prism-default .token.string, .code-prism-default .token.char, .code-prism-default .token.builtin, .code-prism-default .token.inserted {
 	color: #690

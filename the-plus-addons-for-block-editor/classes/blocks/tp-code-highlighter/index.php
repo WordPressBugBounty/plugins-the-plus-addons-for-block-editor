@@ -254,24 +254,6 @@ function tpgb_code_highlighter() {
 			'type' => 'boolean',
 			'default' => false,	
 		],
-		'scrollBarWidth' => [
-			'type' => 'object',
-			'default' => (object) [ 
-				'md' => '10',
-				"unit" => 'px',
-			],
-			'style' => [
-				(object) [
-					'condition' => [(object) ['key' => 'themeType', 'relation' => '!=', 'value' => 'prism-coy' ],['key' => 'scrollBarTgl', 'relation' => '==', 'value' => true ]],
-					'selector' => '{{PLUS_WRAP}}.tpgb-code-highlighter .code-toolbar pre::-webkit-scrollbar{ width: {{scrollBarWidth}}; }',
-				],
-				(object) [
-					'condition' => [(object) ['key' => 'themeType', 'relation' => '==', 'value' => 'prism-coy' ],['key' => 'scrollBarTgl', 'relation' => '==', 'value' => true ]],
-					'selector' => '{{PLUS_WRAP}}.tpgb-code-highlighter .code-toolbar pre > code::-webkit-scrollbar{ width: {{scrollBarWidth}}; }',
-				],
-			],
-			'scopy' => true,
-		],
 		'scrollBarHeight' => [
 			'type' => 'object',
 			'default' => (object) [ 

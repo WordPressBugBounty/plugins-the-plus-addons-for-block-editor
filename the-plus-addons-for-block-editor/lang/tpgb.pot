@@ -1,15 +1,15 @@
-# Copyright (C) 2024 POSIMYTH
+# Copyright (C) 2025 POSIMYTH
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.0.10.2\n"
+"Project-Id-Version: Nexter Blocks 4.1.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-19T09:53:12+00:00\n"
+"POT-Creation-Date: 2025-02-27T07:44:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: tpgb\n"
@@ -46,7 +46,7 @@ msgstr ""
 #: classes/blocks/tp-button/index.php:68
 #: classes/blocks/tp-button/index.php:219
 #: classes/blocks/tp-interactive-circle-info/index.php:82
-#: includes/plus-settings-options.php:663
+#: includes/plus-settings-options.php:666
 #: assets/js/admin/blocks.js:1
 msgid "Button"
 msgstr ""
@@ -93,7 +93,7 @@ msgstr ""
 #: classes/blocks/tp-flipbox/index.php:84
 #: classes/blocks/tp-flipbox/index.php:141
 #: classes/blocks/tp-infobox/index.php:129
-#: classes/blocks/tp-infobox/index.php:499
+#: classes/blocks/tp-infobox/index.php:449
 #: classes/blocks/tp-number-counter/index.php:126
 #: classes/blocks/tp-pricing-table/index.php:82
 msgid "icon"
@@ -119,7 +119,7 @@ msgid "Card Image"
 msgstr ""
 
 #: classes/blocks/tp-infobox/index.php:69
-#: classes/blocks/tp-infobox/index.php:478
+#: classes/blocks/tp-infobox/index.php:428
 msgid "Info Box"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgid "Counter Number"
 msgstr ""
 
 #: classes/blocks/tp-number-counter/index.php:87
-#: includes/plus-settings-options.php:996
+#: includes/plus-settings-options.php:999
 msgid "Number Counter"
 msgstr ""
 
@@ -209,13 +209,7 @@ msgstr ""
 msgid "comment"
 msgstr ""
 
-#: classes/blocks/tp-post-meta/index.php:127
-msgid "%s minute"
-msgid_plural "%s minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: classes/blocks/tp-post-meta/index.php:1021
+#: classes/blocks/tp-post-meta/index.php:1022
 msgctxt "Word count type. Do not translate!"
 msgid "words"
 msgstr ""
@@ -229,7 +223,7 @@ msgid "Price Icon"
 msgstr ""
 
 #: classes/blocks/tp-progress-bar/index.php:39
-#: includes/plus-settings-options.php:1140
+#: includes/plus-settings-options.php:1143
 #: assets/js/admin/blocks.js:1
 msgid "Progress Bar"
 msgstr ""
@@ -249,7 +243,7 @@ msgstr ""
 #: classes/blocks/tp-site-logo/index.php:106
 #: classes/blocks/tp-site-logo/index.php:111
 #: classes/blocks/tp-site-logo/index.php:117
-#: includes/plus-settings-options.php:1167
+#: includes/plus-settings-options.php:1170
 #: assets/js/admin/blocks.js:1
 msgid "Site Logo"
 msgstr ""
@@ -273,8 +267,8 @@ msgstr ""
 msgid "Social Youtube"
 msgstr ""
 
-#: classes/blocks/tp-social-embed/index.php:282
-#: includes/plus-settings-options.php:834
+#: classes/blocks/tp-social-embed/index.php:294
+#: includes/plus-settings-options.php:837
 #: assets/js/admin/blocks.js:1
 msgid "Google Map"
 msgstr ""
@@ -429,732 +423,732 @@ msgstr ""
 msgid "On view trigger: "
 msgstr ""
 
-#: classes/tp-block-helper.php:380
+#: classes/tp-block-helper.php:372
 #: assets/js/admin/blocks.js:1
 msgid "Full"
 msgstr ""
 
-#: classes/tp-block-helper.php:437
-#: classes/tp-block-helper.php:453
+#: classes/tp-block-helper.php:429
+#: classes/tp-block-helper.php:445
 #: assets/js/admin/blocks.js:1
 msgid "Select Form"
 msgstr ""
 
-#: classes/tp-block-helper.php:442
+#: classes/tp-block-helper.php:434
 msgid "No everest forms found"
 msgstr ""
 
-#: classes/tp-block-helper.php:460
+#: classes/tp-block-helper.php:452
 msgid "Form Not Found!"
 msgstr ""
 
-#: classes/tp-block-helper.php:472
+#: classes/tp-block-helper.php:464
 msgid "Select Ninja Form"
 msgstr ""
 
-#: classes/tp-block-helper.php:479
-#: classes/tp-block-helper.php:502
+#: classes/tp-block-helper.php:471
+#: classes/tp-block-helper.php:494
 msgid "Create a Form First"
 msgstr ""
 
-#: classes/tp-block-helper.php:495
+#: classes/tp-block-helper.php:487
 msgid "Select a WPForm"
 msgstr ""
 
 #. translators: Archive by: %s
-#: classes/tp-block-helper.php:519
+#: classes/tp-block-helper.php:511
 msgid "Archive by \"%s\""
 msgstr ""
 
 #. translators: Search Results for: %s
-#: classes/tp-block-helper.php:521
+#: classes/tp-block-helper.php:513
 msgid "Search Results for \"%s\""
 msgstr ""
 
 #. translators: Posts Tagged for: %s
-#: classes/tp-block-helper.php:523
+#: classes/tp-block-helper.php:515
 msgid "Posts Tagged \"%s\""
 msgstr ""
 
 #. translators: Articles Posted by for: %s
-#: classes/tp-block-helper.php:525
+#: classes/tp-block-helper.php:517
 msgid "Articles Posted by %s"
 msgstr ""
 
 #. translators: Error 404: %s
-#: classes/tp-block-helper.php:527
+#: classes/tp-block-helper.php:519
 msgid "Error 404"
 msgstr ""
 
-#: classes/tp-block-helper.php:575
+#: classes/tp-block-helper.php:567
 msgid "home"
 msgstr ""
 
-#: classes/tp-block-helper.php:582
+#: classes/tp-block-helper.php:574
 #: assets/js/admin/blocks.js:1
 msgid "separator"
 msgstr ""
 
-#: classes/tp-block-helper.php:1111
+#: classes/tp-block-helper.php:1103
 #: assets/js/admin/blocks.js:1
 msgid "Page"
 msgstr ""
 
-#: classes/tp-block-helper.php:1387
+#: classes/tp-block-helper.php:1381
 msgid "Not a Valid"
 msgstr ""
 
-#: classes/tp-block-helper.php:1395
+#: classes/tp-block-helper.php:1389
 msgid "Empty Content."
 msgstr ""
 
-#: classes/tp-block-helper.php:1524
+#: classes/tp-block-helper.php:1529
 msgid "System"
 msgstr ""
 
-#: classes/tp-block-helper.php:1526
+#: classes/tp-block-helper.php:1531
 #: assets/js/admin/blocks.js:1
 msgid "Default"
 msgstr ""
 
-#: classes/tp-block-helper.php:1527
+#: classes/tp-block-helper.php:1532
 msgid "Arial"
 msgstr ""
 
-#: classes/tp-block-helper.php:1528
+#: classes/tp-block-helper.php:1533
 msgid "Georgia"
 msgstr ""
 
-#: classes/tp-block-helper.php:1529
+#: classes/tp-block-helper.php:1534
 msgid "Helvetica"
 msgstr ""
 
-#: classes/tp-block-helper.php:1530
+#: classes/tp-block-helper.php:1535
 msgid "Tahoma"
 msgstr ""
 
-#: classes/tp-block-helper.php:1531
+#: classes/tp-block-helper.php:1536
 msgid "Times New Roman"
 msgstr ""
 
-#: classes/tp-block-helper.php:1532
+#: classes/tp-block-helper.php:1537
 msgid "Trebuchet MS"
 msgstr ""
 
-#: classes/tp-block-helper.php:1533
+#: classes/tp-block-helper.php:1538
 msgid "Verdana"
 msgstr ""
 
-#: classes/tp-block-helper.php:1538
+#: classes/tp-block-helper.php:1543
 msgid "Custom Fonts"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:359
+#: classes/tp-core-init-blocks.php:374
 msgid "Nexter Blocks Different sized of featured images"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:373
+#: classes/tp-core-init-blocks.php:388
 msgid "Post Listing of get Post Meta Info."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:387
+#: classes/tp-core-init-blocks.php:402
 msgid "Category list links"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:404
+#: classes/tp-core-init-blocks.php:419
 msgid "Product Data."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:551
+#: classes/tp-core-init-blocks.php:566
 msgid "Settings parameter is missing!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:561
+#: classes/tp-core-init-blocks.php:576
 msgid "Nexter Global settings updated!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:687
-#: classes/tp-core-init-blocks.php:717
-#: classes/tp-core-init-blocks.php:859
+#: classes/tp-core-init-blocks.php:702
+#: classes/tp-core-init-blocks.php:732
+#: classes/tp-core-init-blocks.php:880
 msgid "CSS can not be load due to permission!!!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:811
+#: classes/tp-core-init-blocks.php:832
 msgid "Plus block css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:813
+#: classes/tp-core-init-blocks.php:834
 msgid "Plus block preview css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1300
+#: classes/tp-core-init-blocks.php:1254
 msgid ", "
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1360
+#: classes/tp-core-init-blocks.php:1314
 msgid "%s"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1450
+#: classes/tp-core-init-blocks.php:1404
 msgid "Sale"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2503
+#: classes/tp-registered-blocks.php:2510
 msgid "Nexter Performance"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2510
+#: classes/tp-registered-blocks.php:2517
 msgid "Purge All Pages"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2518
+#: classes/tp-registered-blocks.php:2525
 msgid "Purge Current Page"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2536
+#: classes/tp-registered-blocks.php:2543
 msgid "Edit Template"
 msgstr ""
 
-#: includes/plus-settings-options.php:81
+#: includes/plus-settings-options.php:87
 msgid "Patterns"
 msgstr ""
 
-#: includes/plus-settings-options.php:84
+#: includes/plus-settings-options.php:90
 #: assets/js/admin/blocks.js:1
 #: dashboard/build/index.js:1
 msgid "Upgrade Now"
 msgstr ""
 
-#: includes/plus-settings-options.php:100
+#: includes/plus-settings-options.php:106
 #: dashboard/build/index.js:1
 msgid "Dashboard"
 msgstr ""
 
-#: includes/plus-settings-options.php:250
-#: plus-block-loader.php:144
+#: includes/plus-settings-options.php:253
+#: plus-block-loader.php:138
 msgid "Insufficient permissions."
 msgstr ""
 
-#: includes/plus-settings-options.php:283
+#: includes/plus-settings-options.php:286
 msgid "Failed to retrieve plugin information."
 msgstr ""
 
-#: includes/plus-settings-options.php:316
+#: includes/plus-settings-options.php:319
 msgid "You are not allowed to do this action"
 msgstr ""
 
-#: includes/plus-settings-options.php:575
+#: includes/plus-settings-options.php:578
 msgid "Accordion"
 msgstr ""
 
-#: includes/plus-settings-options.php:580
-#: includes/plus-settings-options.php:920
-#: includes/plus-settings-options.php:1279
-#: includes/plus-settings-options.php:1297
+#: includes/plus-settings-options.php:583
+#: includes/plus-settings-options.php:923
+#: includes/plus-settings-options.php:1282
+#: includes/plus-settings-options.php:1300
 msgid "Tabbed"
 msgstr ""
 
-#: includes/plus-settings-options.php:584
+#: includes/plus-settings-options.php:587
 msgid "Pro Buttons"
 msgstr ""
 
-#: includes/plus-settings-options.php:589
-#: includes/plus-settings-options.php:624
-#: includes/plus-settings-options.php:641
-#: includes/plus-settings-options.php:650
-#: includes/plus-settings-options.php:659
-#: includes/plus-settings-options.php:668
-#: includes/plus-settings-options.php:704
-#: includes/plus-settings-options.php:722
-#: includes/plus-settings-options.php:731
-#: includes/plus-settings-options.php:767
-#: includes/plus-settings-options.php:776
-#: includes/plus-settings-options.php:785
-#: includes/plus-settings-options.php:803
-#: includes/plus-settings-options.php:830
-#: includes/plus-settings-options.php:839
-#: includes/plus-settings-options.php:857
-#: includes/plus-settings-options.php:893
-#: includes/plus-settings-options.php:902
-#: includes/plus-settings-options.php:911
-#: includes/plus-settings-options.php:929
-#: includes/plus-settings-options.php:965
-#: includes/plus-settings-options.php:1001
-#: includes/plus-settings-options.php:1100
-#: includes/plus-settings-options.php:1109
-#: includes/plus-settings-options.php:1118
-#: includes/plus-settings-options.php:1145
-#: includes/plus-settings-options.php:1154
-#: includes/plus-settings-options.php:1163
-#: includes/plus-settings-options.php:1181
-#: includes/plus-settings-options.php:1208
-#: includes/plus-settings-options.php:1217
-#: includes/plus-settings-options.php:1271
-#: includes/plus-settings-options.php:1288
-#: includes/plus-settings-options.php:1342
+#: includes/plus-settings-options.php:592
+#: includes/plus-settings-options.php:627
+#: includes/plus-settings-options.php:644
+#: includes/plus-settings-options.php:653
+#: includes/plus-settings-options.php:662
+#: includes/plus-settings-options.php:671
+#: includes/plus-settings-options.php:707
+#: includes/plus-settings-options.php:725
+#: includes/plus-settings-options.php:734
+#: includes/plus-settings-options.php:770
+#: includes/plus-settings-options.php:779
+#: includes/plus-settings-options.php:788
+#: includes/plus-settings-options.php:806
+#: includes/plus-settings-options.php:833
+#: includes/plus-settings-options.php:842
+#: includes/plus-settings-options.php:860
+#: includes/plus-settings-options.php:896
+#: includes/plus-settings-options.php:905
+#: includes/plus-settings-options.php:914
+#: includes/plus-settings-options.php:932
+#: includes/plus-settings-options.php:968
+#: includes/plus-settings-options.php:1004
+#: includes/plus-settings-options.php:1103
+#: includes/plus-settings-options.php:1112
+#: includes/plus-settings-options.php:1121
+#: includes/plus-settings-options.php:1148
+#: includes/plus-settings-options.php:1157
+#: includes/plus-settings-options.php:1166
+#: includes/plus-settings-options.php:1184
+#: includes/plus-settings-options.php:1211
+#: includes/plus-settings-options.php:1220
+#: includes/plus-settings-options.php:1274
+#: includes/plus-settings-options.php:1291
+#: includes/plus-settings-options.php:1345
 msgid "Essential"
 msgstr ""
 
-#: includes/plus-settings-options.php:593
+#: includes/plus-settings-options.php:596
 msgid "Advanced Chart"
 msgstr ""
 
-#: includes/plus-settings-options.php:598
-#: includes/plus-settings-options.php:713
-#: includes/plus-settings-options.php:749
-#: includes/plus-settings-options.php:812
-#: includes/plus-settings-options.php:947
-#: includes/plus-settings-options.php:1244
+#: includes/plus-settings-options.php:601
+#: includes/plus-settings-options.php:716
+#: includes/plus-settings-options.php:752
+#: includes/plus-settings-options.php:815
+#: includes/plus-settings-options.php:950
+#: includes/plus-settings-options.php:1247
 #: assets/js/admin/blocks.js:1
 msgid "Advanced"
 msgstr ""
 
-#: includes/plus-settings-options.php:602
+#: includes/plus-settings-options.php:605
 msgid "Advanced Typography"
 msgstr ""
 
-#: includes/plus-settings-options.php:607
-#: includes/plus-settings-options.php:616
-#: includes/plus-settings-options.php:633
-#: includes/plus-settings-options.php:677
-#: includes/plus-settings-options.php:686
-#: includes/plus-settings-options.php:695
-#: includes/plus-settings-options.php:740
-#: includes/plus-settings-options.php:758
-#: includes/plus-settings-options.php:794
-#: includes/plus-settings-options.php:821
-#: includes/plus-settings-options.php:848
-#: includes/plus-settings-options.php:866
-#: includes/plus-settings-options.php:875
-#: includes/plus-settings-options.php:884
-#: includes/plus-settings-options.php:938
-#: includes/plus-settings-options.php:983
-#: includes/plus-settings-options.php:1091
-#: includes/plus-settings-options.php:1127
-#: includes/plus-settings-options.php:1190
-#: includes/plus-settings-options.php:1199
-#: includes/plus-settings-options.php:1262
-#: includes/plus-settings-options.php:1333
+#: includes/plus-settings-options.php:610
+#: includes/plus-settings-options.php:619
+#: includes/plus-settings-options.php:636
+#: includes/plus-settings-options.php:680
+#: includes/plus-settings-options.php:689
+#: includes/plus-settings-options.php:698
+#: includes/plus-settings-options.php:743
+#: includes/plus-settings-options.php:761
+#: includes/plus-settings-options.php:797
+#: includes/plus-settings-options.php:824
+#: includes/plus-settings-options.php:851
+#: includes/plus-settings-options.php:869
+#: includes/plus-settings-options.php:878
+#: includes/plus-settings-options.php:887
+#: includes/plus-settings-options.php:941
+#: includes/plus-settings-options.php:986
+#: includes/plus-settings-options.php:1094
+#: includes/plus-settings-options.php:1130
+#: includes/plus-settings-options.php:1193
+#: includes/plus-settings-options.php:1202
+#: includes/plus-settings-options.php:1265
+#: includes/plus-settings-options.php:1336
 msgid "Creative"
 msgstr ""
 
-#: includes/plus-settings-options.php:611
+#: includes/plus-settings-options.php:614
 msgid "Animated Service Boxes"
 msgstr ""
 
-#: includes/plus-settings-options.php:619
+#: includes/plus-settings-options.php:622
 msgid "Audio Player"
 msgstr ""
 
-#: includes/plus-settings-options.php:628
+#: includes/plus-settings-options.php:631
 msgid "Before After"
 msgstr ""
 
-#: includes/plus-settings-options.php:636
+#: includes/plus-settings-options.php:639
 msgid "Blockquote"
 msgstr ""
 
-#: includes/plus-settings-options.php:645
+#: includes/plus-settings-options.php:648
 msgid "Breadcrumbs"
 msgstr ""
 
-#: includes/plus-settings-options.php:654
+#: includes/plus-settings-options.php:657
 msgid "Advanced Button"
 msgstr ""
 
-#: includes/plus-settings-options.php:672
+#: includes/plus-settings-options.php:675
 msgid "Carousel Anything"
 msgstr ""
 
-#: includes/plus-settings-options.php:681
+#: includes/plus-settings-options.php:684
 msgid "Carousel Remote"
 msgstr ""
 
-#: includes/plus-settings-options.php:690
+#: includes/plus-settings-options.php:693
 msgid "Circle Menu"
 msgstr ""
 
-#: includes/plus-settings-options.php:699
+#: includes/plus-settings-options.php:702
 msgid "Code Highlighter"
 msgstr ""
 
-#: includes/plus-settings-options.php:708
+#: includes/plus-settings-options.php:711
 msgid "Countdown"
 msgstr ""
 
-#: includes/plus-settings-options.php:717
+#: includes/plus-settings-options.php:720
 #: assets/js/admin/blocks.js:1
 msgid "Container"
 msgstr ""
 
-#: includes/plus-settings-options.php:726
+#: includes/plus-settings-options.php:729
 msgid "Coupon Code"
 msgstr ""
 
-#: includes/plus-settings-options.php:735
+#: includes/plus-settings-options.php:738
 msgid "Advanced Image"
 msgstr ""
 
-#: includes/plus-settings-options.php:744
+#: includes/plus-settings-options.php:747
 msgid "CTA Banner"
 msgstr ""
 
-#: includes/plus-settings-options.php:753
+#: includes/plus-settings-options.php:756
 msgid "Data Table"
 msgstr ""
 
-#: includes/plus-settings-options.php:762
+#: includes/plus-settings-options.php:765
 #: assets/js/admin/blocks.js:1
 #: dashboard/build/index.js:1
 msgid "Dark Mode"
 msgstr ""
 
-#: includes/plus-settings-options.php:771
+#: includes/plus-settings-options.php:774
 msgid "Design Tool"
 msgstr ""
 
-#: includes/plus-settings-options.php:780
+#: includes/plus-settings-options.php:783
 msgid "Draw SVG"
 msgstr ""
 
-#: includes/plus-settings-options.php:789
+#: includes/plus-settings-options.php:792
 msgid "Dynamic Device"
 msgstr ""
 
-#: includes/plus-settings-options.php:798
+#: includes/plus-settings-options.php:801
 msgid "Spacer"
 msgstr ""
 
-#: includes/plus-settings-options.php:807
+#: includes/plus-settings-options.php:810
 msgid "External Form Styler"
 msgstr ""
 
-#: includes/plus-settings-options.php:816
+#: includes/plus-settings-options.php:819
 msgid "Expand"
 msgstr ""
 
-#: includes/plus-settings-options.php:825
+#: includes/plus-settings-options.php:828
 msgid "Flipbox"
 msgstr ""
 
-#: includes/plus-settings-options.php:843
+#: includes/plus-settings-options.php:846
 msgid "Heading Animation"
 msgstr ""
 
-#: includes/plus-settings-options.php:852
+#: includes/plus-settings-options.php:855
 #: assets/js/admin/blocks.js:1
 msgid "Heading"
 msgstr ""
 
-#: includes/plus-settings-options.php:861
+#: includes/plus-settings-options.php:864
 msgid "Advanced Heading"
 msgstr ""
 
-#: includes/plus-settings-options.php:870
+#: includes/plus-settings-options.php:873
 msgid "Hotspot"
 msgstr ""
 
-#: includes/plus-settings-options.php:879
+#: includes/plus-settings-options.php:882
 msgid "Hover Card"
 msgstr ""
 
-#: includes/plus-settings-options.php:888
+#: includes/plus-settings-options.php:891
 #: assets/js/admin/blocks.js:1
 msgid "Icon"
 msgstr ""
 
-#: includes/plus-settings-options.php:897
+#: includes/plus-settings-options.php:900
 #: assets/js/admin/blocks.js:1
 msgid "Image"
 msgstr ""
 
-#: includes/plus-settings-options.php:906
+#: includes/plus-settings-options.php:909
 #: assets/js/admin/blocks.js:1
 msgid "Infobox"
 msgstr ""
 
-#: includes/plus-settings-options.php:915
+#: includes/plus-settings-options.php:918
 msgid "Interactive Circle Info"
 msgstr ""
 
-#: includes/plus-settings-options.php:924
+#: includes/plus-settings-options.php:927
 msgid "Login & Signup"
 msgstr ""
 
-#: includes/plus-settings-options.php:933
+#: includes/plus-settings-options.php:936
 msgid "LottieFiles Animation"
 msgstr ""
 
-#: includes/plus-settings-options.php:942
+#: includes/plus-settings-options.php:945
 msgid "Mailchimp"
 msgstr ""
 
-#: includes/plus-settings-options.php:951
+#: includes/plus-settings-options.php:954
 msgid "Media Listing"
 msgstr ""
 
-#: includes/plus-settings-options.php:956
-#: includes/plus-settings-options.php:1055
-#: includes/plus-settings-options.php:1136
-#: includes/plus-settings-options.php:1306
-#: includes/plus-settings-options.php:1315
-#: includes/plus-settings-options.php:1324
+#: includes/plus-settings-options.php:959
+#: includes/plus-settings-options.php:1058
+#: includes/plus-settings-options.php:1139
+#: includes/plus-settings-options.php:1309
+#: includes/plus-settings-options.php:1318
+#: includes/plus-settings-options.php:1327
 msgid "Listing"
 msgstr ""
 
-#: includes/plus-settings-options.php:960
+#: includes/plus-settings-options.php:963
 msgid "Message box"
 msgstr ""
 
-#: includes/plus-settings-options.php:969
+#: includes/plus-settings-options.php:972
 #: assets/js/admin/blocks.js:1
 msgid "Mobile Menu"
 msgstr ""
 
-#: includes/plus-settings-options.php:974
-#: includes/plus-settings-options.php:992
-#: includes/plus-settings-options.php:1010
-#: includes/plus-settings-options.php:1019
-#: includes/plus-settings-options.php:1028
-#: includes/plus-settings-options.php:1037
-#: includes/plus-settings-options.php:1046
-#: includes/plus-settings-options.php:1064
-#: includes/plus-settings-options.php:1073
-#: includes/plus-settings-options.php:1082
-#: includes/plus-settings-options.php:1172
+#: includes/plus-settings-options.php:977
+#: includes/plus-settings-options.php:995
+#: includes/plus-settings-options.php:1013
+#: includes/plus-settings-options.php:1022
+#: includes/plus-settings-options.php:1031
+#: includes/plus-settings-options.php:1040
+#: includes/plus-settings-options.php:1049
+#: includes/plus-settings-options.php:1067
+#: includes/plus-settings-options.php:1076
+#: includes/plus-settings-options.php:1085
+#: includes/plus-settings-options.php:1175
 msgid "Builder"
 msgstr ""
 
-#: includes/plus-settings-options.php:978
+#: includes/plus-settings-options.php:981
 msgid "Mouse Cursor"
 msgstr ""
 
-#: includes/plus-settings-options.php:987
+#: includes/plus-settings-options.php:990
 msgid "Navigation Menu"
 msgstr ""
 
-#: includes/plus-settings-options.php:1005
+#: includes/plus-settings-options.php:1008
 #: dashboard/build/index.js:1
 msgid "Popup Builder"
 msgstr ""
 
-#: includes/plus-settings-options.php:1014
+#: includes/plus-settings-options.php:1017
 #: assets/js/admin/blocks.js:1
 msgid "Post Author"
 msgstr ""
 
-#: includes/plus-settings-options.php:1023
+#: includes/plus-settings-options.php:1026
 #: assets/js/admin/blocks.js:1
 msgid "Post Comments"
 msgstr ""
 
-#: includes/plus-settings-options.php:1032
+#: includes/plus-settings-options.php:1035
 #: assets/js/admin/blocks.js:1
 msgid "Post Content"
 msgstr ""
 
-#: includes/plus-settings-options.php:1041
+#: includes/plus-settings-options.php:1044
 #: assets/js/admin/blocks.js:1
 msgid "Post Image"
 msgstr ""
 
-#: includes/plus-settings-options.php:1050
+#: includes/plus-settings-options.php:1053
 #: assets/js/admin/blocks.js:1
 msgid "Post Listing"
 msgstr ""
 
-#: includes/plus-settings-options.php:1059
+#: includes/plus-settings-options.php:1062
 #: assets/js/admin/blocks.js:1
 msgid "Post Meta Info"
 msgstr ""
 
-#: includes/plus-settings-options.php:1068
+#: includes/plus-settings-options.php:1071
 msgid "Post Navigation"
 msgstr ""
 
-#: includes/plus-settings-options.php:1077
+#: includes/plus-settings-options.php:1080
 #: assets/js/admin/blocks.js:1
 msgid "Post Title"
 msgstr ""
 
-#: includes/plus-settings-options.php:1086
+#: includes/plus-settings-options.php:1089
 msgid "Pricing List"
 msgstr ""
 
-#: includes/plus-settings-options.php:1095
+#: includes/plus-settings-options.php:1098
 msgid "Pricing Table"
 msgstr ""
 
-#: includes/plus-settings-options.php:1104
+#: includes/plus-settings-options.php:1107
 msgid "Pre Loader"
 msgstr ""
 
-#: includes/plus-settings-options.php:1113
+#: includes/plus-settings-options.php:1116
 #: assets/js/admin/blocks.js:1
 msgid "Paragraph"
 msgstr ""
 
-#: includes/plus-settings-options.php:1122
+#: includes/plus-settings-options.php:1125
 msgid "Process Steps"
 msgstr ""
 
-#: includes/plus-settings-options.php:1131
+#: includes/plus-settings-options.php:1134
 msgid "Product Listing"
 msgstr ""
 
-#: includes/plus-settings-options.php:1149
+#: includes/plus-settings-options.php:1152
 msgid "Progress Tracker"
 msgstr ""
 
-#: includes/plus-settings-options.php:1158
+#: includes/plus-settings-options.php:1161
 #: assets/js/admin/blocks.js:1
 msgid "Row"
 msgstr ""
 
-#: includes/plus-settings-options.php:1176
+#: includes/plus-settings-options.php:1179
 #: assets/js/admin/blocks.js:1
 msgid "Stylish List"
 msgstr ""
 
-#: includes/plus-settings-options.php:1185
+#: includes/plus-settings-options.php:1188
 msgid "Scroll Navigation"
 msgstr ""
 
-#: includes/plus-settings-options.php:1194
+#: includes/plus-settings-options.php:1197
 msgid "Scroll Sequence"
 msgstr ""
 
-#: includes/plus-settings-options.php:1203
+#: includes/plus-settings-options.php:1206
 #: assets/js/admin/blocks.js:1
 msgid "Search Bar"
 msgstr ""
 
-#: includes/plus-settings-options.php:1212
+#: includes/plus-settings-options.php:1215
 #: assets/js/admin/blocks.js:1
 msgid "Social Icon"
 msgstr ""
 
-#: includes/plus-settings-options.php:1221
+#: includes/plus-settings-options.php:1224
 msgid "Social Embed"
 msgstr ""
 
-#: includes/plus-settings-options.php:1226
-#: includes/plus-settings-options.php:1235
-#: includes/plus-settings-options.php:1253
+#: includes/plus-settings-options.php:1229
+#: includes/plus-settings-options.php:1238
+#: includes/plus-settings-options.php:1256
 #: assets/js/admin/blocks.js:1
 msgid "Social"
 msgstr ""
 
-#: includes/plus-settings-options.php:1230
+#: includes/plus-settings-options.php:1233
 #: includes/social-feed/fancybox-feed-post.php:28
 msgid "Social Feed"
 msgstr ""
 
-#: includes/plus-settings-options.php:1239
+#: includes/plus-settings-options.php:1242
 msgid "Social Sharing"
 msgstr ""
 
-#: includes/plus-settings-options.php:1248
+#: includes/plus-settings-options.php:1251
 msgid "Social Reviews"
 msgstr ""
 
-#: includes/plus-settings-options.php:1257
+#: includes/plus-settings-options.php:1260
 msgid "Spline 3D Viewer"
 msgstr ""
 
-#: includes/plus-settings-options.php:1266
+#: includes/plus-settings-options.php:1269
 msgid "Smooth Scroll"
 msgstr ""
 
-#: includes/plus-settings-options.php:1274
+#: includes/plus-settings-options.php:1277
 #: assets/js/admin/blocks.js:1
 msgid "Switcher"
 msgstr ""
 
-#: includes/plus-settings-options.php:1283
+#: includes/plus-settings-options.php:1286
 msgid "Table of Contents"
 msgstr ""
 
-#: includes/plus-settings-options.php:1292
+#: includes/plus-settings-options.php:1295
 msgid "Tabs Tours"
 msgstr ""
 
-#: includes/plus-settings-options.php:1301
+#: includes/plus-settings-options.php:1304
 msgid "Taxonomy Listing"
 msgstr ""
 
-#: includes/plus-settings-options.php:1310
+#: includes/plus-settings-options.php:1313
 msgid "Team Member"
 msgstr ""
 
-#: includes/plus-settings-options.php:1319
+#: includes/plus-settings-options.php:1322
 #: assets/js/admin/blocks.js:1
 msgid "Testimonials"
 msgstr ""
 
-#: includes/plus-settings-options.php:1328
+#: includes/plus-settings-options.php:1331
 #: assets/js/admin/blocks.js:1
 msgid "Timeline"
 msgstr ""
 
-#: includes/plus-settings-options.php:1337
+#: includes/plus-settings-options.php:1340
 #: assets/js/admin/blocks.js:1
 msgid "Video"
 msgstr ""
 
-#: includes/plus-settings-options.php:1349
+#: includes/plus-settings-options.php:1352
 msgid "Advanced Border Radius"
 msgstr ""
 
-#: includes/plus-settings-options.php:1353
-#: includes/plus-settings-options.php:1360
-#: includes/plus-settings-options.php:1367
-#: includes/plus-settings-options.php:1375
-#: includes/plus-settings-options.php:1383
-#: includes/plus-settings-options.php:1390
-#: includes/plus-settings-options.php:1397
-#: includes/plus-settings-options.php:1404
-#: includes/plus-settings-options.php:1411
-#: includes/plus-settings-options.php:1418
+#: includes/plus-settings-options.php:1356
+#: includes/plus-settings-options.php:1363
+#: includes/plus-settings-options.php:1370
+#: includes/plus-settings-options.php:1378
+#: includes/plus-settings-options.php:1386
+#: includes/plus-settings-options.php:1393
+#: includes/plus-settings-options.php:1400
+#: includes/plus-settings-options.php:1407
+#: includes/plus-settings-options.php:1414
+#: includes/plus-settings-options.php:1421
 msgid "Extras"
 msgstr ""
 
-#: includes/plus-settings-options.php:1356
+#: includes/plus-settings-options.php:1359
 #: assets/js/admin/blocks.js:1
 msgid "Content Hover Effect"
 msgstr ""
 
-#: includes/plus-settings-options.php:1363
+#: includes/plus-settings-options.php:1366
 msgid "Continuous Animation"
 msgstr ""
 
-#: includes/plus-settings-options.php:1370
+#: includes/plus-settings-options.php:1373
 #: assets/js/admin/blocks.js:1
 msgid "Display Rules"
 msgstr ""
 
-#: includes/plus-settings-options.php:1378
+#: includes/plus-settings-options.php:1381
 msgid "Equal Column Height"
 msgstr ""
 
-#: includes/plus-settings-options.php:1386
+#: includes/plus-settings-options.php:1389
 msgid "Global Tooltip"
 msgstr ""
 
-#: includes/plus-settings-options.php:1393
+#: includes/plus-settings-options.php:1396
 msgid "Magic Scroll"
 msgstr ""
 
-#: includes/plus-settings-options.php:1400
+#: includes/plus-settings-options.php:1403
 msgid "Mouse Parallax"
 msgstr ""
 
-#: includes/plus-settings-options.php:1407
+#: includes/plus-settings-options.php:1410
 #: assets/js/admin/blocks.js:1
 msgid "On Scroll Animation"
 msgstr ""
 
-#: includes/plus-settings-options.php:1414
+#: includes/plus-settings-options.php:1417
 msgid "3D Tilt"
 msgstr ""
 
@@ -1281,65 +1275,62 @@ msgstr ""
 msgid "Posted On "
 msgstr ""
 
-#: plus-block-loader.php:97
-msgid "The Plus Blocks for Gutenberg is now Nexter Blocks : Better UI, Faster Performance & Improved Features"
-msgstr ""
-
-#: plus-block-loader.php:98
-msgid "Read What's New & What Changed?"
-msgstr ""
-
-#: plus-block-loader.php:140
+#: plus-block-loader.php:134
 msgid "Invalid nonce. Unauthorized request."
 msgstr ""
 
-#: plus-block-loader.php:150
+#: plus-block-loader.php:144
 msgid "Notice dismissed successfully."
 msgstr ""
 
-#: plus-block-loader.php:252
+#: plus-block-loader.php:259
+#: dashboard/build/index.js:1
+msgid "Settings"
+msgstr ""
+
+#: plus-block-loader.php:260
 msgid "FREE vs Pro"
 msgstr ""
 
-#: plus-block-loader.php:255
+#: plus-block-loader.php:261
 #: dashboard/build/index.js:1
 msgid "Need Help?"
 msgstr ""
 
-#: plus-block-loader.php:262
+#: plus-block-loader.php:266
 #: assets/js/admin/blocks.js:1
 msgid "Upgrade PRO"
 msgstr ""
 
-#: plus-block-loader.php:278
+#: plus-block-loader.php:280
 msgid "Visit Plugin site"
 msgstr ""
 
-#: plus-block-loader.php:279
-msgid "Docs"
-msgstr ""
-
-#: plus-block-loader.php:280
-#: dashboard/build/index.js:1
-msgid "Video Tutorials"
-msgstr ""
-
 #: plus-block-loader.php:281
-#: dashboard/build/index.js:1
-msgid "Join Community"
+msgid "Docs"
 msgstr ""
 
 #: plus-block-loader.php:282
 #: dashboard/build/index.js:1
-msgid "What's New?"
+msgid "Video Tutorials"
 msgstr ""
 
 #: plus-block-loader.php:283
 #: dashboard/build/index.js:1
-msgid "Request Feature"
+msgid "Join Community"
 msgstr ""
 
 #: plus-block-loader.php:284
+#: dashboard/build/index.js:1
+msgid "What's New?"
+msgstr ""
+
+#: plus-block-loader.php:285
+#: dashboard/build/index.js:1
+msgid "Request Feature"
+msgstr ""
+
+#: plus-block-loader.php:286
 msgid "Rate 5 Stars"
 msgstr ""
 
@@ -1615,31 +1606,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Insert"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Replace Video"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Replace SVG"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-#: dashboard/build/index.js:1
-msgid "Replace Image"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Upload Video"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Upload SVG"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Upload Image"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -2045,10 +2011,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Pro Features"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Limited Time Price Drop"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3197,7 +3159,11 @@ msgid "Remove Latest"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Read Why"
+msgid "Start"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "End"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3206,6 +3172,14 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Boxed"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Flex"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Grid"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3234,6 +3208,102 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Html Tag"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Grid Property"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Columns"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Add Columns"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Min/Max"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Min"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Max"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Rows"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Add Rows"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Auto Flow"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Column"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Justify Items"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Column Gap"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Row Gap"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Grid Item Settings"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Simple"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Column Width"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Row Height"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Advance"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Column Start"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Column End"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Rows Start"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Rows End"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Align Items"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Justify Content"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3310,7 +3380,7 @@ msgid "Choose a Container Layout"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Column Width"
+msgid "Select Your Structure"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3382,14 +3452,6 @@ msgid "Icon Alignment"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Start"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "End"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Extra Option"
 msgstr ""
 
@@ -3427,10 +3489,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Enter Title..."
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Simple"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3472,6 +3530,10 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Custom Image"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Upload Image"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3955,10 +4017,6 @@ msgid "Scrollbar"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Scroll Bar Width"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Scroll Bar Height"
 msgstr ""
 
@@ -4159,10 +4217,6 @@ msgid "Upload Icon Image"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Advance"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Column Span"
 msgstr ""
 
@@ -4332,6 +4386,10 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Select SVG"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Upload SVG"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -4507,10 +4565,6 @@ msgid "Select Layout"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Grid"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Carousel"
 msgstr ""
 
@@ -4632,10 +4686,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Slide Speed"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Columns"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -5147,10 +5197,6 @@ msgid "Inline Block"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Flex"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Inline Flex"
 msgstr ""
 
@@ -5167,10 +5213,6 @@ msgid "Flex Direction"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Column"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Column-reverse"
 msgstr ""
 
@@ -5184,14 +5226,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Text Align"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Align Items"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Justify Content"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -6695,7 +6729,7 @@ msgid "Call To Action(CTA)"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Background Effects"
+msgid "Background Hover effect"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -6716,10 +6750,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "SlideInBottom"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Column Gap"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -9079,10 +9109,6 @@ msgid "WordPress Templates"
 msgstr ""
 
 #: dashboard/build/index.js:1
-msgid "Settings"
-msgstr ""
-
-#: dashboard/build/index.js:1
 msgid "Custom CSS & JS"
 msgstr ""
 
@@ -9112,18 +9138,6 @@ msgstr ""
 
 #: dashboard/build/index.js:1
 msgid "System Info"
-msgstr ""
-
-#: dashboard/build/index.js:1
-msgid "Important Announcement"
-msgstr ""
-
-#: dashboard/build/index.js:1
-msgid "The Plus Blocks for Gutenberg is now Nexter Blocks"
-msgstr ""
-
-#: dashboard/build/index.js:1
-msgid "Read What's New & What Changed with Nexter Blocks"
 msgstr ""
 
 #: dashboard/build/index.js:1
@@ -9195,6 +9209,30 @@ msgid "UiChemy Setting"
 msgstr ""
 
 #: dashboard/build/index.js:1
+msgid "Introducing CSS Grid Layout in Nexter Blocks – More Control, More Creativity!"
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "We're excited to bring CSS Grid Layout to Nexter Blocks with the latest update! Now, you can design complex layouts with ease—think full-page designs, photo galleries, product listings, and more—all neatly arranged in rows and columns."
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "Looking Back at Nexter Rebrand & All New Things Coming on the Way!"
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "We're super excited to introduce Nexter—a unified platform combining Nexter Theme, Nexter Blocks, and Nexter Extensions to give you a seamless WordPress experience. With a redesigned dashboard, faster performance, and revamped UX/UI, Nexter is here to make website building easier and more powerful than ever."
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "Introducing the All-New Nexter Experience: A Unified Solution for WordPress Website Building"
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "We've been working hard behind the scenes at Nexter to bring you the ultimate WordPress website-building experience. And now, we're thrilled to unveil a massive update that's going to make creating your dream website smoother, faster, and more powerful than ever!"
+msgstr ""
+
+#: dashboard/build/index.js:1
 msgid "Total Blocks"
 msgstr ""
 
@@ -9259,19 +9297,7 @@ msgid "We're Active on"
 msgstr ""
 
 #: dashboard/build/index.js:1
-msgid "Introducing the All-New Nexter Experience: A Unified Solution for WordPress Website Building"
-msgstr ""
-
-#: dashboard/build/index.js:1
-msgid "We’ve been working hard behind the scenes at Nexter to bring you the ultimate WordPress website-building experience. And now, we’re thrilled to unveil a massive update that’s going to make creating your dream website smoother, faster, and more powerful than ever!"
-msgstr ""
-
-#: dashboard/build/index.js:1
 msgid "Learn more"
-msgstr ""
-
-#: dashboard/build/index.js:1
-msgid "Read Full Changelog"
 msgstr ""
 
 #: dashboard/build/index.js:1
@@ -9592,6 +9618,14 @@ msgstr ""
 
 #: dashboard/build/index.js:1
 msgid "How to Use?"
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "Disable Dashicons"
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "If you don't need Dashicons from Nexter Blocks, you can disable them to reduce unnecessary CSS loading and improve your site's performance."
 msgstr ""
 
 #: dashboard/build/index.js:1
@@ -9936,6 +9970,10 @@ msgstr ""
 
 #: dashboard/build/index.js:1
 msgid "Save Setting"
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "Replace Image"
 msgstr ""
 
 #: dashboard/build/index.js:1

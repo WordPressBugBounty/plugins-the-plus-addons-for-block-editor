@@ -69,9 +69,14 @@
 			"type": "string",
 			"default": "",
 			"style": [
-			  {
-				"selector": "{{PLUS_WRAP}} .pro-paragraph-inner,{{PLUS_WRAP}} .pro-paragraph-inner p{ color: {{textColor}}; }"
-			  }
+                {
+                    "condition": [{"key": "descTag", "relation": "==", "value": "p"}],
+                    "selector": "{{PLUS_WRAP}} .pro-paragraph-inner,{{PLUS_WRAP}} .pro-paragraph-inner p{ color: {{textColor}}; }"
+                },
+                {
+                    "condition": [{"key": "descTag", "relation": "!=", "value": "p"}],
+                    "selector": "{{PLUS_WRAP}} .pro-paragraph-inner,{{PLUS_WRAP}} .pro-paragraph-inner .tpgb-propara-txt{ color: {{textColor}}; }"
+                }
 			],
 			"scopy": true
 		  },

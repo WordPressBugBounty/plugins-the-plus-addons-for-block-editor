@@ -21,19 +21,20 @@ if($FancyStyle == 'style-1'){
 	if( $selectFeed == 'Facebook' && !empty($FbAlbum) ){
 		$ij=0;            
 		
-		if(!empty($videoURL)){
+		if(!empty($videoURL) && is_array($videoURL)){
 			foreach ($videoURL as $fdata){              
 				$AImg = ( !empty($fdata['images']) && !empty($fdata['images'][0]['source']) ) ? $fdata['images'][0]['source'] : ''; 
-
-				if($ij == 0){ ?>
-					<a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','tpgb'); ?>">
-						<img class="reference-thumb tpgb-post-thumb" src="<?php echo esc_url($ImageURL); ?>" alt="<?php echo esc_attr__('Facebook Image','tpgb'); ?>"/>
-					</a>
-				<?php }else{ ?>
-					<a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','tpgb'); ?>">
-						<img class="hidden-image" src="<?php echo esc_url($AImg); ?>" alt="<?php echo esc_attr__('Facebook Image','tpgb'); ?>"/>
-					</a>
-				<?php  }
+                if($style != "style-4"){
+                    if($ij == 0){ ?>
+                        <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','tpgb'); ?>">
+                            <img class="reference-thumb tpgb-post-thumb" src="<?php echo esc_url($ImageURL); ?>" alt="<?php echo esc_attr__('Facebook Image','tpgb'); ?>"/>
+                        </a>
+                    <?php }else{ ?>
+                        <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','tpgb'); ?>">
+                            <img class="hidden-image" src="<?php echo esc_url($AImg); ?>" alt="<?php echo esc_attr__('Facebook Image','tpgb'); ?>"/>
+                        </a>
+                    <?php  }
+                }
 				$ij++;
 			}
 		}

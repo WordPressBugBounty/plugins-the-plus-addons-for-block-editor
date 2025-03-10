@@ -136,13 +136,11 @@ function switcerSlider(el){
     }
 
     if (cnt1 !== null && cnt1.querySelectorAll(".tpgb-isotope .post-loop-inner").length > 0) {
-        let postList1 = cnt1.querySelectorAll(".tpgb-isotope .post-loop-inner");
-        tppoMaso(postList1);
+        tppoMaso(cnt1);
     }
     
     if (cnt2 !== null && cnt2.querySelectorAll(".tpgb-isotope .post-loop-inner").length > 0) {
-        let postList2 = cnt2.querySelectorAll(".tpgb-isotope .post-loop-inner");
-        tppoMaso(postList2);
+        tppoMaso(cnt2);
     }
 
 }

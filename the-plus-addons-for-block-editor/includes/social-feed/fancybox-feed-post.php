@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     if($selectFeed == 'Facebook'){
         if($EmbedURL == 'Alb' && !empty($FbAlbum)){ 
             $ij = 0;
-            $albumSize = count($videoURL);
+            $albumSize = (is_array($videoURL) ? count($videoURL) : 1);
             $uniqId = uniqid('f-');
             if( $albumSize > 1 ){
                 foreach ( $videoURL as $index => $fdata ){

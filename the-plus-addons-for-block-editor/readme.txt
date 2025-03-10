@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7.2
-Stable tag: 4.1.5
+Stable tag: 4.1.6
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -503,6 +503,14 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+= 4.1.6 = 10 March 2025
+- Added : Typography Component : Text Decoration Blink Option. .
+- Improvement : Social Feed – Enhanced Facebook Feed API.
+- Improvement : Social Feed – Enhanced Instagram Feed API.
+- Improvement : Social Review – Enhanced Facebook Review API.
+- Fixed : Advanced Button – Resolved Dynamic Modal Popup Bug.
+- Minor Bugs and Improvements.
+
 = 4.1.5 = 27 February 2025
 - Improvement : Optimize Code to Reduce Memory Usage in Blocks.
 - Fixed : Repeater Components Drag Drop Bug Fix.

@@ -199,10 +199,13 @@ function tpgb_button_render_callback( $attributes, $content ) {
 
 	$extrAttr = ''; 
 	$fancyData = [];
-	 
+	
+	global $post;
+	$post_id = isset($post->ID) ? $post->ID : 0;
+	
 	if(!empty($fancyBox)){
-		global $post;
-		$extrAttr .= 'data-src="#tpgb-query-'.esc_attr($block_id).'" data-touch="false" href="javascript:;" ';
+		
+		$extrAttr .= 'data-src="#tpgb-query-'.esc_attr($block_id).'-'.esc_attr($post_id).'" data-touch="false" href="javascript:;" ';
 		
 		$autoDimen = (!empty($attributes['autoDimen'])) ? $attributes['autoDimen'] : false ;
 
@@ -231,7 +234,7 @@ function tpgb_button_render_callback( $attributes, $content ) {
 
 		// Load Fancy Box Content 
 		if(!empty($fancyBox)){
-			$output .= '<div class="tpgb-btn-fpopup" id="tpgb-query-'.esc_attr($block_id).'" >';
+			$output .= '<div class="tpgb-btn-fpopup" id="tpgb-query-'.esc_attr($block_id).'-'.esc_attr($post_id).'" >';
 				ob_start();
 				if(!empty($attributes['templates']) && $attributes['templates'] != 'none') {
 					echo Tpgb_Library()->plus_do_block($attributes['templates']);

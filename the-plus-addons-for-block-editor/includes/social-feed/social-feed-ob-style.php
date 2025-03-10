@@ -1,11 +1,17 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+    if(!empty($videoURL)) {
+        $Iconlogo = '<div class="tpgb-sf-logo">
+            <a href="'. ( ( is_array($videoURL) && isset($videoURL[0]['link']) && !empty($videoURL[0]['link']) ) ? esc_url($videoURL[0]['link']) : esc_url($videoURL) ) .'" 
+               class="tpgb-sf-logo-link" target="_blank" rel="noopener noreferrer" aria-label="'.esc_attr__('Post URL','tpgbp').'">
+                <i class="'.esc_attr($socialIcon).'"></i>
+            </a>
+        </div>';
+    }
 
-	$Iconlogo = '<div class="tpgb-sf-logo">
-					<a href="'.esc_url($videoURL).'" class="tpgb-sf-logo-link" target="_blank" rel="noopener noreferrer" aria-label="'.esc_attr__('Post URL','tpgb').'">
-						<i class="'.esc_attr($socialIcon).'"></i>
-					</a>
-				</div>';
+    if( $selectFeed == 'Facebook' && $PopupOption == 'GoWebsite' && !empty($ImageURL) ){
+        echo '<a href="'. ( ( is_array($videoURL) && isset($videoURL[0]['link']) && !empty($videoURL[0]['link']) ) ? esc_url($videoURL[0]['link']) : esc_url($videoURL) ) .'" class="tpgb-sf-logo-link" target="_blank" rel="noopener noreferrer" aria-label="'.esc_attr__('Post URL','tpgbp').'"> <img class="tpgb-post-thumb" src="'.esc_url($ImageURL).'"> </a>';
+    }
 
 	ob_start();
     	echo '<div class="tpgb-sf-header">';
@@ -19,10 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     			} 
     			if(!empty($CreatedTime)){
     				echo '<div class="tpgb-sf-time">
-							<a href="'.esc_url($videoURL).'" target="_blank" rel="noopener noreferrer" alt="'.esc_attr__('Post URL','tpgb').'">'.wp_kses_post($CreatedTime).'</a></div>';
+							<a href="'. ( ( is_array($videoURL) && isset($videoURL[0]['link']) && !empty($videoURL[0]['link']) ) ? esc_url($videoURL[0]['link']) : esc_url($videoURL) ) .'"  target="_blank" rel="noopener noreferrer" alt="'.esc_attr__('Post URL','tpgb').'">'.wp_kses_post($CreatedTime).'</a></div>';
     			}   
     		echo '</div>';
-    		if( (!empty($socialIcon) && $style != "style-3") || (empty($ImageURL) && $style == "style-3") ){
+    		if( isset($Iconlogo) && (!empty($socialIcon) && $style != "style-3") || (empty($ImageURL) && $style == "style-3") ){
     			echo wp_kses_post($Iconlogo);
     		}
     	echo '</div>';

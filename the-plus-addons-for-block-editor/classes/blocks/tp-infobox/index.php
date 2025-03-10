@@ -376,7 +376,7 @@ function tpgb_getCInfobox($attributes){
 	if($contenthoverEffect == 'radial'){
 		$cnt_hvr_class = 'shadow_radial';
 	}
-	$count = '';
+	$count = 0;
 
 	$getCInfobox = '';
 	if(!empty($iboxcarousel)){

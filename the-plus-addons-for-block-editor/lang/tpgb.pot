@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.1.5\n"
+"Project-Id-Version: Nexter Blocks 4.1.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-27T07:44:40+00:00\n"
+"POT-Creation-Date: 2025-03-10T06:52:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: tpgb\n"
@@ -44,7 +44,7 @@ msgid "https://posimyth.com"
 msgstr ""
 
 #: classes/blocks/tp-button/index.php:68
-#: classes/blocks/tp-button/index.php:219
+#: classes/blocks/tp-button/index.php:222
 #: classes/blocks/tp-interactive-circle-info/index.php:82
 #: includes/plus-settings-options.php:666
 #: assets/js/admin/blocks.js:1
@@ -273,8 +273,8 @@ msgstr ""
 msgid "Google Map"
 msgstr ""
 
-#: classes/blocks/tp-social-feed/index.php:1954
-#: classes/blocks/tp-social-feed/index.php:1957
+#: classes/blocks/tp-social-feed/index.php:1955
+#: classes/blocks/tp-social-feed/index.php:1958
 #: classes/blocks/tp-social-reviews/index.php:155
 msgid "All Social Feed"
 msgstr ""
@@ -1182,7 +1182,7 @@ msgid "Facebook Image"
 msgstr ""
 
 #: includes/social-feed/fancybox-feed-post.php:34
-#: includes/social-feed/fancybox-feed.php:44
+#: includes/social-feed/fancybox-feed.php:45
 msgid "Social Media Image"
 msgstr ""
 
@@ -1196,8 +1196,8 @@ msgstr ""
 msgid "View post"
 msgstr ""
 
-#: includes/social-feed/fancybox-feed.php:43
-#: includes/social-feed/fancybox-feed.php:47
+#: includes/social-feed/fancybox-feed.php:44
+#: includes/social-feed/fancybox-feed.php:48
 msgid "Social Media Post"
 msgstr ""
 
@@ -1206,7 +1206,7 @@ msgstr ""
 msgid "Hashtag"
 msgstr ""
 
-#: includes/social-feed/feed-Description.php:37
+#: includes/social-feed/feed-Description.php:34
 #: assets/js/admin/blocks.js:1
 msgid "Description"
 msgstr ""
@@ -1234,8 +1234,7 @@ msgstr ""
 
 #: includes/social-feed/popup-type.php:14
 #: includes/social-feed/popup-type.php:45
-#: includes/social-feed/social-feed-ob-style.php:5
-#: includes/social-feed/social-feed-ob-style.php:22
+#: includes/social-feed/social-feed-ob-style.php:28
 #: assets/js/admin/blocks.js:1
 msgid "Post URL"
 msgstr ""
@@ -1252,7 +1251,7 @@ msgstr ""
 msgid "Popup Gallery"
 msgstr ""
 
-#: includes/social-feed/social-feed-ob-style.php:13
+#: includes/social-feed/social-feed-ob-style.php:19
 #: includes/social-reviews/social-review-ob-style.php:32
 msgid "User Profile"
 msgstr ""
@@ -1458,6 +1457,10 @@ msgid "Line Through"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
+msgid "Blink"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
 msgid "Normal"
 msgstr ""
 
@@ -1617,6 +1620,130 @@ msgid "Plus Global Colors"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
+msgid "Left Top"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Left Center"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Left Bottom"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Center Top"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Center Center"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Center Bottom"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Right Top"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Right Center"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Right Bottom"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Scroll"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Fixed"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "No Repeat"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Repeat"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Repeat X"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Repeat Y"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Auto"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Cover"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Contain"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Background"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Color"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Gradient"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Background Image"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Parallax"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Position"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Attachment"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Size"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Video Source"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Local"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "External"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Video URL"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
+msgid "Fallback Image (Poster)"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
 msgid "Top-left"
 msgstr ""
 
@@ -1662,10 +1789,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Box Shadow"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Color"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -1818,10 +1941,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Saturation"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Center Center"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -2374,19 +2493,7 @@ msgid "Random"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Scroll"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Fixed"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "No-repeat"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Repeat"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -2395,18 +2502,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Repeat-y"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Auto"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Cover"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Contain"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -2762,10 +2857,6 @@ msgid "Padding"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Background"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Hover"
 msgstr ""
 
@@ -2835,10 +2926,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Out"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Position"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -3581,10 +3668,6 @@ msgid "Home Icon / Image"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Size"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Separator"
 msgstr ""
 
@@ -4314,22 +4397,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Relative"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Right Bottom"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Right Top"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Left Bottom"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Left Top"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -6101,10 +6168,6 @@ msgid "Background Position"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Attachment"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
 msgid "Background Repeat"
 msgstr ""
 
@@ -6826,10 +6889,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Empty Color"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Gradient"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -7905,7 +7964,7 @@ msgid "Exclude Post IDs"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-msgid "Add ids with comma to exclude"
+msgid "Add IDs with comma to exclude"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -7949,6 +8008,10 @@ msgid "Sub Title Count"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
+msgid "Use this option to disable high secure way to fetch data if your server doesn't allow it."
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
 msgid "On Post Click"
 msgstr ""
 
@@ -7962,10 +8025,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Open Fancy Box"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Use this option to disable high secure way to fetch data if your server doesn't allow it."
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
@@ -8079,10 +8138,6 @@ msgstr ""
 
 #: assets/js/admin/blocks.js:1
 msgid "Google"
-msgstr ""
-
-#: assets/js/admin/blocks.js:1
-msgid "Watch How to Generate API"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1

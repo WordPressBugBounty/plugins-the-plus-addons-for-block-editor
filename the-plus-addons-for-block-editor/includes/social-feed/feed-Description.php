@@ -24,10 +24,7 @@ if(!empty($txtLimt)){
         $totaldesc = preg_replace($url, '<a href="$0" target="_blank" rel="noopener noreferrer" class="tpgb-feedurl" title="" aria-label="'.esc_attr__('Hashtag','tpgb').'">$0</a>', $HashTag);
     ?> 
         <div class="tpgb-message">
-            <div class="showtext"><?php echo wp_kses_post($firstdesc); ?>
-                <?php if(($TextType == 'char' && ($ltn > strlen($firstdesc))) || ($TextType == 'word' && ($ltn > count(explode(" ", $firstdesc))) )){ ?>
-                    <span class="sf-dots"><?php echo wp_kses_post($TextDots); ?></span>
-                    <div class="moreText" ><?php echo wp_kses_post($totaldesc); ?></div>
+            <div class="showtext"><?php echo wp_kses_post($firstdesc); ?><?php if(($TextType == 'char' && ($ltn > strlen($firstdesc))) || ($TextType == 'word' && ($ltn > count(explode(" ", $firstdesc))) )){ ?><span class="sf-dots"><?php echo wp_kses_post($TextDots); ?></span><div class="moreText" ><?php echo wp_kses_post($totaldesc); ?></div>
                     <a class="readbtn" aria-label="<?php echo esc_attr($TextMore); ?>"><?php echo wp_kses_post($TextMore); ?> </a>
                 <?php } ?>
             </div>

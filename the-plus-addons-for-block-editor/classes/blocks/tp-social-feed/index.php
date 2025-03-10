@@ -1882,7 +1882,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 		} else {
 			$FinalData = get_transient("SF-Performance-$feed_id");
 		}
-		
+       
 		if(!empty($FinalData)){
 			foreach ($FinalData as $index => $data) {
 				$PostId = !empty($data['PostId']) ? $data['PostId'] : [];
@@ -1890,8 +1890,9 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 					unset($FinalData[$index]);
 				}
 			}
-
+          
 			if(!empty($FinalData)){
+
 				$SocialFeed .= '<div class="post-loop-inner social-feed-'.esc_attr($style).'" >';
 				foreach ($FinalData as $F_index => $AllVmData) {
 					$uniqEach = uniqid();
@@ -1932,7 +1933,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 						$sepPostId = explode("_",$PostId);
 						$newPId = (!empty($sepPostId[1])) ? $sepPostId[1] : '';
 						$fbPostRD = 'https://www.facebook.com/'.esc_attr($UName).'/posts/'.esc_attr($newPId);
-						$videoURL = ($selectFeed == 'Facebook' && $PopupOption == 'GoWebsite') ? $fbPostRD : $PostLink;
+						$videoURL = ($selectFeed == 'Facebook' && $PopupOption == 'GoWebsite') ? (!empty($PostLink[0]['link'])) ? $PostLink[0]['link'] : "#" : $PostLink;
 						$ImageURL = $PostImage;
 					}
 					if(!empty($FbAlbum)){
@@ -1983,17 +1984,17 @@ function tpgb_FacebookFeed($social,$attr){
 			array_push($content,$Filter);
 		}
 	}else{
-		array_push($content,'photo');
+        array_push($content, 'photo', 'video', 'status'); 
 	}
 	
 	$url = '';
 	$FbAllData = '';
 	$FbArr = [];
-	if(!empty($FbAcT) && $FbPType == 'post'){
-		$url = "{$BaseURL}/me?fields=id,name,first_name,last_name,link,email,birthday,picture,posts.limit($FbLimit){type,message,story,caption,description,shares,picture,full_picture,source,created_time,reactions.summary(true),comments.summary(true).filter(toplevel)},albums.limit($FbLimit){id,type,link,picture,created_time,name,count,photos.limit($FbALimit){id,link,created_time,likes,images,name,comments.summary(true).filter(toplevel)}}&access_token={$FbAcT}";
-	}else if(!empty($FbAcT) && !empty($FbPageid) && $FbPType == 'page'){
-		$url = "{$BaseURL}/{$FbPageid}?fields=id,name,username,link,fan_count,new_like_count,phone,emails,about,birthday,category,picture,posts.limit($FbLimit){id,full_picture,created_time,message,attachments{media,media_type,title,url},picture,story,status_type,shares,reactions.summary(true),likes.summary(true),comments.summary(true).filter(toplevel)},albums.limit($FbLimit){id,type,link,picture,created_time,name,count,photos.limit($FbALimit){id,link,created_time,images,name}}&access_token={$FbAcT}";
-	}
+    if(!empty($FbAcT) && $FbPType == 'post'){
+        $url = "{$BaseURL}/me?fields=id,name,first_name,last_name,link,email,birthday,picture,posts.limit($FbLimit){type,message,story,caption,description,shares,picture,full_picture,source,created_time,reactions.summary(true),comments.summary(true).filter(toplevel)},albums.limit($FbALimit){id,type,link,picture,created_time,name,count,photos.limit($FbLimit){id,link,created_time,likes,images,name,comments.summary(true).filter(toplevel)}}&access_token={$FbAcT}";
+    }else if(!empty($FbAcT) && !empty($FbPageid) && $FbPType == 'page'){
+        $url = "{$BaseURL}/{$FbPageid}?fields=id,name,username,link,fan_count,new_like_count,phone,emails,about,birthday,category,picture,posts.limit($FbLimit){id,full_picture,created_time,message,attachments{media,media_type,title,url},picture,story,status_type,shares,reactions.summary(true),likes.summary(true),comments.summary(true).filter(toplevel)},albums.limit($FbALimit){id,type,link,picture,created_time,name,count,photos.limit($FbLimit){id,link,created_time,images,name}}&access_token={$FbAcT}";
+    }
 	
 	if(!empty($url)){
 		$GetFbRL = get_transient("Fb-Url-$FbKey");
@@ -2014,7 +2015,7 @@ function tpgb_FacebookFeed($social,$attr){
 			if(!empty($FbAlbum)){
 				$FbPost = (!empty($FbAllData['albums']['data'])) ? $FbAllData['albums']['data'] : [];
 			}else{
-				$FbPost = (!empty($FbAllData['posts']['data'])) ? $FbAllData['posts']['data'] : [];
+				$FbPost = !empty($FbAllData['posts']['data']) ? $FbAllData['posts']['data'] : (!empty($FbAllData['albums']['data']) ? $FbAllData['albums']['data'] : []);
 			}
 			
 			foreach ($FbPost as $index => $FbData){
@@ -2049,7 +2050,6 @@ function tpgb_FacebookFeed($social,$attr){
 					}
 				}
 				
-
 				if(!empty($FbAlbum)){
 					$type = 'video'; 
 					$link = (!empty($FbData['link']) ? $FbData['link'] : '');
@@ -2058,8 +2058,9 @@ function tpgb_FacebookFeed($social,$attr){
 					$FbPicture = (!empty($FbData['picture']['data']['url']) ? $FbData['picture']['data']['url'] : '');
 					$FbSource = (!empty($FbData['photos']['data']) ? $FbData['photos']['data'] : []);
 				}
-				
-				if( (in_array('photo',$content) && $type == 'photo') || (in_array('video',$content) && $type == 'video') || ( in_array('status',$content) && ($type == 'status' || $type == 'link')) ){	
+               
+				if( (in_array('photo',$content) ) || (in_array('video',$content) ) || ( in_array('status',$content) ) ){	
+                   
 					$FbArr[] = array(
 						"Feed_Index"	=> $index,
 						"PostId"		=> $id,

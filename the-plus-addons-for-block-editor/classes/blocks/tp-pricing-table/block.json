@@ -1693,6 +1693,26 @@
             }
           ],
           "selector": "{{PLUS_WRAP}} .pricing-content-wrap.listing-content.style-2{ text-align: right; }"
+        },
+        {
+            "condition": [
+              {
+                "key": "contentStyle",
+                "relation": "==",
+                "value": "stylish"
+              },
+              {
+                "key": "conListStyle",
+                "relation": "==",
+                "value": "style-2"
+              },
+              {
+                "key": "listAlign",
+                "relation": "==",
+                "value": "center"
+              }
+            ],
+            "selector": "{{PLUS_WRAP}} .pricing-content-wrap.listing-content.style-2{ text-align: center; }"
         }
       ],
       "scopy": true

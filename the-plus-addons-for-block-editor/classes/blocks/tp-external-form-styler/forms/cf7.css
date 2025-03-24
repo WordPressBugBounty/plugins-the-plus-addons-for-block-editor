@@ -377,7 +377,7 @@
     flex: 0 0 66.666667%;
     max-width: 66.666667%;
 }
-@media (min-width:768px) {
+@media (max-width:768px) {
     .tpgb-contact-form-7 .tpgb-row .tpgb-col-md-8{
         -ms-flex: 0 0 100%;
         flex: 0 0 100%;

@@ -62,6 +62,9 @@ class Tpgb_Gutenberg_Settings_Options {
 
 			// Scan Unused Block & Disabled it filter function
 			add_filter( 'tpgb_disable_unsed_block_filter', array( $this, 'tpgb_disable_unsed_block_filter_fun' ) );
+
+            // Wdesignkit Block Enable Ajax
+            add_action( 'wp_ajax_nxt_wdk_widget_ajax_call', array( $this,'nxt_wdk_widget_ajax_call') );
 			
 		}
 		
@@ -198,13 +201,42 @@ class Tpgb_Gutenberg_Settings_Options {
 				$nxtheme = 'available';
 		}
 
+        //Apply Filters
+        $nxt_format_widget = [];
+        if ( has_filter( 'nxt_wdk_widget_ajax_call' ) ) {
+            $wdk_widget_data = apply_filters('nxt_wdk_widget_ajax_call', 'nxt_wdk_get_widget_ajax');
+            foreach ($wdk_widget_data as $block) {
+                $uniqueKey = isset($block['title']) ? $block['title'] : 'block_' . $block['id'];
+            
+                $nxt_format_widget[$uniqueKey] = [
+                    'label'      => esc_html($block['title']),
+                    'demoUrl'    => esc_url($block['live_demo']),
+                    'docUrl'     => '',
+                    'videoUrl'   => '',
+                    'tag'        => $block['free_pro'] === 'pro' ? 'pro' : 'free',
+                    'block_cate' => 'WDesignKit',
+                    'keyword'    => [],
+                    'w_unique'   => $block['id'],
+                    'uniqueId'   => $block['w_unique'],
+                ];
+                if (isset($block['w_type']) && !empty($block['w_type'])) {
+                    if( $block['w_type'] === 'Publish' ){
+                        $nxt_format_widget[$uniqueKey]['w_type'] = 'Publish';
+                    }else if( $block['w_type'] === 'Draft' ){
+                        $nxt_format_widget[$uniqueKey]['w_type'] = 'Draft';
+                    }
+                    
+                }
+            }
+        }
+
 		if ( $user ){
 			$dashData = [
 				'userData' => [
 					'userName' => esc_html($user->display_name),
 					'profileLink' => esc_url( get_avatar_url( $user->ID ) )
 				],
-				'blockList' => array_merge($this->block_lists,$this->block_extra),
+				'blockList' => array_merge($this->block_lists,$this->block_extra,(array) $nxt_format_widget),
 				'avtiveBlock' => isset( $default_load['enable_normal_blocks']) && is_array($default_load['enable_normal_blocks']) ? count($default_load['enable_normal_blocks']) : 0,
 				'enableBlock' => array_merge( is_array($default_load['enable_normal_blocks']) ? $default_load['enable_normal_blocks'] : [], isset($default_load['tp_extra_option']) && is_array($default_load['tp_extra_option']) ? $default_load['tp_extra_option'] : [] ),
 				'extOption' => get_option('tpgb_connection_data'),
@@ -489,6 +521,11 @@ class Tpgb_Gutenberg_Settings_Options {
 					
 					$block_value = array_merge( $update_value , $update_extra_val );
 					$updated = update_option($action_page, $block_value);
+
+                    $response = '';
+                    if ( has_filter( 'nxt_wdk_widget_ajax_call' ) ) {
+                        $response = apply_filters( 'nxt_wdk_widget_ajax_call', 'wdk_update_widget' );
+                    }
 
 					if ($updated) {
 						wp_send_json(['Success' => true]);
@@ -1620,6 +1657,16 @@ class Tpgb_Gutenberg_Settings_Options {
 			}
 		}
 	}
+
+    /*
+	 * Wdesignkit Widgets Enable / Disabled Ajax
+	 * @since 4.0.7
+	 */
+    public function  nxt_wdk_widget_ajax_call(){
+        $response = apply_filters( 'nxt_wdk_widget_ajax_call', 'wdk_update_widget' );
+        wp_send_json( $response );
+        wp_die();
+    }
 
 }
 

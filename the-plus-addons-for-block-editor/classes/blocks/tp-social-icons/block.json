@@ -350,7 +350,19 @@
       },
       "tipBg": {
         "type": "object",
-        "default": { "bgType": "color", "bgGradient": {} },
+        "default": { 
+            "bgType": "color", 
+            "bgGradient": {
+                "color1": "#16d03e",
+                "color2": "#1f91f3",
+                "type": "linear",
+                "direction": "90",
+                "start": 5,
+                "stop": 80,
+                "radial": "center",
+                "clip": false
+            } 
+        },
         "style": [{ "selector": "{{PLUS_WRAP}} .tpgb-social-list .tippy-box" }],
         "scopy": true
       },

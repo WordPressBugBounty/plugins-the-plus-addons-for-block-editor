@@ -293,7 +293,8 @@ class Tpgb_Core_Init_Blocks {
 			'tpgb_extra_opt' => Tp_Blocks_Helper::get_extra_opt_enabled(),
 			'pluginnonce' => wp_create_nonce( 'tpgb-dash-ajax-nonce' ),
 			'WDesignkit_in' => $wdadded,
-			'dashicons_icon' => $dashIcons
+			'dashicons_icon' => $dashIcons,
+            'nexter_block_pro' => defined('TPGBP_VERSION'),
 		);
 		
 		if(has_filter('tpgb_load_localize')) {

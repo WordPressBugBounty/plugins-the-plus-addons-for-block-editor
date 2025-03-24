@@ -222,6 +222,9 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             if(defined('AGNI_PLUGIN_URL') || class_exists( 'AgniBuilder' )){
                 require_once TPGB_PATH . 'classes/extras/compatibility/class-tpag-cartify.php';
             }
+
+            // wdkit widget api
+            require_once TPGB_PATH . 'classes/extras/tpgb-wdk-widgets-api.php';
         }
         
         /**

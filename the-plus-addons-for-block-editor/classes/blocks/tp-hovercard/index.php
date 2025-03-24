@@ -710,6 +710,7 @@ function tpgb_tp_hovercard() {
 						'txtHvrShadow' => ['openShadow' => 0],
 						'imgBShadow' => ['openShadow' => 0],
 						'HvrimgBShadow' =>  ['openShadow' => 0],
+                        'aLink' => [ 'url' => '' ]
 					],
 				],
 			],

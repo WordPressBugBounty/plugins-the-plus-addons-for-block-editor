@@ -83,7 +83,7 @@ function tpgb_tp_navbuilder_render_callback( $attributes, $content) {
 			$getToogleicon .= '<i class="'.esc_attr($openIcon).'"></i>';
 		}else{
 			$opimgSrc ='';
-			$altText = (isset($openImg['alt']) && !empty($openImg['alt'])) ? esc_attr($openImg['alt']) : ((!empty($openImg['title'])) ? esc_attr($openImg['title']) : esc_attr__('Close Image','tpgbp'));
+			$altText = (isset($openImg['alt']) && !empty($openImg['alt'])) ? esc_attr($openImg['alt']) : ((!empty($openImg['title'])) ? esc_attr($openImg['title']) : esc_attr__('Close Image','the-plus-addons-for-block-editor'));
 
 			if(!empty($openImg) && !empty($openImg['id'])){
 				$opimgSrc = wp_get_attachment_image($openImg['id'] , 'full', false, ['alt'=> $altText]);
@@ -98,7 +98,7 @@ function tpgb_tp_navbuilder_render_callback( $attributes, $content) {
 			$getToogleicon .= '<i class="'.esc_attr($closeIcon).'"></i>';
 		}else{
 			$cloimgSrc ='';
-			$altText1 = (isset($closeImg['alt']) && !empty($closeImg['alt'])) ? esc_attr($closeImg['alt']) : ((!empty($closeImg['title'])) ? esc_attr($closeImg['title']) : esc_attr__('Open Image','tpgbp'));
+			$altText1 = (isset($closeImg['alt']) && !empty($closeImg['alt'])) ? esc_attr($closeImg['alt']) : ((!empty($closeImg['title'])) ? esc_attr($closeImg['title']) : esc_attr__('Open Image','the-plus-addons-for-block-editor'));
 
 			if(!empty($closeImg) && !empty($closeImg['id'])){
 				$cloimgSrc = wp_get_attachment_image($closeImg['id'] , 'full', false, ['alt'=> $altText1]);
@@ -224,7 +224,7 @@ function tpgb_mega_menu($attributes,$att=''){
 			if(!empty($item['menuiconTy']) && $item['menuiconTy'] == 'icon' ){
 				$preicon .= '<span class="tpgb-navicon-wrap"><i class="'.esc_attr($item['preicon']).' nav-menu-icon"></i></span>';
 			}else if(!empty($item['menuiconTy']) && $item['menuiconTy'] == 'img'){
-				$altText2 = (isset($item['menuImg']['alt']) && !empty($item['menuImg']['alt'])) ? esc_attr($item['menuImg']['alt']) : ((!empty($item['menuImg']['title'])) ? esc_attr($item['menuImg']['title']) : esc_attr__('Navigation Image','tpgbp'));
+				$altText2 = (isset($item['menuImg']['alt']) && !empty($item['menuImg']['alt'])) ? esc_attr($item['menuImg']['alt']) : ((!empty($item['menuImg']['title'])) ? esc_attr($item['menuImg']['title']) : esc_attr__('Navigation Image','the-plus-addons-for-block-editor'));
 
 				if(!empty($item['menuImg']) && !empty($item['menuImg']['id'])){
 					$preicon .= '<span class="tpgb-navicon-wrap">'. wp_get_attachment_image($item['menuImg']['id'] , 'full', true, ['class' => 'nav-menu-img', 'alt'=> $altText2]).'</span>';

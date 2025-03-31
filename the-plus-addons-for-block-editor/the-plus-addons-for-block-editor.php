@@ -3,11 +3,12 @@
 * Plugin Name: Nexter Blocks
 * Plugin URI: https://nexterwp.com/nexter-blocks/
 * Description: Highly customizable WordPress Gutenberg blocks to build professional websites with top-notch performance and sleek design. Includes 40+ FREE WordPress Blocks.
-* Version: 4.1.7
+* Version: 4.1.8
 * Author: POSIMYTH
 * Author URI: https://posimyth.com
 * Tested up to: 6.7.2
-* Text Domain: tpgb
+* Text Domain: the-plus-addons-for-block-editor
+* Domain Path: /languages
 * License: GPLv3
 * License URI: https://opensource.org/licenses/GPL-3.0
 */
@@ -15,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.1.7' );
+defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.1.8' );
 define( 'TPGB_FILE__', __FILE__ );
 
 define( 'TPGB_PATH', plugin_dir_path( __FILE__ ) );
@@ -48,7 +49,7 @@ if ( ! version_compare( PHP_VERSION, '5.6.40', '>=' ) ) {
  */
 function tpgb_check_php_version() {	
 	/* translators: Nexter Blocks requires PHP version %s+. The plugin is currently not running. Please update to the latest PHP version. */
-	$check_message      = sprintf( esc_html__( 'Nexter Blocks requires PHP version %s+. The plugin is currently not running. Please update to the latest PHP version.', 'tpgb' ), '5.6.40' );
+	$check_message      = sprintf( esc_html__( 'Nexter Blocks requires PHP version %s+. The plugin is currently not running. Please update to the latest PHP version.', 'the-plus-addons-for-block-editor' ), '5.6.40' );
 	$display_message = sprintf( '<div class="error">%s</div>', wpautop( $check_message ) );
 	echo wp_kses_post( $display_message );
 }
@@ -64,7 +65,7 @@ function tpgb_check_php_version() {
  */
 function tpgb_check_wp_version() {	
 	/* translators: Nexter Blocks requires at least WordPress version %s+. Because you’re using an older version, the plugin is currently not running. Please update WordPress to the latest version. */
-	$check_message      = sprintf( esc_html__( 'Nexter Blocks requires at least WordPress version %s+. Because you’re using an older version, the plugin is currently not running. Please update WordPress to the latest version.', 'tpgb' ), '4.7.1' );
+	$check_message      = sprintf( esc_html__( 'Nexter Blocks requires at least WordPress version %s+. Because you’re using an older version, the plugin is currently not running. Please update WordPress to the latest version.', 'the-plus-addons-for-block-editor' ), '4.7.1' );
 	$display_message = sprintf( '<div class="error">%s</div>', wpautop( $check_message ) );
 	echo wp_kses_post( $display_message );
 }
@@ -80,7 +81,7 @@ function tpgb_check_wp_version() {
  */
 function tpgb_free_check_tpag_version() {
 	/* translators: Nexter Blocks Pro requires Nexter Blocks Free version %s+. Since you’re using an older version, the plugin is currently not active. */
-	$check_message      = sprintf( '<b>Note:</b>' . esc_html__( ' Please update the Pro version to at least V4.0.0. If you don’t see the upgrade notice, upload the zip manually to the latest version from the ', 'tpgb' ).'<a href="%s">store download.</a>', esc_url('https://store.posimyth.com/download/') );
+	$check_message      = sprintf( '<b>Note:</b>' . esc_html__( ' Please update the Pro version to at least V4.0.0. If you don’t see the upgrade notice, upload the zip manually to the latest version from the ', 'the-plus-addons-for-block-editor' ).'<a href="%s">store download.</a>', esc_url('https://store.posimyth.com/download/') );
 	
 	$display_message = sprintf( '<div class="error">%s</div>', wpautop( $check_message ) );
 	

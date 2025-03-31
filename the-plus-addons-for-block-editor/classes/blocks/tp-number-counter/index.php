@@ -36,7 +36,7 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content) {
 	
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	
-	$altText = (isset($imagestore['alt']) && !empty($imagestore['alt'])) ? esc_attr($imagestore['alt']) : ((!empty($imagestore['title'])) ? esc_attr($imagestore['title']) : esc_attr__('Counter Number','tpgb'));
+	$altText = (isset($imagestore['alt']) && !empty($imagestore['alt'])) ? esc_attr($imagestore['alt']) : ((!empty($imagestore['title'])) ? esc_attr($imagestore['title']) : esc_attr__('Counter Number','the-plus-addons-for-block-editor'));
 
 	if(!empty($imagestore) && !empty($imagestore['id'])){
 		$imgSrc = wp_get_attachment_image($imagestore['id'] , $imageSize, false, ['class' => 'counter-icon-image', 'alt'=> $altText]);
@@ -84,7 +84,7 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content) {
 	
 	$getTitle = '';
 	$link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['linkURL']);
-	$ariaLabel = (!empty($attributes['ariaLabel'])) ? esc_attr($attributes['ariaLabel']) : ((!empty($title)) ? esc_attr($title) : esc_attr__("Number Counter", 'tpgb'));
+	$ariaLabel = (!empty($attributes['ariaLabel'])) ? esc_attr($attributes['ariaLabel']) : ((!empty($title)) ? esc_attr($title) : esc_attr__("Number Counter", 'the-plus-addons-for-block-editor'));
 	if(!empty($linkURL)){
 		$getTitle .='<a href="'.esc_url($linkURL).'" '.$target.' '.$nofollow.' '.$link_attr.' aria-label="'.esc_attr($title).'">';
 	}
@@ -123,7 +123,7 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content) {
 		$getsvg .= '<a href="'.esc_url($linkURL).'" '.$target.' '.$nofollow.' '.$link_attr.' aria-label="'.$ariaLabel.'">';
 	}
 		
-		$getsvg .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','tpgb').'"></object>';
+		$getsvg .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 
 	if(!empty($linkURL)){
 		$getsvg .= '</a>';

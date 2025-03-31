@@ -369,7 +369,7 @@ class Tp_Blocks_Helper {
 		$sizes       = get_intermediate_image_sizes();
 		$image_sizes = array();
 
-		$image_sizes[] = [ 'full', esc_html__( 'Full', 'tpgb' ) ];
+		$image_sizes[] = [ 'full', esc_html__( 'Full', 'the-plus-addons-for-block-editor' ) ];
 
 		foreach ( $sizes as $size ) {
 			if ( in_array( $size, array( 'thumbnail', 'medium', 'medium_large', 'large' ) ) ) {
@@ -410,12 +410,12 @@ class Tp_Blocks_Helper {
 		$contact_forms = array();
 		$cf7 = get_posts('post_type="wpcf7_contact_form"&numberposts=-1');
 		if ($cf7) {
-			$contact_forms[0] = ['','Select Form', 'tpgb'];
+			$contact_forms[0] = ['','Select Form', 'the-plus-addons-for-block-editor'];
 				foreach ($cf7 as $cform) {
 					$contact_forms[] = [$cform->ID,$cform->post_title];
 				}
 		} else {
-			$contact_forms[0] = ['',"No contact forms found",'tpgb'];
+			$contact_forms[0] = ['',"No contact forms found",'the-plus-addons-for-block-editor'];
 		}
 		return $contact_forms;
 	}
@@ -426,12 +426,12 @@ class Tp_Blocks_Helper {
 		$everest_form = array();
 		$ev_form = get_posts('post_type="everest_form"&numberposts=-1');
 			if ($ev_form) {
-				$everest_form[0]  = ['', esc_html__( 'Select Form', 'tpgb' )];
+				$everest_form[0]  = ['', esc_html__( 'Select Form', 'the-plus-addons-for-block-editor' )];
 				foreach ($ev_form as $evform) {
 					$everest_form[] = [$evform->ID,$evform->post_title];
 				}
 			} else {
-				$everest_form[0] = ['', esc_html__('No everest forms found', 'tpgb')];
+				$everest_form[0] = ['', esc_html__('No everest forms found', 'the-plus-addons-for-block-editor')];
 			}
 		return $everest_form;
 	}
@@ -442,14 +442,14 @@ class Tp_Blocks_Helper {
 		$g_form_options = [];
 		if ( class_exists( 'GFCommon' ) ) {
 		 $gravity_forms = \RGFormsModel::get_forms( null, 'title' );
-			$g_form_options [0]  = ['', esc_html__( 'Select Form', 'tpgb' )];
+			$g_form_options [0]  = ['', esc_html__( 'Select Form', 'the-plus-addons-for-block-editor' )];
 			if ( ! empty( $gravity_forms ) && ! is_wp_error( $gravity_forms ) ) {
 				foreach ( $gravity_forms as $form ) {   
 					$g_form_options[] = [$form->id,$form->title];
 				}
 			}
 		} else {
-			$g_form_options [0]  = ['', esc_html__( 'Form Not Found!', 'tpgb' ) ];
+			$g_form_options [0]  = ['', esc_html__( 'Form Not Found!', 'the-plus-addons-for-block-editor' ) ];
 		}
 		return $g_form_options;
 	}
@@ -461,14 +461,14 @@ class Tp_Blocks_Helper {
         if ( class_exists( 'Ninja_Forms' ) ) {
             $contact_forms = Ninja_Forms()->form()->get_forms();
             if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
-                $options[0]  = ['', esc_html__( 'Select Ninja Form', 'tpgb' )];
+                $options[0]  = ['', esc_html__( 'Select Ninja Form', 'the-plus-addons-for-block-editor' )];
                 foreach ( $contact_forms as $form ) {   
                     //$options[ $form->get_id() ] = $form->get_setting( 'title' );
 					$options[] = [$form->get_id(),$form->get_setting( 'title' )];
                 }
             }
         } else {
-            $options[0] = ['', esc_html__( 'Create a Form First', 'tpgb' )];
+            $options[0] = ['', esc_html__( 'Create a Form First', 'the-plus-addons-for-block-editor' )];
         }
         return $options;
     }
@@ -484,14 +484,14 @@ class Tp_Blocks_Helper {
             );
             $contact_forms = get_posts( $args );
             if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
-                $options[0] = ['', esc_html__( 'Select a WPForm', 'tpgb' )];
+                $options[0] = ['', esc_html__( 'Select a WPForm', 'the-plus-addons-for-block-editor' )];
                 foreach ( $contact_forms as $post ) {   
                     //$options[ $post->ID ] = $post->post_title;
 					$options[] = [$post->ID,$post->post_title];
                 }
             }
         } else {
-            $options[0] = ['', esc_html__( 'Create a Form First', 'tpgb' )];
+            $options[0] = ['', esc_html__( 'Create a Form First', 'the-plus-addons-for-block-editor' )];
         }
         return $options;
     }
@@ -508,15 +508,15 @@ class Tp_Blocks_Helper {
             $text['home'] = 'Home';
         }
 		/* translators: Archive by: %s */
-		$text['category'] = esc_html__('Archive by "%s"', 'tpgb'); 
+		$text['category'] = esc_html__('Archive by "%s"', 'the-plus-addons-for-block-editor'); 
 		/* translators: Search Results for: %s */
-		$text['search']   = esc_html__('Search Results for "%s"', 'tpgb');
+		$text['search']   = esc_html__('Search Results for "%s"', 'the-plus-addons-for-block-editor');
 		/* translators: Posts Tagged for: %s */
-		$text['tag']      = esc_html__('Posts Tagged "%s"', 'tpgb');
+		$text['tag']      = esc_html__('Posts Tagged "%s"', 'the-plus-addons-for-block-editor');
 		/* translators: Articles Posted by for: %s */
-		$text['author']   = esc_html__('Articles Posted by %s', 'tpgb');
+		$text['author']   = esc_html__('Articles Posted by %s', 'the-plus-addons-for-block-editor');
 		/* translators: Error 404: %s */
-		$text['404']      = esc_html__('Error 404', 'tpgb');
+		$text['404']      = esc_html__('Error 404', 'the-plus-addons-for-block-editor');
         $showCurrent = 1; 
         $showOnHome  = 1; 
         $delimiter   = ' <span class="del"></span> '; 
@@ -564,14 +564,14 @@ class Tp_Blocks_Helper {
             $icons_content = '<i class=" '.esc_attr($icons).' bread-home-icon"></i>';
         }
         if($icontype=='image' && $icons != ''){
-            $icons_content = '<img class="bread-home-img" alt="'.esc_attr__('home','tpgb').'" src="'.esc_url($icons).'" />';
+            $icons_content = '<img class="bread-home-img" alt="'.esc_attr__('home','the-plus-addons-for-block-editor').'" src="'.esc_url($icons).'" />';
         }
         $icons_sep_content ='';
         if($sepIconType=='sep_icon' && $sepIcons != ''){
                 $icons_sep_content = '<i class=" '.esc_attr($sepIcons).' bread-sep-icon" ></i>';
         }
         if($sepIconType=='sep_image' && $sepIcons != ''){
-            $icons_sep_content = '<img class="bread-sep-icon" alt="'.esc_attr__('separator','tpgb').'" src="'.esc_url($sepIcons).'" />';		
+            $icons_sep_content = '<img class="bread-sep-icon" alt="'.esc_attr__('separator','the-plus-addons-for-block-editor').'" src="'.esc_url($sepIcons).'" />';		
         }
         
         global $post;
@@ -1100,7 +1100,7 @@ class Tp_Blocks_Helper {
             }
             if ( get_query_var('paged') ) {
                 if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) $crumbs_output .= ' (';
-                    $crumbs_output .= '<span class="del"></span>'.esc_html__('Page', 'tpgb') . ' ' . get_query_var('paged');
+                    $crumbs_output .= '<span class="del"></span>'.esc_html__('Page', 'the-plus-addons-for-block-editor') . ' ' . get_query_var('paged');
                 if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) $crumbs_output .= ')';
             }
             $crumbs_output .= '</nav>';
@@ -1378,7 +1378,7 @@ class Tp_Blocks_Helper {
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_send_json_error(
-				__( 'Not a Valid', 'tpgb' ),
+				__( 'Not a Valid', 'the-plus-addons-for-block-editor' ),
 				403
 			);
 		}
@@ -1386,7 +1386,7 @@ class Tp_Blocks_Helper {
 		$media_import = isset( $_POST['content'] ) ? wp_unslash( $_POST['content'] ) : '';
 		
 		if ( empty( $media_import ) ) {
-			wp_send_json_error( __( 'Empty Content.', 'tpgb' ) );
+			wp_send_json_error( __( 'Empty Content.', 'the-plus-addons-for-block-editor' ) );
 		}
 
 		$media_import = array( json_decode( $media_import, true ) );
@@ -1526,23 +1526,45 @@ class Tp_Blocks_Helper {
 	public static function tpgb_custom_font(){
 		$system_fonts = [
 			'id' => 'tpgb-system-fonts',
-			'title' => __('System', 'tpgb'),
+			'title' => __('System', 'the-plus-addons-for-block-editor'),
 			'options' => apply_filters('tpgb-system-fonts-list', [
-				(object)['label' => __('Default','tpgb'), 'value' => '' ],
-				(object)['label' => __('Arial','tpgb'), 'value' => 'Arial' ],
-				(object)['label' => __('Georgia','tpgb'), 'value' => 'Georgia' ],
-				(object)['label' => __('Helvetica','tpgb'), 'value' => 'Helvetica' ],
-				(object)['label' => __('Tahoma','tpgb'), 'value' => 'Tahoma' ],
-				(object)['label' => __('Times New Roman','tpgb'), 'value' => 'Times New Roman' ],
-				(object)['label' => __('Trebuchet MS','tpgb'), 'value' => 'Trebuchet MS' ],
-				(object)['label' => __('Verdana','tpgb'), 'value' => 'Verdana' ],
+				(object)['label' => __('Default','the-plus-addons-for-block-editor'), 'value' => '' ],
+				(object)['label' => __('Arial','the-plus-addons-for-block-editor'), 'value' => 'Arial' ],
+				(object)['label' => __('Georgia','the-plus-addons-for-block-editor'), 'value' => 'Georgia' ],
+				(object)['label' => __('Helvetica','the-plus-addons-for-block-editor'), 'value' => 'Helvetica' ],
+				(object)['label' => __('Tahoma','the-plus-addons-for-block-editor'), 'value' => 'Tahoma' ],
+				(object)['label' => __('Times New Roman','the-plus-addons-for-block-editor'), 'value' => 'Times New Roman' ],
+				(object)['label' => __('Trebuchet MS','the-plus-addons-for-block-editor'), 'value' => 'Trebuchet MS' ],
+				(object)['label' => __('Verdana','the-plus-addons-for-block-editor'), 'value' => 'Verdana' ],
 			]),
 		];
 		$custom_fonts = [
 			'id' => 'tpgb-custom-fonts',
-			'title' => __('Custom Fonts', 'tpgb'),
+			'title' => __('Custom Fonts', 'the-plus-addons-for-block-editor'),
 			'options' => apply_filters('tpgb-custom-fonts-list', []),
 		];
+
+        /* Theme json */
+        if(function_exists('wp_get_global_settings')){
+            $theme_json_settings = wp_get_global_settings();
+        
+            if(!empty($theme_json_settings)){
+                if(isset($theme_json_settings['typography']) && !empty($theme_json_settings['typography'])){
+                    if(isset($theme_json_settings['typography']['fontFamilies']) && !empty($theme_json_settings['typography']['fontFamilies'])){
+                        foreach ($theme_json_settings['typography']['fontFamilies'] as $category => $fonts) {
+                            foreach ($fonts as $font) {
+                                $custom_fonts['options'][] = (object)[
+									'label' => str_replace('"', '', $font['name']),
+									'value' => str_replace('"', '', $font['name']),
+								];
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
 		/*Custom Fonts*/
 		if(class_exists('Bsf_Custom_Fonts_Taxonomy')){
 			$fonts = Bsf_Custom_Fonts_Taxonomy::get_fonts();

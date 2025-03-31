@@ -31,9 +31,9 @@ class Tpgb_Gutenberg_Settings_Options {
 		if( is_admin() ){
 			if(defined('TPGBP_VERSION')){
 				$options = get_option( 'tpgb_white_label' );
-				$this->setting_name = (!empty($options['tpgb_plugin_name'])) ? $options['tpgb_plugin_name'] : __('Nexter Blocks','tpgb');
+				$this->setting_name = (!empty($options['tpgb_plugin_name'])) ? $options['tpgb_plugin_name'] : __('Nexter Blocks','the-plus-addons-for-block-editor');
 			}else{
-				$this->setting_name = esc_html__('Nexter Blocks', 'tpgb');
+				$this->setting_name = esc_html__('Nexter Blocks', 'the-plus-addons-for-block-editor');
 			}
 		
 			$this->block_listout();
@@ -87,10 +87,10 @@ class Tpgb_Gutenberg_Settings_Options {
 	public function add_options_page(){
 		add_menu_page( $this->setting_name, $this->setting_name, 'manage_options', 'nexter_welcome_page', array( $this, 'admin_page_display' ),'dashicons-tpgb-plus-settings' , 58.5 );
 
-		add_submenu_page( 'nexter_welcome_page', esc_html__( 'Patterns', 'tpgb' ), esc_html__( 'Patterns', 'tpgb' ), 'manage_options', esc_url( admin_url('edit.php?post_type=wp_block') ));
+		add_submenu_page( 'nexter_welcome_page', esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), 'manage_options', esc_url( admin_url('edit.php?post_type=wp_block') ));
 
 		if( !defined('TPGBP_VERSION') ){
-			add_submenu_page( 'nexter_welcome_page', esc_html__( 'Upgrade Now', 'tpgb' ), esc_html__( 'Upgrade Now', 'tpgb' ), 'manage_options', esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings'));
+			add_submenu_page( 'nexter_welcome_page', esc_html__( 'Upgrade Now', 'the-plus-addons-for-block-editor' ), esc_html__( 'Upgrade Now', 'the-plus-addons-for-block-editor' ), 'manage_options', esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings'));
 		}
 
 		add_action('admin_footer', array($this, 'nxt_link_in_new_tab'));
@@ -106,7 +106,7 @@ class Tpgb_Gutenberg_Settings_Options {
 	public function nxt_submenu_head_title() {
 		global $submenu;
 		if ( isset($submenu['nexter_welcome_page'] )) {
-			$submenu['nexter_welcome_page'][0][0] = esc_html__( 'Dashboard', 'tpgb' );
+			$submenu['nexter_welcome_page'][0][0] = esc_html__( 'Dashboard', 'the-plus-addons-for-block-editor' );
 		}
 	}
 
@@ -259,7 +259,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		}
 
 		wp_enqueue_script( 'tpgb-dashscript', TPGB_URL . 'dashboard/build/index.js', array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element','wp-i18n' ), TPGB_VERSION, true );
-		wp_set_script_translations( 'tpgb-dashscript', 'tpgb' );
+		wp_set_script_translations( 'tpgb-dashscript', 'the-plus-addons-for-block-editor' );
 		wp_localize_script(
 			'tpgb-dashscript',
 			'tpgb_ajax_object',
@@ -282,7 +282,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
 
 		if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'tpgb' ) ) );
+			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'the-plus-addons-for-block-editor' ) ) );
 		}
 
 		$plu_slug = ( isset( $_POST['slug'] ) && !empty( $_POST['slug'] ) ) ? sanitize_text_field($_POST['slug']) : '';
@@ -315,7 +315,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		$plugin_info = unserialize( wp_remote_retrieve_body( $response ) );
 
 		if ( ! $plugin_info ) {
-			wp_send_json_error( array( 'content' => __( 'Failed to retrieve plugin information.', 'tpgb' ) ) );
+			wp_send_json_error( array( 'content' => __( 'Failed to retrieve plugin information.', 'the-plus-addons-for-block-editor' ) ) );
 		}
 
 		$skin     = new \Automatic_Upgrader_Skin();
@@ -348,7 +348,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
 
 		if ( !current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( __( 'You are not allowed to do this action', 'tpgb' ) );
+			wp_send_json_error( __( 'You are not allowed to do this action', 'the-plus-addons-for-block-editor' ) );
 		}
 
 		$theme_slug = 'nexter';
@@ -612,850 +612,850 @@ class Tpgb_Gutenberg_Settings_Options {
 	public function block_listout(){
 		$this->block_lists = [
 			'tp-accordion' => [
-				'label' => esc_html__('Accordion','tpgb'),
+				'label' => esc_html__('Accordion','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-accordion-toggle/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-accordion-toggle/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Tabbed', 'tpgb'),
+				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['accordion', 'tabs', 'toggle', 'faq', 'collapse', 'show hide content', 'Tiles'],
 			],
 			'tp-advanced-buttons' => [
-				'label' => esc_html__('Pro Buttons', 'tpgb'),
+				'label' => esc_html__('Pro Buttons', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-pro-button/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-pro-button/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button'],
 			],
 			'tp-advanced-chart' => [
-				'label' => esc_html__('Advanced Chart', 'tpgb'),
+				'label' => esc_html__('Advanced Chart', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-advanced-charts-and-graph/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Advanced', 'tpgb'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['chart', 'diagram'],
 			],
 			'tp-adv-typo' => [
-				'label' => esc_html__('Advanced Typography', 'tpgb'),
+				'label' => esc_html__('Advanced Typography', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-advanced-typography/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['adv','text','typo'],
 			],
 			'tp-animated-service-boxes' => [
-				'label' => esc_html__('Animated Service Boxes', 'tpgb'),
+				'label' => esc_html__('Animated Service Boxes', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-animated-service-boxes/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-audio-player' => [
-				'label' => esc_html__('Audio Player','tpgb'),
+				'label' => esc_html__('Audio Player','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-audio-music-player/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['audio player', 'music player'],
 			],
 			'tp-before-after' => [
-				'label' => esc_html__('Before After', 'tpgb'),
+				'label' => esc_html__('Before After', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-before-after-image-comparison-slider/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-blockquote' => [
-				'label' => esc_html__('Blockquote','tpgb'),
+				'label' => esc_html__('Blockquote','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-blockquote-block/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
-				'keyword' => ['blockquote', 'Block Quotation', 'Citation', 'Pull Quotes'],
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+                'keyword' => ['blockquote', 'Block Quotation', 'Citation', 'Pull Quotes','block quote'],
 			],
 			'tp-breadcrumbs' => [
-				'label' => esc_html__('Breadcrumbs','tpgb'),
+				'label' => esc_html__('Breadcrumbs','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-breadcrumb-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['breadcrumbs bar', 'breadcrumb trail', 'navigation', 'site navigation', 'breadcrumb navigation']
 			],
 			'tp-button' => [
-				'label' => esc_html__('Advanced Button','tpgb'),				
+				'label' => esc_html__('Advanced Button','the-plus-addons-for-block-editor'),				
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-advanced-button/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button']
 			],
 			'tp-button-core' => [
-				'label' => esc_html__('Button','tpgb'),
+				'label' => esc_html__('Button','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-button/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['core button','Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button']
 			],
 			'tp-anything-carousel' => [
-				'label' => esc_html__('Carousel Anything','tpgb'),
+				'label' => esc_html__('Carousel Anything','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-advanced-carousel-sliders/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-advanced-carousel-sliders/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['carousel anything', 'slider', 'slideshow'],
 			],
 			'tp-carousel-remote' => [
-				'label' => esc_html__('Carousel Remote','tpgb'),
+				'label' => esc_html__('Carousel Remote','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-remote-sync/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-remote-sync/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
-				'keyword' => ['carousel remote', 'slider controller','next prev','dots'],
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'keyword' => ['carousel remote', 'slider controller','next prev','dots','Remote Sync'],
 			],
 			'tp-circle-menu' => [
-				'label' => esc_html__('Circle Menu', 'tpgb'),
+				'label' => esc_html__('Circle Menu', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-circle-menu/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['circle menu', 'compact menu', 'mobile menu']
 			],
 			'tp-code-highlighter' => [
-				'label' => esc_html__('Code Highlighter', 'tpgb'),
+				'label' => esc_html__('Code Highlighter', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-source-code-syntax-highlighter/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['prism', 'Source code beautifier', 'code Highlighter',  'syntax Highlighter', 'Custom Code', 'CSS', 'JS', 'PHP', 'HTML', 'React']
 			],
 			'tp-countdown' => [
-				'label' => esc_html__('Countdown','tpgb'),
+				'label' => esc_html__('Countdown','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-countdown-timer/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Advanced', 'tpgb'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Countdown', 'countdown timer', 'timer', 'Scarcity Countdown', 'Urgency Countdown', 'Event countdown', 'Sale Countdown', 'chronometer', 'stopwatch']
 			],
 			'tp-container' => [
-				'label' => esc_html__('Container','tpgb'),
+				'label' => esc_html__('Container','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-container/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['container','flex-wrap','flex-based','full-width']
 			],
 			'tp-coupon-code' => [
-				'label' => esc_html__('Coupon Code', 'tpgb'),
+				'label' => esc_html__('Coupon Code', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-coupon-code/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Coupon Code', 'Promo Code', 'Offers' , 'Discounts', 'Sales', 'Copy Coupon Code']
 			],
 			'tp-creative-image' => [
-				'label' => esc_html__('Advanced Image','tpgb'),
+				'label' => esc_html__('Advanced Image','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-advanced-image/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '#video',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Creative image', 'Image', 'Animated Image', 'ScrollReveal', 'scrolling image', 'decorative image', 'image effect', 'Photo', 'Visual']
 			],
 			'tp-cta-banner' => [
-				'label' => esc_html__('CTA Banner','tpgb'),
+				'label' => esc_html__('CTA Banner','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-cta-banner/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Advanced', 'tpgb'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['advertisement', 'banner', 'advertisement banner', 'ad manager', 'announcement', 'announcement banner']
 			],
 			'tp-data-table' => [
-				'label' => esc_html__('Data Table','tpgb'),
+				'label' => esc_html__('Data Table','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-data-table/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-data-table/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Data table', 'datatable', 'grid', 'csv table', 'table', 'tabular layout', 'Table Showcase']
 			],
 			'tp-dark-mode' => [
-				'label' => esc_html__('Dark Mode','tpgb'),
+				'label' => esc_html__('Dark Mode','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-dark-mode-switcher/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['dark', 'light', 'darkmode', 'dual']
 			],
 			'tp-design-tool' => [
-				'label' => esc_html__('Design Tool','tpgb'),
+				'label' => esc_html__('Design Tool','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-design-grid-tool/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['design','tool']
 			],
 			'tp-draw-svg' => [
-				'label' => esc_html__('Draw SVG','tpgb'),
+				'label' => esc_html__('Draw SVG','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-draw-animated-svg-icon/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Draw SVG', 'Draw Icon', 'illustration', 'animated svg', 'animated icons', 'Lottie animations', 'Lottie files', 'effects', 'image effect']
 			],
 			'tp-dynamic-device' => [
-				'label' => esc_html__('Dynamic Device','tpgb'),
+				'label' => esc_html__('Dynamic Device','the-plus-addons-for-block-editor'),
 				'demoUrl' => '',
 				'docUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-device-mockups/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['dynamic device', 'website mockups', 'portfolio', 'desktop view', 'tablet view', 'mobile view']
 			],
 			'tp-empty-space' => [
-				'label' => esc_html__('Spacer','tpgb'),
+				'label' => esc_html__('Spacer','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-spacer/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Spacer', 'Divider', 'Spacing','empty space']
 			],
 			'tp-external-form-styler' => [
-				'label' => esc_html__('External Form Styler','tpgb'),
+				'label' => esc_html__('External Form Styler','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-contact-form-stylers/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-contact-form-stylers/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '#',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Advanced', 'tpgb'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['form', 'contect form', 'everest', 'gravity', 'wpform','Contact Form 7', 'contact form', 'form', 'feedback', 'subscribe', 'newsletter', 'contact us', 'custom form', 'popup form', 'cf7']
 			],
 			'tp-expand' => [
-				'label' => esc_html__('Expand','tpgb'),
+				'label' => esc_html__('Expand','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-unfold-read-more-button/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-unfold-read-more-button/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Expand', 'read more', 'show hide content', 'Expand tabs', 'show more', 'toggle', 'Excerpt']
 			],
 			'tp-flipbox' => [
-				'label' => esc_html__('Flipbox','tpgb'),
+				'label' => esc_html__('Flipbox','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-flipbox/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
-				'keyword' => ['flipbox', 'flip', 'flip image', 'flip card', 'action box', 'flipbox 3D', 'card'],
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'keyword' => ['flipbox', 'flip box', 'flip', 'flip image', 'flip card', 'action box', 'flipbox 3D', 'card'],
 			],
 			'tp-google-map' => [
-				'label' => esc_html__('Google Map','tpgb'),
+				'label' => esc_html__('Google Map','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-google-maps/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-google-maps/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Map', 'Maps', 'Google Maps', 'g maps', 'location map', 'map iframe', 'embed']
 			],
 			'tp-heading-animation' => [
-				'label' => esc_html__('Heading Animation','tpgb'),
+				'label' => esc_html__('Heading Animation','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-heading-animation/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Heading Animation', 'Animated Heading', 'Animation Text', 'Animated Text', 'Text Animation']
 			],
 			'tp-heading' => [
-				'label' => esc_html__('Heading','tpgb'),
+				'label' => esc_html__('Heading','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-heading/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-heading/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Heading', 'Title', 'Text', 'Heading title', 'Headline']
 			],
 			'tp-heading-title' => [
-				'label' => esc_html__('Advanced Heading','tpgb'),
+				'label' => esc_html__('Advanced Heading','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-title-block/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Heading', 'Title', 'Text', 'Heading title', 'Headline']
 			],
 			'tp-hotspot' => [
-				'label' => esc_html__('Hotspot','tpgb'),
+				'label' => esc_html__('Hotspot','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-hotspot-pinpoint-image/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => [ 'Image hotspot', 'maps', 'pin' ],
 			],
 			'tp-hovercard' => [
-				'label' => esc_html__('Hover Card','tpgb'),
+				'label' => esc_html__('Hover Card','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/hover-card-animations-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Hover Card', 'Card', 'Business Card'],
 			],
 			'tp-icon-box' => [
-				'label' => esc_html__('Icon','tpgb'),
+				'label' => esc_html__('Icon','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-icon/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-icon/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['iconbox', 'icon box', 'fontawesome']
 			],
 			'tp-image' => [
-				'label' => esc_html__('Image','tpgb'),
+				'label' => esc_html__('Image','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-image/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-image/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['image', 'media']
 			],
 			'tp-infobox' => [
-				'label' => esc_html__('Infobox','tpgb'),
+				'label' => esc_html__('Infobox','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-infobox/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Infobox', 'Information', 'Info box', 'card', 'info']
 			],
 			'tp-interactive-circle-info' => [
-				'label' => esc_html__('Interactive Circle Info','tpgb'),
+				'label' => esc_html__('Interactive Circle Info','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-interactive-circle-infographic/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Tabbed', 'tpgb'),
+				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['interactive circle', 'interactive', 'circle', 'info']
 			],
 			'tp-login-register' => [
-				'label' => __('Login & Signup', 'tpgb'),
+				'label' => __('Login & Signup', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-login-form/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-login-and-registration-form/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['login', 'register', 'Sign up','forgot password']
 			],
 			'tp-lottiefiles' => [
-				'label' => esc_html__('LottieFiles Animation','tpgb'),
+				'label' => esc_html__('LottieFiles Animation','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-lottiefiles-animations/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['animation', 'lottie', 'files']
 			],
 			'tp-mailchimp' => [
-				'label' => esc_html__('Mailchimp','tpgb'),
+				'label' => esc_html__('Mailchimp','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-mailchimp-form/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Advanced', 'tpgb'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Mailchimp', 'Mailchimp addon', 'subscribe form']
 			],
 			'tp-media-listing' => [
-				'label' => esc_html__('Media Listing','tpgb'),
+				'label' => esc_html__('Media Listing','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-image-gallery/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Listing', 'tpgb'),
+				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Video Gallery', 'Image Gallery', 'Video Carousel', 'Image Carousel', 'Video Listing', 'Image Listing', 'Youtube', 'Vimeo','media gallery']
 			],
 			'tp-messagebox' => [
-				'label' => esc_html__('Message box','tpgb'),
+				'label' => esc_html__('Message box','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-message-box/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Message box', 'Notification box', 'alert box']
 			],
 			'tp-mobile-menu' => [
-				'label' => esc_html__('Mobile Menu','tpgb'),
+				'label' => esc_html__('Mobile Menu','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-mobile-menu/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['mobile menu', 'menu','toggle menu']
 			],
 			'tp-mouse-cursor' => [
-				'label' => esc_html__('Mouse Cursor','tpgb'),
+				'label' => esc_html__('Mouse Cursor','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-custom-cursors/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['mouse', 'cursor', 'animated cursor', 'mouse cursor', 'pointer']
 			],
 			'tp-navigation-builder' => [
-				'label' => esc_html__('Navigation Menu','tpgb'),
+				'label' => esc_html__('Navigation Menu','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-navigation-menu/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['navigation menu', 'mega menu', 'header builder', 'sticky menu', 'navigation bar', 'header menu', 'menu', 'navigation builder','vertical menu', 'swiper menu']
 			],
 			'tp-number-counter' => [
-				'label' => esc_html__('Number Counter','tpgb'),
+				'label' => esc_html__('Number Counter','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-number-counter/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['number counter', 'counter', 'animated counter', 'Odometer']
 			],
 			'tp-popup-builder' => [
-				'label' => esc_html__('Popup Builder','tpgb'),
+				'label' => esc_html__('Popup Builder','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-popup-builder/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['popup', 'pop up', 'alertbox', 'offcanvas', 'modal box', 'modal popup']
 			],
 			'tp-post-author' => [
-				'label' => esc_html__('Post Author', 'tpgb'),
+				'label' => esc_html__('Post Author', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-post-author-box/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['post author', 'author','user info']
 			],
 			'tp-post-comment' => [
-				'label' => esc_html__('Post Comments', 'tpgb'),
+				'label' => esc_html__('Post Comments', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-post-comment-form/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['post comments', 'comments','comments area']
 			],
 			'tp-post-content' => [
-				'label' => esc_html__('Post Content', 'tpgb'),
+				'label' => esc_html__('Post Content', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-post-content/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['content', 'post content', 'post excerpt', 'archive description']
 			],
 			'tp-post-image' => [
-				'label' => esc_html__('Post Image', 'tpgb'),
+				'label' => esc_html__('Post Image', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-post-featured-image/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['post featured image', 'post image', 'featured image']
 			],
 			'tp-post-listing' => [
-				'label' => esc_html__('Post Listing', 'tpgb'),
+				'label' => esc_html__('Post Listing', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-post-listing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Listing', 'tpgb'),
+				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['blog listing', 'article listing','custom post listing','blog view','post listing','masonry','carousel','content view','blog item listing','grid', 'post listing', 'related posts', 'archive posts', 'post list', 'post grid', 'post masonry','post carousel', 'post slider']
 			],
 			'tp-post-meta' => [
-				'label' => esc_html__('Post Meta Info', 'tpgb'),
+				'label' => esc_html__('Post Meta Info', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-post-meta-info/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['post category', 'post tags', 'post meta info', 'meta info', 'post date', 'post comment', 'post author']
 			],
 			'tp-post-navigation' => [
-				'label' => esc_html__('Post Navigation', 'tpgb'),
+				'label' => esc_html__('Post Navigation', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-post-navigation/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['previous next', 'post previous next', 'post navigation']
 			],
 			'tp-post-title' => [
-				'label' => esc_html__('Post Title', 'tpgb'),
+				'label' => esc_html__('Post Title', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-post-title/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['post title', 'page title', 'archive title']
 			],
 			'tp-pricing-list' => [
-				'label' => esc_html__('Pricing List','tpgb'),
+				'label' => esc_html__('Pricing List','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-pricing-list/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Pricing list', 'Item price', 'price card', 'Price Guide', 'price box']
 			],
 			'tp-pricing-table' => [
-				'label' => esc_html__('Pricing Table','tpgb'),
+				'label' => esc_html__('Pricing Table','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-pricing-table/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Pricing table', 'pricing list', 'price table', 'plans table', 'pricing plans', 'dynamic pricing', 'price comparison', 'Plans & Pricing Table', 'Price Chart']
 			],
 			'tp-preloader' => [
-				'label' => esc_html__('Pre Loader','tpgb'),
+				'label' => esc_html__('Pre Loader','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-preloader-animation-and-page-transitions/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-preloader-animation-and-page-transitions/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
-				'keyword' => [ 'pre loader', 'loader', 'loading' ],
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'keyword' => [ 'pre loader', 'loader', 'loading','Preloader' ],
 			],
 			'tp-pro-paragraph' => [
-				'label' => esc_html__('Paragraph','tpgb'),
+				'label' => esc_html__('Paragraph','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-pro-paragraph/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-pro-paragraph/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '#video',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Paragraph', 'wysiwyg', 'editor', 'editor block', 'textarea', 'text area', 'text editor'],
 			],
 			'tp-process-steps' => [
-				'label' => esc_html__('Process Steps','tpgb'),
+				'label' => esc_html__('Process Steps','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-process-steps/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Process steps', 'post timeline', 'step process', 'steps form', 'Steppers', 'timeline', 'Progress Tracker']
 			],
 			'tp-product-listing' => [
-				'label' => esc_html__('Product Listing','tpgb'),
+				'label' => esc_html__('Product Listing','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-product-listing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Listing', 'tpgb'),
+				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Product', 'Woocommerce']
 			],
 			'tp-progress-bar' => [
-				'label' => esc_html__('Progress Bar','tpgb'),
+				'label' => esc_html__('Progress Bar','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-reading-scroll-progress-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Progress bar', 'progressbar', 'status bar', 'progress indicator', 'scroll progress', 'process progress bar', 'Progress Tracker']
 			],
 			'tp-progress-tracker' => [
-				'label' => esc_html__('Progress Tracker','tpgb'),
+				'label' => esc_html__('Progress Tracker','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://theplusblocks.com/plus-blocks/reading-scroll-bar/',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => [ 'Progress bar', 'progressbar', 'status bar', 'progress indicator', 'scroll progress', 'process progress bar', 'Progress Tracker', 'Page scroll tracker','Reading progress indicator','Reading progress bar','Reading position tracker', 'Scroll depth indicator', 'Scroll tracking', 'Scroll Progress Visualizer' ]
 			],
 			'tp-row' => [
-				'label' => esc_html__('Row','tpgb'),
+				'label' => esc_html__('Row','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-container/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Row', 'layout'],
 			],
 			'tp-site-logo' => [
-				'label' => esc_html__('Site Logo','tpgb'),
+				'label' => esc_html__('Site Logo','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-site-logo/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '#video',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Builder', 'tpgb'),
+				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['site logo', 'logo','dual logo'],
 			],
 			'tp-stylist-list' => [
-				'label' => esc_html__('Stylish List','tpgb'),
+				'label' => esc_html__('Stylish List','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-stylish-list/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '#video',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Stylish list', 'listing', 'item listing'],
 			],
 			'tp-scroll-navigation' => [
-				'label' => esc_html__('Scroll Navigation','tpgb'),
+				'label' => esc_html__('Scroll Navigation','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-one-page-scroll-navigation/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '#video',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Scroll navigation', 'slide show', 'slideshow', 'vertical slider'],
 			],
 			'tp-scroll-sequence' => [
-				'label' => esc_html__('Scroll Sequence','tpgb'),
+				'label' => esc_html__('Scroll Sequence','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-image-scroll-sequence/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '#video',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Cinematic Scroll Image Animation', 'Video Scroll Sequence', 'Image Scroll Sequence'],
 			],
 			'tp-search-bar' => [
-				'label' => esc_html__('Search Bar', 'tpgb'),
+				'label' => esc_html__('Search Bar', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-ajax-search-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['search', 'post search','WordPress Search Bar', 'Find', 'Search Tool', 'SearchWP'],
 			],
 			'tp-social-icons' => [
-				'label' => esc_html__('Social Icon','tpgb'),
+				'label' => esc_html__('Social Icon','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-social-icons/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Social Icon', 'Icon', 'link']
 			],
 			'tp-social-embed' => [
-				'label' => esc_html__('Social Embed','tpgb'),
+				'label' => esc_html__('Social Embed','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-social-embed/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Social', 'tpgb'),
+				'block_cate' => esc_html__('Social', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['iframe', 'facebook feed', 'facebook comments', 'facebook like', 'facebook share', 'facebook page' ]
 			],
 			'tp-social-feed' => [
-				'label' => esc_html__('Social Feed','tpgb'),
+				'label' => esc_html__('Social Feed','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-social-feed/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Social', 'tpgb'),
+				'block_cate' => esc_html__('Social', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['feed', 'facebook', 'google', 'youtube', 'social', 'posts', 'instagram','vimeo']
 			],
 			'tp-social-sharing' => [
-				'label' => esc_html__('Social Sharing','tpgb'),
+				'label' => esc_html__('Social Sharing','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-social-sharing-icons/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '#',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Advanced', 'tpgb'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Social Sharing', 'Social Media Sharing']
 			],
 			'tp-social-reviews' => [
-				'label' => esc_html__('Social Reviews','tpgb'),
+				'label' => esc_html__('Social Reviews','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-social-reviews/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Social', 'tpgb'),
+				'block_cate' => esc_html__('Social', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['social', 'reviews', 'rating', 'stars', 'badges']
 			],
 			'tp-spline-3d-viewer' => [
-				'label' => esc_html__('Spline 3D Viewer','tpgb'),
+				'label' => esc_html__('Spline 3D Viewer','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-spline-3d-viewer/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['canvas animation', 'spline', '3d', 'Spline 3D viewer', 'Spline 3D model embed', 'Spline 3D interactive']
 			],
 			'tp-smooth-scroll' => [
-				'label' => esc_html__('Smooth Scroll','tpgb'),
+				'label' => esc_html__('Smooth Scroll','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://theplusblocks.com/plus-blocks/smooth-scroll/',
 				'docUrl' => '',
 				'videoUrl' => '#',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-switcher' => [
-				'label' => esc_html__('Switcher','tpgb'),
+				'label' => esc_html__('Switcher','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-content-switcher/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-content-switcher/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '#video',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Tabbed', 'tpgb'),
+				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Switcher', 'on/off', 'switch control', 'toggle', 'true/false', 'toggle switch', 'state', 'binary']
 			],
 			'tp-table-content' => [
-				'label' => esc_html__('Table of Contents','tpgb'),
+				'label' => esc_html__('Table of Contents','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-table-of-contents/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => [ 'Table of Contents', 'Contents', 'toc', 'index', 'listing', 'appendix' ]
 			],
 			'tp-tabs-tours' => [
-				'label' => esc_html__('Tabs Tours', 'tpgb'),
+				'label' => esc_html__('Tabs Tours', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-tab-content/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-tab-content/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '#video',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Tabbed', 'tpgb'),
+				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Tabs', 'Tours', 'tab content', 'pills', 'toggle']
 			],
 			'tp-dynamic-category' => [
-				'label' => esc_html__('Taxonomy Listing','tpgb'),
+				'label' => esc_html__('Taxonomy Listing','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-taxonomy-listing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Listing', 'tpgb'),
+				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Category', 'Tags', 'Taxonomy', 'WP Term' , 'Category Grid' , 'product category' , 'Post' , 'CPT' , 'WooCommerce', 'Product Tags']
 			],
 			'tp-team-listing' => [
-				'label' => esc_html__('Team Member', 'tpgb'),
+				'label' => esc_html__('Team Member', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-team-members/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Listing', 'tpgb'),
+				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Team Member Gallery', 'Team Gallery', 'Team Member Carousel']
 			],
 			'tp-testimonials' => [
-				'label' => esc_html__('Testimonials', 'tpgb'),
+				'label' => esc_html__('Testimonials', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-testimonial-reviews/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Listing', 'tpgb'),
+				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Testimonials', 'testimonial', 'slider', 'client reviews', 'ratings']
 			],
 			'tp-timeline' => [
-				'label' => esc_html__('Timeline', 'tpgb'),
+				'label' => esc_html__('Timeline', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-timeline/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'tpgb'),
-				'keyword' => ['timeline','Schedule','Sequence','History','Events','Timeframe','Historical data']
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+                'keyword' => ['timeline','Schedule','Sequence','History','Events','Timeframe','Historical data','Time Line']
 			],
 			'tp-video' => [
-				'label' => esc_html__('Video', 'tpgb'),
+				'label' => esc_html__('Video', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-video-player/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'tpgb'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Video', 'youtube video', 'vimeo video', 'video player', 'mp4 player', 'web player', 'youtube content', 'Youtube embed', 'youtube iframe']
 			],
 		];
 	
 		$this->block_extra = [
 			'tp-advanced-border-radius' => [
-				'label' => esc_html__('Advanced Border Radius', 'tpgb'),
+				'label' => esc_html__('Advanced Border Radius', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-advanced-border-radius/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-content-hover-effect' => [
-				'label' => esc_html__('Content Hover Effect', 'tpgb'),
+				'label' => esc_html__('Content Hover Effect', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/mouse-hover-animation-for-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-continuous-animation' => [
-				'label' => esc_html__('Continuous Animation', 'tpgb'),
+				'label' => esc_html__('Continuous Animation', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-floating-effect/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-display-rules' => [
-				'label' => esc_html__('Display Rules', 'tpgb'),
+				'label' => esc_html__('Display Rules', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-display-conditional-rules/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://theplusblocks.com/help/display-rules/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-equal-height' => [
-				'label' => esc_html__('Equal Column Height', 'tpgb'),
+				'label' => esc_html__('Equal Column Height', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-same-equal-height/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://theplusblocks.com/help/equal-column-height/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-global-tooltip' => [
-				'label' => esc_html__('Global Tooltip', 'tpgb'),
+				'label' => esc_html__('Global Tooltip', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-global-tooltip/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-magic-scroll' => [
-				'label' => esc_html__('Magic Scroll', 'tpgb'),
+				'label' => esc_html__('Magic Scroll', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/magic-scroll-effect-for-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-mouse-parallax' => [
-				'label' => esc_html__('Mouse Parallax', 'tpgb'),
+				'label' => esc_html__('Mouse Parallax', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/mouse-hover-animation-for-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-scoll-animation' => [
-				'label' => esc_html__('On Scroll Animation', 'tpgb'),
+				'label' => esc_html__('On Scroll Animation', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-on-scroll-content-animations/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-3d-tilt' => [
-				'label' => esc_html__('3D Tilt', 'tpgb'),
+				'label' => esc_html__('3D Tilt', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/mouse-hover-animation-for-wordpress/#tilt-3d',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Extras', 'tpgb'),
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 		];
 	}

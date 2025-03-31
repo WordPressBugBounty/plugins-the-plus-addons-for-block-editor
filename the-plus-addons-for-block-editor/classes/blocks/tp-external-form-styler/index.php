@@ -26,7 +26,7 @@ function tpgb_external_form_styler_render_callback( $attributes, $content) {
 	$output = '';
 	$output .= '<div class="tpgb-external-form-styler tpgb-relative-block tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).'">';
 		if($contactForm==''){
-			$output .= '<div class="tpgb-select-form-alert">'.esc_html__('Please select Form','tpgb').'</div>';
+			$output .= '<div class="tpgb-select-form-alert">'.esc_html__('Please select Form','the-plus-addons-for-block-editor').'</div>';
 		} else {
 			$sc = 'id="'.esc_attr($contactForm).'"';
 			$shortcode   = [];

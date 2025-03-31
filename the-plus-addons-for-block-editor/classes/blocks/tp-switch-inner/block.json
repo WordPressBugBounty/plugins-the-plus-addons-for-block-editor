@@ -15,7 +15,7 @@
         "align": ["wide","full"]
 	},
     "parent": ["tpgb/tp-switcher"],
-	"textdomain": "tpgb",
+	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
         "block_id": {
             "type": "string",

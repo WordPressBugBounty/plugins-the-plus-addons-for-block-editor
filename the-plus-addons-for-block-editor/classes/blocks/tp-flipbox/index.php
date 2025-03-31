@@ -54,7 +54,7 @@ function tpgb_tp_flipbox_render_callback( $attributes, $content) {
 	
 	//img src
 	$imgSrc ='';
-	$altText = (isset($imagestore['alt']) && !empty($imagestore['alt'])) ? esc_attr($imagestore['alt']) : ((!empty($imagestore['title'])) ? esc_attr($imagestore['title']) : esc_attr__('FlipBox','tpgb'));
+	$altText = (isset($imagestore['alt']) && !empty($imagestore['alt'])) ? esc_attr($imagestore['alt']) : ((!empty($imagestore['title'])) ? esc_attr($imagestore['title']) : esc_attr__('FlipBox','the-plus-addons-for-block-editor'));
 	if(!empty($imagestore) && !empty($imagestore['id'])){
 		$counter_img = $imagestore['id'];
 		$imgSrc = wp_get_attachment_image($counter_img , $imageSize, false, ['class' => 'service-img', 'alt'=> $altText]);
@@ -81,7 +81,7 @@ function tpgb_tp_flipbox_render_callback( $attributes, $content) {
 									}
 									if($iconType=='svg' && !empty($svgIcon) && !empty($svgIcon['url']) ){
 										$output .= '<div class="tpgb-draw-svg" data-id="service-svg-'.esc_attr($block_id).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-fillEnable="yes">';
-											$output .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','tpgb').'"></object>';
+											$output .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 										$output .= '</div>';
 									}
 									$output .= '<div class="service-content">';
@@ -126,7 +126,7 @@ function tpgb_tp_flipbox_render_callback( $attributes, $content) {
 												}
 												if($item['iconType']=='image' && !empty($item['imagestore'])){
 													$imageSize = (!empty($item['imageSize'])) ? $item['imageSize'] : 'thumbnail';
-													$altText = (isset($item['imagestore']['alt']) && !empty($item['imagestore']['alt'])) ? esc_attr($item['imagestore']['alt']) : ((!empty($item['imagestore']['title'])) ? esc_attr($item['imagestore']['title']) : esc_attr__('FlipBox','tpgb'));
+													$altText = (isset($item['imagestore']['alt']) && !empty($item['imagestore']['alt'])) ? esc_attr($item['imagestore']['alt']) : ((!empty($item['imagestore']['title'])) ? esc_attr($item['imagestore']['title']) : esc_attr__('FlipBox','the-plus-addons-for-block-editor'));
 
 													if(!empty($item['imagestore']['id'])){
 														$imgSrc = wp_get_attachment_image($item['imagestore']['id'] , $imageSize, false,['class' => 'service-img', 'alt' => $altText]);
@@ -138,7 +138,7 @@ function tpgb_tp_flipbox_render_callback( $attributes, $content) {
 												}
 												if($item['iconType']=='svg' && isset($item['svgFIcon']) && isset($item['svgFIcon']['url'])){
 													$output .= '<div class="tpgb-draw-svg" data-id="service-svg-'.esc_attr($item['_key']).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-fillEnable="yes">';
-														$output .= '<object id="service-svg-'.esc_attr($item['_key']).'" type="image/svg+xml" data="'.esc_url($item['svgFIcon']['url']).'" aria-label="'.esc_attr__('icon','tpgb').'"></object>';
+														$output .= '<object id="service-svg-'.esc_attr($item['_key']).'" type="image/svg+xml" data="'.esc_url($item['svgFIcon']['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 													$output .= '</div>';
 												}
 												$output .= '<div class="service-content">';

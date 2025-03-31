@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 ?>
                 <div class="tpgb-sr-logotext tpgb-trans-linear" >
                     <span class="tpgb-newline tpgb-trans-linear" >
-                        <?php echo esc_html__("Posted On ", "tpgb").esc_html($PlatformName); ?>
+                        <?php echo esc_html__("Posted On ", 'the-plus-addons-for-block-editor').esc_html($PlatformName); ?>
                     </span>
                 </div>
             </div>

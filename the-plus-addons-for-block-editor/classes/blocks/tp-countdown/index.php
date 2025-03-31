@@ -47,10 +47,10 @@ function tpgb_tp_countdown_callback( $attributes, $content) {
     
     $dataAttr = '';
     $showLabels = (!empty($attributes['showLabels'])) ? $attributes['showLabels'] : '' ;
-    $daysText = (!empty($attributes['daysText'])) ? $attributes['daysText'] : esc_html__('Days','tpgb');
-    $hoursText = (!empty($attributes['hoursText'])) ? $attributes['hoursText'] : esc_html__('Hours','tpgb');
-    $minutesText = (!empty($attributes['minutesText'])) ? $attributes['minutesText'] : esc_html__('Minutes','tpgb');
-    $secondsText = (!empty($attributes['secondsText'])) ? $attributes['secondsText'] : esc_html__('Seconds','tpgb');
+    $daysText = (!empty($attributes['daysText'])) ? $attributes['daysText'] : esc_html__('Days','the-plus-addons-for-block-editor');
+    $hoursText = (!empty($attributes['hoursText'])) ? $attributes['hoursText'] : esc_html__('Hours','the-plus-addons-for-block-editor');
+    $minutesText = (!empty($attributes['minutesText'])) ? $attributes['minutesText'] : esc_html__('Minutes','the-plus-addons-for-block-editor');
+    $secondsText = (!empty($attributes['secondsText'])) ? $attributes['secondsText'] : esc_html__('Seconds','the-plus-addons-for-block-editor');
     
     if(  $countdownSelection == 'normal' && ( !empty($showLabels) && $showLabels == true )) {
         $dataAttr .= ' data-day="'.wp_kses_post($daysText).'" data-hour="'.wp_kses_post($hoursText).'" data-min="'.wp_kses_post($minutesText).'" data-sec="'.wp_kses_post($secondsText).'"';
@@ -69,25 +69,25 @@ function tpgb_tp_countdown_callback( $attributes, $content) {
                     
                     $output .= '<div class="tpgb-countdown-counter '.esc_attr($inline_style).'" data-time = "'.esc_attr($datetime).'">';
                         $output .= '<div class="count_1">';
-                            $output .= '<span class="days">'.esc_html__('00','tpgb').'</span>';
+                            $output .= '<span class="days">'.esc_html__('00','the-plus-addons-for-block-editor').'</span>';
                             if(!empty($showLabels) && $showLabels==true) {
                                 $output .= '<h6 class="days_ref">'.esc_html($daysText).'</h6>';
                             }
                         $output .= '</div>';
                         $output .= '<div class="count_2">';
-                            $output .= '<span class="hours">'.esc_html__('00','tpgb').'</span>';
+                            $output .= '<span class="hours">'.esc_html__('00','the-plus-addons-for-block-editor').'</span>';
                             if(!empty($showLabels) && $showLabels==true) {
                                 $output .= '<h6 class="hours_ref">'.esc_html($hoursText).'</h6>';
                             }
                         $output .= '</div>';
                         $output .= '<div class="count_3">';
-                            $output .= '<span class="minutes">'.esc_html__('00','tpgb').'</span>';
+                            $output .= '<span class="minutes">'.esc_html__('00','the-plus-addons-for-block-editor').'</span>';
                             if(!empty($showLabels) && $showLabels==true) {
                                 $output .= '<h6 class="minutes_ref">'.esc_html($minutesText).'</h6>';
                             }
                         $output .= '</div>';
                         $output .= '<div class="count_4">';
-                            $output .= '<span class="seconds last">'.esc_html__('00','tpgb').'</span>';
+                            $output .= '<span class="seconds last">'.esc_html__('00','the-plus-addons-for-block-editor').'</span>';
                             if(!empty($showLabels) && $showLabels==true) {
                                 $output .= '<h6 class="seconds_ref">'.esc_html($secondsText).'</h6>';
                             }

@@ -155,7 +155,7 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	}
 	$ji=1;$col=$tabCol=$moCol='';
 	if ( ! $query->have_posts() ) {
-		$output .='<h3 class="tpgb-no-posts-found">'.esc_html__( "No Posts found", "tpgb" ).'</h3>';
+		$output .='<h3 class="tpgb-no-posts-found">'.esc_html__( "No Posts found", 'the-plus-addons-for-block-editor' ).'</h3>';
 	}else{
 		$output .= '<div id="'.esc_attr($block_id).'" class="tpgb-post-listing tpgb-relative-block  '.esc_attr($blockClass).' '.esc_attr($classattr).' " data-id="'.esc_attr($block_id).'" data-style="'.esc_attr($list_style).'" '.( $layout == 'metro' ? $metroDataAttr : '' ).'  data-layout="'.esc_attr($layout).'"  data-connection="tpgb_search"  >';
 			

@@ -104,4 +104,7 @@
 .tpgb-infobox.info-box-style-6:hover {
     z-index: 7
 }
+.tpgb-infobox .info-box-carousel .splide__list .splide__slide{
+    margin-bottom: 10px;
+}
 /*Style 6*/

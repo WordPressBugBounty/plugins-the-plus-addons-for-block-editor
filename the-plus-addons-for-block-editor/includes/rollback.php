@@ -138,13 +138,13 @@ if(!class_exists('Tpgb_Rollback')){
 			check_admin_referer( 'tpgb_rollback' );
 
 			if ( ! static::update_user_rollback_versions() ) {
-				wp_die( esc_html__( 'Rollback versions not allowed', 'tpgb' ) );
+				wp_die( esc_html__( 'Rollback versions not allowed', 'the-plus-addons-for-block-editor' ) );
 			}
 
 			$rv = self::get_rollback_versions();
 			$version = isset($_GET['version']) && !empty($_GET['version']) ? sanitize_text_field( wp_unslash( $_GET['version'] ) ) : '';
 			if ( empty( $version ) || ! in_array( $version, $rv ) ) {
-				wp_die( esc_html__( 'Error, Try selecting another version.', 'tpgb' ) );
+				wp_die( esc_html__( 'Error, Try selecting another version.', 'the-plus-addons-for-block-editor' ) );
 			}
 
 			$plugin_slug = basename( TPGB_FILE__, '.php' );
@@ -165,7 +165,7 @@ if(!class_exists('Tpgb_Rollback')){
 			$this->tpgb_upgrade_plugin();
 
 			wp_die(
-				'', esc_html__( 'Rollback to Previous Version', 'tpgb' ), [
+				'', esc_html__( 'Rollback to Previous Version', 'the-plus-addons-for-block-editor' ), [
 					'response' => 200,
 				]
 			);
@@ -204,7 +204,7 @@ if(!class_exists('Tpgb_Rollback')){
 				'url' => 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $this->plugin_name ),
 				'plugin' => $this->plugin_name,
 				'nonce' => 'upgrade-plugin_' . $this->plugin_name,
-				'title' => '<img src="' . $logo_url . '" alt="tpgb-logo"><div class="tpgb-rb-subtitle">' . esc_html__( 'Rollback to Previous Version', 'tpgb' ).'</div>',
+				'title' => '<img src="' . $logo_url . '" alt="tpgb-logo"><div class="tpgb-rb-subtitle">' . esc_html__( 'Rollback to Previous Version', 'the-plus-addons-for-block-editor' ).'</div>',
 			];
 
 			$upgrader_plugin = new \Plugin_Upgrader( new \Plugin_Upgrader_Skin( $args ) );

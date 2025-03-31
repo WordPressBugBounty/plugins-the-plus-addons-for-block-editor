@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 echo '<div class="tpgb-fcb-footer">';
                         include TPGB_INCLUDES_URL."social-feed/feed-footer.php";
                         echo '<div class="tpgb-btn-viewpost">
-                                <a href="'.esc_url($UserLink).'" target="_blank" rel="noopener noreferrer" aria-label="'.esc_attr__('View Post','tpgb').'">'.esc_html__("View post","tpgb").'</a>
+                                <a href="'.esc_url($UserLink).'" target="_blank" rel="noopener noreferrer" aria-label="'.esc_attr__('View Post','the-plus-addons-for-block-editor').'">'.esc_html__("View post",'the-plus-addons-for-block-editor').'</a>
                             </div>'; 
                 echo '</div>';
             ?>

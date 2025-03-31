@@ -47,7 +47,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 				$postURL = (!empty($attributes['postURL']) && !empty($attributes['postURL']['url']) ) ? $attributes['postURL']['url'] : '';			
 				$wdPost = (!empty($attributes['wdPost'])) ? $attributes['wdPost'] : 500;
 				$hgPost = (!empty($attributes['hgPost'])) ? $attributes['hgPost'] : 560;
-				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','tpgb');
+				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','the-plus-addons-for-block-editor');
 
 				$output .= '<iframe class="tpgb-fb-iframe" src="https://www.facebook.com/plugins/post.php?href='.esc_url($postURL).'&show_text='.esc_attr($attributes['fullPT']).'&width='.esc_attr($wdPost).'&height='.esc_attr($hgPost).'&appId=" width="'.esc_attr($wdPost).'" height="'.esc_attr($hgPost).'" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" title="'.$iframeTitle.'"></iframe>';
 			}
@@ -56,7 +56,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 				$FullVideo = (!empty($attributes['fullVT'])) ? 'allowFullScreen="'.esc_attr($attributes['wdVideo'].'"') : '';
 				$wdVideo = (!empty($attributes['wdVideo'])) ? $attributes['wdVideo'] : 500;
 				$hgVideo = (!empty($attributes['hgVideo'])) ? $attributes['hgVideo'] : 560;
-				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','tpgb');
+				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','the-plus-addons-for-block-editor');
 
 				$output .= '<iframe class="tpgb-fb-iframe" src="https://www.facebook.com/plugins/video.php?href='.esc_url($videosURL).'&show_text='.esc_attr($attributes['captionVT']).'&width='.esc_attr($wdVideo).'&height='.esc_attr($hgVideo).'&autoplay='.esc_attr($attributes['autoplayVT']).'&appId=" width="'.esc_attr($wdVideo).'" height="'.esc_attr($hgVideo).'" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" '.$FullVideo.' title="'.$iframeTitle.'"></iframe>';
 			}
@@ -65,7 +65,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 				$facesLBT = (!empty($attributes['facesLBT'])) ? $attributes['facesLBT'] : false;
 				$FBHgLike = (!empty($attributes['hgLikeBtn'])) ? $attributes['hgLikeBtn'] : 30;
 				$FBwdLike = (!empty($attributes['wdLikeBtn'])) ? $attributes['wdLikeBtn'] : 350; 
-				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','tpgb');
+				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','the-plus-addons-for-block-editor');
 
 				if( $attributes['targetLike'] == 'currentpage' ){
 					$fmtURLlb = (!empty($attributes['fmtURLlb'])) ? $attributes['fmtURLlb'] : 'plain';
@@ -85,7 +85,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 				$uRLP = (!empty($attributes['uRLP']) && !empty($attributes['uRLP']['url']) ) ? $attributes['uRLP']['url'] : '';			
 				$wdPage = (!empty($attributes['wdPage'])) ? $attributes['wdPage'] : 340;
 				$hgPage = (!empty($attributes['hgPage'])) ? $attributes['hgPage'] : 500;
-				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','tpgb');			
+				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Facebook Embed','the-plus-addons-for-block-editor');			
 				
 				$output .= '<iframe class="tpgb-fb-iframe" src="https://www.facebook.com/plugins/page.php?href='.esc_url($uRLP).'&tabs='.esc_attr($attributes['layoutP']).'&width='.esc_attr($wdPage).'&height='.esc_attr($hgPage).'&small_header='.esc_attr($attributes['smallHP']).'&hide_cover='.esc_attr($attributes['coverP']).'&show_facepile='.esc_attr($attributes['profileP']).'&hide_cta='.esc_attr($attributes['ctaBtn']).'&lazy=true&adapt_container_width=true&appId=" width="'.esc_attr($wdPage).'" height="'.esc_attr($hgPage).'" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" title="'.$iframeTitle.'"></iframe>';
 			}
@@ -99,7 +99,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 				$shareURL = (!empty($attributes['shareURL']) && !empty($attributes['shareURL']['url']) ) ? $attributes['shareURL']['url'] : '';
 				$shareW = (!empty($attributes['wdShare']) && !empty($attributes['wdShare']) ) ? $attributes['wdShare'] : 100;
 				$shareH = (!empty($attributes['hgShare']) && !empty($attributes['hgShare']) ) ? $attributes['hgShare'] : 40;
-				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Facebook Share','tpgb');
+				$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Facebook Share','the-plus-addons-for-block-editor');
 				
 				$output .= '<iframe src="https://www.facebook.com/plugins/share_button.php?href='.esc_url($shareURL).'&layout='.esc_attr($attributes['shareBtn']).'&size='.esc_attr($sizeBtn).'&width='.esc_attr($shareW).'&height='.esc_attr($shareH).'&appId=" width="'.esc_attr($shareW).'" height="'.esc_attr($shareH).'" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" title="'.$iframeTitle.'"></iframe>';
 			}
@@ -217,7 +217,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 			$Vm_Dnt = (in_array('dnt', $VmALL)) ? 1 : 0;
 			$Vm_PiP = (in_array('pip', $VmALL)) ? 1 : 0;
 			$Vm_transparent = (in_array('transparent', $VmALL)) ? 1 : 0;
-			$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Vimeo','tpgb');
+			$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Vimeo','the-plus-addons-for-block-editor');
 	
 			$output .= '<iframe class="tpgb-social-vimeo" src="https://player.vimeo.com/video/'.esc_attr($VmId).'?html5=1&amp;title='.esc_attr($Vm_Title).'&amp;byline='.esc_attr($Vm_Byline).'&amp;portrait='.$Vm_Portrait.'&amp;autoplay='.esc_attr($Vm_AutoPlay).'&amp;loop='.esc_attr($Vm_loop).'&amp;muted='.esc_attr($Vm_Muted).'&amp;autopause='.esc_attr($Vm_AutoPause).'&amp;background='.esc_attr($Vm_BackGround).'&amp;playsinline='.esc_attr($Vm_PlaySinline).'&amp;speed='.esc_attr($Vm_Speed).'&amp;dnt='.esc_attr($Vm_Dnt).'&amp;pip='.esc_attr($Vm_PiP).'&amp;transparent='.esc_attr($Vm_transparent).'&amp;color='.esc_attr($vmColor).'&amp;#t='.esc_attr($vmStime).'" width="'.esc_attr($exWidth).'" height="'.esc_attr($exHeight).'" frameborder="0" '.esc_attr($Vm_FullScreen).' title="'.$iframeTitle.'"></iframe>';
 			
@@ -257,7 +257,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 			$yt_modestbranding = (in_array('modestbranding', $ytSelect)) ? 1 : 0;
 			$yt_playsinline = (in_array('playsinline', $ytSelect)) ? 1 : 0;
 			$yt_rel = (in_array('rel', $ytSelect)) ? 1 : 0;
-			$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Youtube','tpgb');
+			$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Social Youtube','the-plus-addons-for-block-editor');
 
 			$YT_Parameters = 'autoplay='.esc_attr($yt_autoplay).'&mute='.esc_attr($Yt_muted).'&controls='.esc_attr($yt_controls).'&disablekb='.esc_attr($yt_disablekb).'&fs='.esc_attr($yt_fs).'&modestbranding='.esc_attr($yt_modestbranding).'&loop='.esc_attr($yt_loop).'&rel='.esc_attr($yt_rel).'&playsinline='.esc_attr($yt_playsinline).'&start='.esc_attr($ytSTime).'&end='.esc_attr($ytETime).'&hl='.esc_attr($ytlanguage);
 			
@@ -291,7 +291,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 			$gSearchText = (!empty($attributes['gSearchText'])) ? $attributes['gSearchText'] : 'Goa+India';
 			$mapZoom = (!empty($attributes['mapZoom'])) ? (int)$attributes['mapZoom'] : 1;
 			$gMHeight = (!empty($attributes['gMHeight'])) ? (int)$attributes['gMHeight'] : 450;
-			$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Google Map','tpgb');
+			$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Google Map','the-plus-addons-for-block-editor');
 
 			if($mapaccesstoken == 'default'){
 				$output .= '<iframe class="tpgb-gmap-embed" src="http://maps.google.com/maps?q='.esc_attr($gSearchText).'&z='.esc_attr($mapZoom).'&output=embed" height="'.esc_attr($gMHeight).'" loading="lazy" allowfullscreen frameborder="0" scrolling="no" title="'.$iframeTitle.'"></iframe>';

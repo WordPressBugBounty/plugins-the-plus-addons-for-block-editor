@@ -347,7 +347,7 @@ function tpgb_tp_search_bar_render_callback( $attr, $content) {
 						if($searchBtn['sBtnIconType'] == 'fontAwesome' && !empty($searchBtn['sBtnIcon']) ){
 							$GetMedia .= '<span class="tpgb-button-icon"><i class="'.esc_attr($searchBtn['sBtnIcon']).'"></i></span>';
 						}else if($searchBtn['sBtnIconType'] == 'image' && !empty($searchBtn['imgField']['url'])){
-							$altText = (isset($searchBtn['imgField']['alt']) && !empty($searchBtn['imgField']['alt'])) ? esc_attr($searchBtn['imgField']['alt']) : ((!empty($searchBtn['imgField']['title'])) ? esc_attr($searchBtn['imgField']['title']) : esc_attr__('Button Image','tpgb'));
+							$altText = (isset($searchBtn['imgField']['alt']) && !empty($searchBtn['imgField']['alt'])) ? esc_attr($searchBtn['imgField']['alt']) : ((!empty($searchBtn['imgField']['title'])) ? esc_attr($searchBtn['imgField']['title']) : esc_attr__('Button Image','the-plus-addons-for-block-editor'));
 
 							$GetMedia .= '<span class="tpgb-button-Image"><img src="'.esc_url($searchBtn['imgField']['url']).'" class="tpgb-button-ImageTag" alt="'.$altText.'"></span>';
 						}
@@ -4740,7 +4740,7 @@ function tpgb_search($onLoadAttr = []){
 				$searchPostOp .= '<a class="tpgb-serpost-link tpgb-trans-easeinout" '.$Resultlink.' '.$Resultlinktarget.' >';
 					if(!empty($resultSetting['ONThumb']) && !empty($postThumb)){
 						$searchPostOp .= '<div class="tpgb-serpost-thumb">';
-							$searchPostOp .= '<img class="tpgb-item-image" src='.esc_url($postThumb).' alt="'.esc_attr__('Thumb Image','tpgb').'">';
+							$searchPostOp .= '<img class="tpgb-item-image" src='.esc_url($postThumb).' alt="'.esc_attr__('Thumb Image','the-plus-addons-for-block-editor').'">';
 						$searchPostOp .= '</div>';
 					}
 					$searchPostOp .= '<div class="tpgb-serpost-wrap">';

@@ -65,7 +65,7 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 								
 									if(!empty($ImgId)){
 										$linkImage = '';
-										$altText = (isset($ImgId['alt']) && !empty($ImgId['alt'])) ? esc_attr($ImgId['alt']) : ((!empty($ImgId['title'])) ? esc_attr($ImgId['title']) : esc_attr__('Profile Image','tpgbp'));
+										$altText = (isset($ImgId['alt']) && !empty($ImgId['alt'])) ? esc_attr($ImgId['alt']) : ((!empty($ImgId['title'])) ? esc_attr($ImgId['title']) : esc_attr__('Profile Image','the-plus-addons-for-block-editor'));
 										if( $layout !='carousel' && !empty($DisableISize) ){
 											if(!empty($ImgId['id'])){
 												$AttImg .= wp_get_attachment_image($ImgId['id'] , $ImageSize, false, ['alt'=> $altText]);
@@ -113,7 +113,7 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 												$Target = ( !empty($TeamItem['WsUrl']) && !empty($TeamItem['WsUrl']['target']) ) ? 'target="_blank"' : "";
 												$Nofollow = ( !empty($TeamItem['WsUrl']) && !empty($TeamItem['WsUrl']['nofollow']) ) ? 'rel="nofollow"' : "";
 												$IconHTML .= '<div class="tpgb-team-profile-link">';
-													$IconHTML .= '<a href="'.esc_url($TeamWsUrl).'" '.$Target.' '.$Nofollow.' '.$wb_attr.'  aria-label="'.esc_attr__('Site URL','tpgbp').'"><i class="fas fa-globe" aria-hidden="true"></i></a>';
+													$IconHTML .= '<a href="'.esc_url($TeamWsUrl).'" '.$Target.' '.$Nofollow.' '.$wb_attr.'  aria-label="'.esc_attr__('Site URL','the-plus-addons-for-block-editor').'"><i class="fas fa-globe" aria-hidden="true"></i></a>';
 												$IconHTML .= '</div>';
 											}
 											if( !empty($TeamFbUrl) ){
@@ -121,7 +121,7 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 												$Target = ( !empty($TeamItem['FbUrl']) && !empty($TeamItem['FbUrl']['target']) ) ? 'target="_blank"' : "";
 												$Nofollow = ( !empty($TeamItem['FbUrl']) && !empty($TeamItem['FbUrl']['nofollow']) ) ? 'rel="nofollow"' : "";
 												$IconHTML .= '<div class="fb-link">';
-													$IconHTML .= '<a href="'.esc_url($TeamFbUrl).'" '.$Target.' '.$Nofollow.' '.$fb_attr.' aria-label="'.esc_attr__('Facebook','tpgbp').'"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>';
+													$IconHTML .= '<a href="'.esc_url($TeamFbUrl).'" '.$Target.' '.$Nofollow.' '.$fb_attr.' aria-label="'.esc_attr__('Facebook','the-plus-addons-for-block-editor').'"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>';
 												$IconHTML .= '</div>';
 											}
 											if( !empty($TeamTwUrl) ){
@@ -129,7 +129,7 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 												$Target = ( !empty($TeamItem['TwUrl']) && !empty($TeamItem['TwUrl']['target']) ) ? 'target="_blank"' : "";
 												$Nofollow = ( !empty($TeamItem['TwUrl']) && !empty($TeamItem['TwUrl']['nofollow']) ) ? 'rel="nofollow"' : "";
 												$IconHTML .= '<div class="twitter-link">';
-													$IconHTML .= '<a href="'.esc_url($TeamTwUrl).'" '.$Target.' '.$Nofollow.' '.$tw_attr.' aria-label="'.esc_attr__('Twitter','tpgbp').'"><i class="fab fa-twitter" aria-hidden="true"></i></a>';
+													$IconHTML .= '<a href="'.esc_url($TeamTwUrl).'" '.$Target.' '.$Nofollow.' '.$tw_attr.' aria-label="'.esc_attr__('Twitter','the-plus-addons-for-block-editor').'"><i class="fab fa-twitter" aria-hidden="true"></i></a>';
 												$IconHTML .= '</div>';
 											}
 											if( !empty($TeamIGUrl) ){
@@ -137,7 +137,7 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 												$Target = ( !empty($TeamItem['IGUrl']) && !empty($TeamItem['IGUrl']['target']) ) ? 'target="_blank"' : "";
 												$Nofollow = ( !empty($TeamItem['IGUrl']) && !empty($TeamItem['IGUrl']['nofollow']) ) ? 'rel="nofollow"' : "";
 												$IconHTML .= '<div class="instagram-link">';
-													$IconHTML .= '<a href="'.esc_url($TeamIGUrl).'" '.$Target.' '.$Nofollow.' '.$ig_attr.' aria-label="'.esc_attr__('Instagram','tpgbp').'"><i class="fab fa-instagram" aria-hidden="true"></i></a>';
+													$IconHTML .= '<a href="'.esc_url($TeamIGUrl).'" '.$Target.' '.$Nofollow.' '.$ig_attr.' aria-label="'.esc_attr__('Instagram','the-plus-addons-for-block-editor').'"><i class="fab fa-instagram" aria-hidden="true"></i></a>';
 												$IconHTML .= '</div>';
 											}
 											if( !empty($TeamMailUrl) ){
@@ -145,7 +145,7 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 												$Target = ( !empty($TeamItem['MailUrl']) && !empty($TeamItem['MailUrl']['target']) ) ? 'target="_blank"' : "";
 												$Nofollow = ( !empty($TeamItem['MailUrl']) && !empty($TeamItem['MailUrl']['nofollow']) ) ? 'rel="nofollow"' : "";
 												$IconHTML .= '<div class="mail-link">';
-													$IconHTML .= '<a href="'.esc_url($TeamMailUrl).'" '.$Target.' '.$Nofollow.' '.$ml_attr.' aria-label="'.esc_attr__('Mail','tpgbp').'"><i class="fas fa-envelope-square"></i></a>';
+													$IconHTML .= '<a href="'.esc_url($TeamMailUrl).'" '.$Target.' '.$Nofollow.' '.$ml_attr.' aria-label="'.esc_attr__('Mail','the-plus-addons-for-block-editor').'"><i class="fas fa-envelope-square"></i></a>';
 												$IconHTML .= '</div>';
 											}
 											if( !empty($TeamItem['ldUrl']['url']) ){
@@ -153,12 +153,12 @@ function tpgb_tp_team_member_listing_render_callback( $attributes, $content) {
 												$Target = ( !empty($TeamItem['ldUrl']['target']) ) ? 'target="_blank"' : "";
 												$Nofollow = ( !empty($TeamItem['ldUrl']['nofollow']) ) ? 'rel="nofollow"' : "";
 												$IconHTML .= '<div class="linkedin-link">';
-													$IconHTML .= '<a href="'.esc_url($TeamItem['ldUrl']['url']).'" '.$Target.' '.$Nofollow.' '.$ld_attr.' aria-label="'.esc_attr__('LinkedIn','tpgbp').'"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>';
+													$IconHTML .= '<a href="'.esc_url($TeamItem['ldUrl']['url']).'" '.$Target.' '.$Nofollow.' '.$ld_attr.' aria-label="'.esc_attr__('LinkedIn','the-plus-addons-for-block-editor').'"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>';
 												$IconHTML .= '</div>';
 											}
 											if( !empty($Telephone) ){
 												$IconHTML .= '<div class="Telephone-link">';
-													$IconHTML .= '<a href="'.esc_url('tel:'.$Telephone).'" aria-label="'.esc_attr__('Phone No','tpgbp').'"><i class="fas fa-phone" aria-hidden="true"></i></a>';
+													$IconHTML .= '<a href="'.esc_url('tel:'.$Telephone).'" aria-label="'.esc_attr__('Phone No','the-plus-addons-for-block-editor').'"><i class="fas fa-phone" aria-hidden="true"></i></a>';
 												$IconHTML .= '</div>';
 											}
 										$IconHTML .= '</div>';

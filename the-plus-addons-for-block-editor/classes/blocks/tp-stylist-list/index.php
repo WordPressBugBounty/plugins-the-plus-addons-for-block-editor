@@ -85,7 +85,7 @@ function tpgb_tp_stylist_list_render_callback( $attributes, $content) {
 								$icons .='<i class="list-icon '.esc_attr($item['iconFontawesome']).'" aria-hidden="true"></i>';
 							}else if($item['selectIcon'] == 'img' && !empty($item['iconImg']['url'])){
 								$imgSrc = '';
-								$altText = (isset($item['iconImg']['alt']) && !empty($item['iconImg']['alt'])) ? esc_attr($item['iconImg']['alt']) : ((!empty($item['iconImg']['title'])) ? esc_attr($item['iconImg']['title']) : esc_attr__('Icon Image','tpgbp'));
+								$altText = (isset($item['iconImg']['alt']) && !empty($item['iconImg']['alt'])) ? esc_attr($item['iconImg']['alt']) : ((!empty($item['iconImg']['title'])) ? esc_attr($item['iconImg']['title']) : esc_attr__('Icon Image','the-plus-addons-for-block-editor'));
 								if(!empty($item['iconImg']) && !empty($item['iconImg']['id'])){
 									$imgSrc = wp_get_attachment_image($item['iconImg']['id'] , 'full', false, ['alt'=> $altText]);
 								}else if( !empty($item['iconImg']['url']) ){

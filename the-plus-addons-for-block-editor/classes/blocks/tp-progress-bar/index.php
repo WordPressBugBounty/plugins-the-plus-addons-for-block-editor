@@ -36,7 +36,7 @@ function tpgb_tp_progress_bar_render_callback( $attributes, $content) {
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	//image size
 	$imgSrc ='';
-	$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Progress Bar','tpgb'));
+	$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Progress Bar','the-plus-addons-for-block-editor'));
 
 	if(!empty($imageName) && !empty($imageName['id'])){
 		$imgSrc = wp_get_attachment_image($imageName['id'] , $imageSize, false, ['class' => 'progress-bar-img', 'alt'=> $altText]);

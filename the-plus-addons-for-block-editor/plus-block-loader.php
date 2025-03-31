@@ -69,10 +69,10 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
         //                 <div class="inline nxt-plugin-halloween-notice" style="display: flex;column-gap: 12px;align-items: center;padding: 15px;position: relative;    margin-left: 0px;">
         //                     <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/cyber-monday.png' ).'" />
         //                     <div style="margin: .7rem .8rem .8rem;">  
-        //                         <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $300!", "tpgb" ) . '</h3>
-        //                         <p> '. esc_html__( "Our Cyber Monday Sale is live! Upgrade now and save $300 on the pro version.", "tpgb" ) .' </p>
-        //                         <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates", "tpgb").'</span>  <span> • '. esc_html__("90+ WordPress Blocks", "tpgb").'</span>  <span> • '. esc_html__("Trusted by 10K+ Users", 'tpgb').'</span> </p>
-        //                         <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'tpgb') . '</a>
+        //                         <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $300!", 'the-plus-addons-for-block-editor' ) . '</h3>
+        //                         <p> '. esc_html__( "Our Cyber Monday Sale is live! Upgrade now and save $300 on the pro version.", 'the-plus-addons-for-block-editor' ) .' </p>
+        //                         <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates", 'the-plus-addons-for-block-editor').'</span>  <span> • '. esc_html__("90+ WordPress Blocks", 'the-plus-addons-for-block-editor').'</span>  <span> • '. esc_html__("Trusted by 10K+ Users", 'the-plus-addons-for-block-editor').'</span> </p>
+        //                         <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'the-plus-addons-for-block-editor') . '</a>
         //                     </div>
         //                     <span class="nxt-halloween-notice-dismiss"></span>
         //                 </div></div>';
@@ -88,8 +88,8 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
                     echo '<tr class="nxt-plugin-rebranding-update">
                         <td colspan="4" style="padding: 20px 40px; background: #f0f6fc; border-left: 4px solid #72aee6; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);">
                         <div class="nxt-plugin-update-notice inline notice notice-alt notice-warning">
-                            <h4 style="margin-top:10px;margin-bottom:7px;font-size:14px;">' . esc_html__( "The Plus Blocks for Gutenberg is now Nexter Blocks : Better UI, Faster Performance & Improved Features", "tpgb" ) . '</h4>
-                            <a target="_blank" rel="noopener noreferrer" href="'.esc_url('https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings').'" style="text-decoration:underline;margin-bottom:10px;display:inline-block;">' . esc_html__( 'Read What\'s New & What Changed?', 'tpgb') . '</a>
+                            <h4 style="margin-top:10px;margin-bottom:7px;font-size:14px;">' . esc_html__( "The Plus Blocks for Gutenberg is now Nexter Blocks : Better UI, Faster Performance & Improved Features", 'the-plus-addons-for-block-editor' ) . '</h4>
+                            <a target="_blank" rel="noopener noreferrer" href="'.esc_url('https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings').'" style="text-decoration:underline;margin-bottom:10px;display:inline-block;">' . esc_html__( 'Read What\'s New & What Changed?', 'the-plus-addons-for-block-editor') . '</a>
                             <span class="nxt-plugin-notice-dismiss"></span>
                         </div>
                         </td></tr>';
@@ -104,11 +104,11 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
         // public function nxt_dismiss_plugin_halloween() {
         //     // Verify nonce for security
         //     if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
-        //         wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'tpgb') ) );
+        //         wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'the-plus-addons-for-block-editor') ) );
         //     }
         
         //     if ( ! current_user_can( 'manage_options' ) ) {
-        //         wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'tpgb') ) );
+        //         wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'the-plus-addons-for-block-editor') ) );
         //     }
         
         //     $option_key = 'nxt_cybermonday_dismissed';
@@ -121,7 +121,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
         //         delete_option( 'nxt_halloween_dismissed' );
         //     }
         
-        //     wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'tpgb') ) );
+        //     wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'the-plus-addons-for-block-editor') ) );
         // }
 
         /**
@@ -131,17 +131,17 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
         public function nxt_dismiss_plugin_rebranding_callback() {
             // Verify nonce for security
             if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
-                wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'tpgb') ) );
+                wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'the-plus-addons-for-block-editor') ) );
             }
         
             if ( ! current_user_can( 'manage_options' ) ) {
-                wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'tpgb') ) );
+                wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'the-plus-addons-for-block-editor') ) );
             }
         
             $option_key = 'nxt_rebranding_dismissed';
             update_option( $option_key, true );
         
-            wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'tpgb') ) );
+            wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'the-plus-addons-for-block-editor') ) );
         }
         
         /**
@@ -229,12 +229,12 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
         
         /**
          * Load Nexter Blocks Text Domain.
-         * Text Domain : tpgb
+         * Text Domain : the-plus-addons-for-block-editor
          * @since  1.0.0
          * @return void
          */
         public function load_textdomain() {
-            load_plugin_textdomain( 'tpgb', false, TPGB_BDNAME . '/lang' );
+            load_plugin_textdomain( 'the-plus-addons-for-block-editor', false, TPGB_BDNAME . '/languages/' );
         }
         
         /**
@@ -259,14 +259,14 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             // Settings link.
             $nxtlink = [];
             if ( current_user_can( 'manage_options' ) ) {
-                $nxtlinks[] = sprintf( '<a href="%s" rel="noopener noreferrer">%s</a>', admin_url( 'admin.php?page=nexter_welcome_page'), __( 'Settings', 'tpgb' ) );
-                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/free-vs-pro/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'FREE vs Pro', 'tpgb' ) );
-                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://store.posimyth.com/get-support-nexterwp/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'Need Help?', 'tpgb' ) );
+                $nxtlinks[] = sprintf( '<a href="%s" rel="noopener noreferrer">%s</a>', admin_url( 'admin.php?page=nexter_welcome_page'), __( 'Settings', 'the-plus-addons-for-block-editor' ) );
+                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/free-vs-pro/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'FREE vs Pro', 'the-plus-addons-for-block-editor' ) );
+                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url('https://store.posimyth.com/get-support-nexterwp/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage'), __( 'Need Help?', 'the-plus-addons-for-block-editor' ) );
             }
 
             // Upgrade PRO link.
             if ( ! defined('TPGBP_VERSION') ) {
-                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" style="color: #cc0000;font-weight: 700;" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/pricing/'), __( 'Upgrade PRO', 'tpgb' ) );
+                $nxtlinks[] = sprintf( '<a href="%s" target="_blank" style="color: #cc0000;font-weight: 700;" rel="noopener noreferrer">%s</a>', esc_url('https://nexterwp.com/pricing/'), __( 'Upgrade PRO', 'the-plus-addons-for-block-editor' ) );
             }
 
             return array_merge( $nxtlinks, $links );
@@ -280,13 +280,13 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 
             if ( strpos( $plugin_file, TPGB_BASENAME ) !== false && current_user_can( 'manage_options' ) ) {
 				$new_links = array(
-						'official-site' => '<a href="'.esc_url('https://nexterwp.com/nexter-blocks/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Visit Plugin site', 'tpgb' ).'</a>',
-						'docs' => '<a href="'.esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" target="_blank" rel="noopener noreferrer" style="color:green;">'.esc_html__( 'Docs', 'tpgb' ).'</a>',
-						'video-tutorials' => '<a href="'.esc_url('https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Video Tutorials', 'tpgb' ).'</a>',
-						'join-community' => '<a href="'.esc_url('https://www.facebook.com/groups/nexterwpcommunity/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Join Community', 'tpgb' ).'</a>',
-						'whats-new' => '<a href="'.esc_url('https://roadmap.nexterwp.com/updates?filter=Nexter+Blocks+-+FREE').'" target="_blank" rel="noopener noreferrer" style="color: orange;">'.esc_html__( 'What\'s New?', 'tpgb' ).'</a>',
-						'req-feature' => '<a href="'.esc_url('https://roadmap.nexterwp.com/boards/feature-requests/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Request Feature', 'tpgb' ).'</a>',
-						'rate-plugin-star' => '<a href="'.esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/reviews/?filter=5').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Rate 5 Stars', 'tpgb' ).'</a>'
+						'official-site' => '<a href="'.esc_url('https://nexterwp.com/nexter-blocks/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Visit Plugin site', 'the-plus-addons-for-block-editor' ).'</a>',
+						'docs' => '<a href="'.esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" target="_blank" rel="noopener noreferrer" style="color:green;">'.esc_html__( 'Docs', 'the-plus-addons-for-block-editor' ).'</a>',
+						'video-tutorials' => '<a href="'.esc_url('https://www.youtube.com/c/POSIMYTHInnovations/?sub_confirmation=1').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Video Tutorials', 'the-plus-addons-for-block-editor' ).'</a>',
+						'join-community' => '<a href="'.esc_url('https://www.facebook.com/groups/nexterwpcommunity/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Join Community', 'the-plus-addons-for-block-editor' ).'</a>',
+						'whats-new' => '<a href="'.esc_url('https://roadmap.nexterwp.com/updates?filter=Nexter+Blocks+-+FREE').'" target="_blank" rel="noopener noreferrer" style="color: orange;">'.esc_html__( 'What\'s New?', 'the-plus-addons-for-block-editor' ).'</a>',
+						'req-feature' => '<a href="'.esc_url('https://roadmap.nexterwp.com/boards/feature-requests/').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Request Feature', 'the-plus-addons-for-block-editor' ).'</a>',
+						'rate-plugin-star' => '<a href="'.esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/reviews/?filter=5').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Rate 5 Stars', 'the-plus-addons-for-block-editor' ).'</a>'
 						);
 				 
 				$plugin_meta = array_merge( $plugin_meta, $new_links );

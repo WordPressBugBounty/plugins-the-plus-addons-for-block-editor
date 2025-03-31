@@ -810,7 +810,7 @@ function tpgb_get_html_structure($attr,$load=''){
 			
 			if($item['content']=='img' && !empty($item['cntImg']['url'])){
 				$cntImg = $item['cntImg'];
-				$altText = (isset($item['cntImg']['alt']) && !empty($item['cntImg']['alt'])) ? esc_attr($item['cntImg']['alt']) : ((!empty($item['cntImg']['title'])) ? esc_attr($item['cntImg']['title']) : esc_attr__('Card Image','tpgb'));
+				$altText = (isset($item['cntImg']['alt']) && !empty($item['cntImg']['alt'])) ? esc_attr($item['cntImg']['alt']) : ((!empty($item['cntImg']['title'])) ? esc_attr($item['cntImg']['title']) : esc_attr__('Card Image','the-plus-addons-for-block-editor'));
 				if(isset($cntImg['id']) && !empty($cntImg['id'])){
 					$cntUrl = wp_get_attachment_image( $cntImg['id'], 'full', false, ['alt' => $altText]);
 				}else{

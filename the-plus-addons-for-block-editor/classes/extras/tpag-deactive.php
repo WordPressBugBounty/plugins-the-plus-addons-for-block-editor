@@ -89,12 +89,12 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     <div class="tpgb-modal-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"><rect width="30" height="30" fill="#1717CC" rx="6"/><path fill="#fff" fill-rule="evenodd" d="M16.665 19.075V5.382a.323.323 0 0 0-.144-.288.52.52 0 0 0-.384-.144H13.35v14.894h2.306c.289 0 .529-.08.721-.24.224-.16.32-.337.288-.529Zm0 5.91.048-2.354a.788.788 0 0 0-.048-.24v-.048c-.032-.033-.048-.065-.048-.097v-.048a1.322 1.322 0 0 0-.384-.336c-.032-.032-.064-.048-.096-.048a1.066 1.066 0 0 0-.337-.048c0-.032-.016-.048-.048-.048H13.35v3.267h3.315Z" clip-rule="evenodd"/></svg>
                         <span class="tpgb-feed-head-title">
-                            <?php echo esc_html__( 'Quick Feedback', 'tpgb' ); ?>
+                            <?php echo esc_html__( 'Quick Feedback', 'the-plus-addons-for-block-editor' ); ?>
                         </span>
                     </div>
 
                     <div class="tpgb-modal-body">
-                        <h3 class="tpgb-feed-caption"><?php echo esc_html__( "If you have a moment, please let us know why you're deactivating Nexter Blocks :", "tpgb" ); ?></h3>
+                        <h3 class="tpgb-feed-caption"><?php echo esc_html__( "If you have a moment, please let us know why you're deactivating Nexter Blocks :", 'the-plus-addons-for-block-editor' ); ?></h3>
                         <form class="tpgb-feedback-dialog-form" method="post">
 
                             <input type="hidden" name="nonce" value="<?php echo esc_attr( $security ); ?>" />
@@ -103,28 +103,28 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                                 <?php 
                                     $resonData = array(
                                         array(
-                                            'reason'  	    => __( "This is a temporary deactivation.", "tpgb" )
+                                            'reason'  	    => __( "This is a temporary deactivation.", 'the-plus-addons-for-block-editor' )
                                         ),
                                         array(
-                                            'reason'        	=> __( "Facing technical issues/bugs with the plugin.", "tpgb" ),
+                                            'reason'        	=> __( "Facing technical issues/bugs with the plugin.", 'the-plus-addons-for-block-editor' ),
                                         ),
                                         array(
-                                            'reason'        	=> __( "Performance Issues.", "tpgb" ),
+                                            'reason'        	=> __( "Performance Issues.", 'the-plus-addons-for-block-editor' ),
                                         ),
                                         array(
-                                            'reason'        	=> __( "Found an alternative Block Addon.", "tpgb" )
+                                            'reason'        	=> __( "Found an alternative Block Addon.", 'the-plus-addons-for-block-editor' )
                                         ),
                                         array(
-                                            'reason'        	=> __( "No more planning to use Gutenberg Editor.", "tpgb" )
+                                            'reason'        	=> __( "No more planning to use Gutenberg Editor.", 'the-plus-addons-for-block-editor' )
                                         ),
                                         array(
-                                            'reason'        	=> __( "Dont want to use any Gutenberg Addon, just Gutenberg.", "tpgb" ),
+                                            'reason'        	=> __( "Dont want to use any Gutenberg Addon, just Gutenberg.", 'the-plus-addons-for-block-editor' ),
                                         ),
                                         array(
-                                            'reason'        	=> __( "Its missing the feature i require.", "tpgb" ),
+                                            'reason'        	=> __( "Its missing the feature i require.", 'the-plus-addons-for-block-editor' ),
                                         ),
                                         array(
-                                            'reason'        	=> __( "Other", "tpgb" ),
+                                            'reason'        	=> __( "Other", 'the-plus-addons-for-block-editor' ),
                                         ),
                                     );
                                     foreach ( $resonData as $key => $value) { ?>
@@ -136,19 +136,19 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                                         </div>
                                 <?php } ?>
                             </div>
-                            <textarea name="tpgb-reason-txt" placeholder="<?php echo esc_html__('Please share the reason', 'tpgb') ?>" class="tpgb-reason-deails"></textarea>
+                            <textarea name="tpgb-reason-txt" placeholder="<?php echo esc_html__('Please share the reason', 'the-plus-addons-for-block-editor') ?>" class="tpgb-reason-deails"></textarea>
                         </form>
                     </div>
 
                     <div class="tpgb-modal-footer">
-                        <a class="tpgb-modal-submit tpgb-btn tpgb-btn-primary" href="#"><?php echo esc_html__( "Submit & Deactivate", "tpgb" ); ?></a>
-                        <a class="tpgb-modal-deactive" href="#"><?php echo esc_html__( "Skip & Deactivate", "tpgb" ); ?></a>
+                        <a class="tpgb-modal-submit tpgb-btn tpgb-btn-primary" href="#"><?php echo esc_html__( "Submit & Deactivate", 'the-plus-addons-for-block-editor' ); ?></a>
+                        <a class="tpgb-modal-deactive" href="#"><?php echo esc_html__( "Skip & Deactivate", 'the-plus-addons-for-block-editor' ); ?></a>
                     </div>
                         
                     <div class="tpgb-help-link">
-                        <span><?php echo esc_html__( "After you submit the form, we'll collect your site URL and email to reach out and assist you. If you'd prefer not to, simply click 'Skip & Deactivate'." , 'tpgb'); ?></span>
-                        <span><?php echo esc_html__( 'If you require any help , ' , 'tpgb'); ?> <a href="<?php if(defined('TPGBP_VERSION')) { echo esc_url('https://store.posimyth.com/helpdesk/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links'); } else { echo esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/'); }  ?>" target="_blank" rel="noopener noreferrer" > <?php echo esc_html__( 'please add a ticket ', 'tpgb') ?> </a>. <?php echo esc_html__ ( 'We reply within 24 working hours.', 'tpgb' ); ?></span>
-                        <span> <?php echo esc_html__( 'Read' , 'tpgb') ?> <a href="<?php  echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'tpgb') ?>   </a> </span> 
+                        <span><?php echo esc_html__( "After you submit the form, we'll collect your site URL and email to reach out and assist you. If you'd prefer not to, simply click 'Skip & Deactivate'." , 'the-plus-addons-for-block-editor'); ?></span>
+                        <span><?php echo esc_html__( 'If you require any help , ' , 'the-plus-addons-for-block-editor'); ?> <a href="<?php if(defined('TPGBP_VERSION')) { echo esc_url('https://store.posimyth.com/helpdesk/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links'); } else { echo esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/'); }  ?>" target="_blank" rel="noopener noreferrer" > <?php echo esc_html__( 'please add a ticket ', 'the-plus-addons-for-block-editor') ?> </a>. <?php echo esc_html__ ( 'We reply within 24 working hours.', 'the-plus-addons-for-block-editor' ); ?></span>
+                        <span> <?php echo esc_html__( 'Read' , 'the-plus-addons-for-block-editor') ?> <a href="<?php  echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" >  <?php echo esc_html__( 'Documentation.' , 'the-plus-addons-for-block-editor') ?>   </a> </span> 
                     </div>
                 </div>
             </div>

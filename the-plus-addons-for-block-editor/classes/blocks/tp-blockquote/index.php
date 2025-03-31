@@ -7,6 +7,17 @@ defined( 'ABSPATH' ) || exit;
 function tpgb_tp_blockquote_callback($attributes, $content) {
 	$output = '';
     $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
+    
+    $pattern = '/\btpgb-block-'.esc_attr($block_id).'/';
+	
+	if (preg_match($pattern, $content)) {
+		if( class_exists('Tpgb_Blocks_Global_Options') ){
+            $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
+            $content = $global_blocks::block_row_conditional_render($attributes,$content);
+        }
+		return $content;
+	}
+
     $quoteIcon = (!empty($attributes['quoteIcon'])) ? $attributes['quoteIcon'] : '' ;
     $quotecnt = (!empty($attributes['content'])) ? $attributes['content'] : '' ;
 	

@@ -67,7 +67,7 @@ function tpgb_tp_video_callback( $settings, $content) {
         } else {
             $VideoIcon_icon = (isset($settings[ "BannerImg" ]['dynamic']) && class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($settings[ "BannerImg" ]) : (isset($settings[ "BannerImg" ][ "url" ]) ? $settings[ "BannerImg" ][ "url" ] : '');
         }
-        $only_image    .= '<img class="ts-video-only-icon" src="'.esc_url($VideoIcon_icon). '" alt="' . esc_attr__( "play-icon", "tpgb" ) . '" />';
+        $only_image    .= '<img class="ts-video-only-icon" src="'.esc_url($VideoIcon_icon). '" alt="' . esc_attr__( "play-icon", 'the-plus-addons-for-block-editor' ) . '" />';
     }
 
     if( ! empty ( $settings[ "OverlayIconImg" ][ "url" ] ) ) {
@@ -93,7 +93,7 @@ function tpgb_tp_video_callback( $settings, $content) {
         } else {
 			$BannerImg = (isset($settings['BannerImg']['dynamic']) && class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($settings[ "BannerImg" ]) :  $settings[ "BannerImg" ][ "url" ];
         }
-        $banner_url   .= '<img class="ts-video-image-zoom set-image" src="' . esc_url ( $BannerImg ) . '" alt="'.esc_attr__('video','tpgb').'" /><div class="tp-video-popup-icon"> <div class="tp-video-icon ' . esc_attr ( $icon_effect ) . '"><img class="ts-video-caption" src="' . esc_url ( $OverlayIconImg ) . '" alt="' . esc_attr ( $image_alt ) . '" /></div></div>' . $title;
+        $banner_url   .= '<img class="ts-video-image-zoom set-image" src="' . esc_url ( $BannerImg ) . '" alt="'.esc_attr__('video','the-plus-addons-for-block-editor').'" /><div class="tp-video-popup-icon"> <div class="tp-video-icon ' . esc_attr ( $icon_effect ) . '"><img class="ts-video-caption" src="' . esc_url ( $OverlayIconImg ) . '" alt="' . esc_attr ( $image_alt ) . '" /></div></div>' . $title;
     }
 
     $youtube_attr       = $youtube_frame_attr = $video_touchable    = $self_video_attr    = $vimeo_frame_attr   = '';
@@ -106,7 +106,7 @@ function tpgb_tp_video_callback( $settings, $content) {
             $vimeo_frame_attr .= '&amp;autoplay=1';
         }
         if( $VideoType == 'self-hosted' ) {
-            $self_video_attr .= ' autoplay';
+            $self_video_attr .= ' autoplay playsinline';
         }
     }
 
@@ -243,7 +243,7 @@ function tpgb_tp_video_callback( $settings, $content) {
 						}
 					$video_content .= '</div></div>';
                 } else if( $VideoType == 'self-hosted' ) {
-                    $video_content .= '<div class="ts-video-wrapper ts-video-hover-effect-zoom ts-type-' . esc_attr( $VideoType ) . '" data-mode="lazyload" data-provider="' . esc_attr($VideoType) . '" id="ts-video-video-6" '.$mainsch.' data-grow=""><div class="tpgb-video-embed-wrap" ><img class="tpgb-video-thumb" data-object-fit="" '.$thumbsch.' content="'.esc_url( $BannerImg ).'" src="' . esc_url( $BannerImg ) . '" alt="' . esc_attr__( "Video Thumbnail",'tpgb' ) . '"><h5 '.$titlesch.' class="tpgb-video-title">' . $title . '</h5><div class="video_container"><video class="tpgb-video-poster" width="100%" poster="' . esc_url( $BannerImg ) . '" controls > <source src="' . esc_url( $mp4Url ) . '" type="video/mp4" ></video></div></span><button class="tpgb-video-play-btn ts-video-blay-btn-youtube" type="button">' . $OverlayIconImg_url . '</button>';
+                    $video_content .= '<div class="ts-video-wrapper ts-video-hover-effect-zoom ts-type-' . esc_attr( $VideoType ) . '" data-mode="lazyload" data-provider="' . esc_attr($VideoType) . '" id="ts-video-video-6" '.$mainsch.' data-grow=""><div class="tpgb-video-embed-wrap" ><img class="tpgb-video-thumb" data-object-fit="" '.$thumbsch.' content="'.esc_url( $BannerImg ).'" src="' . esc_url( $BannerImg ) . '" alt="' . esc_attr__( "Video Thumbnail",'the-plus-addons-for-block-editor' ) . '"><h5 '.$titlesch.' class="tpgb-video-title">' . $title . '</h5><div class="video_container"><video class="tpgb-video-poster" width="100%" poster="' . esc_url( $BannerImg ) . '" controls > <source src="' . esc_url( $mp4Url ) . '" type="video/mp4" ></video></div></span><button class="tpgb-video-play-btn ts-video-blay-btn-youtube" type="button">' . $OverlayIconImg_url . '</button>';
 						if(!empty($settings[ 'markupSch' ])){
 							$video_content .= '<div class="tpgb-video-upload" itemprop="uploadDate" content="'.$uploadate.'"></div><div class="tpgb-video-upload" itemprop="contentUrl" content="' . esc_url ( $mp4Url ) . '"></div>';
 						}
@@ -251,7 +251,7 @@ function tpgb_tp_video_callback( $settings, $content) {
                 }
             }
         } else {
-			$iframeTitle = (!empty($settings['iframeTitle'])) ? esc_attr($settings['iframeTitle']) : esc_attr__('My Video','tpgb');
+			$iframeTitle = (!empty($settings['iframeTitle'])) ? esc_attr($settings['iframeTitle']) : esc_attr__('My Video','the-plus-addons-for-block-editor');
             if( $VideoType == 'youtube' ) {
                 $video_content .= '<div class="ts-video-wrapper embed-container  ts-type-' . esc_attr( $VideoType ) . '"><iframe width="100%"  src="https://www.youtube' . $youtube_privacy . '.com/embed/' . esc_attr( $YoutubeID ) . '?&amp;autohide=1&amp;showtitle=0' . $youtube_frame_attr . '" ' . $youtube_attr . ' frameborder="0" allowfullscreen title="'.$iframeTitle.'"></iframe></div>';
             } else if( $VideoType == 'vimeo' ) {

@@ -8,7 +8,9 @@
 }
 
 .tpgb-flipbox .flip-box-inner {
-    transition: all .3s
+    transition: all .3s;
+    overflow: hidden;
+    padding: 30px
 }
 
 .tpgb-flipbox .flip-box-bg-box {

@@ -11,7 +11,7 @@
 	"supports": {
 		"align": ["wide","full"]
 	},
-	"textdomain": "tpgb",
+	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
         "block_id": {
             "type": "string",
@@ -23,10 +23,14 @@
         },
         "content": {
             "type": "string",
+            "source": "html",
+            "selector": ".quote-text",
             "default": "You can't connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future."
         },
         "authorName": {
             "type": "string",
+            "source": "html",
+            "selector": ".tpgb-quote-author",
             "default": "Steve Jobs"
         },
         "contentAlignment": {

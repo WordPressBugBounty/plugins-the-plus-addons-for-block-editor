@@ -10,7 +10,7 @@
 	},
 	"supports": { "align":["wide","full"]},
   "usesContext" : [ "postId", "postType", "queryId" ],
-	"textdomain": "tpgb",
+	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
       "block_id": {
         "type": "string",

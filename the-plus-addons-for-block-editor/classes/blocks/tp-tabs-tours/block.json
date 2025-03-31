@@ -11,7 +11,7 @@
 	"supports": {
 		"align": ["wide","full"]
 	},
-	"textdomain": "tpgb",
+	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
         "block_id": {
             "type": "string",
@@ -234,6 +234,64 @@
         "navAlign": {
             "type": "string",
             "default": "text-center",
+            "scopy": true
+        },
+        "tabCol": {
+            "type": "boolean",
+            "default": false
+        },
+        "colSize": {
+            "type": "object",
+            "default": {
+                "md": ""
+            },
+            "style": [
+                {
+                    "condition": [
+                        {
+                            "key": "tabLayout",
+                            "relation": "==",
+                            "value": "vertical"
+                        },
+                        {
+                            "key": "tabCol",
+                            "relation": "==",
+                            "value": true
+                        }
+                    ],
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-li{ display: inline-flex;width: calc(100%* 1 /{{colSize}}); }"
+                }
+            ],
+            "scopy": true
+        },
+        "colPad": {
+            "type": "object",
+            "default": {
+                "md": {
+                    "top": "",
+                    "bottom": "",
+                    "left": "",
+                    "right": ""
+                },
+                "unit": "px"
+            },
+            "style": [
+                {
+                    "condition": [
+                        {
+                            "key": "tabLayout",
+                            "relation": "==",
+                            "value": "vertical"
+                        },
+                        {
+                            "key": "tabCol",
+                            "relation": "==",
+                            "value": true
+                        }
+                    ],
+                    "selector": "{{PLUS_WRAP}} .tpgb-tabs-nav .tpgb-tab-li{ padding : {{colPad}}}"
+                }
+            ],
             "scopy": true
         },
         "navWidth": {

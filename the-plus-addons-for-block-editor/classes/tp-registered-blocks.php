@@ -2507,14 +2507,14 @@ Class Tpgb_Library {
 					'meta'	=> array(
 						'class' => 'tpda-purge-clear',
 					),
-					'title' => esc_html__( 'Nexter Performance', 'tpgb' ),
+					'title' => esc_html__( 'Nexter Performance', 'the-plus-addons-for-block-editor' ),
 				] );
 				
 				//Child Item
 				$args = array();
 				array_push($args,array(
 					'id'		=>	'tpda-purge-all-pages',
-					'title'		=>	esc_html__( 'Purge All Pages', 'tpgb' ),
+					'title'		=>	esc_html__( 'Purge All Pages', 'the-plus-addons-for-block-editor' ),
 					'href'		=> 	'#tpda-clear-gutenberg-all',
 					'parent'	=>	'tpda-purge-clear',
 					'meta'   	=> 	array( 'class' => 'tpda-purge-all-pages' ),
@@ -2522,7 +2522,7 @@ Class Tpgb_Library {
 
 				array_push($args,array(
 					'id'     	=>	'tpda-purge-current-page',
-					'title'		=>	esc_html__( 'Purge Current Page', 'tpgb' ),
+					'title'		=>	esc_html__( 'Purge Current Page', 'the-plus-addons-for-block-editor' ),
 					'href'		=>	'#tpda-clear-theplus-' . self::$tpgb_post_type . '-' . self::$tpgb_post_id,
 					'parent' 	=>	'tpda-purge-clear',
 					'meta'   	=>	array( 'class' => 'tpda-purge-current-page' ),
@@ -2540,7 +2540,7 @@ Class Tpgb_Library {
 					'meta'	=> array(
 						'class' => 'tpgb_edit_template',
 					),
-					'title' => esc_html__( 'Edit Template', 'tpgb' ),
+					'title' => esc_html__( 'Edit Template', 'the-plus-addons-for-block-editor' ),
 				] );
 			}
 		}

@@ -9,7 +9,7 @@
 		"attributes": {}
 	},
 	"supports": { "align": ["wide","full"] },
-	"textdomain": "tpgb",
+	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
       "block_id": {
         "type": "string",

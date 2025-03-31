@@ -868,7 +868,7 @@ function tpgb_comment_args( $attr = []){
 	  /* translators: You must be %1$slogged in%2$s to post a comment */
 	  'must_log_in' => '<p class="must-log-in">' .
 		sprintf(
-		  esc_html__( 'You must be %1$slogged in%2$s to post a comment.', 'tpgb' ),
+		  esc_html__( 'You must be %1$slogged in%2$s to post a comment.', 'the-plus-addons-for-block-editor' ),
 		  '<a href="'.wp_login_url( apply_filters( "the_permalink", get_permalink() ) ).'">',
 		  '</a>'
 		) . '</p>',
@@ -876,7 +876,7 @@ function tpgb_comment_args( $attr = []){
 		/* translators: %1$s%2$s. %3$s%4$s%5$s */
 	  'logged_in_as' => '<p class="logged-in-as">' .
 		sprintf(
-			wp_kses_post($loggedInAsText).esc_html__( ' %1$s%2$s. %3$s%4$s%5$s', 'tpgb' ),
+			wp_kses_post($loggedInAsText).esc_html__( ' %1$s%2$s. %3$s%4$s%5$s', 'the-plus-addons-for-block-editor' ),
 		  '<a href="'.admin_url( "profile.php" ).'">'.$user_identity,
 		  '</a>',
 		  '<a href="'.wp_logout_url( apply_filters( 'the_permalink', get_permalink( ) ) ).'" title="'.wp_kses_post($logOutText).'">',
@@ -904,14 +904,14 @@ function tpgb_comment_form_field( $fields ){
 
 	$commenter = wp_get_current_commenter();
 	$fields['author'] ='<div class="tpgb-col"><label>' .
-		  '<input id="author" name="author" type="text" placeholder="'.esc_attr__('Name','tpgb').'" value="' . esc_attr( $commenter['comment_author'] ) .
+		  '<input id="author" name="author" type="text" placeholder="'.esc_attr__('Name','the-plus-addons-for-block-editor').'" value="' . esc_attr( $commenter['comment_author'] ) .
 		  '" size="30" /></label></div>';
 	
 	$fields['email'] ='<div class="tpgb-md-pl15 tpgb-col"><label>' .
-		  '<input id="email" name="email" type="text" placeholder="'.esc_attr__('Email Address *','tpgb').'" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" /></label></div>';
+		  '<input id="email" name="email" type="text" placeholder="'.esc_attr__('Email Address *','the-plus-addons-for-block-editor').'" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" /></label></div>';
 	
 	$fields['url'] ='<div class="tpgb-md-pl15 tpgb-col"><label>' .
-		  '<input id="url" name="url" type="text" placeholder="'.esc_attr__('Website','tpgb').'" value="' . esc_attr( $commenter['comment_author_url'] ) .
+		  '<input id="url" name="url" type="text" placeholder="'.esc_attr__('Website','the-plus-addons-for-block-editor').'" value="' . esc_attr( $commenter['comment_author_url'] ) .
 		  '" size="30" /></label></div>';
 	return $fields;
 }

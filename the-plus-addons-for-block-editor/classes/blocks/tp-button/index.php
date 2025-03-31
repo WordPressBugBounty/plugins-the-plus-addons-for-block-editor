@@ -65,7 +65,7 @@ function tpgb_button_render_callback( $attributes, $content ) {
 	$getAftrIcon .='</span>';
 
 	$imgSrc = $imgBfAf ='';
-	$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Button','tpgb'));
+	$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Button','the-plus-addons-for-block-editor'));
 
 	if(!empty($imageName) && !empty($imageName['id'])){
 		if($styleType!='style-17'){
@@ -219,7 +219,7 @@ function tpgb_button_render_callback( $attributes, $content ) {
 		$extrAttr = 'href="'.esc_url($btnLink).'" '.$target.' '.$nofollow;
 	}
 
-	$ariaLabelT = (!empty($ariaLabel)) ? esc_attr($ariaLabel) : ((!empty($btnText)) ? esc_attr($btnText) : esc_attr__("Button", 'tpgb'));
+	$ariaLabelT = (!empty($ariaLabel)) ? esc_attr($ariaLabel) : ((!empty($btnText)) ? esc_attr($btnText) : esc_attr__("Button", 'the-plus-addons-for-block-editor'));
     $output .= '<div class="tpgb-plus-button tpgb-relative-block tpgb-block-'.esc_attr($block_id).' button-'.esc_attr($styleType).' '.esc_attr($iconHover).' '.esc_attr($blockClass).' ">';
 		$output .='<div class="animted-content-inner'.esc_attr($contentHvrClass).'">';
 			$output .='<a '.$extrAttr.' class="button-link-wrap '.esc_attr($translin).' '.esc_attr($IShakeAnimate).' '.esc_attr($s23VrtclCntr).' '.(!empty($fancyBox) ? ' tpgb-fancy-popup' : '').' " role="button" aria-label="'.$ariaLabelT.'" data-hover="'.wp_kses_post($hoverText).'" '.$link_attr.'>';

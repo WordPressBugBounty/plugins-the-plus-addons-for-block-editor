@@ -138,14 +138,14 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 							}
 							
 							$imgUrl ='';
-							$altText = (isset($item['avatar']['alt']) && !empty($item['avatar']['alt'])) ? esc_attr($item['avatar']['alt']) : ((!empty($item['avatar']['title'])) ? esc_attr($item['avatar']['title']) : esc_attr__('Author Avatar','tpgb'));
+							$altText = (isset($item['avatar']['alt']) && !empty($item['avatar']['alt'])) ? esc_attr($item['avatar']['alt']) : ((!empty($item['avatar']['title'])) ? esc_attr($item['avatar']['title']) : esc_attr__('Author Avatar','the-plus-addons-for-block-editor'));
 
 							if(!empty($item['avatar']) && !empty($item['avatar']['id'])){
 								$imgUrl = wp_get_attachment_image($item['avatar']['id'],'medium', false, ['alt'=> $altText]);
 							}else if(!empty($item['avatar']) && !empty($item['avatar']['url'])){
 								$imgUrl = '<img src="'.esc_url($item['avatar']['url']).'" alt="'.$altText.'"/>';
 							}else{
-								$imgUrl ='<img src="'.esc_url(TPGB_URL.'assets/images/tpgb-placeholder-grid.jpg').'" alt="'.esc_html__('Author Avatar','tpgb').'"/>';
+								$imgUrl ='<img src="'.esc_url(TPGB_URL.'assets/images/tpgb-placeholder-grid.jpg').'" alt="'.esc_html__('Author Avatar','the-plus-addons-for-block-editor').'"/>';
 							}
 							
 							$output .= '<div class="grid-item '.($telayout=='carousel' ? 'splide__slide' : $column_class).' tp-repeater-item-'. ( isset($item['_key']) ? esc_attr($item['_key']) : '' ) .'" >';

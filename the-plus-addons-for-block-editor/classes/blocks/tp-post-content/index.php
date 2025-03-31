@@ -34,7 +34,7 @@ function tpgb_tp_post_content_render_callback( $attr, $content, $block) {
 					defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY;
 
 				return $is_debug ?
-					esc_html__( 'Block Re-rendering halted', 'tpgb' ) :
+					esc_html__( 'Block Re-rendering halted', 'the-plus-addons-for-block-editor' ) :
 					'';
 			}
 

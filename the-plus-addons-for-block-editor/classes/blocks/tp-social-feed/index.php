@@ -1952,10 +1952,10 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 				}
 				$SocialFeed .= '</div>';
 			}else{
-				$SocialFeed .= '<div class="error-handal">'.esc_html__('All Social Feed','tpgb').'</div>';
+				$SocialFeed .= '<div class="error-handal">'.esc_html__('All Social Feed','the-plus-addons-for-block-editor').'</div>';
 			}
 		}else{
-			$SocialFeed .= '<div class="error-handal">'.esc_html__('All Social Feed','tpgb').'</div>';
+			$SocialFeed .= '<div class="error-handal">'.esc_html__('All Social Feed','the-plus-addons-for-block-editor').'</div>';
 		}
 
 	$SocialFeed .= '</div>';

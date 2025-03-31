@@ -17,7 +17,7 @@ function tpgb_tp_creative_image_callback( $settings, $content) {
 	}
 
 	$contentImage = $imgID ='';
-	$altText = (isset($settings['SelectImg']['alt']) && !empty($settings['SelectImg']['alt'])) ? esc_attr($settings['SelectImg']['alt']) : ((!empty($settings['SelectImg']['title'])) ? esc_attr($settings['SelectImg']['title']) : esc_attr__('Creative Image','tpgb'));
+	$altText = (isset($settings['SelectImg']['alt']) && !empty($settings['SelectImg']['alt'])) ? esc_attr($settings['SelectImg']['alt']) : ((!empty($settings['SelectImg']['title'])) ? esc_attr($settings['SelectImg']['title']) : esc_attr__('Creative Image','the-plus-addons-for-block-editor'));
 	if ( isset( $settings['SelectImg']['id'] ) && !empty($settings['SelectImg']['id'])) {
 		$imgID = $settings['SelectImg']['id'];
 	}
@@ -73,7 +73,7 @@ function tpgb_tp_creative_image_callback( $settings, $content) {
 	
 	if ( ! empty( $settings['link']['url'] ) ) {
 		$link_attr = Tp_Blocks_Helper::add_link_attributes($settings['link']);
-		$ariaLabelT = (!empty($settings['ariaLabel'])) ? esc_attr($settings['ariaLabel']) : esc_attr__('Creative Image','tpgb');
+		$ariaLabelT = (!empty($settings['ariaLabel'])) ? esc_attr($settings['ariaLabel']) : esc_attr__('Creative Image','the-plus-addons-for-block-editor');
 		$html = '<a href="'.esc_url($href).'" '.$target.' '.$rel.' class="'.esc_attr($wrapperClass).'" '.$link_attr.' aria-label="'.$ariaLabelT.'">' .$contentImage. '</a>';
 	} else {
 		$tag = !empty($fancyBox) && empty($settings['ScrollParallax']) ? 'a' : 'div';

@@ -75,7 +75,7 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 		}else if(!empty($authorIcon)){
 			$iconauthor = '<i class="meta-author-icon '.esc_attr($authorIcon).'"></i>';
 		}
-		$outputAuthor .='<span class="tpgb-meta-author" >'.$authorPrefix.'<a href="'.esc_url(get_author_posts_url($author_id)).'" rel="'.esc_attr__('author','tpgb').'">'.$iconauthor.''.get_the_author_meta( 'display_name', $author_id ).'</a></span>';
+		$outputAuthor .='<span class="tpgb-meta-author" >'.$authorPrefix.'<a href="'.esc_url(get_author_posts_url($author_id)).'" rel="'.esc_attr__('author','the-plus-addons-for-block-editor').'">'.$iconauthor.''.get_the_author_meta( 'display_name', $author_id ).'</a></span>';
 	}
 	
 	$outputComment='';
@@ -87,12 +87,12 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 			$count = $comments_count->total_comments;
 		}
 		if($count===0){
-			$comment_text = esc_html__('No Comments','tpgb');
+			$comment_text = esc_html__('No Comments','the-plus-addons-for-block-editor');
 		}else if($count > 0){
 			$comment_text = 'Comments('.$count.')';
 		}
 		$commentPrefix = (!empty($attr['commentPrefix'])) ? '<span class="tpgb-meta-comment-label">'.wp_kses_post($attr['commentPrefix']).'</span>' : '';
-		$outputComment .='<span class="tpgb-meta-comment" >'.$commentPrefix.'<a href="'.esc_url(get_the_permalink()).'#respond" rel="'.esc_attr__('comment','tpgb').'">'.$commentIcon.$comment_text.'</a></span>';
+		$outputComment .='<span class="tpgb-meta-comment" >'.$commentPrefix.'<a href="'.esc_url(get_the_permalink()).'#respond" rel="'.esc_attr__('comment','the-plus-addons-for-block-editor').'">'.$commentIcon.$comment_text.'</a></span>';
 	}
 	
 	$metaExtra = '';
@@ -1019,7 +1019,7 @@ add_action( 'init', 'tpgb_post_meta_content' );
 
 if ( ! function_exists( 'tpgb_get_word_count_type' ) ) {
 	function tpgb_get_word_count_type() {
-		$word_count_type = _x( 'words', 'Word count type. Do not translate!', 'tpgb' );
+		$word_count_type = _x( 'words', 'Word count type. Do not translate!', 'the-plus-addons-for-block-editor' );
 
 		if ( 'characters_excluding_spaces' !== $word_count_type && 'characters_including_spaces' !== $word_count_type ) {
 			$word_count_type = 'words';

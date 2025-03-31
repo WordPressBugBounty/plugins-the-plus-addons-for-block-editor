@@ -133,7 +133,7 @@ class Tpgb_Core_Init_Blocks {
 			array(
 				array(
 					'slug'  => TPGB_CATEGORY,
-					'title' => __( 'Nexter Blocks', 'tpgb' ),
+					'title' => __( 'Nexter Blocks', 'the-plus-addons-for-block-editor' ),
 				),
 			),
 			$categories
@@ -230,7 +230,7 @@ class Tpgb_Core_Init_Blocks {
 				$scripts_dep = array_merge($scripts_dep, array('wp-editor', 'wp-edit-post'));
 				wp_enqueue_script('tpgb-block-editor-js', TPGB_ASSETS_URL.'assets/js/admin/blocks.js', $scripts_dep,TPGB_VERSION, false);
 
-				wp_set_script_translations( 'tpgb-block-editor-js', 'tpgb' , TPGB_PATH . '/lang/' );
+				wp_set_script_translations( 'tpgb-block-editor-js', 'the-plus-addons-for-block-editor' , TPGB_PATH . '/lang/' );
 			}
 		}
 		
@@ -372,7 +372,7 @@ class Tpgb_Core_Init_Blocks {
 				'get_callback' => array($this, 'tpgb_get_featured_image_url'),
 				'update_callback' => null,
 				'schema' => array(
-					'description' => __('Nexter Blocks Different sized of featured images','tpgb'),
+					'description' => __('Nexter Blocks Different sized of featured images','the-plus-addons-for-block-editor'),
 					'type' => 'array',
 				),
 			)
@@ -386,7 +386,7 @@ class Tpgb_Core_Init_Blocks {
 				'get_callback' => array($this, 'tpgb_get_post_meta_info'),
 				'update_callback' => null,
 				'schema' => array(
-					'description' => __('Post Listing of get Post Meta Info.','tpgb'),
+					'description' => __('Post Listing of get Post Meta Info.','the-plus-addons-for-block-editor'),
 					'type' => 'array',
 				),
 			)
@@ -400,7 +400,7 @@ class Tpgb_Core_Init_Blocks {
 				'get_callback' => array($this, 'tpgb_get_category_list'),
 				'update_callback' => null,
 				'schema' => array(
-					'description' => __('Category list links','tpgb'),
+					'description' => __('Category list links','the-plus-addons-for-block-editor'),
 					'type' => 'string',
 				),
 			)
@@ -417,7 +417,7 @@ class Tpgb_Core_Init_Blocks {
 				'get_callback' => array($this, 'tpgb_get_product_data'),
 				'update_callback' => null,
 				'schema' => array(
-					'description' => __('Product Data.','tpgb'),
+					'description' => __('Product Data.','the-plus-addons-for-block-editor'),
 					'type' => 'array',
 				),
 			)
@@ -564,7 +564,7 @@ class Tpgb_Core_Init_Blocks {
 		try {
 			$params = $request->get_params();
 			if (!isset($params['settings']))
-				throw new Exception( __("Settings parameter is missing!",'tpgb') );
+				throw new Exception( __("Settings parameter is missing!",'the-plus-addons-for-block-editor') );
 
 			$plus_settings = $params['settings'];
 
@@ -574,7 +574,7 @@ class Tpgb_Core_Init_Blocks {
 				update_option($this->tpgb_global, $plus_settings);
 			}
 
-			return ['success' => true, 'message' => __("Nexter Global settings updated!",'tpgb') ];
+			return ['success' => true, 'message' => __("Nexter Global settings updated!",'the-plus-addons-for-block-editor') ];
 		} catch (Exception $e) {
 			return ['success' => false, 'message' => $e->getMessage()];
 		}
@@ -700,7 +700,7 @@ class Tpgb_Core_Init_Blocks {
 				
 				if(!empty($params['is_global']) && $params['is_global'] == true && isset($import_global_css['css'])){
 					if (!$wp_filesystem->put_contents($dir . $globalfilename, $import_global_css['css'])) {
-						throw new Exception(__('CSS can not be load due to permission!!!', 'tpgb'));
+						throw new Exception(__('CSS can not be load due to permission!!!', 'the-plus-addons-for-block-editor'));
 					}
 				}
 			}
@@ -730,7 +730,7 @@ class Tpgb_Core_Init_Blocks {
 				}
 				if(!empty($import_css) && isset($import_css['css'])){
 					if (!$wp_filesystem->put_contents($dir . $filename, $import_css['css'])) {
-						throw new Exception(__('CSS can not be load due to permission!!!', 'tpgb'));
+						throw new Exception(__('CSS can not be load due to permission!!!', 'the-plus-addons-for-block-editor'));
 					}
 				}
 			} else {
@@ -830,9 +830,9 @@ class Tpgb_Core_Init_Blocks {
 						call_user_func($method);
 					}
 				}
-				return ['success' => true, 'message' => __('Plus block css updated.', 'tpgb')];
+				return ['success' => true, 'message' => __('Plus block css updated.', 'the-plus-addons-for-block-editor')];
 			}else{
-				return ['success' => true, 'message' => __('Plus block preview css updated.', 'tpgb')];
+				return ['success' => true, 'message' => __('Plus block preview css updated.', 'the-plus-addons-for-block-editor')];
 			}
 			
 		} catch (Exception $e) {
@@ -878,7 +878,7 @@ class Tpgb_Core_Init_Blocks {
 				}
 
 				if (isset($import_css['css']) && !$wp_filesystem->put_contents($dir . $filename, $import_css['css'])) {
-					throw new Exception( esc_html__('CSS can not be load due to permission!!!', 'tpgb') );
+					throw new Exception( esc_html__('CSS can not be load due to permission!!!', 'the-plus-addons-for-block-editor') );
 				}else{
 					$css_path = $dir . $filename;
 					if (!$this->is_editor_screen() && $wp_filesystem->exists($css_path)) {
@@ -1252,7 +1252,7 @@ class Tpgb_Core_Init_Blocks {
 				$post_meta['get_modified_date'] = $date_modi;
 			}
 
-			get_the_category_list( __( ', ', 'tpgb' ), '', $obj['id'] );
+			get_the_category_list( __( ', ', 'the-plus-addons-for-block-editor' ), '', $obj['id'] );
 			$post_type = isset($obj['type']) ? $obj['type'] : '';
 			$taxonomies_list = $this->tpgb_get_taxnomy_terms( $post_type );
 			if(!empty($taxonomies_list)){
@@ -1312,7 +1312,7 @@ class Tpgb_Core_Init_Blocks {
 						if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 							$render_list = '';
 							foreach ( $terms as $term ) {
-								$render_list .= '<a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( sprintf( __( '%s', 'tpgb' ), $term->name ) ) . '" class="'.esc_attr($value).'-'.esc_attr($term->slug). '">' . $term->name . '</a> ';
+								$render_list .= '<a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( sprintf( __( '%s', 'the-plus-addons-for-block-editor' ), $term->name ) ) . '" class="'.esc_attr($value).'-'.esc_attr($term->slug). '">' . $term->name . '</a> ';
 							}
 							$meta_list[$value] = $render_list;
 						}
@@ -1402,7 +1402,7 @@ class Tpgb_Core_Init_Blocks {
 						$product_data['productBadge'] = apply_filters('woocommerce_sale_flash', '<span class="badge onsale perc">&darr; '.$percentage.'%</span>', $post, $product);
 					}
 				} else {
-					$product_data['productBadge'] = apply_filters('woocommerce_sale_flash', '<span class="badge onsale">'.esc_html__( 'Sale','tpgb' ).'</span>', $post, $product);
+					$product_data['productBadge'] = apply_filters('woocommerce_sale_flash', '<span class="badge onsale">'.esc_html__( 'Sale','the-plus-addons-for-block-editor' ).'</span>', $post, $product);
 				}
 			}
 

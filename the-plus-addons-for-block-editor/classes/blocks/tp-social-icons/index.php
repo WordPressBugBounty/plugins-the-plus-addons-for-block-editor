@@ -79,7 +79,7 @@ function tpgb_tp_social_icons_render_callback( $attributes, $content) {
 										$output .= '</span>';
 									}else if($network['socialNtwk']=='custom' && $network['customType']=='image' && !empty($network['imgField']) && !empty($network['imgField']['url'])) {
 										$imgSrc='';
-										$altText = (isset($network['imgField']['alt']) && !empty($network['imgField']['alt'])) ? esc_attr($network['imgField']['alt']) : ((!empty($network['imgField']['title'])) ? esc_attr($network['imgField']['title']) : esc_attr__('Custom Icon','tpgb'));
+										$altText = (isset($network['imgField']['alt']) && !empty($network['imgField']['alt'])) ? esc_attr($network['imgField']['alt']) : ((!empty($network['imgField']['title'])) ? esc_attr($network['imgField']['title']) : esc_attr__('Custom Icon','the-plus-addons-for-block-editor'));
 										if(!empty($network['imgField']) && !empty($network['imgField']['id'])){
 											$imgSrc = wp_get_attachment_image($network['imgField']['id'] , 'full', false, ['alt'=> $altText]);
 										}else if(!empty($network['imgField']['url'])){

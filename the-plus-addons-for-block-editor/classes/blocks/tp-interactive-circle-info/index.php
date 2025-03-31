@@ -79,7 +79,7 @@ function tpgb_tp_interactive_circle_info_render_callback( $attributes, $content)
 						}
 						$target = (!empty($item['btnUrl']['target'])) ? 'target="_blank"' : '';
 						$nofollow = (!empty($item['btnUrl']['nofollow'])) ? 'rel="nofollow"' : '';
-						$ariaLabelT = (!empty($item['btnText'])) ? esc_attr($item['btnText']) : esc_attr__("Button", 'tpgb');
+						$ariaLabelT = (!empty($item['btnText'])) ? esc_attr($item['btnText']) : esc_attr__("Button", 'the-plus-addons-for-block-editor');
 						if(!empty($item['btnText'])){
 							$getbutton .= '<div class="tpgb-adv-button button-'.esc_attr($btnStyle).'">';
 								$getbutton .= '<a href="'.esc_url($btnUrl).'" class="button-link-wrap" role="button" '.$target.' '.$nofollow.' '.$link_attr.' aria-label="'.$ariaLabelT.'">';
@@ -124,7 +124,7 @@ function tpgb_tp_interactive_circle_info_render_callback( $attributes, $content)
 										$output .= '<i class="'.esc_attr($item['iconStore']).' tpgb-in-circle-icon" aria-hidden="true"></i>';
 									}else if($item['iconType']=='image' && !empty($item['imageName'])){
 										$imageSize = (!empty($item['imageSize'])) ? $item['imageSize'] : 'full';
-										$altText = (isset($item['imageName']['alt']) && !empty($item['imageName']['alt'])) ? esc_attr($item['imageName']['alt']) : ((!empty($item['imageName']['title'])) ? esc_attr($item['imageName']['title']) : esc_attr__('Circle Info','tpgb'));
+										$altText = (isset($item['imageName']['alt']) && !empty($item['imageName']['alt'])) ? esc_attr($item['imageName']['alt']) : ((!empty($item['imageName']['title'])) ? esc_attr($item['imageName']['title']) : esc_attr__('Circle Info','the-plus-addons-for-block-editor'));
 
 										if(!empty($item['imageName']) && !empty($item['imageName']['id'])){
 											$imgSrc = wp_get_attachment_image($item['imageName']['id'] , $imageSize, false, ['class' => 'tpgb-in-circle-image', 'alt'=> $altText]);

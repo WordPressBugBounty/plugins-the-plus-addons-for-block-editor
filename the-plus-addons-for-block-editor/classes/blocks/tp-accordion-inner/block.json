@@ -15,7 +15,7 @@
         "align": ["wide","full"]
 	},
     "parent": ["tpgb/tp-accordion"],
-	"textdomain": "tpgb",
+	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
         "block_id": {
             "type": "string",

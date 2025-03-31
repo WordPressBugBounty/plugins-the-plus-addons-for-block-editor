@@ -59,11 +59,11 @@ class nxt_Wdk_Widget_Api {
 	public function tp_nxt_wdkit_widget_ajax_call( $type ) {
 
 		if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'wdesignkit' ) ) );
+			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'the-plus-addons-for-block-editor' ) ) );
 		}
 
 		if ( ! $type ) {
-			$this->wdkit_error_msg( __( 'Something went wrong.', 'wdesignkit' ) );
+			$this->wdkit_error_msg( __( 'Something went wrong.', 'the-plus-addons-for-block-editor' ) );
 		}
         
         $response = array();
@@ -105,7 +105,7 @@ class nxt_Wdk_Widget_Api {
 			$error_message = $response->get_error_message();
 
 			/* Translators: %s is a placeholder for the error message */
-			$error_message = printf( esc_html__( 'API request error: %s', 'wdesignkit' ), esc_html( $error_message ) );
+			$error_message = printf( esc_html__( 'API request error: %s', 'the-plus-addons-for-block-editor' ), esc_html( $error_message ) );
 
 			return array(
 				'massage' => $error_message,
@@ -118,7 +118,7 @@ class nxt_Wdk_Widget_Api {
 
 			return array(
 				'data'    => json_decode( wp_remote_retrieve_body( $response ), true ),
-				'massage' => esc_html__( 'Success', 'wdesignkit' ),
+				'massage' => esc_html__( 'Success', 'the-plus-addons-for-block-editor' ),
 				'status'  => $status_code,
 				'success' => true,
 			);
@@ -281,8 +281,8 @@ class nxt_Wdk_Widget_Api {
                 $wp_filesystem->put_contents( $tmp_file, json_encode($json_data) );
     
                 $responce = array(
-                    'message'     => esc_html__( 'Update Saved Successfully', 'wdesignkit' ),
-                    'description' => esc_html__( 'Success! Update Saved', 'wdesignkit' ),
+                    'message'     => esc_html__( 'Update Saved Successfully', 'the-plus-addons-for-block-editor' ),
+                    'description' => esc_html__( 'Success! Update Saved', 'the-plus-addons-for-block-editor' ),
                     'success'     => true,
                 );
     

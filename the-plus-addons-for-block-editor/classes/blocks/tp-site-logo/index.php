@@ -37,7 +37,7 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
 	$default_img = TPGB_ASSETS_URL. 'assets/images/tpgb-placeholder.jpg';
 	
 	$imgSrc ='';
-	$altText = (isset($imageStore['alt']) && !empty($imageStore['alt'])) ? esc_attr($imageStore['alt']) : ((!empty($imageStore['title'])) ? esc_attr($imageStore['title']) : esc_attr__('Site Logo','tpgb'));
+	$altText = (isset($imageStore['alt']) && !empty($imageStore['alt'])) ? esc_attr($imageStore['alt']) : ((!empty($imageStore['title'])) ? esc_attr($imageStore['title']) : esc_attr__('Site Logo','the-plus-addons-for-block-editor'));
 
 	if(!empty($imageStore) && !empty($imageStore['id'])){
 		$imgSrc = wp_get_attachment_image($imageStore['id'] , $imageSize, false, ['class' => 'image-logo-wrap tpgb-trans-ease normal-image '.esc_attr($sticky_class), 'alt'=> $altText ] );
@@ -48,7 +48,7 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
 	}
 	
 	$hImgSrc = '';
-	$altText2 = (isset($hvrImageStore['alt']) && !empty($hvrImageStore['alt'])) ? esc_attr($hvrImageStore['alt']) : ((!empty($hvrImageStore['title'])) ? esc_attr($hvrImageStore['title']) : esc_attr__('Site Logo','tpgb'));
+	$altText2 = (isset($hvrImageStore['alt']) && !empty($hvrImageStore['alt'])) ? esc_attr($hvrImageStore['alt']) : ((!empty($hvrImageStore['title'])) ? esc_attr($hvrImageStore['title']) : esc_attr__('Site Logo','the-plus-addons-for-block-editor'));
 
 	if(!empty($hvrImageStore) && !empty($hvrImageStore['id'])){
 		$hImgSrc = wp_get_attachment_image($hvrImageStore['id'] , $hvrImageSize, false, ['class' => 'image-logo-wrap tpgb-trans-ease', 'alt'=> $altText2 ] );
@@ -59,7 +59,7 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
 	}
 	
 	$sImgSrc = '';
-	$altText3 = (isset($stickyImg['alt']) && !empty($stickyImg['alt'])) ? esc_attr($stickyImg['alt']) : ((!empty($stickyImg['title'])) ? esc_attr($stickyImg['title']) : esc_attr__('Site Logo','tpgb'));
+	$altText3 = (isset($stickyImg['alt']) && !empty($stickyImg['alt'])) ? esc_attr($stickyImg['alt']) : ((!empty($stickyImg['title'])) ? esc_attr($stickyImg['title']) : esc_attr__('Site Logo','the-plus-addons-for-block-editor'));
 
 	if(!empty($stickyImg) && !empty($stickyImg['id'])){
 		$site_sImg = $stickyImg['id'];
@@ -79,7 +79,7 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
 		$nofollow = (!empty($attributes['customURL']['nofollow'])) ? 'rel="nofollow"' : '';
 		$link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['customURL']);
 	}
-	$ariaLabel = (!empty($attributes['ariaLabel'])) ? esc_attr($attributes['ariaLabel']) : esc_attr__("Site Logo", 'tpgb');
+	$ariaLabel = (!empty($attributes['ariaLabel'])) ? esc_attr($attributes['ariaLabel']) : esc_attr__("Site Logo", 'the-plus-addons-for-block-editor');
 	$output = '';
 	$output .= '<div class="tpgb-site-logo tpgb-relative-block tpgb-trans-linear tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).'">';
 		$output .= '<div class="site-logo-wrap tpgb-trans-ease '.esc_attr($normal_hover).'">';
@@ -103,18 +103,18 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
 			if(!empty($svgStore)){
 				$output .= '<a href="'.esc_url($url_link).'" '.$target.' '.$nofollow.' class="site-normal-logo svg-logo" '.$link_attr.' aria-label="'.$ariaLabel.'">';
 					$svgUrl = (isset($svgStore['dynamic']) && class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($svgStore) : $svgStore['url'];
-					$altText4 = (isset($svgStore['alt']) && !empty($svgStore['alt'])) ? esc_attr($svgStore['alt']) : ((!empty($svgStore['title'])) ? esc_attr($svgStore['title']) : esc_attr__('Site Logo','tpgb'));
+					$altText4 = (isset($svgStore['alt']) && !empty($svgStore['alt'])) ? esc_attr($svgStore['alt']) : ((!empty($svgStore['title'])) ? esc_attr($svgStore['title']) : esc_attr__('Site Logo','the-plus-addons-for-block-editor'));
 
 					$output .= '<img src="'.esc_url($svgUrl).'" class="image-logo-wrap normal-image '.esc_attr($sticky_class).'" alt="'.$altText4.'"/>';
 					if(!empty($stickyLogo) && !empty($stickySvg['url'])){
 						$stsvgUrl = (isset($stickySvg['dynamic']) && class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($stickySvg) : $stickySvg['url'];
-						$altText5 = (isset($stickySvg['alt']) && !empty($stickySvg['alt'])) ? esc_attr($stickySvg['alt']) : ((!empty($stickySvg['title'])) ? esc_attr($stickySvg['title']) : esc_attr__('Site Logo','tpgb'));
+						$altText5 = (isset($stickySvg['alt']) && !empty($stickySvg['alt'])) ? esc_attr($stickySvg['alt']) : ((!empty($stickySvg['title'])) ? esc_attr($stickySvg['title']) : esc_attr__('Site Logo','the-plus-addons-for-block-editor'));
 						$output .= '<img src="'.esc_url($stsvgUrl).'" class="image-logo-wrap tpgb-trans-ease sticky-image" alt="'.$altText5.'"/>';
 					}
 				$output .= '</a>';
 				if($logoNmlDbl=='double' && !empty($hvrSvgStore)){
 					$hvrsvgUrl = (isset($hvrSvgStore['dynamic']) && class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($hvrSvgStore) : $hvrSvgStore['url'];
-					$altText6 = (isset($hvrSvgStore['alt']) && !empty($hvrSvgStore['alt'])) ? esc_attr($hvrSvgStore['alt']) : ((!empty($hvrSvgStore['title'])) ? esc_attr($hvrSvgStore['title']) : esc_attr__('Site Logo','tpgb'));
+					$altText6 = (isset($hvrSvgStore['alt']) && !empty($hvrSvgStore['alt'])) ? esc_attr($hvrSvgStore['alt']) : ((!empty($hvrSvgStore['title'])) ? esc_attr($hvrSvgStore['title']) : esc_attr__('Site Logo','the-plus-addons-for-block-editor'));
 					$output .= '<a href="'.esc_url($url_link).'"  '.$target.' '.$nofollow.'  class="site-normal-logo svg-logo hover-logo" '.$link_attr.' aria-label="'.$ariaLabel.'">';
 						$output .= '<img src="'.esc_url($hvrsvgUrl).'" class="image-logo-wrap tpgb-trans-ease" alt="'.$altText6.'"/>';
 					$output .= '</a>';

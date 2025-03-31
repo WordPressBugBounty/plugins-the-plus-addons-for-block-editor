@@ -91,7 +91,7 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 		$style_3_sep .='<span class="title-sep sep-l"></span>';
 		if(isset($attributes['imgName']) && isset($attributes['imgName']['url']) && $attributes['imgName']['url']!=''){
 			$imgSrc ='';
-			$altText = (isset($attributes['imgName']['alt']) && !empty($attributes['imgName']['alt'])) ? esc_attr($attributes['imgName']['alt']) : ((!empty($attributes['imgName']['title'])) ? esc_attr($attributes['imgName']['title']) : esc_attr__('Image Separator','tpgb'));
+			$altText = (isset($attributes['imgName']['alt']) && !empty($attributes['imgName']['alt'])) ? esc_attr($attributes['imgName']['alt']) : ((!empty($attributes['imgName']['title'])) ? esc_attr($attributes['imgName']['title']) : esc_attr__('Image Separator','the-plus-addons-for-block-editor'));
 			if(!empty($attributes['imgName']['id'])){
 				$imgSrc = wp_get_attachment_image( $attributes['imgName']['id'] , 'full',false, ['alt' => $altText] );
 			}else if(!empty($attributes['imgName']['url'])){

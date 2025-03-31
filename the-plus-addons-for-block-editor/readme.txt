@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7.2
-Stable tag: 4.1.7
+Stable tag: 4.1.8
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -503,6 +503,17 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+= 4.1.8 = 31 March 2025
+- Added : Added : Tab Tours : Tab Column & Tab Column Padding Option Added.
+- Added : Video Block :  Add the playinline attribute to enable autoplay for video on iOS devices.
+- Improvement: Blockquote: Enhance inline editing for the Author Name field.
+- Improvement :  Dashboard :  Enhance Block List Search by Block Keywords .
+- Compatibility :  WPML : Ensured blockquote string translation support.
+- Compatibility :  Theme.JSON : Synced typography Font-Family Nexter Blocks Components.
+- Compatibility :  Site Editor – Synced custom typography Font-Family Nexter Blocks Components.
+- Update :  Language : Standardized string translation text to match the plugin slug. 
+- Minor Bugs and Improvements.
+
 = 4.1.7 = 24 March 2025
 - Added : Dashboard : WDesignkit Widgets added to the Nexter Block List. 
 - Fixed : External Form Styler : Responsive Bug Fix.

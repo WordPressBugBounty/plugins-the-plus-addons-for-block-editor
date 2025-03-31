@@ -152,7 +152,7 @@ function tpgb_social_reviews_callback($attributes, $content) {
                 
                 $reviews .='</div>';
             }else{
-                $reviews .= '<div class="error-handal">'.esc_html__('All Social Feed','tpgb').'</div>';
+                $reviews .= '<div class="error-handal">'.esc_html__('All Social Feed','the-plus-addons-for-block-editor').'</div>';
             }
 			
 			

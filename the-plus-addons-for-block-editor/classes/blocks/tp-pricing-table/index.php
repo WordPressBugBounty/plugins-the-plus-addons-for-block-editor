@@ -69,7 +69,7 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 			$getPriceIcon .= '<i class="'.esc_attr($iconStore).'"></i>';
 		}
 		if($iconType=='img' && !empty($imgStore)){
-			$altText = (isset($imgStore['alt']) && !empty($imgStore['alt'])) ? esc_attr($imgStore['alt']) : ((!empty($imgStore['title'])) ? esc_attr($imgStore['title']) : esc_attr__('Price Icon','tpgb'));
+			$altText = (isset($imgStore['alt']) && !empty($imgStore['alt'])) ? esc_attr($imgStore['alt']) : ((!empty($imgStore['title'])) ? esc_attr($imgStore['title']) : esc_attr__('Price Icon','the-plus-addons-for-block-editor'));
 
 			if(!empty($imgStore['id'])){
 				$imgSrc = wp_get_attachment_image($imgStore['id'] , 'full', false, ['class' => 'pricing-icon-img', 'alt'=> $altText]);
@@ -79,7 +79,7 @@ function tpgb_tp_pricing_table_render_callback( $attributes, $content) {
 			$getPriceIcon .= $imgSrc;
 		}
 		if($iconType=='svg' && !empty($svgIcon) && !empty($svgIcon['url'])){
-			$getPriceIcon .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','tpgb').'"></object>';
+			$getPriceIcon .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 		}
 	$getPriceIcon .= '</div>';
 		

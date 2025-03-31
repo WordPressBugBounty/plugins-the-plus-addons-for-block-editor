@@ -105,7 +105,7 @@ function tpgb_tp_datatable_callback( $attributes, $content) {
                                 $TrColumnSpan = (!empty($item['TrColumnSpan'])) ? $item['TrColumnSpan'] : 1;
                                 $TrRowSpan = (!empty($item['TrRowSpan'])) ? $item['TrRowSpan'] : 1;
                                 $Tag = (!empty($item['TrHeading']) && $item['TrHeading'] == 'th') ? $item['TrHeading'] : 'td';
-                                $Btntx = (!empty($item['Trbtntext']) ? $item['Trbtntext'] : __('Click Here','tpgb') );
+                                $Btntx = (!empty($item['Trbtntext']) ? $item['Trbtntext'] : __('Click Here','the-plus-addons-for-block-editor') );
                                 $Btnlink = (!empty($item['TrbtnLink']) && !empty($item['TrbtnLink']['url'])) ? 'href="'.esc_url($item['TrbtnLink']['url']).'"' : '';
                                 $target = ( !empty($item['TrbtnLink']['target'])) ? 'target="_blank"' : '';
 				                $nofollow = (!empty($item['TrbtnLink']['nofollow'])) ? 'rel="nofollow"' : '';
@@ -415,18 +415,18 @@ function tpgb_tp_datatable_render() {
                 ],
             ],
             'default' => [ 
-                ['_key'=> '0','trAction'=>'row', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '1','trAction'=>'cell','trtext'=>'Sample #1', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '2','trAction'=>'cell','trtext'=>'Row 1, Content 1', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '3','trAction'=>'cell','trtext'=>'Row 1, Content 2', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '4','trAction'=>'row', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '5','trAction'=>'cell','trtext'=>'Sample #2', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '6','trAction'=>'cell','trtext'=>'Row 2, Content 1', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '7','trAction'=>'cell','trtext'=>'Row 2, Content 2', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '8','trAction'=>'row', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '9','trAction'=>'cell','trtext'=>'Sample #3', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '10','trAction'=>'cell','trtext'=>'Row 3, Content 1', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
-                ['_key'=> '11','trAction'=>'cell','trtext'=>'Row 3, Content 2', 'TrLink' => [ 'url' => '' ], 'TrbtnLink' => [ 'url' => '' ]],
+                ['_key'=> '0','trAction'=>'row', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '1','trAction'=>'cell','trtext'=>'Sample #1', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '2','trAction'=>'cell','trtext'=>'Row 1, Content 1', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '3','trAction'=>'cell','trtext'=>'Row 1, Content 2', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '4','trAction'=>'row', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '5','trAction'=>'cell','trtext'=>'Sample #2', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '6','trAction'=>'cell','trtext'=>'Row 2, Content 1', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '7','trAction'=>'cell','trtext'=>'Row 2, Content 2', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '8','trAction'=>'row', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '9','trAction'=>'cell','trtext'=>'Sample #3', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '10','trAction'=>'cell','trtext'=>'Row 3, Content 1', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '11','trAction'=>'cell','trtext'=>'Row 3, Content 2', 'TrLink' => [ 'url' => '' ]],
             ],
         ], 
 

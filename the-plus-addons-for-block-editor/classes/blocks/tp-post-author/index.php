@@ -27,11 +27,11 @@ function tpgb_tp_post_author_render_callback( $attr, $content) {
 		$author_bio =  get_the_author_meta('user_description',$post->post_author);
 		if( !empty( $ShowName ) ){
 			$author_name = get_the_author_meta('display_name', $post->post_author);
-			$outputname .='<a href="'.esc_url($author_page_url).'" class="author-name tpgb-trans-linear" rel="'.esc_attr__('author','tpgb').'" >'.wp_kses_post($titleLabel).esc_html($author_name).'</a>';
+			$outputname .='<a href="'.esc_url($author_page_url).'" class="author-name tpgb-trans-linear" rel="'.esc_attr__('author','the-plus-addons-for-block-editor').'" >'.wp_kses_post($titleLabel).esc_html($author_name).'</a>';
 		}
 		if(!empty($ShowAvatar)){
 			$author_name = get_the_author_meta('display_name', $post->post_author);
-			$outputavatar .= '<a href="'.esc_url($author_page_url).'" rel="'.esc_attr__('author','tpgb').'" aria-label="'.esc_attr($author_name).'" class="author-avatar tpgb-trans-linear">'.get_avatar( get_the_author_meta('email',$post->post_author), 130 ).'</a>';
+			$outputavatar .= '<a href="'.esc_url($author_page_url).'" rel="'.esc_attr__('author','the-plus-addons-for-block-editor').'" aria-label="'.esc_attr($author_name).'" class="author-avatar tpgb-trans-linear">'.get_avatar( get_the_author_meta('email',$post->post_author), 130 ).'</a>';
 		}
 		if(!empty($ShowBio)){
 			$outputbio .= '<div class="author-bio tpgb-trans-linear" >'.esc_html($author_bio).'</div>';
@@ -51,19 +51,19 @@ function tpgb_tp_post_author_render_callback( $attr, $content) {
 			$author_instagram = get_the_author_meta('author_instagram', $post->post_author);
 			$authorsocial .= '<div class="author-social">';
 				if(!empty($author_website)){
-					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_website).'" aria-label="'.esc_attr__("website","tpgb").'" target="_blank"><i class="fas fa-globe-asia"></i></a></div>';
+					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_website).'" aria-label="'.esc_attr__("website",'the-plus-addons-for-block-editor').'" target="_blank"><i class="fas fa-globe-asia"></i></a></div>';
 				}
 				if(!empty($author_email)){
-					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="mailto:'.sanitize_email($author_email).'" aria-label="'.esc_attr__("Email","tpgb").'" target="_blank"><i class="fas fa-envelope"></i></a></div>';
+					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="mailto:'.sanitize_email($author_email).'" aria-label="'.esc_attr__("Email",'the-plus-addons-for-block-editor').'" target="_blank"><i class="fas fa-envelope"></i></a></div>';
 				}
 				if(!empty($author_facebook)){
-					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_facebook).'" aria-label="'.esc_attr__("facebook","tpgb").'" target="_blank"><i class="fab fa-facebook-f"></i></a></div>';
+					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_facebook).'" aria-label="'.esc_attr__("facebook",'the-plus-addons-for-block-editor').'" target="_blank"><i class="fab fa-facebook-f"></i></a></div>';
 				}
 				if(!empty($author_twitter)){
-					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_twitter).'" aria-label="'.esc_attr__("twitter","tpgb").'" target="_blank"><i class="fab fa-twitter" ></i></a></div>';
+					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_twitter).'" aria-label="'.esc_attr__("twitter",'the-plus-addons-for-block-editor').'" target="_blank"><i class="fab fa-twitter" ></i></a></div>';
 				}
 				if(!empty($author_instagram)){
-					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_instagram).'" aria-label="'.esc_attr__("instagram","tpgb").'" target="_blank"><i class="fab fa-instagram"></i></a></div>';
+					$authorsocial .= '<div class="tpgb-author-social-list" ><a href="'.esc_url($author_instagram).'" aria-label="'.esc_attr__("instagram",'the-plus-addons-for-block-editor').'" target="_blank"><i class="fab fa-instagram"></i></a></div>';
 				}
 			$authorsocial .='</div>';
 		}

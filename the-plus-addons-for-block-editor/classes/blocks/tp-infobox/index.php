@@ -66,7 +66,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 	}
 	
 	$imgSrc ='';
-	$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Info Box','tpgb'));
+	$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Info Box','the-plus-addons-for-block-editor'));
 	if(!empty($imageName) && !empty($imageName['id'])){
 		$imgSrc = wp_get_attachment_image($imageName['id'] , $imageSize, false, ['class' => 'service-icon tpgb-trans-linear', 'alt'=> $altText]);
 	}else if(!empty($imageName['url'])){
@@ -126,7 +126,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 					$getIcon .= $imgSrc;
 				}else if($iconType=='svg' && !empty($svgIcon) && !empty($svgIcon['url'])){
 					$getIcon .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-'.esc_attr($block_id).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-fillEnable="yes">';
-						$getIcon .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','tpgb').'"></object>';
+						$getIcon .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 					$getIcon .= '</div>';
 				}
 				$getIcon .='</div>';
@@ -425,7 +425,7 @@ function tpgb_getCInfobox($attributes){
 			$imgCSrc ='';
 			$imageName = (!empty($item['imageName']['url'])) ? $item['imageName'] : '';
 			$imageSize = (!empty($item['imageSize'])) ? $item['imageSize'] : 'full';
-			$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Info Box','tpgb'));
+			$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Info Box','the-plus-addons-for-block-editor'));
 			if(!empty($imageName) && !empty($imageName['id'])){
 				$imgCSrc = wp_get_attachment_image($imageName['id'] , $imageSize, false, ['class' => 'service-icon tpgb-trans-linear', 'alt'=> $altText]);
 			}else if(!empty($imageName['url'])){
@@ -446,7 +446,7 @@ function tpgb_getCInfobox($attributes){
 							$getCIcon .= $imgCSrc;
 						}else if($item['iconType']=='svg' && !empty($item['svgIcon']) && !empty($item['svgIcon']['url'])){
 							$getCIcon .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-'.esc_attr($item['_key']).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-fillEnable="yes">';
-								$getCIcon .= '<object id="service-svg-'.esc_attr($item['_key']).'" class="info-box-svg" type="image/svg+xml" data="'.esc_url($item['svgIcon']['url']).'" aria-label="'.esc_attr__('icon','tpgb').'"></object>';
+								$getCIcon .= '<object id="service-svg-'.esc_attr($item['_key']).'" class="info-box-svg" type="image/svg+xml" data="'.esc_url($item['svgIcon']['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 							$getCIcon .= '</div>';
 						}
 					$getCIcon .='</div>';

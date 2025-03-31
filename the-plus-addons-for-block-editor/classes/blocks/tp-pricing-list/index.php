@@ -21,7 +21,7 @@ function tpgb_pricing_list( $attributes, $content) {
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	
 	$imgSrc = '';
-	$altText = (isset($imageField['alt']) && !empty($imageField['alt'])) ? esc_attr($imageField['alt']) : ((!empty($imageField['title'])) ? esc_attr($imageField['title']) : esc_attr__('Food Item','tpgb'));
+	$altText = (isset($imageField['alt']) && !empty($imageField['alt'])) ? esc_attr($imageField['alt']) : ((!empty($imageField['title'])) ? esc_attr($imageField['title']) : esc_attr__('Food Item','the-plus-addons-for-block-editor'));
 
 	if(!empty($imageField) && !empty($imageField['id'])){
 		$imgSrc = wp_get_attachment_image($imageField['id'] , $imageSize, false, ['alt'=> $altText]);

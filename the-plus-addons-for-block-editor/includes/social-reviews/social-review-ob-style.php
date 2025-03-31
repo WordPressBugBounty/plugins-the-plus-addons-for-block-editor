@@ -19,14 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     // Username
         $UserName_HTML='';
         $UserName_HTML .= '<div class="tpgb-sr-username tpgb-trans-linear">';
-            $UserName_HTML .= '<a class="tpgb-trans-linear" href="'.esc_url($ULink).'" target="_blank" aria-label="'.esc_attr__( 'Review URL', 'tpgb' ).'">'.esc_html($UName).'</a>';
+            $UserName_HTML .= '<a class="tpgb-trans-linear" href="'.esc_url($ULink).'" target="_blank" aria-label="'.esc_attr__( 'Review URL', 'the-plus-addons-for-block-editor' ).'">'.esc_html($UName).'</a>';
         $UserName_HTML .= '</div>';
 
     // logo Image
-        $Logo_HTML = '<a href="'.esc_url($PageLink).'" target="_blank" aria-label="'.esc_attr__( 'Page URL', 'tpgb' ).'"><img class="tpgb-sr-logo" src="'.esc_url($Logo).'" alt="'.esc_html__( 'Social Logo', 'tpgb' ).'" /></a>';
+        $Logo_HTML = '<a href="'.esc_url($PageLink).'" target="_blank" aria-label="'.esc_attr__( 'Page URL', 'the-plus-addons-for-block-editor' ).'"><img class="tpgb-sr-logo" src="'.esc_url($Logo).'" alt="'.esc_html__( 'Social Logo', 'the-plus-addons-for-block-editor' ).'" /></a>';
 
     // Time
         $Time_HTML = '<div class="tpgb-sr-time tpgb-trans-linear">'.esc_html($Time).'</div>';
     
     // Profile
-        $Profile_HTML = '<img class="tpgb-sr-profile" src="'.esc_url($UImage).'" alt="'.esc_attr__( 'User Profile', 'tpgb' ).'"/>';
+        $Profile_HTML = '<img class="tpgb-sr-profile" src="'.esc_url($UImage).'" alt="'.esc_attr__( 'User Profile', 'the-plus-addons-for-block-editor' ).'"/>';

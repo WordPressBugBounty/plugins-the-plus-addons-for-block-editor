@@ -29,14 +29,8 @@ class Tpgb_Gutenberg_Settings_Options {
      */
     public function __construct() {
 		if( is_admin() ){
-			if(defined('TPGBP_VERSION')){
-				$options = get_option( 'tpgb_white_label' );
-				$this->setting_name = (!empty($options['tpgb_plugin_name'])) ? $options['tpgb_plugin_name'] : __('Nexter Blocks','the-plus-addons-for-block-editor');
-			}else{
-				$this->setting_name = esc_html__('Nexter Blocks', 'the-plus-addons-for-block-editor');
-			}
-		
-			$this->block_listout();
+            
+            add_action('init', [$this, 'nexter_block_init']);
 		
 			add_action( 'wp_ajax_tpgb_blocks_opts_save', array( $this,'tpgb_blocks_opts_save_action') );
 			add_action( 'wp_ajax_tpgb_connection_data_save', array( $this,'tpgb_connection_data_save_action') );
@@ -68,6 +62,22 @@ class Tpgb_Gutenberg_Settings_Options {
 			
 		}
 		
+    }
+
+    /**
+     * Initiate Nexter Block
+     * @since 4.2.0
+     */
+
+    public function nexter_block_init(){
+        if(defined('TPGBP_VERSION')){
+            $options = get_option( 'tpgb_white_label' );
+            $this->setting_name = (!empty($options['tpgb_plugin_name'])) ? $options['tpgb_plugin_name'] : __('Nexter Blocks','the-plus-addons-for-block-editor');
+        }else{
+            $this->setting_name = esc_html__('Nexter Blocks', 'the-plus-addons-for-block-editor');
+        }
+
+        $this->block_listout();
     }
 
 	/**
@@ -870,6 +880,15 @@ class Tpgb_Gutenberg_Settings_Options {
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['flipbox', 'flip box', 'flip', 'flip image', 'flip card', 'action box', 'flipbox 3D', 'card'],
 			],
+            'tp-form-block' => [
+                'label' => esc_html__('Form', 'tpgb'),
+                'demoUrl' => '#',
+                'docUrl' => '',
+                'videoUrl' => '',
+                'tag' => 'freemium',
+                'block_cate' => esc_html__('Essential', 'tpgb'),
+                'keyword' => ['forms' , 'contact Form' , 'marketing']
+            ],
 			'tp-google-map' => [
 				'label' => esc_html__('Google Map','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-google-maps/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
@@ -1385,6 +1404,13 @@ class Tpgb_Gutenberg_Settings_Options {
 		];
 	
 		$this->block_extra = [
+            'tp-global-block-style' => [
+				'label' => esc_html__('Global Block Style', 'the-plus-addons-for-block-editor'),
+				'demoUrl' => '',
+				'videoUrl' => '',
+				'tag' => 'free',
+				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
+			],
 			'tp-advanced-border-radius' => [
 				'label' => esc_html__('Advanced Border Radius', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-advanced-border-radius/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',

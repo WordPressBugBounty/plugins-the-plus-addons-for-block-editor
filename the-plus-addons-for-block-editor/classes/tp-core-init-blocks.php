@@ -133,7 +133,7 @@ class Tpgb_Core_Init_Blocks {
 			array(
 				array(
 					'slug'  => TPGB_CATEGORY,
-					'title' => __( 'Nexter Blocks', 'the-plus-addons-for-block-editor' ),
+					'title' => __( 'Nexter Blocks', 'the-plus-addons-for-block-editor'),
 				),
 			),
 			$categories
@@ -521,7 +521,12 @@ class Tpgb_Core_Init_Blocks {
 			$plus_settings = get_option($this->tpgb_global);
 
 			$plus_settings = ($plus_settings == false) ? json_decode('{}') : json_decode($plus_settings);
-			return ['success' => true, 'settings' => $plus_settings];
+
+			$tpgb_save_global_style = get_option('tpgb-block-global-style');
+			
+			$tpgb_save_global_style = ($tpgb_save_global_style == false) ? json_decode('{}') : json_decode($tpgb_save_global_style);
+
+			return [ 'success' => true, 'settings' => $plus_settings, 'block_global_style' => $tpgb_save_global_style ];
 		} catch (Exception $e) {
 			return ['success' => false, 'message' => $e->getMessage()];
 		}
@@ -563,15 +568,23 @@ class Tpgb_Core_Init_Blocks {
 	public function tpgb_update_global_settings($request) {
 		try {
 			$params = $request->get_params();
-			if (!isset($params['settings']))
+			if (isset($params['settings'])){
+				$plus_settings = $params['settings'];
+
+				if (get_option($this->tpgb_global) == false) {
+					add_option($this->tpgb_global, $plus_settings);
+				} else {
+					update_option($this->tpgb_global, $plus_settings);
+				}
+			}else if (isset($params['block_global_style'])){
+				$global_style = $params['block_global_style'];
+				if (get_option('tpgb-block-global-style') == false) {
+					add_option('tpgb-block-global-style', $global_style);
+				} else {
+					update_option('tpgb-block-global-style', $global_style);
+				}
+			}else{
 				throw new Exception( __("Settings parameter is missing!",'the-plus-addons-for-block-editor') );
-
-			$plus_settings = $params['settings'];
-
-			if (get_option($this->tpgb_global) == false) {
-				add_option($this->tpgb_global, $plus_settings);
-			} else {
-				update_option($this->tpgb_global, $plus_settings);
 			}
 
 			return ['success' => true, 'message' => __("Nexter Global settings updated!",'the-plus-addons-for-block-editor') ];
@@ -1050,13 +1063,12 @@ class Tpgb_Core_Init_Blocks {
 			}
 		}
 
-        // kadence Plugin Compatibility
-        if ( ! ( is_admin() || is_singular( 'kadence_element' ) || is_singular( 'kadence_wootemplate' ) ) ) {
+		// kadence Plugin Compatibility
+		if ( ! ( is_admin() || is_singular( 'kadence_element' ) || is_singular( 'kadence_wootemplate' ) ) ) {
             if ( class_exists('Kadence_Pro') || class_exists('Kadence_Pro\Elements_Controller') || class_exists('Kadence_Pro\Elements_Post_Type_Controller') ) {
                 require_once TPGB_PATH . 'classes/extras/compatibility/class-kadence-theme.php';
             }
         }
-
 	}
 
 	/*
@@ -1252,7 +1264,7 @@ class Tpgb_Core_Init_Blocks {
 				$post_meta['get_modified_date'] = $date_modi;
 			}
 
-			get_the_category_list( __( ', ', 'the-plus-addons-for-block-editor' ), '', $obj['id'] );
+			get_the_category_list( __( ', ', 'the-plus-addons-for-block-editor'), '', $obj['id'] );
 			$post_type = isset($obj['type']) ? $obj['type'] : '';
 			$taxonomies_list = $this->tpgb_get_taxnomy_terms( $post_type );
 			if(!empty($taxonomies_list)){
@@ -1312,7 +1324,7 @@ class Tpgb_Core_Init_Blocks {
 						if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 							$render_list = '';
 							foreach ( $terms as $term ) {
-								$render_list .= '<a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( sprintf( __( '%s', 'the-plus-addons-for-block-editor' ), $term->name ) ) . '" class="'.esc_attr($value).'-'.esc_attr($term->slug). '">' . $term->name . '</a> ';
+								$render_list .= '<a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( sprintf( __( '%s', 'the-plus-addons-for-block-editor'), $term->name ) ) . '" class="'.esc_attr($value).'-'.esc_attr($term->slug). '">' . $term->name . '</a> ';
 							}
 							$meta_list[$value] = $render_list;
 						}

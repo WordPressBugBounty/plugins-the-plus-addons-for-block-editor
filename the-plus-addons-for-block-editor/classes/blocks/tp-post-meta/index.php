@@ -1019,7 +1019,7 @@ add_action( 'init', 'tpgb_post_meta_content' );
 
 if ( ! function_exists( 'tpgb_get_word_count_type' ) ) {
 	function tpgb_get_word_count_type() {
-		$word_count_type = _x( 'words', 'Word count type. Do not translate!', 'the-plus-addons-for-block-editor' );
+		$word_count_type = _x( 'words', 'Word count type. Do not translate!', 'the-plus-addons-for-block-editor');
 
 		if ( 'characters_excluding_spaces' !== $word_count_type && 'characters_including_spaces' !== $word_count_type ) {
 			$word_count_type = 'words';

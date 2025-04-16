@@ -225,6 +225,8 @@
       },
       "title": {
         "type": "string",
+        "source": "html",
+        "selector": ".service-title",
         "default": "Special Feature"
       },
       "iconType": {
@@ -253,6 +255,8 @@
       },
       "description": {
         "type": "string",
+        "source": "html",
+        "selector": ".service-desc",
         "default": "Lookout flogging bilge rat main sheet bilge water nipper fluke to go on account heave down clap of thunder. Reef sails six pounders skysail code of conduct sloop cog Yellow Jack gunwalls grog blossom starboard."
       },
       "backBtn": {
@@ -265,6 +269,8 @@
       },
       "btnText": {
         "type": "string",
+        "source": "html",
+        "selector": ".btn-text",
         "default": "Read more"
       },
       "btnUrl": {

@@ -1371,6 +1371,14 @@ function tpgb_tp_container_row() {
 				],
 				'scopy' => true,
 			],
+            'saveGlobalStyle' => [
+				'type' => 'string',
+				'default' => '',
+			],
+			'saveGlobalStyleClass' => [
+				'type' => 'string',
+				'default' => '',
+			],
  		];
 		
 	$attributesOptions = array_merge( $attributesOptions, $displayRules );

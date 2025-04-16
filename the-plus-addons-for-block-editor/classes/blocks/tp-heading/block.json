@@ -19,7 +19,9 @@
             "default": ""
         },
         "title": {
-            "type": "string",
+            "type" :"string",
+            "source": "html",
+            "selector": ".tp-core-heading",
             "default": "Add Your Heading Text Here"
         },
         "tLink": {

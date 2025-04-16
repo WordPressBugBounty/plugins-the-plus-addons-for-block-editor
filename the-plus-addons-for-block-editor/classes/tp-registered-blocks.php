@@ -590,6 +590,14 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'classes/blocks/tp-flipbox/style.css',
 			],
 		],
+        TPGB_CATEGORY.'/tp-form-block' => [
+            'css' => [
+                $tpgb_free .'classes/blocks/tp-form-block/style.css',
+            ],
+            'js' => [
+                $tpgb_free . 'assets/js/main/form-block/tpgb-form-block.min.js',
+            ],
+        ],
 		TPGB_CATEGORY.'/tp-google-map' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-google-map/style.css',
@@ -1240,6 +1248,7 @@ Class Tpgb_Library {
 			TPGB_CATEGORY.'/tp-empty-space' => TPGB_CATEGORY.'/tp-empty-space',
 			TPGB_CATEGORY.'/tp-external-form-styler' => TPGB_CATEGORY.'/tp-external-form-styler',
 			TPGB_CATEGORY.'/tp-flipbox' => TPGB_CATEGORY.'/tp-flipbox',
+            TPGB_CATEGORY.'/tp-form-block' => TPGB_CATEGORY.'/tp-form-block',
 			TPGB_CATEGORY.'/tp-google-map' => TPGB_CATEGORY.'/tp-google-map',
 			TPGB_CATEGORY.'/tp-heading' => TPGB_CATEGORY.'/tp-heading',
 			TPGB_CATEGORY.'/tp-heading-title' => TPGB_CATEGORY.'/tp-heading-title',
@@ -2378,6 +2387,7 @@ Class Tpgb_Library {
 		//fontawesome icon load frontend
 		$fontawesome_load = Tp_Blocks_Helper::get_extra_option('fontawesome_load');
 		$fontawesome_pro = Tp_Blocks_Helper::get_extra_option('fontawesome_pro_kit');
+        $global_block_style = Tp_Blocks_Helper::get_extra_opt_enabled();
 		if((empty($fontawesome_load) || $fontawesome_load=='enable' || empty($fontawesome_pro) || !defined('TPGBP_VERSION')) && $fontawesome_load!='disable'){
 			wp_enqueue_style('tpgb-fontawesome', TPGB_URL.'assets/css/extra/fontawesome.min.css', array() , TPGB_VERSION);
 		}
@@ -2385,7 +2395,7 @@ Class Tpgb_Library {
 		$check_gfontandcss_load = get_option( 'tpgb_connection_data' );
 
 		/** Disable Global CSS Here */
-		if(!empty($check_gfontandcss_load) && isset($check_gfontandcss_load['gbl_css']) && $check_gfontandcss_load['gbl_css']==='disable'){
+		if(!empty($check_gfontandcss_load) && isset($check_gfontandcss_load['gbl_css']) && $check_gfontandcss_load['gbl_css']==='disable' && !empty($global_block_style) && !in_array('tp-global-block-style', $global_block_style)){
 			return;
 		}
 		
@@ -2507,14 +2517,14 @@ Class Tpgb_Library {
 					'meta'	=> array(
 						'class' => 'tpda-purge-clear',
 					),
-					'title' => esc_html__( 'Nexter Performance', 'the-plus-addons-for-block-editor' ),
+					'title' => esc_html__( 'Nexter Performance', 'the-plus-addons-for-block-editor'),
 				] );
 				
 				//Child Item
 				$args = array();
 				array_push($args,array(
 					'id'		=>	'tpda-purge-all-pages',
-					'title'		=>	esc_html__( 'Purge All Pages', 'the-plus-addons-for-block-editor' ),
+					'title'		=>	esc_html__( 'Purge All Pages', 'the-plus-addons-for-block-editor'),
 					'href'		=> 	'#tpda-clear-gutenberg-all',
 					'parent'	=>	'tpda-purge-clear',
 					'meta'   	=> 	array( 'class' => 'tpda-purge-all-pages' ),
@@ -2522,7 +2532,7 @@ Class Tpgb_Library {
 
 				array_push($args,array(
 					'id'     	=>	'tpda-purge-current-page',
-					'title'		=>	esc_html__( 'Purge Current Page', 'the-plus-addons-for-block-editor' ),
+					'title'		=>	esc_html__( 'Purge Current Page', 'the-plus-addons-for-block-editor'),
 					'href'		=>	'#tpda-clear-theplus-' . self::$tpgb_post_type . '-' . self::$tpgb_post_id,
 					'parent' 	=>	'tpda-purge-clear',
 					'meta'   	=>	array( 'class' => 'tpda-purge-current-page' ),
@@ -2540,7 +2550,7 @@ Class Tpgb_Library {
 					'meta'	=> array(
 						'class' => 'tpgb_edit_template',
 					),
-					'title' => esc_html__( 'Edit Template', 'the-plus-addons-for-block-editor' ),
+					'title' => esc_html__( 'Edit Template', 'the-plus-addons-for-block-editor'),
 				] );
 			}
 		}
@@ -2781,12 +2791,11 @@ Class Tpgb_Library {
 					LiteSpeed_Cache_API::purge_all();
 				}
 
-                //berqCache All cache
+				//berqCache All cache
 				if (class_exists('berqCache') && method_exists('berqCache', 'delete_cache_files')) {
 					$berqCache = new berqCache();
 					$berqCache->delete_cache_files();
 				}
-
 
 				// W3 Total Cache.
 				if ( function_exists( 'w3tc_flush_all' ) ) {
@@ -3154,9 +3163,9 @@ Class Tpgb_Library {
 		add_action('wp_footer', array($this, 'generate_scripts_frontend')); //wp_print_footer_scripts
 
 		add_action( 'save_post', array($this,'plus_post_save_transient'), 10,3 );
-		
-		add_action('wp', [$this, 'init_post_request_data']);
-
+		if(!is_admin()){
+			add_action('wp', [$this, 'init_post_request_data']);
+		}
 		if($this->get_caching_option() != 'separate'){
 			add_action( 'admin_bar_menu', [ $this, 'add_tpgb_clear_cache_admin_bar' ], 300 );
 			add_action('wp_ajax_tpda_purge_current_clear', array($this, 'tpgb_current_page_clear_cache'));
@@ -3168,8 +3177,9 @@ Class Tpgb_Library {
 			add_action('wp_ajax_tpgb_all_dynamic_clear_style', array($this, 'tpgb_dynamic_style_cache'));
 			add_action('wp_ajax_tpgb_backend_clear_cache', array($this, 'tpgb_backend_clear_cache'));
 		}
-		
-		add_action('wp', [$this, 'header_init_css_js'], 10, 2);
+		if(!is_admin()){
+			add_action('wp', [$this, 'header_init_css_js'], 10, 2);
+		}
 		if(!is_admin() && $this->get_defer_css_js()){
 			add_filter( 'style_loader_tag', [$this, 'tpgb_onload_style_css'], 10, 4 );
 			add_filter( 'script_loader_tag', [$this,'tpgb_onload_defer_js'], 10, 2 );

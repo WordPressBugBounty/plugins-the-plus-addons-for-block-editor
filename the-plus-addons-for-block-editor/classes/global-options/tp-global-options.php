@@ -23,10 +23,12 @@ class Tpgb_Blocks_Global_Options {
 	 */
 	private static $instance;
 	
-    public static $merge_options = array();
-    public static $global_options = array();
-    public static $global_pro_opt = array();
+	public static $merge_options = array();
 
+	public static $global_options = array();
+
+	public static $global_pro_opt = array();
+	
 	/**
 	 *  Initiator
 	 */
@@ -315,6 +317,14 @@ class Tpgb_Blocks_Global_Options {
 			return;
 		}
 		$options = [
+			'saveGlobalStyle' => [
+				'type' => 'string',
+				'default' => '',
+			],
+			'saveGlobalStyleClass' => [
+				'type' => 'string',
+				'default' => '',
+			],
 			'globalMargin' => [
 				'type' => 'object',
 				'default' => (object) [ 
@@ -1532,7 +1542,6 @@ class Tpgb_Blocks_Global_Options {
 	 * Merge Attributes Options Block JSON
 	 * @since V4.0.0
 	 * */
-    
 	public static function merge_options_json($block_path= '', $render_callback = '', $adv_opt = true, $carousel_opt = false, $plus_button = false){
 
 		if(empty($block_path)){

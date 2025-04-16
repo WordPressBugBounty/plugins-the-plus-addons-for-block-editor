@@ -18,7 +18,8 @@
       "default": ""
     },
     "btxt": {
-      "type": "string",
+      "source": "html",
+      "selector": ".tpgb-btn-txt",
       "default": "Click Here"
     },
     "bLink": {

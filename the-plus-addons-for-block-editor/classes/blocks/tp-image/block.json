@@ -31,6 +31,8 @@
     },
     "ctmCap": {
       "type": "string",
+      "source": "html",
+      "selector": ".tpgb-image-caption",
       "default": ""
     },
     "tiLink": {

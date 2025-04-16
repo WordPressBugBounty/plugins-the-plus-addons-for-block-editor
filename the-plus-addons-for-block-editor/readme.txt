@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.7.2
-Stable tag: 4.1.8
+Stable tag: 4.2.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -503,6 +503,20 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+= 4.2.0 = 16 April 2025
+- Added : Global Block Style : All Blocks 
+- Added : Form Block 
+- Improvement : Tab Tours : Enhance inline editing for the Tab Heading.
+- Improvement : Switcher  : Enhance inline editing for the Heading.
+- Improvement : Team Listing : Enhance inline editing for the Title.
+- Improvement : Site Logo : Allow users to upload a logo directly from the editor.
+- Compatibility : WPML : Button Core Translate Block
+- Compatibility : WPML : Flip Box Translate Block
+- Compatibility : WPML : Heading Translate Block
+- Compatibility : WPML : Image Core Translate Block
+- Compatibility : WPML : Pro Paragraph Translate Block
+- Minor Bugs and Improvements.
+
 = 4.1.8 = 31 March 2025
 - Added : Added : Tab Tours : Tab Column & Tab Column Padding Option Added.
 - Added : Video Block :  Add the playinline attribute to enable autoplay for video on iOS devices.

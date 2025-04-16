@@ -7,6 +7,16 @@ defined( 'ABSPATH' ) || exit;
 function tpgb_tp_infobox_render_callback( $attributes, $content) {
 	$output = '';
     $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
+	
+	// $pattern = '/\btpgb-block-'.esc_attr($block_id).'/';
+	// if (preg_match($pattern, $content)) {
+	// 	if( class_exists('Tpgb_Blocks_Global_Options') ){
+    //         $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
+    //         $content = $global_blocks::block_row_conditional_render($attributes,$content);
+    //     }
+	// 	return $content;
+	// }
+
 	$layoutType = (!empty($attributes['layoutType'])) ? $attributes['layoutType'] : 'listing';
 	$styleType = (!empty($attributes['styleType'])) ? $attributes['styleType'] : 'style-1';
 	$extBtnshow = (!empty($attributes['extBtnshow'])) ? $attributes['extBtnshow'] : false ;
@@ -47,7 +57,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 	
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 
-	$count = '';
+	$count = 0;
 	$Sliderclass = $arrowCss = '';
 	$carousel_settings = '';
 	if($layoutType=='carousel'){

@@ -4890,4 +4890,6 @@ function tpgb_custom_search_filter($query) {
     }
     return $query;
 }
-add_action('pre_get_posts', 'tpgb_custom_search_filter');
+if(!is_admin()){
+	add_action('pre_get_posts', 'tpgb_custom_search_filter');
+}

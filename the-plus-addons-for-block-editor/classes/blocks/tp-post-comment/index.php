@@ -868,7 +868,7 @@ function tpgb_comment_args( $attr = []){
 	  /* translators: You must be %1$slogged in%2$s to post a comment */
 	  'must_log_in' => '<p class="must-log-in">' .
 		sprintf(
-		  esc_html__( 'You must be %1$slogged in%2$s to post a comment.', 'the-plus-addons-for-block-editor' ),
+		  esc_html__( 'You must be %1$slogged in%2$s to post a comment.', 'the-plus-addons-for-block-editor'),
 		  '<a href="'.wp_login_url( apply_filters( "the_permalink", get_permalink() ) ).'">',
 		  '</a>'
 		) . '</p>',
@@ -876,7 +876,7 @@ function tpgb_comment_args( $attr = []){
 		/* translators: %1$s%2$s. %3$s%4$s%5$s */
 	  'logged_in_as' => '<p class="logged-in-as">' .
 		sprintf(
-			wp_kses_post($loggedInAsText).esc_html__( ' %1$s%2$s. %3$s%4$s%5$s', 'the-plus-addons-for-block-editor' ),
+			wp_kses_post($loggedInAsText).esc_html__( ' %1$s%2$s. %3$s%4$s%5$s', 'the-plus-addons-for-block-editor'),
 		  '<a href="'.admin_url( "profile.php" ).'">'.$user_identity,
 		  '</a>',
 		  '<a href="'.wp_logout_url( apply_filters( 'the_permalink', get_permalink( ) ) ).'" title="'.wp_kses_post($logOutText).'">',

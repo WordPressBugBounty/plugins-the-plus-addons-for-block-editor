@@ -1,4 +1,12 @@
 {
+    "saveGlobalStyle": {
+        "type": "string",
+        "default": ""
+    },
+    "saveGlobalStyleClass": {
+        "type": "string",
+        "default": ""
+    },
     "globalMargin": {
         "type": "object",
         "default": {

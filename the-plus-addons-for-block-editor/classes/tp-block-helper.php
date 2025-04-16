@@ -61,6 +61,10 @@ class Tp_Blocks_Helper {
 		// Ajax For Template Content
 		add_action('wp_ajax_tpgb_get_template_content', array($this, 'tpgb_get_template_content'));
 		add_action('wp_ajax_nopriv_tpgb_get_template_content', array($this, 'tpgb_get_template_content'));
+
+        // Form Block AJAX Function
+        add_action('wp_ajax_nxt_form_action',  array($this, 'nxt_form_action_callback'));
+        add_action('wp_ajax_nopriv_nxt_form_action', array($this, 'nxt_form_action_callback'));
 	}
 	
 	/* Load Custom Css and Js
@@ -142,6 +146,7 @@ class Tp_Blocks_Helper {
 			'tp-empty-space' => TPGB_CATEGORY.'/tp-empty-space',
 			'tp-external-form-styler' => TPGB_CATEGORY.'/tp-external-form-styler',
 			'tp-flipbox' => TPGB_CATEGORY.'/tp-flipbox',
+            'tp-form-block' => TPGB_CATEGORY.'/tp-form-block',
 			'tp-google-map' => TPGB_CATEGORY.'/tp-google-map',
 			'tp-heading' => TPGB_CATEGORY.'/tp-heading',
 			'tp-heading-title' => TPGB_CATEGORY.'/tp-heading-title',
@@ -216,6 +221,29 @@ class Tp_Blocks_Helper {
 							self::$get_load_block[] = 'tp-anything-slide';
 							$this->include_block( 'tp-anything-slide' );	
 						}
+                        if (!empty($block_id) && $block_id == 'tp-form-block') {
+							$formChild = [
+                                'tp-form-block/child-blocks/nxt-name-field',
+                                'tp-form-block/child-blocks/nxt-number-field',
+                                'tp-form-block/child-blocks/nxt-email-field',
+                                'tp-form-block/child-blocks/nxt-message-field',
+                                'tp-form-block/child-blocks/nxt-submit-button',
+                                'tp-form-block/child-blocks/nxt-option-field',
+                                'tp-form-block/child-blocks/nxt-radio-button',
+                                'tp-form-block/child-blocks/nxt-checkbox-button',
+
+                                'tp-form-block/child-blocks/nxt-url-field',
+                                'tp-form-block/child-blocks/nxt-acceptance-button',
+                                'tp-form-block/child-blocks/nxt-time-field',
+                                'tp-form-block/child-blocks/nxt-date-field',
+                                'tp-form-block/child-blocks/nxt-phone-field',
+							];
+                            
+							foreach ($formChild as $block) {
+								self::$get_load_block[] = $block;
+								$this->include_block($block);
+							}
+						}
 						if ( defined('TPGBP_VERSION') ) {
 							if(!empty($block_id) && $block_id=='tp-switcher'){
 								self::$get_load_block[] = 'tp-switch-inner';
@@ -250,6 +278,27 @@ class Tp_Blocks_Helper {
 				if(!in_array('tp-tabs-tours',$enable_normal_blocks)){
 					$deactivate_block[] = 'tp-tab-item';
 				}
+                if (!in_array('tp-form-block', $enable_normal_blocks)) {
+					$formChild = [
+						'tp-form-block/child-blocks/nxt-name-field',
+                        'tp-form-block/child-blocks/nxt-number-field',
+                        'tp-form-block/child-blocks/nxt-email-field',
+                        'tp-form-block/child-blocks/nxt-message-field',
+                        'tp-form-block/child-blocks/nxt-submit-button',
+                        'tp-form-block/child-blocks/nxt-option-field',
+                        'tp-form-block/child-blocks/nxt-radio-button',
+                        'tp-form-block/child-blocks/nxt-checkbox-button',
+
+                        'tp-form-block/child-blocks/nxt-url-field',
+                        'tp-form-block/child-blocks/nxt-acceptance-button',
+                        'tp-form-block/child-blocks/nxt-time-field',
+                        'tp-form-block/child-blocks/nxt-date-field',
+                        'tp-form-block/child-blocks/nxt-phone-field',
+					];
+					foreach ($formChild as $block) {
+						$deactivate_block[] = $block;
+					}
+				}
 				if ( defined('TPGBP_VERSION') ) {
 					if(!in_array('tp-switcher',$enable_normal_blocks)){
 						$deactivate_block[] = 'tp-switch-inner';
@@ -276,6 +325,27 @@ class Tp_Blocks_Helper {
 					}
 					if(!empty($block_id) && $block_id=='tp-anything-carousel'){
 						self::$get_block_deactivate[] = 'tp-anything-slide';
+					}
+                    if (!empty($block_id) && $block_id == 'tp-form-block') {
+						$formChild = [
+							'tp-form-block/child-blocks/nxt-name-field',
+                            'tp-form-block/child-blocks/nxt-number-field',
+                            'tp-form-block/child-blocks/nxt-email-field',
+                            'tp-form-block/child-blocks/nxt-message-field',
+                            'tp-form-block/child-blocks/nxt-submit-button',
+                            'tp-form-block/child-blocks/nxt-option-field',
+                            'tp-form-block/child-blocks/nxt-radio-button',
+                            'tp-form-block/child-blocks/nxt-checkbox-button',
+
+                            'tp-form-block/child-blocks/nxt-url-field',
+                            'tp-form-block/child-blocks/nxt-acceptance-button',
+                            'tp-form-block/child-blocks/nxt-time-field',
+                            'tp-form-block/child-blocks/nxt-date-field',
+                            'tp-form-block/child-blocks/nxt-phone-field',
+						];
+						foreach ($formChild as $block) {
+							self::$get_block_deactivate[] = $block;
+						}
 					}
 					if ( defined('TPGBP_VERSION') ) {
 						if(!empty($block_id) && $block_id=='tp-switcher'){
@@ -369,7 +439,7 @@ class Tp_Blocks_Helper {
 		$sizes       = get_intermediate_image_sizes();
 		$image_sizes = array();
 
-		$image_sizes[] = [ 'full', esc_html__( 'Full', 'the-plus-addons-for-block-editor' ) ];
+		$image_sizes[] = [ 'full', esc_html__( 'Full', 'the-plus-addons-for-block-editor') ];
 
 		foreach ( $sizes as $size ) {
 			if ( in_array( $size, array( 'thumbnail', 'medium', 'medium_large', 'large' ) ) ) {
@@ -426,7 +496,7 @@ class Tp_Blocks_Helper {
 		$everest_form = array();
 		$ev_form = get_posts('post_type="everest_form"&numberposts=-1');
 			if ($ev_form) {
-				$everest_form[0]  = ['', esc_html__( 'Select Form', 'the-plus-addons-for-block-editor' )];
+				$everest_form[0]  = ['', esc_html__( 'Select Form', 'the-plus-addons-for-block-editor')];
 				foreach ($ev_form as $evform) {
 					$everest_form[] = [$evform->ID,$evform->post_title];
 				}
@@ -442,14 +512,14 @@ class Tp_Blocks_Helper {
 		$g_form_options = [];
 		if ( class_exists( 'GFCommon' ) ) {
 		 $gravity_forms = \RGFormsModel::get_forms( null, 'title' );
-			$g_form_options [0]  = ['', esc_html__( 'Select Form', 'the-plus-addons-for-block-editor' )];
+			$g_form_options [0]  = ['', esc_html__( 'Select Form', 'the-plus-addons-for-block-editor')];
 			if ( ! empty( $gravity_forms ) && ! is_wp_error( $gravity_forms ) ) {
 				foreach ( $gravity_forms as $form ) {   
 					$g_form_options[] = [$form->id,$form->title];
 				}
 			}
 		} else {
-			$g_form_options [0]  = ['', esc_html__( 'Form Not Found!', 'the-plus-addons-for-block-editor' ) ];
+			$g_form_options [0]  = ['', esc_html__( 'Form Not Found!', 'the-plus-addons-for-block-editor') ];
 		}
 		return $g_form_options;
 	}
@@ -461,14 +531,14 @@ class Tp_Blocks_Helper {
         if ( class_exists( 'Ninja_Forms' ) ) {
             $contact_forms = Ninja_Forms()->form()->get_forms();
             if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
-                $options[0]  = ['', esc_html__( 'Select Ninja Form', 'the-plus-addons-for-block-editor' )];
+                $options[0]  = ['', esc_html__( 'Select Ninja Form', 'the-plus-addons-for-block-editor')];
                 foreach ( $contact_forms as $form ) {   
                     //$options[ $form->get_id() ] = $form->get_setting( 'title' );
 					$options[] = [$form->get_id(),$form->get_setting( 'title' )];
                 }
             }
         } else {
-            $options[0] = ['', esc_html__( 'Create a Form First', 'the-plus-addons-for-block-editor' )];
+            $options[0] = ['', esc_html__( 'Create a Form First', 'the-plus-addons-for-block-editor')];
         }
         return $options;
     }
@@ -484,14 +554,14 @@ class Tp_Blocks_Helper {
             );
             $contact_forms = get_posts( $args );
             if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
-                $options[0] = ['', esc_html__( 'Select a WPForm', 'the-plus-addons-for-block-editor' )];
+                $options[0] = ['', esc_html__( 'Select a WPForm', 'the-plus-addons-for-block-editor')];
                 foreach ( $contact_forms as $post ) {   
                     //$options[ $post->ID ] = $post->post_title;
 					$options[] = [$post->ID,$post->post_title];
                 }
             }
         } else {
-            $options[0] = ['', esc_html__( 'Create a Form First', 'the-plus-addons-for-block-editor' )];
+            $options[0] = ['', esc_html__( 'Create a Form First', 'the-plus-addons-for-block-editor')];
         }
         return $options;
     }
@@ -1149,12 +1219,16 @@ class Tp_Blocks_Helper {
 	public static function block_wrapper_classes( $attr ){
 		$className = (!empty($attr['className'])) ? $attr['className'] :'';
 		$align = (!empty($attr['align'])) ? $attr['align'] :'';
-		
+		$saveGlobalStyleClass = (isset($attr['saveGlobalStyleClass']) && !empty($attr['saveGlobalStyleClass'])) ? $attr['saveGlobalStyleClass'] :'';
+
 		$blockClass = '';
 		if(!empty($className)){
 			$blockClass .= $className;
 		}
 		
+		if(!empty($saveGlobalStyleClass)){
+			$blockClass .= ' tpgb-block-'.$saveGlobalStyleClass;
+		}
 		
 		if( isset($attr['contwidFull']) && !empty($attr['contwidFull']) && $attr['contwidFull'] == 'full' ){
 			$blockClass .= ' alignfull';
@@ -1378,7 +1452,7 @@ class Tp_Blocks_Helper {
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_send_json_error(
-				__( 'Not a Valid', 'the-plus-addons-for-block-editor' ),
+				__( 'Not a Valid', 'the-plus-addons-for-block-editor'),
 				403
 			);
 		}
@@ -1386,7 +1460,7 @@ class Tp_Blocks_Helper {
 		$media_import = isset( $_POST['content'] ) ? wp_unslash( $_POST['content'] ) : '';
 		
 		if ( empty( $media_import ) ) {
-			wp_send_json_error( __( 'Empty Content.', 'the-plus-addons-for-block-editor' ) );
+			wp_send_json_error( __( 'Empty Content.', 'the-plus-addons-for-block-editor') );
 		}
 
 		$media_import = array( json_decode( $media_import, true ) );
@@ -1544,26 +1618,26 @@ class Tp_Blocks_Helper {
 			'options' => apply_filters('tpgb-custom-fonts-list', []),
 		];
 
-        /* Theme json */
-        if(function_exists('wp_get_global_settings')){
-            $theme_json_settings = wp_get_global_settings();
-        
-            if(!empty($theme_json_settings)){
-                if(isset($theme_json_settings['typography']) && !empty($theme_json_settings['typography'])){
-                    if(isset($theme_json_settings['typography']['fontFamilies']) && !empty($theme_json_settings['typography']['fontFamilies'])){
-                        foreach ($theme_json_settings['typography']['fontFamilies'] as $category => $fonts) {
-                            foreach ($fonts as $font) {
-                                $custom_fonts['options'][] = (object)[
+		/* Theme json */
+		if(function_exists('wp_get_global_settings')){
+			$theme_json_settings = wp_get_global_settings();
+		
+			if(!empty($theme_json_settings)){
+				if(isset($theme_json_settings['typography']) && !empty($theme_json_settings['typography'])){
+					if(isset($theme_json_settings['typography']['fontFamilies']) && !empty($theme_json_settings['typography']['fontFamilies'])){
+						foreach ($theme_json_settings['typography']['fontFamilies'] as $category => $fonts) {
+							foreach ($fonts as $font) {
+								$custom_fonts['options'][] = (object)[
 									'label' => str_replace('"', '', $font['name']),
 									'value' => str_replace('"', '', $font['name']),
 								];
-                            }
-                        }
+							}
+						}
 
-                    }
-                }
-            }
-        }
+					}
+				}
+			}
+		}
 
 		/*Custom Fonts*/
 		if(class_exists('Bsf_Custom_Fonts_Taxonomy')){
@@ -1853,6 +1927,156 @@ class Tp_Blocks_Helper {
 		}
 		wp_die();
 	}
+
+    /*
+	 * Form Action Ajax
+	 *	@Array
+	 */
+    public function nxt_form_action_callback() {
+        check_ajax_referer('tpgb-addons', 'nonce');
+        $response = array('success' => true, 'data' => '');
+        $actions_success = [
+            'email' => false,
+        ];
+        $errors = '';	
+        $action_option_raw = isset($_POST['actionOption']) ? $_POST['actionOption'] : '[]'; 
+        $action_option = $this->tpgb_simple_decrypt($action_option_raw,'dy');
+        $action_option = json_decode($action_option,true);
+    
+    
+        if ($action_option && $action_option['actionOption'] && $action_option['actionOption'] === 'email') { 
+            $email_to = isset($action_option['emailTo1']) && !empty($action_option['emailTo1']) ? sanitize_email($action_option['emailTo1']) : '';
+            $subject = isset($action_option['subject1']) && !empty($action_option['subject1']) ? sanitize_text_field($action_option['subject1']) : '';
+            if (!empty($email_to) && !empty($subject)) {
+                $message = isset($action_option['message1']) && !empty($action_option['message1']) ? sanitize_textarea_field($action_option['message1']) : '';
+                $from_name = isset($action_option['frmNme']) && !empty($action_option['frmNme']) ? ($action_option['frmNme'] === '[nxt_name]' ? get_option('blogname') : sanitize_text_field($action_option['frmNme'])) : '';
+                $from_email = isset($action_option['frmEmail']) && !empty($action_option['frmEmail']) ? ($action_option['frmEmail'] === '[nxt_email]' ? get_option('admin_email') : sanitize_email($action_option['frmEmail'])) : 'no-reply@example.com';
+                $reply_to = isset($action_option['replyTo']) && !empty($action_option['replyTo']) ? sanitize_email($action_option['replyTo']) : '';
+                $cc = isset($action_option['ccEmail1']) && !empty($action_option['ccEmail1']) ? sanitize_text_field($action_option['ccEmail1']) : '';
+                $bcc = isset($action_option['bccEmail1']) && !empty($action_option['bccEmail1']) ? sanitize_text_field($action_option['bccEmail1']) : '';
+                $emailHdg = isset($action_option['emailHdg']) && !empty($action_option['emailHdg']) ? sanitize_text_field($action_option['emailHdg']) : 'You have received a new form submission:';
+                $regular_fields = [];  
+                                
+                foreach ($_POST as $key => $value) {
+                    if (in_array($key, ['actionOption', 'nonce', 'Captchaopt'], true)) {
+                        continue;
+                    }
+    
+                    $formatted_key = str_replace('_', ' ', $key);
+    
+                    //validation for html
+                    if (preg_replace('/<[^>]*>/', '', $value) !== $value) {
+                        $errors .= "HTML content not allowed in $formatted_key field. ";
+                        continue;
+                    }
+                    
+                    //validation for email
+                    if (!empty($value) && is_string($value) && strpos($value, '@') !== false && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                        $field_label = ucfirst(str_replace(['_', '-'], ' ', $key));
+                        $valErrMsg = isset($action_option['valErrMsg']) && !empty($action_option['valErrMsg']) 
+                            ? sanitize_text_field($action_option['valErrMsg']) 
+                            : "Invalid email format in " . $field_label . " field. ";
+                        $errors .= $valErrMsg;
+                        continue;
+                    }
+                    
+    
+    
+                    if (is_array($value)) {
+                        $regular_fields[$formatted_key] = array_map('sanitize_text_field', $value);
+                    } else {
+                        $regular_fields[$formatted_key] = sanitize_text_field($value);
+                    }
+                }
+    
+                $full_message = "<h2>$emailHdg</h2>"; 
+                $non_empty_fields = array_filter($regular_fields, function ($value, $key) { 
+                    if (is_array($value)) { 
+                        $value = array_filter($value, function ($item) { 
+                            return !empty($item) && strtolower($item) !== 'undefined'; 
+                        }); 
+                        return !empty($value); 
+                    } 
+                    return !empty($value) && strtolower($value) !== 'undefined' && strtolower($key) !== 'action'; 
+                }, ARRAY_FILTER_USE_BOTH); 
+                
+                foreach ($non_empty_fields as $key => $value) { 
+                    if (is_array($value)) { 
+                        $value = implode(', ', $value); 
+                    } 
+                    $full_message .= "<p><strong>" . ucfirst($key) . ":</strong> $value</p>"; 
+                }
+                $full_message .= "<hr style='border: 1px dashed #ccc; margin: 20px 0;'>";
+    
+                if (isset($action_option['metaDataOpt']) && is_array($action_option['metaDataOpt'])) {
+                    $full_message .= "<p><strong>Meta Data:</strong></p><ul>";
+                
+                    foreach ($action_option['metaDataOpt'] as $metaData) {
+                        $label = isset($metaData['label']) && !empty($metaData['label']) ? $metaData['label'] : 'Unknown Label';
+                        $value = 'Unknown Value';
+                
+                        if (isset($metaData['value'])) {
+                            switch ($metaData['value']) {
+                                case 'metaDate':
+                                    $value = date('Y-m-d');
+                                    break;
+                                case 'metaTime':
+                                    $value = date('H:i:s');
+                                    break;
+                                case 'metaRemoteIp':
+                                    $value = $_SERVER['REMOTE_ADDR'] ?? 'Unknown IP';
+                                    break;
+                                case 'metaUserAgent':
+                                    $value = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown User Agent';
+                                    break;
+                                case 'metaPageUrl':
+                                    $value = $_SERVER['HTTP_REFERER'] ?? 'Unknown Page URL';
+                                    break;
+                                default:
+                                    $value = 'Unknown Value';
+                            }
+                        }
+                
+                        $full_message .= "<li><strong>$label:</strong> $value</li>";
+                    }
+                
+                    $full_message .= "</ul>";
+                } else {
+                    $full_message .= "<p><em>No metadata options provided.</em></p>";
+                }
+        
+                $headers = [ 
+                    "From: $from_name <$from_email>", 
+                    "Reply-To: $reply_to", 
+                    "Content-Type: text/html; charset=UTF-8" 
+                ]; 
+        
+                if (!empty($cc)) { 
+                    $headers[] = "Cc: $cc"; 
+                } 
+        
+                if (!empty($bcc)) { 
+                    $headers[] = "Bcc: $bcc"; 
+                } 
+        
+                $mail_sent = wp_mail($email_to, $subject, $full_message, $headers); 				
+                $actions_success['email'] = $mail_sent ? true : false;
+                if(!$mail_sent){
+                    $failMsg = isset($action_option['failMsg']) && !empty($action_option['failMsg']) ? sanitize_textarea_field($action_option['failMsg']) : 'Failed to send email.';
+                    $errors .= $failMsg;
+                }
+            } else { 
+                $errors .= 'Email address and Subject is required. '; 
+                $actions_success['email'] = false; 
+            } 
+        }
+        
+        $response['success'] = empty($errors);
+        $response['data'] = empty($errors) ? 'Success' : $errors;
+        
+        echo wp_json_encode($response);
+        wp_die();
+    }
 }
 
 Tp_Blocks_Helper::get_instance();

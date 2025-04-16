@@ -34,17 +34,18 @@ if ( ! class_exists( 'Tpgb_Resuable_Shortcode' ) ) {
 		public function __construct() {
 			$this->add_actions_shortcode();
 
-			add_action( 'current_screen', function () {
-                if ( get_current_screen()->id != 'edit-wp_block' && get_current_screen()->post_type != 'wp_block'  ) {
-					return;
-                }
-				
-				$tpgbAjax = Tp_Blocks_Helper::get_extra_option('tpgb_template_load');
-				if( (isset($tpgbAjax) && !empty($tpgbAjax) && $tpgbAjax=='enable') || empty($tpgbAjax) ){
-					add_action( 'admin_footer', [ $this, 'tpgb_shortcode_popup'] );
-				}
-            } );
+			add_action('current_screen', [ $this, 'handle_current_screen' ]);
+		}
+		
+		public function handle_current_screen() {
+			if ( get_current_screen()->id != 'edit-wp_block' && get_current_screen()->post_type != 'wp_block'  ) {
+				return;
+			}
 			
+			$tpgbAjax = Tp_Blocks_Helper::get_extra_option('tpgb_template_load');
+			if( (isset($tpgbAjax) && !empty($tpgbAjax) && $tpgbAjax=='enable') || empty($tpgbAjax) ){
+				add_action( 'admin_footer', [ $this, 'tpgb_shortcode_popup'] );
+			}
 		}
 		
 		private function add_actions_shortcode(){
@@ -57,7 +58,7 @@ if ( ! class_exists( 'Tpgb_Resuable_Shortcode' ) ) {
 		}
 		
 		public function admin_columns_shortcode( $columns ) {
-			$columns['tpgb_shortcode'] = __( 'Shortcode', 'the-plus-addons-for-block-editor' );
+			$columns['tpgb_shortcode'] = __( 'Shortcode', 'the-plus-addons-for-block-editor');
 
 			return $columns;
 		}
@@ -121,15 +122,15 @@ if ( ! class_exists( 'Tpgb_Resuable_Shortcode' ) ) {
 						<div class="tpgb-modal-header">
 							<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="none"><rect width="44" height="44" fill="#fff" rx="4"/><g clip-path="url(#a)"><path fill="url(#b)" d="M15.6 28.4h-3.2V15.6h3.2v-3.2H9.2v19.2h6.4m1.8 1.6h3.3l6-22.4h-3.4m5.1 1.6v3.2h3.2v12.8h-3.2v3.2h6.4V12.4"/></g><defs><linearGradient id="b" x1="9.2" x2="42" y1="33.2" y2="33.2" gradientUnits="userSpaceOnUse"><stop stop-color="#1717cc"/><stop offset="1" stop-color="#8072FC"/></linearGradient><clipPath id="a"><path fill="#fff" d="M6 6h32v32H6z"/></clipPath></defs></svg>
 							<div>
-								<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'Regular Shortcodes', 'the-plus-addons-for-block-editor' ); ?> </h3>
-								<p class="tpgb-sc-desc"> <?php echo esc_html__( 'You can use below shortcodes to load this tempate load AJAX Way.', 'the-plus-addons-for-block-editor' ); ?> </p>
+								<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'Regular Shortcodes', 'the-plus-addons-for-block-editor'); ?> </h3>
+								<p class="tpgb-sc-desc"> <?php echo esc_html__( 'You can use below shortcodes to load this tempate load AJAX Way.', 'the-plus-addons-for-block-editor'); ?> </p>
 							</div>
 						</div>
 
 						<div class="tpgb-modal-body">
 							
-							<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'Regular Shortcodes', 'the-plus-addons-for-block-editor' ); ?> </h3>
-							<p class="tpgb-sc-desc"> <?php echo esc_html__( 'You need to use this class in your block to load this as AJAX.', 'the-plus-addons-for-block-editor' ); ?> </p>
+							<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'Regular Shortcodes', 'the-plus-addons-for-block-editor'); ?> </h3>
+							<p class="tpgb-sc-desc"> <?php echo esc_html__( 'You need to use this class in your block to load this as AJAX.', 'the-plus-addons-for-block-editor'); ?> </p>
 
 							
 							<label for="copy-input"> <?php echo esc_html__('Shortcode for Ajax render:', 'the-plus-addons-for-block-editor') ?></label>
@@ -138,8 +139,8 @@ if ( ! class_exists( 'Tpgb_Resuable_Shortcode' ) ) {
 								<?php echo $copyicon; ?>
 							</div>
 							<div class="tpgb-shcode-class">
-								<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'AJAX Class', 'the-plus-addons-for-block-editor' ); ?> </h3>
-								<p class="tpgb-sc-desc"> <?php echo esc_html__( 'You need to use this class in your block to load this as AJAX.', 'the-plus-addons-for-block-editor' ); ?> </p>
+								<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'AJAX Class', 'the-plus-addons-for-block-editor'); ?> </h3>
+								<p class="tpgb-sc-desc"> <?php echo esc_html__( 'You need to use this class in your block to load this as AJAX.', 'the-plus-addons-for-block-editor'); ?> </p>
 
 								<div class="tpgb-shcode-wrap"> 
 									<div class="tpgb-shcode-inner">  

@@ -208,12 +208,13 @@ Class Tpgb_Get_Blocks {
 		$localize = '';
 		if(tpgb_library()->get_caching_option() == false){
 			$check_global_css = Tp_Blocks_Helper::get_extra_option('gbl_css');
+            $global_block_style = Tp_Blocks_Helper::get_extra_opt_enabled();
 			if ( tpgb_library()->check_css_js_cache_files( $this->post_type, $this->preload_name, 'css', true ) ) {
 				$css_file = TPGB_ASSET_URL . '/theplus-preload-' . $this->post_type . '-' . $this->preload_name . '.min.css';
 				$enqueue_name = 'tpgb-plus-'.$this->post_type . '-' . $this->preload_name;
 				if( $dependency == false ){
 					$enqueue_name = 'tpgb-plus-block-front-css';
-					if(!empty($check_global_css) && $check_global_css==='disable'){
+					if(!empty($check_global_css) && $check_global_css==='disable' && !empty($global_block_style) && !in_array('tp-global-block-style', $global_block_style)){
 						$dependency = [];
 					}else{
 						$global_css = get_option( '_tpgb_global_css' );
@@ -225,7 +226,7 @@ Class Tpgb_Get_Blocks {
 				}
 				wp_enqueue_style( $enqueue_name,esc_url($css_file), $dependency, $plus_version );
 			}else if($dependency == false){
-				if(!empty($check_global_css) && $check_global_css==='disable'){
+				if(!empty($check_global_css) && $check_global_css==='disable' && !empty($global_block_style) && !in_array('tp-global-block-style', $global_block_style)){
 					$dependency = [];
 				}else{
 					$global_css = get_option( '_tpgb_global_css' );

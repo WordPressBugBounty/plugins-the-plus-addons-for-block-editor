@@ -1896,7 +1896,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 				$SocialFeed .= '<div class="post-loop-inner social-feed-'.esc_attr($style).'" >';
 				foreach ($FinalData as $F_index => $AllVmData) {
 					$uniqEach = uniqid();
-					$PopupSylNum = "{$block_id}-${F_index}-{$uniqEach}";
+                    $PopupSylNum = $block_id . "-" . $F_index . "-" . $uniqEach;
 					$RKey = (!empty($AllVmData['RKey'])) ? $AllVmData['RKey'] : '';
 					$PostId = (!empty($AllVmData['PostId'])) ? $AllVmData['PostId'] : '';
 					$UName = (!empty($AllVmData['UName'])) ? $AllVmData['UName'] : '';

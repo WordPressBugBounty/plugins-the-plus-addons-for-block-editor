@@ -225,7 +225,7 @@ class Tpgb_Core_Init_Blocks {
 		wp_enqueue_script( 'tpgb-xdlocalstorage-js', TPGB_ASSETS_URL . 'assets/js/extra/xdlocalstorage.js', array( 'wp-blocks' ), TPGB_VERSION, false );
 		global $pagenow;
 		if (!defined('TPGBP_VERSION')) {
-			$scripts_dep = array( 'moment', 'react', 'react-dom', 'wp-block-editor', 'wp-element', 'wp-wordcount', 'wp-blocks', 'wp-i18n','wp-plugins', 'wp-components','wp-api-fetch');
+			$scripts_dep = array( 'moment', 'react', 'react-dom', 'wp-block-editor','wp-escape-html', 'wp-element', 'wp-wordcount', 'wp-blocks', 'wp-i18n','wp-plugins', 'wp-components','wp-api-fetch');
 			if ( 'widgets.php' !== $pagenow && 'customize.php' !== $pagenow ) {
 				$scripts_dep = array_merge($scripts_dep, array('wp-editor', 'wp-edit-post'));
 				wp_enqueue_script('tpgb-block-editor-js', TPGB_ASSETS_URL.'assets/js/admin/blocks.js', $scripts_dep,TPGB_VERSION, false);

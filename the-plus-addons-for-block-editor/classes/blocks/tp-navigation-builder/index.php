@@ -332,7 +332,7 @@ function tpgb_tp_navbuilder() {
 						],
 						'LinkFilter' => [
 							'type' => 'object',
-							'default' => [],
+							'default' => (object) [ 'filter' => (object)['label' => '']],
 						],
 						'minWidth' => [
 							'type' => 'string',
@@ -477,7 +477,7 @@ function tpgb_tp_navbuilder() {
 					], 
 				],
 				'default' => [ 
-					[ '_key'=> 'cvi9', 'depth' => '0', 'LinkType' => 'dynamic','LinkFilter' => (Object)['openFilter' => true], 'preicon' => 'fas fa-home', 'menuiconTy' => '' , 'SmenuType' => 'link' ]
+					[ '_key'=> 'cvi9', 'depth' => '0', 'LinkType' => 'dynamic','LinkFilter' => (object) [ 'filter' => ['label' => '']], 'preicon' => 'fas fa-home', 'menuiconTy' => '' , 'SmenuType' => 'link' ]
 				],
 			),
 			

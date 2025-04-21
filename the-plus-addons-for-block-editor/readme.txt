@@ -3,8 +3,8 @@ Contributors: posimyththemes, nirmalkavaiya, sagarpatel124, jigar9998
 Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
-Tested up to: 6.7.2
-Stable tag: 4.2.0
+Tested up to: 6.8
+Stable tag: 4.2.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -38,6 +38,8 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 * <strong>Login and Registration & Password Reset Form</strong> for WordPress
 * <strong>Free WordPress Blog Website</strong> Builder
 * <strong>Popup Builder</strong> for WordPress
+* <strong>Global Block Style</strong> apply same style to blocks globally
+* <strong>Form Block</strong> create contact/newsletter forms easily
 * Compatible with most <strong>WordPress themes like <strong>[Nexter](https://nexterwp.com/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), Blocksy, Kadence, Astra, OceanWP, GeneratePress, Neve etc.</strong>
 * <strong>WordPress Custom Post Loops Skin Builder</strong> for Posts, CPT & WooCommerce Products 🔥
 * <strong>Carousel Anything</strong> converts any sections in carousel 🔥
@@ -65,6 +67,10 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 ###🏆 45+ FREE WordPress Gutenberg Blocks
 
 * <strong> [FREE Flexbox Container](https://nexterwp.com/nexter-blocks/blocks/wordpress-container/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
+
+* <strong> [FREE Global Block Styles](https://nexterwp.com/nexter-blocks/extras/wordpress-global-block-style/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
+
+* <strong> [FREE Form Block](https://nexterwp.com/nexter-blocks/builder/wordpress-form-builder/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)  
 
 * <strong> [FREE Breadcrumb Bar](https://nexterwp.com/nexter-blocks/blocks/wordpress-breadcrumb-bar/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
 
@@ -503,6 +509,11 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+= 4.2.1 = 21 April 2025
+- Fix : Navigation Builder : LinkFilter Components Bug Fix.
+- Improvement: Added compatibility with WordPress v6.8.
+- Minor Bugs and Improvements.
+
 = 4.2.0 = 16 April 2025
 - Added : Global Block Style : All Blocks 
 - Added : Form Block 

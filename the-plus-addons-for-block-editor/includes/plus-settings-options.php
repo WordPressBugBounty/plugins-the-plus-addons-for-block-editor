@@ -86,10 +86,32 @@ class Tpgb_Gutenberg_Settings_Options {
      */
 	public function hooks() {
 		if( is_admin() ){
+            add_action( 'nxt_new_update_notice' , array( $this, 'nxt_new_update_notice_callback' ) );
 			add_action('admin_menu', array( $this, 'add_options_page' ));
 		}
     }
 	
+    /**
+     * Add action to Update Notice Count
+     * @since 4.2.1
+     */
+
+    public function nxt_new_update_notice_callback(){
+        $get_option = get_option( 'nxt_menu_notice_count' );
+        if ( get_option( 'nxt_menu_notice_count' ) < TPGB_ADMIN_NOTICE_FALG ) {
+            update_option( 'nxt_menu_notice_count', TPGB_ADMIN_NOTICE_FALG, false );
+        }
+    }
+
+    /**
+     * Condition to Check Notice Show
+     * @since 4.2.1
+     */
+
+    public function nxt_notice_should_show(){
+        return ( get_option( 'nxt_menu_notice_count' ) < TPGB_ADMIN_NOTICE_FALG );
+    }
+
 	/**
      * Add menu options page
      * @since 1.0.0
@@ -133,6 +155,12 @@ class Tpgb_Gutenberg_Settings_Options {
 					upgradeLink.setAttribute('target', '_blank');
 					upgradeLink.setAttribute('rel', 'noopener noreferrer');
 				}
+                <?php if( $this->nxt_notice_should_show() ) { ?>
+                    var menuItem = document.querySelector('.toplevel_page_nexter_welcome_page.menu-top');
+                    if (menuItem) {
+                        menuItem.classList.add('nxt-admin-notice-active');
+                    }
+                <?php } ?>
 			});
 		</script>
 		<?php
@@ -265,6 +293,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'keyActmsg' => class_exists('Tpgb_Pro_Library') ? Tpgb_Pro_Library::tpgb_pro_activate_msg() : '',
 				'nxtactivateKey' => get_option('tpgb_activate'),
 				'activePlan' => ( class_exists('Tpgb_Pro_Library') && method_exists('Tpgb_Pro_Library', 'tpgb_get_activate_plan') ) ? Tpgb_Pro_Library::tpgb_get_activate_plan() : '',
+                'showSidebar' => $this->nxt_notice_should_show()
 			];
 		}
 
@@ -881,12 +910,12 @@ class Tpgb_Gutenberg_Settings_Options {
 				'keyword' => ['flipbox', 'flip box', 'flip', 'flip image', 'flip card', 'action box', 'flipbox 3D', 'card'],
 			],
             'tp-form-block' => [
-                'label' => esc_html__('Form', 'tpgb'),
-                'demoUrl' => '#',
+                'label' => esc_html__('Form', 'the-plus-addons-for-block-editor'),
+                'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-form-builder/',
                 'docUrl' => '',
                 'videoUrl' => '',
                 'tag' => 'freemium',
-                'block_cate' => esc_html__('Essential', 'tpgb'),
+                'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
                 'keyword' => ['forms' , 'contact Form' , 'marketing']
             ],
 			'tp-google-map' => [
@@ -1206,7 +1235,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-progress-tracker' => [
 				'label' => esc_html__('Progress Tracker','the-plus-addons-for-block-editor'),
-				'demoUrl' => 'https://theplusblocks.com/plus-blocks/reading-scroll-bar/',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-reading-scroll-progress-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
@@ -1406,7 +1435,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		$this->block_extra = [
             'tp-global-block-style' => [
 				'label' => esc_html__('Global Block Style', 'the-plus-addons-for-block-editor'),
-				'demoUrl' => '',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-global-block-style/',
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
@@ -1492,6 +1521,7 @@ class Tpgb_Gutenberg_Settings_Options {
      */
     public function admin_page_display() {
 		echo '<div id="tpgb-dash"></div>';
+        do_action('nxt_new_update_notice');
 	}
 	
 	public function get_post_statuses_sql(){

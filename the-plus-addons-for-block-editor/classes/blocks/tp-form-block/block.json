@@ -161,7 +161,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container .nxt-name-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-input-wrapper  {padding:{{inpPad}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-input-wrapper  {padding:{{inpPad}}}"
 				}
 			]
 		},

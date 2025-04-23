@@ -252,7 +252,7 @@ class Tpgb_Gutenberg_Settings_Options {
                     'docUrl'     => '',
                     'videoUrl'   => '',
                     'tag'        => $block['free_pro'] === 'pro' ? 'pro' : 'free',
-                    'block_cate' => 'WDesignKit',
+                    'block_cate' => esc_html__('WDesignKit', 'the-plus-addons-for-block-editor'),
                     'keyword'    => [],
                     'w_unique'   => $block['id'],
                     'uniqueId'   => $block['w_unique'],

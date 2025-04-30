@@ -27,10 +27,15 @@
     align-items: end
 }
 
-.nxt-check-box,.nxt-check-box-container,.nxt-email-input,.nxt-message-input,.nxt-name-input,.nxt-option-container,.nxt-radio-box {
+.nxt-check-box,.nxt-check-box-container,.nxt-radio-box {
     display: flex;
     flex-direction: column;
     gap: 8px
+}
+
+.nxt-message-input,.nxt-option-container {
+    display: flex;
+    flex-direction: column
 }
 
 .nxt-check-box,.nxt-radio-box {
@@ -54,7 +59,7 @@
 }
 
 .nxt-email-input .nxt-input-container .nxt-email-richtext,.nxt-name-input .nxt-input-container .nxt-name-richtext,.nxt-number-field .nxt-number-input .nxt-number-richtext {
-    padding: 10px;
+    padding: 0;
     font-size: 14px;
     line-height: 1.6;
     margin-left: 0;
@@ -180,12 +185,6 @@
 .nxt-message-richtext::placeholder {
     opacity: 1;
     font: 400 1em Arial,sans-serif
-}
-
-.nxt-number-input {
-    display: flex;
-    flex-direction: column;
-    gap: 8px
 }
 
 .nxt-check-title-label.required::after,.nxt-email-label.required::after,.nxt-message-label.required::after,.nxt-name-label.required::after,.nxt-number-label.required::after,.nxt-option-label.required::after,.nxt-radio-title-label.required::after {
@@ -375,14 +374,12 @@
 }
 
 .nxt-option-container .nxt-option-field {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
     padding: 10px;
-    font-size: 14px;
-    border: 1px solid #8f8f8fa6;
-    border-radius: 4px;
-    line-height: 1;
-    max-width: 100%;
-    background: 0 0;
-    transition: all .3s ease-in-out
+    appearance: none
 }
 
 .nxt-check-box.horizontal,.nxt-radio-box.horizontal {

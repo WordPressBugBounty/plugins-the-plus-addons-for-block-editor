@@ -295,6 +295,7 @@ class Tpgb_Core_Init_Blocks {
 			'WDesignkit_in' => $wdadded,
 			'dashicons_icon' => $dashIcons,
             'nexter_block_pro' => defined('TPGBP_VERSION'),
+            'adminEmail' => current_user_can('manage_options') ? get_option('admin_email') : '',
 		);
 		
 		if(has_filter('tpgb_load_localize')) {

@@ -5,9 +5,6 @@
 	"title": "Draw SVG",
 	"category": "tpgb",
 	"description": "Display vector image format. Used to add icons, illustration, lottie files and animated graphics.",
-	"example": {
-		"attributes": {}
-	},
 	"supports": { "align":["wide","full"]},
 	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {

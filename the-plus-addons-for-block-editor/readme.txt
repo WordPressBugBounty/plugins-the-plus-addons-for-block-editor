@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.2.2
+Stable tag: 4.2.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -509,6 +509,14 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+= 4.2.3 = 29 April 2025
+- Fix : Background Components Button Design Issue.
+- Fix : Paragraph: Minor design bug.
+- Fix : Blockquote : Minor Design Bug Fix.
+- Fix : Heading Block : Default Anchor Tag Bug Fix.
+- Fix : Form Block : Minor Design Bug Fix.
+- Minor Bugs and Improvements.
+
 = 4.2.2 = 23 April 2025
 - Update : Language : Update the POT file for Internationalization. 
 - Minor Bugs and Improvements.

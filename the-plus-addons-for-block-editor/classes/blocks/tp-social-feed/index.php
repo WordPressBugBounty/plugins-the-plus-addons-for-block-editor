@@ -1924,9 +1924,9 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 						$ReactionImg = TPGB_ASSETS_URL.'assets/images/social-feed/love.png';
 						
 						$FbAlbum = (!empty($AllVmData['FbAlbum'])) ? $AllVmData['FbAlbum'] : false;
-						if(!empty($FbAlbum)){
-							$FancyBoxJS = 'data-fancybox="album-Facebook'.esc_attr($F_index).'-'.esc_attr($block_id).'"';
-						}
+						// if(!empty($FbAlbum)){
+						// 	$FancyBoxJS = 'data-fancybox="album-Facebook'.esc_attr($F_index).'-'.esc_attr($block_id).'"';
+						// }
 					}
 					$ImageURL=$videoURL="";
 					if($Type == 'video' || $Type == 'photo'){

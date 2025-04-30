@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"name": "tpgb/tp-form-block",
 	"version": "0.1.0",
-	"title": "Form Builder",
+	"title": "Form",
 	"category": "tpgb",
 	"description": " Create user-friendly forms to collect information effortlessly.",
 	"example": {
@@ -44,12 +44,12 @@
 		"lblBtmMrg": {
 			"type": "object",
 			"default": {
-				"md": "",
+				"md": "5",
 				"unit": "px"
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-label, {{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-name-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label  {margin-bottom:{{lblBtmMrg}}} {{PLUS_WRAP}} .nxt-radio-box, {{PLUS_WRAP}} .nxt-check-box{margin-top:{{lblBtmMrg}};}"
+					"selector": "{{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label {margin-bottom:{{lblBtmMrg}}} {{PLUS_WRAP}} .nxt-radio-box, {{PLUS_WRAP}} .nxt-check-box,{{PLUS_WRAP}} .nxt-input-container {margin-top:{{lblBtmMrg}};}"
 				}
 			]
 		},
@@ -152,16 +152,16 @@
 			"type": "object",
 			"default": {
 				"md": {
-					"top": "",
-					"bottom": "",
-					"left": "",
-					"right": ""
+					"top": "10",
+					"bottom": "10",
+					"left": "10",
+					"right": "10"
 				},
 				"unit": "px"
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-input-wrapper  {padding:{{inpPad}}}"
+                    "selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container, {{PLUS_WRAP}} .nxt-input-wrapper  {padding:{{inpPad}}}"
 				}
 			]
 		},

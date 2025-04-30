@@ -23,8 +23,6 @@
 		  },
 		  "title": {
 			"type": "string",
-			"source": "html",
-            "selector": ".pro-heading-inner",
 			"default": "Save the Earth for future Generations."
 		  },
 		  "titleTag": {
@@ -35,11 +33,9 @@
 			"type": "string",
 			"default": "p"
 		  },
-		  "content": {
-			"type": "string",
-			"source": "html",
-            "selector": ".pro-paragraph-inner p,.pro-paragraph-inner h1,.pro-paragraph-inner h2,.pro-paragraph-inner h3,.pro-paragraph-inner h4,.pro-paragraph-inner h5,.pro-paragraph-inner h6,.pro-paragraph-inner div,.pro-paragraph-inner span",
-			"default": "No human technology can replace `nature`s technology`, perfected over hundreds of millions of years to sustain life on Earth. For those in power, the questions are straightforward. Are they prepared to jeopardize their careers – or their profits – for our children’s children? Are they ready to put short-term politicking aside and help deliver a sustainable plan for the future? Are they willing to take difficult decisions on behalf of voters they’ll never meet?"
+		   "content": {
+            "type": "string",
+            "default": "No human technology can replace `nature`s technology`, perfected over hundreds of millions of years to sustain life on Earth. For those in power, the questions are straightforward. Are they prepared to jeopardize their careers – or their profits – for our children’s children? Are they ready to put short-term politicking aside and help deliver a sustainable plan for the future? Are they willing to take difficult decisions on behalf of voters they’ll never meet?"
 		  },
 		  "alignment": {
 			"type": "object",

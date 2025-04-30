@@ -1120,7 +1120,7 @@ function tpgb_tp_navbuilder() {
 				'default' => '',
 				'style' => [
 					(object) [
-						'selector' => '{{PLUS_WRAP}} .tpgb-nav-item .navbar-nav li.dropdown ul.dropdown-menu>li.open>a{ color: {{sActcolor}}; }',
+						'selector' => '{{PLUS_WRAP}} .tpgb-nav-item .navbar-nav li.dropdown ul.dropdown-menu>li.open>a,{{PLUS_WRAP}} .tpgb-nav-item .navbar-nav li.dropdown ul.dropdown-menu>li.active>a{ color: {{sActcolor}}; }',
 					],
 				],
 				'scopy' => true,
@@ -1138,11 +1138,21 @@ function tpgb_tp_navbuilder() {
 				],
 				'style' => [
 					(object) [
-						'selector' => '{{PLUS_WRAP}} .tpgb-nav-item .navbar-nav li.dropdown .dropdown-menu li.open > a',
+						'selector' => '{{PLUS_WRAP}} .tpgb-nav-item .navbar-nav li.dropdown .dropdown-menu li.open > a,{{PLUS_WRAP}} .tpgb-nav-item .navbar-nav li.dropdown .dropdown-menu li.active > a',
 					],
 				],
 				'scopy' => true,
 			],
+			'ActindiColor' => [
+                'type' => 'string',
+				'default' => '',
+				'style' => [
+					(object) [
+						'selector' => '{{PLUS_WRAP}} .tpgb-nav-inner.indicator-style-1 .navbar-nav li.dropdown ul.dropdown-menu>li.active>a .indi-icon,{{PLUS_WRAP}} .tpgb-nav-inner.indicator-style-1 .navbar-nav li.dropdown ul.dropdown-menu>li:focus >a .indi-icon{ color: {{ActindiColor}}; }',
+					],
+				],
+				'scopy' => true,
+            ],
 			
 			'toggleHeight' => [
 				'type' => 'string',

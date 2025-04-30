@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.2.2\n"
+"Project-Id-Version: Nexter Blocks 4.2.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-23T04:48:43+00:00\n"
+"POT-Creation-Date: 2025-04-30T07:01:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -626,53 +626,53 @@ msgstr ""
 msgid "Custom Fonts"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:375
+#: classes/tp-core-init-blocks.php:376
 msgid "Nexter Blocks Different sized of featured images"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:389
+#: classes/tp-core-init-blocks.php:390
 msgid "Post Listing of get Post Meta Info."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:403
+#: classes/tp-core-init-blocks.php:404
 msgid "Category list links"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:420
+#: classes/tp-core-init-blocks.php:421
 msgid "Product Data."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:587
+#: classes/tp-core-init-blocks.php:588
 msgid "Settings parameter is missing!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:590
+#: classes/tp-core-init-blocks.php:591
 msgid "Nexter Global settings updated!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:716
-#: classes/tp-core-init-blocks.php:746
-#: classes/tp-core-init-blocks.php:894
+#: classes/tp-core-init-blocks.php:717
+#: classes/tp-core-init-blocks.php:747
+#: classes/tp-core-init-blocks.php:895
 msgid "CSS can not be load due to permission!!!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:846
+#: classes/tp-core-init-blocks.php:847
 msgid "Plus block css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:848
+#: classes/tp-core-init-blocks.php:849
 msgid "Plus block preview css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1267
+#: classes/tp-core-init-blocks.php:1268
 msgid ", "
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1327
+#: classes/tp-core-init-blocks.php:1328
 msgid "%s"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1417
+#: classes/tp-core-init-blocks.php:1418
 msgid "Sale"
 msgstr ""
 

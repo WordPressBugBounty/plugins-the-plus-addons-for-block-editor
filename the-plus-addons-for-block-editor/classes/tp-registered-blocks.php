@@ -1824,7 +1824,7 @@ Class Tpgb_Library {
 		$value = '';
 		if( $post_id != '' ){
 			$old_value = '';
-			if(is_404() || is_search() || $post_id===0 || !is_numeric($post_id)){
+			if(is_404() || is_search() || $post_id===0 || !is_numeric($post_id) || (function_exists('is_shop') && is_shop())){
 				$old_value = get_option( 'theplus-term-'.$post_id );
 			}else if(self::$tpgb_post_type === 'term' && is_numeric($post_id)){
 				$old_value = get_term_meta( $post_id, $meta_key, true );
@@ -1863,7 +1863,7 @@ Class Tpgb_Library {
 				delete_option( $old_key );
 			}
 		}
-		if( !empty($post_id) ){
+		if( !empty($post_id) && is_numeric($post_id) ){
 			$value = get_post_meta( $post_id, $meta_key, true );
 			if(!empty($value) && isset($value[ $get_key_val ]) ){
 				unset($value[ $get_key_val ]);
@@ -2973,6 +2973,11 @@ Class Tpgb_Library {
 		
 		$current_post_type = get_post_type( $post_id );
 
+        $shop_page_id = '';
+		if (function_exists('is_shop') && function_exists('wc_get_page_id')) {
+			$shop_page_id = wc_get_page_id('shop');
+		}
+
 		if(! in_array( $current_post_type, ['post','page','product'] ) ){
 			$this->update_save_updated_at();
 			
@@ -2985,8 +2990,13 @@ Class Tpgb_Library {
 				Breeze_Configuration::breeze_clean_cache();
 				Breeze_CloudFlare_Helper::reset_all_cache();
 			}
-		}else if($this->get_posts_metadata($post_id, '_block_css', 'updated_at') != false){
+		}else if($this->get_posts_metadata($post_id, '_block_css', 'updated_at') != false || ( !empty($shop_page_id) && $post_id===$shop_page_id) ){
 			$this->remove_posts_metadata($post_id, '_block_css', 'updated_at', 'theplus-post-'. $post_id . '_updated_at');
+
+            if(!empty($shop_page_id) && $post_id===$shop_page_id){
+				$this->remove_posts_metadata('product', '_block_css', 'updated_at', 'theplus-term-product_updated_at');
+			}
+
 		}
 
 		if(wp_is_block_theme()){

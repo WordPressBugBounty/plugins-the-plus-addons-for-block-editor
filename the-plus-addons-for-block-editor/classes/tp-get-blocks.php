@@ -137,6 +137,11 @@ Class Tpgb_Get_Blocks {
 	 */
 	public function tpgb_post_block_css( $post_type = '' , $post_id = 0 ){
 		if ( $post_id !== '' ) {
+
+            if ( function_exists('is_shop') && function_exists('wc_get_page_id') && is_shop() ) {
+				$post_id = wc_get_page_id('shop');
+			}
+
 			$post_content = get_post( $post_id );
 			if ( isset( $post_content->post_content ) ) {
 				$content = $post_content->post_content;

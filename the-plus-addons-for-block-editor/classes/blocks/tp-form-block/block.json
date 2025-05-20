@@ -67,7 +67,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-message-richtext:focus, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext:focus, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext:focus, {{PLUS_WRAP}} input:-webkit-autofill, {{PLUS_WRAP}} textarea:-webkit-autofill, {{PLUS_WRAP}} select:-webkit-autofill, {{PLUS_WRAP}} input:-webkit-autofill:hover, {{PLUS_WRAP}} input:-webkit-autofill:focus, {{PLUS_WRAP}} textarea:-webkit-autofill:hover, {{PLUS_WRAP}} textarea:-webkit-autofill:focus, {{PLUS_WRAP}} select:-webkit-autofill:hover, {{PLUS_WRAP}} select:-webkit-autofill:focus {color: {{inpClr}}; -webkit-text-fill-color: {{inpClr}} !important;}"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-message-richtext:focus, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext:focus, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext:focus {color: {{inpClr}};}{{PLUS_WRAP}} input:-webkit-autofill, {{PLUS_WRAP}} textarea:-webkit-autofill, {{PLUS_WRAP}} select:-webkit-autofill, {{PLUS_WRAP}} input:-webkit-autofill:hover, {{PLUS_WRAP}} input:-webkit-autofill:focus, {{PLUS_WRAP}} textarea:-webkit-autofill:hover, {{PLUS_WRAP}} textarea:-webkit-autofill:focus, {{PLUS_WRAP}} select:-webkit-autofill:hover, {{PLUS_WRAP}} select:-webkit-autofill:focus {color: {{inpClr}}; -webkit-text-fill-color: {{inpClr}} !important;}"
 				}
 			],
 			"scopy": true
@@ -87,7 +87,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}}  .nxt-number-input .nxt-input-container {background-color: {{inpBg}};} {{PLUS_WRAP}} input:-webkit-autofill, {{PLUS_WRAP}} input:-internal-autofill-previewed {background-color: transparent !important} "
+                    "selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container { background-color: {{inpBg}}; } {{PLUS_WRAP}} input:-webkit-autofill, {{PLUS_WRAP}} input:-internal-autofill-previewed { background-color: transparent !important; }"
 				}
 			]
 		},
@@ -687,6 +687,42 @@
 				}
 			],
 			"scopy": true
+		},
+        "rowGap": {
+			"type": "object",
+			"default": {
+				"md": "",
+				"unit": "px"
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .form-nxt-style-1, {{PLUS_WRAP}} .nxt-simple-contact-form {row-gap:{{rowGap}};}",
+					"backend": true
+				},
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-form {row-gap:{{rowGap}};}",
+					"backend": false
+				}
+			],
+            "scopy": true
+		},
+        "columnGap": {
+			"type": "object",
+			"default": {
+				"md": "",
+				"unit": "px"
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .form-nxt-style-1, {{PLUS_WRAP}} .nxt-simple-contact-form{column-gap:{{columnGap}};}",
+					"backend": true
+				},
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-form{column-gap:{{columnGap}};}",
+					"backend": false
+				}
+			],
+            "scopy": true
 		}
 	}
 }

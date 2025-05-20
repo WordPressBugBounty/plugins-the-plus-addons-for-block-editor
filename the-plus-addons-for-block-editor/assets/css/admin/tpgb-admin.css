@@ -43,7 +43,7 @@
 #toplevel_page_nexter_welcome_page a[href="https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings"]{
     font-weight: 500;
     background-color: #F12D2D;
-    color: #fff;
+    color: #fff !important;
     margin: 3px 10px 0;
     display: flex;
     justify-content: center;
@@ -53,7 +53,7 @@
 }
 #toplevel_page_nexter_welcome_page a[href="https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings"]:hover,#toplevel_page_nexter_welcome_page a[href="https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings"]:focus{
     background-color: #ca2222;
-    color: #fff;
+    color: #fff !important;
     box-shadow: none;
 }
 

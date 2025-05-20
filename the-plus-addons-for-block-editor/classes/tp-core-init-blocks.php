@@ -1186,14 +1186,16 @@ class Tpgb_Core_Init_Blocks {
 	 * @since 1.3.0.2
 	 **/
 	public function admin_enqueue_css_js( $hook ){
-		if ( 'edit-comments.php' === $hook ) {
-			return;
-		}
+		
 		if (!did_action('wp_enqueue_media')) {
 			wp_enqueue_media();
 		}
 		wp_enqueue_style( 'tpgb-admin-css', TPGB_URL .'assets/css/admin/tpgb-admin.css', array(),TPGB_VERSION,false );
 		
+        if ( 'edit-comments.php' === $hook ) {
+			return;
+		}
+
 		wp_enqueue_script( 'tpgb-admin-js', TPGB_URL . 'assets/js/admin/tpgb-admin.js',array() , TPGB_VERSION, true );
 		wp_localize_script(
 			'tpgb-admin-js', 'tpgb_admin', array(
@@ -1507,6 +1509,10 @@ class Tpgb_Core_Init_Blocks {
 	private function is_tpgb_post_id(){
 		$post_id = get_the_ID();
 		
+        if ( function_exists( 'is_shop' ) && is_shop() ) {
+			$post_id = wc_get_page_id( 'shop' ); // Gets the shop page ID
+		}
+
 		if (!$post_id) {
 			return false;
 		}

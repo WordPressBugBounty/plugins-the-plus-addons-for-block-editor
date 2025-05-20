@@ -60,6 +60,11 @@ class Tpgb_Gutenberg_Settings_Options {
             // Wdesignkit Block Enable Ajax
             add_action( 'wp_ajax_nxt_wdk_widget_ajax_call', array( $this,'nxt_wdk_widget_ajax_call') );
 			
+            // WDesignKit Template Block List Merge hook
+            add_filter( 'nexter_block_list_merge', [$this, 'nexter_block_list_merge_action'] , 10, 1 );
+
+            // Store User Data in Database From Onborading
+            add_action('wp_ajax_nxt_boarding_store', array($this, 'nxt_block_boarding_store'));
 		}
 		
     }
@@ -272,7 +277,9 @@ class Tpgb_Gutenberg_Settings_Options {
 			$dashData = [
 				'userData' => [
 					'userName' => esc_html($user->display_name),
-					'profileLink' => esc_url( get_avatar_url( $user->ID ) )
+					'profileLink' => esc_url( get_avatar_url( $user->ID ) ),
+                    'userEmail' => get_option('admin_email'),
+                    'siteUrl' => get_option('siteurl'),
 				],
 				'blockList' => array_merge($this->block_lists,$this->block_extra,(array) $nxt_format_widget),
 				'avtiveBlock' => isset( $default_load['enable_normal_blocks']) && is_array($default_load['enable_normal_blocks']) ? count($default_load['enable_normal_blocks']) : 0,
@@ -293,7 +300,8 @@ class Tpgb_Gutenberg_Settings_Options {
 				'keyActmsg' => class_exists('Tpgb_Pro_Library') ? Tpgb_Pro_Library::tpgb_pro_activate_msg() : '',
 				'nxtactivateKey' => get_option('tpgb_activate'),
 				'activePlan' => ( class_exists('Tpgb_Pro_Library') && method_exists('Tpgb_Pro_Library', 'tpgb_get_activate_plan') ) ? Tpgb_Pro_Library::tpgb_get_activate_plan() : '',
-                'showSidebar' => $this->nxt_notice_should_show()
+                'showSidebar' => $this->nxt_notice_should_show(),
+                'nxt_onboarding' => get_option('nxt_onboarding_done')
 			];
 		}
 
@@ -648,7 +656,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		}
 	}
 
-	public function block_listout(){
+    public function block_listout(){
 		$this->block_lists = [
 			'tp-accordion' => [
 				'label' => esc_html__('Accordion','the-plus-addons-for-block-editor'),
@@ -665,7 +673,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-pro-button/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button'],
 			],
 			'tp-advanced-chart' => [
@@ -683,7 +691,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['adv','text','typo'],
 			],
 			'tp-animated-service-boxes' => [
@@ -692,7 +700,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-audio-player' => [
 				'label' => esc_html__('Audio Player','the-plus-addons-for-block-editor'),
@@ -700,7 +708,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['audio player', 'music player'],
 			],
 			'tp-before-after' => [
@@ -717,7 +725,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
                 'keyword' => ['blockquote', 'Block Quotation', 'Citation', 'Pull Quotes','block quote'],
 			],
 			'tp-breadcrumbs' => [
@@ -735,7 +743,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button']
 			],
 			'tp-button-core' => [
@@ -753,7 +761,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-advanced-carousel-sliders/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['carousel anything', 'slider', 'slideshow'],
 			],
 			'tp-carousel-remote' => [
@@ -762,8 +770,8 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-remote-sync/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['carousel remote', 'slider controller','next prev','dots','Remote Sync'],
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
+                'keyword' => ['carousel remote', 'slider controller','next prev','dots','Remote Sync'],
 			],
 			'tp-circle-menu' => [
 				'label' => esc_html__('Circle Menu', 'the-plus-addons-for-block-editor'),
@@ -780,7 +788,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['prism', 'Source code beautifier', 'code Highlighter',  'syntax Highlighter', 'Custom Code', 'CSS', 'JS', 'PHP', 'HTML', 'React']
 			],
 			'tp-countdown' => [
@@ -807,7 +815,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Coupon Code', 'Promo Code', 'Offers' , 'Discounts', 'Sales', 'Copy Coupon Code']
 			],
 			'tp-creative-image' => [
@@ -816,7 +824,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '#video',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Creative image', 'Image', 'Animated Image', 'ScrollReveal', 'scrolling image', 'decorative image', 'image effect', 'Photo', 'Visual']
 			],
 			'tp-cta-banner' => [
@@ -825,7 +833,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['advertisement', 'banner', 'advertisement banner', 'ad manager', 'announcement', 'announcement banner']
 			],
 			'tp-data-table' => [
@@ -834,7 +842,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-data-table/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Data table', 'datatable', 'grid', 'csv table', 'table', 'tabular layout', 'Table Showcase']
 			],
 			'tp-dark-mode' => [
@@ -843,7 +851,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['dark', 'light', 'darkmode', 'dual']
 			],
 			'tp-design-tool' => [
@@ -852,7 +860,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['design','tool']
 			],
 			'tp-draw-svg' => [
@@ -861,16 +869,16 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Draw SVG', 'Draw Icon', 'illustration', 'animated svg', 'animated icons', 'Lottie animations', 'Lottie files', 'effects', 'image effect']
 			],
 			'tp-dynamic-device' => [
 				'label' => esc_html__('Dynamic Device','the-plus-addons-for-block-editor'),
-				'demoUrl' => '',
-				'docUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-device-mockups/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-device-mockups/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['dynamic device', 'website mockups', 'portfolio', 'desktop view', 'tablet view', 'mobile view']
 			],
 			'tp-empty-space' => [
@@ -888,7 +896,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-contact-form-stylers/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '#',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['form', 'contect form', 'everest', 'gravity', 'wpform','Contact Form 7', 'contact form', 'form', 'feedback', 'subscribe', 'newsletter', 'contact us', 'custom form', 'popup form', 'cf7']
 			],
 			'tp-expand' => [
@@ -906,12 +914,12 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'freemium',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['flipbox', 'flip box', 'flip', 'flip image', 'flip card', 'action box', 'flipbox 3D', 'card'],
 			],
             'tp-form-block' => [
                 'label' => esc_html__('Form', 'the-plus-addons-for-block-editor'),
-                'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-form-builder/',
+               'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-form-builder/',
                 'docUrl' => '',
                 'videoUrl' => '',
                 'tag' => 'freemium',
@@ -951,7 +959,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Heading', 'Title', 'Text', 'Heading title', 'Headline']
 			],
 			'tp-hotspot' => [
@@ -969,7 +977,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Hover Card', 'Card', 'Business Card'],
 			],
 			'tp-icon-box' => [
@@ -1014,7 +1022,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-login-and-registration-form/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['login', 'register', 'Sign up','forgot password']
 			],
 			'tp-lottiefiles' => [
@@ -1032,7 +1040,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Mailchimp', 'Mailchimp addon', 'subscribe form']
 			],
 			'tp-media-listing' => [
@@ -1050,7 +1058,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Message box', 'Notification box', 'alert box']
 			],
 			'tp-mobile-menu' => [
@@ -1176,7 +1184,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Pricing list', 'Item price', 'price card', 'Price Guide', 'price box']
 			],
 			'tp-pricing-table' => [
@@ -1194,7 +1202,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/wordpress-preloader-animation-and-page-transitions/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => [ 'pre loader', 'loader', 'loading','Preloader' ],
 			],
 			'tp-pro-paragraph' => [
@@ -1226,7 +1234,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-progress-bar' => [
 				'label' => esc_html__('Progress Bar','the-plus-addons-for-block-editor'),
-				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-reading-scroll-progress-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-progress-bar/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
@@ -1239,7 +1247,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => [ 'Progress bar', 'progressbar', 'status bar', 'progress indicator', 'scroll progress', 'process progress bar', 'Progress Tracker', 'Page scroll tracker','Reading progress indicator','Reading progress bar','Reading position tracker', 'Scroll depth indicator', 'Scroll tracking', 'Scroll Progress Visualizer' ]
 			],
 			'tp-row' => [
@@ -1329,7 +1337,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '#',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Social', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['Social Sharing', 'Social Media Sharing']
 			],
 			'tp-social-reviews' => [
@@ -1356,7 +1364,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'docUrl' => '',
 				'videoUrl' => '#',
 				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-switcher' => [
 				'label' => esc_html__('Switcher','the-plus-addons-for-block-editor'),
@@ -1723,6 +1731,131 @@ class Tpgb_Gutenberg_Settings_Options {
         wp_send_json( $response );
         wp_die();
     }
+
+    /*
+	 * Wdesignkit Import Template Block List Merge
+	 * @since 4.2.4
+	 */
+
+    public function nexter_block_list_merge_action( $blockList ){
+
+        if( empty( $blockList ) ){
+            return [ 'success' => true , 'message'  => 'Block Name Not Found.' , 'description' => 'Block Name Not Found.' ];
+        }
+
+        $option_key = 'tpgb_normal_blocks_opts';
+        $all_block  = get_option( $option_key );
+
+        if ( ! is_array( $all_block ) ) {
+            $all_block = [];
+        }
+
+        if ( ! isset( $all_block['enable_normal_blocks'] ) || ! is_array( $all_block['enable_normal_blocks'] ) ) {
+            $all_block['enable_normal_blocks'] = [];
+        }
+
+        $sani_blockList = map_deep( wp_unslash( $blockList ), 'sanitize_text_field' );
+
+        $all_block['enable_normal_blocks'] = array_unique( array_merge( $all_block['enable_normal_blocks'], $sani_blockList ) );
+
+        update_option( $option_key, $all_block );
+        return [ 'success' => true , 'message'  => 'success' , 'description' => 'success' ];
+    }
+
+    /*
+    * Store User Data in Database From Onboarding Process
+    * @since 4.2.4
+    */
+    public function nxt_block_boarding_store(){
+
+		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
+
+		$tponbData = ( isset($_POST['boardingData']) && !empty($_POST['boardingData']) ) ? wp_unslash(json_decode(stripslashes($_POST['boardingData']), true)) : [];
+    
+		$userData = [];
+		if( isset($tponbData) && !empty($tponbData) ){
+            
+			// $tpoUpdate = update_option('tpgb_onboarding_data' , $tponbData);
+			if(isset($tponbData['tpgb_onboarding']) && $tponbData['tpgb_onboarding'] == true ){
+                
+				$userData['web_server'] = $_SERVER['SERVER_SOFTWARE'];
+
+				// Memory Limit
+				$userData['memory_limit'] = ini_get('memory_limit');
+
+				// Memory Limit
+				$userData['max_execution_time'] = ini_get('max_execution_time');
+
+				// Php Version
+				$userData['php_version'] = phpversion();
+
+				// Wordpress Version
+				$userData['wp_version'] = get_bloginfo( 'version' );
+
+				// Active Theme
+				$acthemeobj = wp_get_theme();
+				if(  $acthemeobj->get( 'Name' ) !== null && !empty( $acthemeobj->get( 'Name' ) ) ){
+					$userData['theme'] = $acthemeobj->get( 'Name' );
+				}
+
+				// Active Plugin Name
+				$actPlugin = [];
+				$actplu = get_option('active_plugins');
+				if ( ! function_exists( 'get_plugins' ) ) {
+					require_once ABSPATH . 'wp-admin/includes/plugin.php';
+				}
+
+				$plugins=get_plugins();
+				foreach ($actplu as $p){
+					if(isset($plugins[$p])){
+						$actPlugin[] = $plugins[$p]['Name'];
+					}
+				}
+
+				$userData['plugin'] = json_encode($actPlugin);
+
+                // No Of TPAG Block Used
+				$get_blocks_list = get_option('tpgb_normal_blocks_opts');
+
+				if(isset($get_blocks_list) && !empty($get_blocks_list) && isset($get_blocks_list['enable_normal_blocks']) && !empty($get_blocks_list['enable_normal_blocks']) ){
+					$userData['no_block']  = count($get_blocks_list['enable_normal_blocks']);
+					$userData['used_blocks'] = json_encode($get_blocks_list['enable_normal_blocks']);
+ 				}
+
+				// User Email
+				$userData['email'] = get_option('admin_email');
+
+				// Site Url
+				$userData['site_url'] = get_option('siteurl');
+
+				// Site Url
+				$userData['site_language'] = get_bloginfo("language");
+
+                // Nexter Block Version
+                $userData['nexter_block_version'] = TPGB_VERSION;
+
+				$response = wp_remote_post('https://api.posimyth.com/wp-json/tpgb/v2/tpgb_store_user_data' , array(
+					'method' => 'POST',
+					'body' => json_encode($userData)
+				) );
+
+				if (is_wp_error($response)) {
+					echo wp_send_json([ 'onBoarding' => false ]);
+				} else {
+					$StatusOne = wp_remote_retrieve_response_code($response);
+					if($StatusOne == 200){
+						$GetDataOne = wp_remote_retrieve_body($response);
+						$GetDataOne = (array) json_decode(json_decode($GetDataOne, true));
+						if(isset($GetDataOne['success']) && !empty($GetDataOne['success']) ){
+                            add_option( 'nxt_onboarding_done' , true );
+                            echo wp_send_json([ 'onBoarding' => true ]);
+						}
+					}
+				}
+			}
+		}
+		exit;
+	}
 
 }
 

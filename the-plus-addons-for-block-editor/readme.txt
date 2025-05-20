@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.2.3
+Stable tag: 4.3.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -509,6 +509,16 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.3.0 = 20 May 2025
+- New : Revamp Global Styles Manager.
+- Added : Onboarding Process Added to Dashboard.
+- Added : Form Block: Added options for Row Gap and Column Gap.
+- Fix :  Resolved issue with CSS not loading on the default shop page.
+- Fix : Tab Tours : issue with the default active tab not appearing correctly in the editor.
+- Fix : Post Meta :  Fixed bug where the category was not displayed on archive pages.
+- Fix : Form Block :  Fixed bug with the submit button width.
+
 = 4.2.3 = 29 April 2025
 - Fix : Background Components Button Design Issue.
 - Fix : Paragraph: Minor design bug.

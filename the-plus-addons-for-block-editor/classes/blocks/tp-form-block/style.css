@@ -55,6 +55,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+    gap: 8px;
     transition: all .3s ease-in-out
 }
 
@@ -69,7 +70,8 @@
     background-color: #fff;
     width: 100%;
     transition: all .3s ease-in-out;
-    background: 0 0
+    background: 0 0;
+    min-height: 0px;
 }
 
 .nxt-email-input .nxt-input-container .nxt-email-richtext,.nxt-email-input .nxt-input-container .nxt-email-richtext:focus,.nxt-name-input .nxt-input-container .nxt-name-richtext:focus {
@@ -108,7 +110,8 @@
     text-overflow: ellipsis;
     flex: 1;
     transition: all .3s ease-in-out;
-    width: 100%
+    width: 100%;
+    min-width: 0px;
 }
 
 .nxt-submit,.nxt-submit:disabled {
@@ -120,12 +123,13 @@
     opacity: 1;
     position: relative;
     text-align: center;
-    width: 110px;
     min-width: 110px;
     justify-content: center;
     align-items: center;
     display: flex;
-    background-color: #162d9e
+    padding: 0px;
+    background-color: #162d9e;
+    column-gap: 5px;
 }
 
 .nxt-submit:focus,.nxt-submit:hover {
@@ -227,6 +231,7 @@
 }
 
 .nxt-help-text {
+    display: block;
     width: -webkit-fill-available
 }
 
@@ -379,7 +384,8 @@
     background-position: right 10px center;
     background-size: 16px;
     padding: 10px;
-    appearance: none
+    appearance: none;
+    line-height: 1.6;
 }
 
 .nxt-check-box.horizontal,.nxt-radio-box.horizontal {
@@ -428,8 +434,21 @@
     border-radius: 10px
 }
 
-.nxt-submit-button.nxt-btn-block .nxt-submit,.nxt-submit-button.nxt-btn-inline .nxt-submit {
-    min-height: 43px
+.nxt-submit-button .nxt-submit,.nxt-btn-inline .nxt-submit {
+    font-size: 14px
+}
+
+.nxt-button-svg {
+	display: flex;
+	align-items: center;
+}
+
+.nxt-submit-button .nxt-submit {
+    line-height: 3
+}
+
+.nxt-btn-inline .nxt-submit {
+    line-height: 2
 }
 
 .nxt-not-inline {
@@ -462,4 +481,8 @@
 
 .nxt-form-option:has(.nxt-option-container>.nxt-help-text:nth-child(3):not(:empty)):not(:has(.nxt-error-select:not(:empty)))+.nxt-submit-button.nxt-btn-inline {
     margin-bottom: 30px
+}
+.tp-form-block textarea:-webkit-autofill,.tp-form-block textarea:-webkit-autofill:focus,.tp-form-block textarea:-webkit-autofill:hover {
+	box-shadow: 0 0 0 1000px transparent inset !important;
+	transition: background-color 9999s ease-in-out 0s !important;
 }

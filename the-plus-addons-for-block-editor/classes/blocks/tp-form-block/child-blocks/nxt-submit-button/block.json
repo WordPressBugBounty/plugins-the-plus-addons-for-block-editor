@@ -39,7 +39,7 @@
 					"backend": true
 				},
 				{
-					"selector": ".nxt-submit-button{{PLUS_WRAP}}.nxt-btn-inline {min-width: {{btnSz}};} .nxt-submit-button{{PLUS_WRAP}}.nxt-btn-block .nxt-submit{width:{{btnSz}};}",
+                    "selector": ".nxt-submit-button{{PLUS_WRAP}}.nxt-btn-inline {min-width: {{btnSz}};} .nxt-submit-button{{PLUS_WRAP}}.nxt-btn-block .nxt-submit{min-width:{{btnSz}};}",
 					"backend": false
 				}
 			]

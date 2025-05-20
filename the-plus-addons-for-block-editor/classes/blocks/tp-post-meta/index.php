@@ -47,7 +47,13 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 		$catePrefix = (!empty($attr['catePrefix'])) ? '<span class="tpgb-meta-category-label">'.wp_kses_post($attr['catePrefix']).'</span>' : '';
 		$cateDisplayNo = (!empty($attr['cateDisplayNo'])) ? $attr['cateDisplayNo'] : 0;
 		$cateStyle = (!empty($attr['cateStyle'])) ? $attr['cateStyle'] : 'style-1';
+
 		$terms = get_the_terms( $post_id, $taxonomySlug, array("hide_empty" => true) );
+        if( is_archive() && empty( $terms ) ){
+            $post_id = get_the_ID();
+            $terms = get_the_terms( $post_id, $taxonomySlug, array("hide_empty" => true) );
+        }
+        
 		$category_list ='';
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 			$i = 1;

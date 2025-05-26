@@ -1852,7 +1852,10 @@ class Tpgb_Gutenberg_Settings_Options {
 						}
 					}
 				}
-			}
+			}else{
+                add_option( 'nxt_onboarding_done' , true );
+                echo wp_send_json([ 'onBoarding' => true ]);
+            }
 		}
 		exit;
 	}

@@ -142,15 +142,22 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                                                     <?php if( !empty($value['svg']) ){ echo $value['svg']; } ?>
                                                 </span>
                                                 <div class="tpgb-reason-text"><?php echo esc_html($value['reason']); ?></div>
+                                                
                                             </label>
                                         </div>
                                 <?php } ?>
                             </div>
                             <textarea name="tpgb-reason-txt" placeholder="<?php echo esc_html__('Please share more details', 'the-plus-addons-for-block-editor') ?>" class="tpgb-reason-deails" rows="3"></textarea>
                             <div class="tpgb-help-link">                                 
-                                <span><?php echo esc_html__( "After submitting, we'll get in touch with you via email to provide the support you need. If you require any help, please" , 'the-plus-addons-for-block-editor'); ?></span>                                 
+                                <span><?php echo esc_html__( "If you require any help, please" , 'the-plus-addons-for-block-editor'); ?></span>                                 
                                 <span> <a href="<?php if(defined('TPGBP_VERSION')) { echo esc_url('https://store.posimyth.com/helpdesk/?utm_source=wpbackend&utm_medium=admin&utm_campaign=links'); } else { echo esc_url('https://wordpress.org/support/plugin/the-plus-addons-for-block-editor/'); }  ?>" target="_blank" rel="noopener noreferrer" > <?php echo esc_html__( 'Create A Ticket.', 'the-plus-addons-for-block-editor') ?> </a> <?php echo esc_html__ ( 'We reply within 24 working hours.', 'the-plus-addons-for-block-editor' ); ?></span>                                 
                                 <span> <?php echo esc_html__( 'Looking for instant solutions? Read our ', 'the-plus-addons-for-block-editor') ?><a href="<?php echo esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer" ><?php echo esc_html__( 'Documentation', 'the-plus-addons-for-block-editor') ?></a><?php echo esc_html__( ' or ', 'the-plus-addons-for-block-editor') ?><a href="<?php echo esc_url('https://nexterwp.com/chat/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Ask AI', 'the-plus-addons-for-block-editor') ?></a>. </span>                              
+                            </div>
+                            <div class="nxt-contact-item">
+                                <label class="tpgb-relist">
+                                    <input type="checkbox" class="nxt-contact-checkbox" name="nxt-contact-consent" value="1"/>
+                                    <span class="tpgb-reason-text"> <?php echo esc_html__('I agree to be contacted via email for support with this plugin.', 'the-plus-addons-for-block-editor') ?> </span>
+                                </label>
                             </div>
                         </form>
                     </div>
@@ -171,6 +178,58 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 		 */
         public function tpgb_deact_popup_css() { ?>
             <style type="text/css">
+
+                .tpgb-relist .nxt-contact-checkbox + .tpgb-reason-text{
+                    font-size: 12px;
+                }
+
+                .tpgb-relist .nxt-contact-checkbox {
+                    margin-top: 1px;
+                    position: relative;
+                }
+
+                .nxt-contact-checkbox::after {
+                    content: "";
+                    position: absolute;
+                    top: 40%;
+                    left: 50%;
+                    border: solid #fff;
+                    border-width: 0 2px 2px 0;
+                    width: calc(20px - 100%);
+                    height: calc(20px - 75%);
+                    transform: translate(-50%,-50%) rotate(45deg) scale(0);
+                    opacity: 0;
+                    transition: transform .3s cubic-bezier(.12,.4,.29,1.46),opacity .3s ease
+                }
+
+                .nxt-contact-checkbox:checked::after {
+                    transform: translate(-50%,-50%) rotate(45deg) scale(1);
+                    opacity: 1
+                }
+
+                .nxt-contact-checkbox:focus {
+                    outline-width: 0;
+                    outline-style: none
+                }
+
+                .nxt-contact-checkbox:checked:focus,
+                .nxt-contact-checkbox:checked:hover,
+                .nxt-contact-checkbox:checked {
+                    background-color: #162d9e;
+                    background-image: none;
+                    outline-width: 0;
+                    outline-style: none;
+                    border: none;
+                }
+
+                .nxt-contact-checkbox:not(:checked)::after {
+                    transform: translate(-50%,-50%) rotate(45deg) scale(0);
+                    opacity: 0;
+                    transition: none
+                }
+                .tpgb-relist .nxt-contact-checkbox:checked::before {
+                    content: "";
+                }
                 .tpgb-reason-txt{
                     border: 1px solid #72727266;
                     border-radius: 5px;
@@ -181,7 +240,7 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     border-radius: 2.67px;
                     
                 }
-                .nxt-reason-item {
+                .nxt-reason-item,.nxt-contact-item {
                     border: 1.5px solid #72727266; 
                     flex: 0 0 44%;
                     padding: 10px;
@@ -361,16 +420,13 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 
                 .tpgb-modal-input {
                     display: flex;
-                    /* flex-direction: column; */
                     flex-wrap: wrap;
                     align-items: flex-start;
                     justify-content: center;
-                    /* row-gap: 10px */
                     gap:10px;
                 }
 
                 .tpgb-relist {
-                    /* display: block */
                     display: flex;
                     gap:8px;
                     align-items: anchor-center;
@@ -529,16 +585,18 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                             submitButton.classList.add('tpgb-loading');
 
                             var formObj = document.getElementById('tpgb-deactive-modal').querySelector('form.tpgb-feedback-dialog-form');
-                            var formData = new FormData(formObj);
-                            console.log("selectedReasonValue = ", selectedReasonValue);
-                            
+                            var formData = new FormData(formObj);  
+                             var checkbox = formObj.querySelector('.nxt-contact-checkbox');
+                            var checkboxValue = checkbox && checkbox.checked ? '1' : '0';                          
                             var ajaxData = 'action=tpgb_deactive_plugin' +
                                 '&nonce=' + formData.get('nonce') +
-                                '&deactreson=' + selectedReasonValue;
+                                '&deactreson=' + selectedReasonValue+'&nxt-contact-consent=' + encodeURIComponent(checkboxValue);
+
 
                             if (formData.get('tpgb-reason-txt') && formData.get('tpgb-reason-txt') !== '') {
                                 ajaxData += '&tprestxt=' + formData.get('tpgb-reason-txt');
                             }
+                            
 
                             var request = new XMLHttpRequest();
                             request.open('POST', "<?php echo esc_url(admin_url('admin-ajax.php')); ?>", true);
@@ -553,24 +611,6 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                         }
                     });
 
-                    document.addEventListener('click', function(e) {
-                        if (e.target.classList.contains('tpgb-modal-deactive')) {
-                            e.preventDefault();
-                            var url = e.target.getAttribute('href');
-                            var formObj = document.getElementById('tpgb-deactive-modal').querySelector('form.tpgb-feedback-dialog-form');
-                            var formData = new FormData(formObj);
-
-                            var request = new XMLHttpRequest();
-                            request.open('POST', "<?php echo esc_url(admin_url('admin-ajax.php')); ?>", true);
-                            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
-                            request.onload = function () {
-                                if (request.status >= 200 && request.status < 400) {
-                                    window.location.href = url;
-                                }
-                            };
-                            request.send('action=tpgb_skip_deactivate' + '&nonce=' + formData.get('nonce'));
-                        }
-                    });
                 });
 		    </script>
         <?php }
@@ -595,17 +635,19 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 
 			$deactreson = ! empty( $_POST['deactreson'] ) ? sanitize_text_field( wp_unslash( $_POST['deactreson'] ) ) : '';
 			$tprestxt =  isset( $_POST['tprestxt'] ) && !empty( $_POST['tprestxt'] ) ? sanitize_text_field( wp_unslash( $_POST['tprestxt'] ) ) : '';
+            $ncc =  $_POST['nxt-contact-consent'];
+            error_log("ncc = ".$ncc);
             
             // Get User Email
             $admin_user = wp_get_current_user();
-            $admin_email = $admin_user->user_email; 
+            $admin_email =  $ncc ? $admin_user->user_email : ''; 
             $nxt_install_data = get_option( 'nexter-installed-data' );
 
 			$api_params = array(
-				'site_url'    => esc_url( home_url() ),
+				// 'site_url'    => esc_url( home_url() ),
 				'reason_key'  => $deactreson,
 				'reason_text' => $tprestxt,
-                'tpgb_version' => TPGB_VERSION,
+                // 'tpgb_version' => TPGB_VERSION,
                 'admin_email'=>$admin_email,
 			);
 
@@ -627,32 +669,6 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 			} else {
 				wp_send_json([ 'deactivated' => true ]);
 			}
-
-			wp_die();
-        }
-
-        /**
-		 *  Deactive Plugin API Call
-         * 
-		 */
-        public function tpgb_skip_deactivate(){
-           
-            check_ajax_referer( 'tpgb-deactivate-feedback', 'nonce' );
-
-            if ( ! current_user_can( 'activate_plugins' ) ) {
-                wp_send_json_error( 'Permission denied' );
-            }
-
-			$response = wp_remote_post(
-				'https://api.posimyth.com/wp-json/tpag/v2/tpgb_deactivate_user_count',
-				array(
-                    'timeout' => 30,
-					'body'    => array(),
-					'headers' => array(
-						'Content-Type' => 'application/x-www-form-urlencoded',
-					),
-				)
-			);
 
 			wp_die();
         }

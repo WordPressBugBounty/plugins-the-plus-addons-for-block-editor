@@ -1951,7 +1951,7 @@ class Tp_Blocks_Helper {
                 $message = isset($action_option['message1']) && !empty($action_option['message1']) ? sanitize_textarea_field($action_option['message1']) : '';
                 $from_name = isset($action_option['frmNme']) && !empty($action_option['frmNme']) ? ($action_option['frmNme'] === '[nxt_name]' ? get_option('blogname') : sanitize_text_field($action_option['frmNme'])) : '';
                 $from_email = isset($action_option['frmEmail']) && !empty($action_option['frmEmail']) ? ($action_option['frmEmail'] === '[nxt_email]' ? get_option('admin_email') : sanitize_email($action_option['frmEmail'])) : 'no-reply@example.com';
-                $reply_to = isset($action_option['replyTo']) && !empty($action_option['replyTo']) ? sanitize_email($action_option['replyTo']) : '';
+                $reply_to = isset($action_option['replyTo']) && !empty($action_option['replyTo']) ? sanitize_text_field($action_option['replyTo']) : ''; 
                 $cc = isset($action_option['ccEmail1']) && !empty($action_option['ccEmail1']) ? sanitize_text_field($action_option['ccEmail1']) : '';
                 $bcc = isset($action_option['bccEmail1']) && !empty($action_option['bccEmail1']) ? sanitize_text_field($action_option['bccEmail1']) : '';
                 $emailHdg = isset($action_option['emailHdg']) && !empty($action_option['emailHdg']) ? sanitize_text_field($action_option['emailHdg']) : 'You have received a new form submission:';
@@ -1980,7 +1980,10 @@ class Tp_Blocks_Helper {
                         continue;
                     }
                     
-    
+                    // user Email Shortcode 
+                    if ($reply_to === '[nxt_user_email]') {
+                        $reply_to = sanitize_email($value);
+                    }
     
                     if (is_array($value)) {
                         $regular_fields[$formatted_key] = array_map('sanitize_text_field', $value);

@@ -2863,6 +2863,19 @@ Class Tpgb_Library {
 			return $block_content;
 		}
 		if ( $block['blockName'] ) {
+
+            if (isset($block['blockName']) && in_array($block['blockName'], ['core/html', 'tpgb/tp-creative-image','tpgb/tp-media-listing'])) {
+
+                $block_content = preg_replace_callback(
+                    '/data-caption="([^"]*)"/i',
+                    function( $matches ) {
+                        return 'data-caption="' . esc_attr( wp_strip_all_tags( html_entity_decode( $matches[1] ) ) ) . '"';
+                    },
+                    $block_content
+                );
+
+            }
+
 			$options = (!empty($block['attrs'])) ? $block['attrs'] : '';
 			if(!empty($options) && class_exists('Tpgb_Get_Blocks') && $this->check_generate_script()===true){
 				if( isset($options['block_id']) && !in_array($options['block_id'], $this->block_ids) ){

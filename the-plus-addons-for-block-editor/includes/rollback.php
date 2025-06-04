@@ -51,7 +51,7 @@ if(!class_exists('Tpgb_Rollback')){
 				.wrap {
 					position: relative;
 					margin: 0 auto;
-					border: 2px solid #6f1ef1;
+					border: 2px solid #1717CC;
 					border-radius: 5px;
 					-webkit-box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
 					box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
@@ -63,7 +63,7 @@ if(!class_exists('Tpgb_Rollback')){
 				.wrap h1 {
 					text-align: center;
 					color: #fff;
-					background: #6f1ef1;
+					background: #1717CC;
 					padding: 60px;
 					letter-spacing: 0.8px;
 					border-radius: 5px;
@@ -71,7 +71,7 @@ if(!class_exists('Tpgb_Rollback')){
 				.wrap h1 img {
 					display: block;
 					max-width: 250px;
-					margin: auto auto 35px;
+					margin: auto auto 0;
 				}
 				.tpgb-rb-subtitle{
 					font-size: 18px;
@@ -182,7 +182,7 @@ if(!class_exists('Tpgb_Rollback')){
 			$plugin_info->new_version = $this->version;
 			$plugin_info->slug = $this->plugin_slug;
 			$plugin_info->package = $this->pakg_url;
-			$plugin_info->url = 'https://nexterwp.com/nexter-blocks/';
+			$plugin_info->url = 'https://nexterwp.com/nexter-blocks';
 
 			$update_plugins_data->response[ $this->plugin_name ] = $plugin_info;
 
@@ -198,7 +198,7 @@ if(!class_exists('Tpgb_Rollback')){
 
 			$this->rollback_page_style();
 
-			$logo_url = TPGB_URL . 'assets/images/theplus-logo.png';
+			$logo_url = TPGB_URL . 'assets/images/nexter-logo.png';
 
 			$args = [
 				'url' => 'update.php?action=upgrade-plugin&plugin=' . rawurlencode( $this->plugin_name ),

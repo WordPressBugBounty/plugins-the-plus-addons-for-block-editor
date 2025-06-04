@@ -1857,9 +1857,8 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 		}
 		
 		$FinalData = [];
-		$Perfo_transient = get_transient("SF-Performance-$feed_id");
-		
-		if( ($Performance == false) || ($Performance == true && $Perfo_transient === false) ){
+        
+        if( $Performance == false ){ // || ($Performance == true && $Perfo_transient === false)
 			$AllData = [];
 			foreach ($Rsocialfeed as $index => $social) {
 				$RFeed = (!empty($social['selectFeed'])) ? $social['selectFeed'] : 'Facebook';
@@ -1867,8 +1866,9 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 
 				if($RFeed == 'Facebook'){
 					$AllData[] = tpgb_FacebookFeed($social, $attributes);
-				}
+                }
 			}
+            
 			if(!empty($AllData)){
 				foreach($AllData as $key => $val){
 					foreach($val as $key => $vall){ 
@@ -1879,10 +1879,20 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 			$Feed_Index = array_column($FinalData, 'Feed_Index');
 			array_multisort($Feed_Index, SORT_ASC, $FinalData);
 			set_transient("SF-Performance-$feed_id", $FinalData, $RefreshTime);
+            set_transient("SF-Performance-$block_id", $FinalData, $RefreshTime);
+            set_transient("SF-free-backup-$block_id", $FinalData, 0);
 		} else {
 			$FinalData = get_transient("SF-Performance-$feed_id");
+
+            if ($FinalData === false || empty($FinalData)) {
+                $FinalData = get_transient("SF-Performance-$block_id");
+            }
+            
+            if ($FinalData === false || empty($FinalData)) {
+                $FinalData = get_transient("SF-free-backup-$block_id");
+            }
 		}
-       
+
 		if(!empty($FinalData)){
 			foreach ($FinalData as $index => $data) {
 				$PostId = !empty($data['PostId']) ? $data['PostId'] : [];
@@ -1896,7 +1906,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 				$SocialFeed .= '<div class="post-loop-inner social-feed-'.esc_attr($style).'" >';
 				foreach ($FinalData as $F_index => $AllVmData) {
 					$uniqEach = uniqid();
-                    $PopupSylNum = $block_id . "-" . $F_index . "-" . $uniqEach;
+					$PopupSylNum = $block_id . "-" . $F_index . "-" . $uniqEach;
 					$RKey = (!empty($AllVmData['RKey'])) ? $AllVmData['RKey'] : '';
 					$PostId = (!empty($AllVmData['PostId'])) ? $AllVmData['PostId'] : '';
 					$UName = (!empty($AllVmData['UName'])) ? $AllVmData['UName'] : '';
@@ -1933,7 +1943,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content) {
 						$sepPostId = explode("_",$PostId);
 						$newPId = (!empty($sepPostId[1])) ? $sepPostId[1] : '';
 						$fbPostRD = 'https://www.facebook.com/'.esc_attr($UName).'/posts/'.esc_attr($newPId);
-						$videoURL = ($selectFeed == 'Facebook' && $PopupOption == 'GoWebsite') ? (!empty($PostLink[0]['link'])) ? $PostLink[0]['link'] : "#" : $PostLink;
+						$videoURL = ($selectFeed == 'Facebook' && $PopupOption == 'GoWebsite') ? (!empty($PostLink[0]['link'])) ? $PostLink[0]['link'] : $fbPostRD : $PostLink;
 						$ImageURL = $PostImage;
 					}
 					if(!empty($FbAlbum)){

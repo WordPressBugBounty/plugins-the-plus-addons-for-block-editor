@@ -1646,6 +1646,24 @@
           }
         ],
         "scopy": true
+      },
+      "backPad": {
+        "type": "object",
+        "default": {
+          "md": {
+            "top": "",
+            "right": "",
+            "bottom": "",
+            "left": ""
+          },
+          "unit": "px"
+        },
+        "style": [
+          {
+            "selector": "{{PLUS_WRAP}}.tpgb-flipbox .flip-box-inner{ padding: {{backPad}}; }"
+          }
+        ],
+        "scopy": true
       }
     }
 }

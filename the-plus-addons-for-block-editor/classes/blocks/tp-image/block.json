@@ -105,14 +105,16 @@
       "scopy": true
     },
     "imgFit": {
-      "type": "string",
-      "default": "",
-      "style": [
-        {
-          "selector": "{{PLUS_WRAP}} img.tpgb-img-inner{ object-fit: {{imgFit}}; object-position: center center; }"
-        }
-      ],
-      "scopy": true
+        "type": "object",
+            "default": {
+            "md": ""
+        },
+        "style": [
+            {
+            "selector": "{{PLUS_WRAP}} img.tpgb-img-inner{ object-fit: {{imgFit}}; object-position: center center; }"
+            }
+        ],
+        "scopy": true
     },
     "inOpa": {
       "type": "string",

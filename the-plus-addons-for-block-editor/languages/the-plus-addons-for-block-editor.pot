@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.3.1\n"
+"Project-Id-Version: Nexter Blocks 4.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-26T09:22:00+00:00\n"
+"POT-Creation-Date: 2025-05-20T05:27:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -396,49 +396,45 @@ msgstr ""
 msgid "Other Reasons."
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:150
+#: classes/extras/tpag-deactive.php:149
 msgid "Please share more details"
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:152
-msgid "If you require any help, please"
+#: classes/extras/tpag-deactive.php:151
+msgid "After submitting, we'll get in touch with you via email to provide the support you need. If you require any help, please"
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:153
+#: classes/extras/tpag-deactive.php:152
 msgid "Create A Ticket."
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:153
+#: classes/extras/tpag-deactive.php:152
 msgid "We reply within 24 working hours."
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:154
+#: classes/extras/tpag-deactive.php:153
 msgid "Looking for instant solutions? Read our "
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:154
+#: classes/extras/tpag-deactive.php:153
 #: dashboard/build/index.js:1
 msgid "Documentation"
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:154
+#: classes/extras/tpag-deactive.php:153
 msgid " or "
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:154
+#: classes/extras/tpag-deactive.php:153
 #: assets/js/admin/blocks.js:1
 msgid "Ask AI"
 msgstr ""
 
 #: classes/extras/tpag-deactive.php:159
-msgid "I agree to be contacted via email for support with this plugin."
-msgstr ""
-
-#: classes/extras/tpag-deactive.php:166
 msgid "Skip & Deactivate"
 msgstr ""
 
-#: classes/extras/tpag-deactive.php:167
+#: classes/extras/tpag-deactive.php:160
 msgid "Submit & Deactivate"
 msgstr ""
 
@@ -8558,7 +8554,6 @@ msgid "Content Click"
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
-#: dashboard/build/index.js:1
 msgid "Next"
 msgstr ""
 
@@ -10810,7 +10805,7 @@ msgid "Get Exclusive WordPress Tips, Tricks and Resources Delivered Straight to 
 msgstr ""
 
 #: dashboard/build/index.js:1
-msgid "Join 500K+ Agency Owners, Marketers and WordPress Users."
+msgid "Join our 500K+ Business Owners, Marketers, WordPress users."
 msgstr ""
 
 #: dashboard/build/index.js:1
@@ -10819,6 +10814,10 @@ msgstr ""
 
 #: dashboard/build/index.js:1
 msgid "Agree to contribute to make Nexter Blocks better by sharing non-sensitive details."
+msgstr ""
+
+#: dashboard/build/index.js:1
+msgid "Subscribe and Continue"
 msgstr ""
 
 #: dashboard/build/index.js:1

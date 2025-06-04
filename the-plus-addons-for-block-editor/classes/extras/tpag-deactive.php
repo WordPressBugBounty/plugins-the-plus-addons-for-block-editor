@@ -85,20 +85,12 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
             ?>
             <div class="tpgb-modal" id="tpgb-deactive-modal">
                 <div class="tpgb-modal-wrap">
-                
-                    <!-- <div class="tpgb-modal-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none"><rect width="30" height="30" fill="#1717CC" rx="6"/><path fill="#fff" fill-rule="evenodd" d="M16.665 19.075V5.382a.323.323 0 0 0-.144-.288.52.52 0 0 0-.384-.144H13.35v14.894h2.306c.289 0 .529-.08.721-.24.224-.16.32-.337.288-.529Zm0 5.91.048-2.354a.788.788 0 0 0-.048-.24v-.048c-.032-.033-.048-.065-.048-.097v-.048a1.322 1.322 0 0 0-.384-.336c-.032-.032-.064-.048-.096-.048a1.066 1.066 0 0 0-.337-.048c0-.032-.016-.048-.048-.048H13.35v3.267h3.315Z" clip-rule="evenodd"/></svg>
-                        <span class="tpgb-feed-head-title">
-                            <php echo esc_html__( 'Quick Feedback', 'the-plus-addons-for-block-editor' ); ?>
-                        </span>
-                    </div> -->
 
                     <div class="tpgb-modal-body">
                         <h3 class="tpgb-feed-caption"><?php echo esc_html__( "Deactivation Reason", 'the-plus-addons-for-block-editor' ); ?></h3>
                         <form class="tpgb-feedback-dialog-form" method="post">
 
                             <input type="hidden" name="nonce" value="<?php echo esc_attr( $security ); ?>" />
-                            <!-- <input type="radio" <php echo $key == 0 ? 'checked="checked"' : ''; ?> id="<php echo 'details-'.esc_attr($key); ?>" name="tpgb-reason" value="<php echo esc_attr($value['reason']); ?>"> -->
                             <div class="tpgb-modal-input">
                                 <?php 
                                     $resonData = array(
@@ -178,11 +170,9 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 		 */
         public function tpgb_deact_popup_css() { ?>
             <style type="text/css">
-
                 .tpgb-relist .nxt-contact-checkbox + .tpgb-reason-text{
                     font-size: 12px;
                 }
-
                 .tpgb-relist .nxt-contact-checkbox {
                     margin-top: 1px;
                     position: relative;
@@ -212,9 +202,7 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     outline-style: none
                 }
 
-                .nxt-contact-checkbox:checked:focus,
-                .nxt-contact-checkbox:checked:hover,
-                .nxt-contact-checkbox:checked {
+                .nxt-contact-checkbox:checked:focus,.nxt-contact-checkbox:checked:hover,.nxt-contact-checkbox:checked {
                     background-color: #162d9e;
                     background-image: none;
                     outline-width: 0;
@@ -248,9 +236,7 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     transition: border-color 0.3s;
                 }
 
-                .nxt-reason-item:focus,
-                .nxt-reason-item:active,
-                .nxt-reason-item.active {
+                .nxt-reason-item:focus,.nxt-reason-item:active,.nxt-reason-item.active {
                     border-color: #1717CC;
                 }
                 .tpgb-modal {
@@ -301,29 +287,8 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     overflow: hidden
                 }
 
-                /* #tpgb-deactive-modal .tpgb-modal-header {
-                    padding: 17px 30px;
-                    display: flex;
-                    align-items: center;
-                    background: #fff;
-                    box-shadow: 0 0 8px rgba(0,0,0,.1)
-                }
-
-                #tpgb-deactive-modal .tpgb-modal-header .tpgb-feed-head-title {
-                    margin-left: 10px;
-                    padding: 0;
-                    flex: 1;
-                    line-height: 1;
-                    font-size: 15px;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    color: #3c434a
-                } */
-
                 #tpgb-deactive-modal .tpgb-feed-caption {
-                     font-weight: 700;
-                    /* font-size: 15px;
-                    line-height: 1.4 */
+                    font-weight: 700;
                     font-size: 14px;
                     line-height: 17px;
                 }
@@ -332,7 +297,6 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     display:block;
                 }
                 #tpgb-deactive-modal .tpgb-modal-body
-                /* ,.tpgb-help-link */
                  {
                     padding: 20px 30px;
                     display: flex;
@@ -440,15 +404,10 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                     line-height: 18px;
                 }
 
-                /* #tpgb-deactive-modal input[type=radio]:focus, */
                 .tpgb-modal-deactive:focus,.tpgb-modal-submit:focus {
                     border-color: #1717CC!important;
                     box-shadow: none!important
                 }
-
-                /* #tpgb-deactive-modal input[type=radio]:checked::before {
-                    background: #1717CC
-                } */
 
                 .tpgb-help-link span {
                     font-size: 12px;

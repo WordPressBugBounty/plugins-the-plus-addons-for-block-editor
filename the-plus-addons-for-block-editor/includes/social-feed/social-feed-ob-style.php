@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         </div>';
     }
 
-    if( $selectFeed == 'Facebook' && $PopupOption == 'GoWebsite' && !empty($ImageURL) ){
+    if( ( ($style == 'style-1' || $style == 'style-2'  ) && $selectFeed == 'Facebook' && $PopupOption == 'GoWebsite' && !empty($ImageURL)) ){
         echo '<a href="'. ( ( is_array($videoURL) && isset($videoURL[0]['link']) && !empty($videoURL[0]['link']) ) ? esc_url($videoURL[0]['link']) : esc_url($videoURL) ) .'" class="tpgb-sf-logo-link" target="_blank" rel="noopener noreferrer" aria-label="'.esc_attr__('Post URL','the-plus-addons-for-block-editor').'"> <img class="tpgb-post-thumb" src="'.esc_url($ImageURL).'"> </a>';
     }
 

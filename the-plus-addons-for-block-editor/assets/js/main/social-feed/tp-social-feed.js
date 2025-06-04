@@ -21,13 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         right: Setting.button,
                     },
                 },
-                contentClick: (instance, event) => {
-                    let target = event.target.closest("a");
-                    if (target) {
-                        return;
-                    }
-                    instance.next();
-                }
+                contentClick: Setting.clickContent
             }
             if(!Setting.arrows){
                 optns.Carousel.Navigation = false;

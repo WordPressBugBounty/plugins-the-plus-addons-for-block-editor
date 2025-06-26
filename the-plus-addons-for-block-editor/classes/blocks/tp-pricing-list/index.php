@@ -31,7 +31,38 @@ function tpgb_pricing_list( $attributes, $content) {
 	}
 	
 	$getMenuTag = '';
-	$tagField = (class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($tagField) : $tagField;
+	
+    if (class_exists('Tpgbp_Pro_Blocks_Helper')) {
+    	global $repeater_index;
+    	$rep_Index = $repeater_index ?? 0;
+
+    	if (strpos($tagField, 'acf|') !== false || strpos($tagField, 'jetengine|') !== false) {
+    		if (preg_match('/<span[^>]*data-tpgb-dynamic=(["\'])([^"\']+)\1[^>]*><\/span>/', $tagField, $matches) && !empty($matches    [2])) {
+    			$dataArray = json_decode(html_entity_decode($matches[2], ENT_QUOTES | ENT_HTML5), true);
+
+    			if (json_last_error() === JSON_ERROR_NONE && !empty($dataArray['dynamicField'])) {
+    				$parts = explode('|', $dataArray['dynamicField']);
+
+    				if (count($parts) === 5) {
+    					$fieldName = $parts[1] ?? 'Unknown Field';
+    					$repData = apply_filters('tp_get_repeater_data', $parts);
+    					$replacement = $repData['repeater_data'][$rep_Index][$fieldName] ?? '';
+
+    					$tagField = preg_replace(
+    						'/<span[^>]+data-tpgb-dynamic=(["\'])(.*?)\1[^>]*><\/span>/',
+    						esc_html($replacement),
+    						$tagField
+    					);
+    				}
+    			}
+    		}
+    	} else {
+    	    $tagField = Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($tagField);
+        }
+    } else {
+        $tagField = $tagField;
+    }
+
 	$array=explode("|",$tagField);
 	if(!empty($array[1])){
 		foreach($array as $value){

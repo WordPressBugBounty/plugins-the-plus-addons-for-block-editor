@@ -1266,6 +1266,15 @@ class Tpgb_Gutenberg_Settings_Options {
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => [ 'Progress bar', 'progressbar', 'status bar', 'progress indicator', 'scroll progress', 'process progress bar', 'Progress Tracker', 'Page scroll tracker','Reading progress indicator','Reading progress bar','Reading position tracker', 'Scroll depth indicator', 'Scroll tracking', 'Scroll Progress Visualizer' ]
 			],
+             'tp-repeater-block' => [
+				'label' => esc_html__('Repeater', 'tpgb'),
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-repeater/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'docUrl' => 'https://nexterwp.com/docs/display-dynamic-repeater-field-data-in-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'videoUrl' => '',
+				'tag' => 'pro',
+				'block_cate' => esc_html__('Listing', 'tpgb'),
+				'keyword' => ['repeater']
+			],
 			'tp-row' => [
 				'label' => esc_html__('Row','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-container/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',

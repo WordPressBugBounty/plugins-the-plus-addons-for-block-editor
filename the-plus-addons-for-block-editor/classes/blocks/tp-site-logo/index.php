@@ -74,7 +74,14 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
 	if($urlType=='home'){
 		$url_link = get_home_url();
 	}else if($urlType=='custom'){
-		$url_link = (!empty($attributes['customURL']['url'])) ? $attributes['customURL']['url'] : '';
+		
+        // Set Dynamic URL For Custom Link
+        if(class_exists('Tpgbp_Pro_Blocks_Helper')){
+            $url_link = (isset($attributes['customURL']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($attributes['customURL']) : (!empty($attributes['customURL']['url']) ? $attributes['customURL']['url'] : '');
+        }else{
+            $url_link = (!empty($attributes['customURL']['url'])) ? $attributes['customURL']['url'] : '';
+        }
+
 		$target = (!empty($attributes['customURL']['target'])) ? ' target="_blank"' : '';
 		$nofollow = (!empty($attributes['customURL']['nofollow'])) ? 'rel="nofollow"' : '';
 		$link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['customURL']);

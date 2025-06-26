@@ -58,7 +58,38 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 				$getTitle .= $getExtraTitle;
 			}
 				if(!empty($limitTgl) && !empty($titleLimit)){
-					$Title = (class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($Title) : $Title;
+					
+                    if (class_exists('Tpgbp_Pro_Blocks_Helper')) {
+                        global $repeater_index;
+                        $rep_Index = $repeater_index ?? 0;
+    
+                        if (strpos($Title, 'acf|') !== false || strpos($Title, 'jetengine|') !== false) {
+                            if (preg_match('/<span[^>]*data-tpgb-dynamic=(["\'])([^"\']+)\1[^>]*><\/span>/', $Title, $matches) && !empty($matches[2])) {
+                                $dataArray = json_decode(html_entity_decode($matches[2], ENT_QUOTES | ENT_HTML5), true);
+    
+                                if (json_last_error() === JSON_ERROR_NONE && !empty($dataArray['dynamicField'])) {
+                                    $parts = explode('|', $dataArray['dynamicField']);
+    
+                                    if (count($parts) === 5) {
+                                        $fieldName = $parts[1] ?? 'Unknown Field';
+                                        $repData = apply_filters('tp_get_repeater_data', $parts);
+                                        $replacement = $repData['repeater_data'][$rep_Index][$fieldName] ?? '';
+    
+                                        $Title = preg_replace(
+                                            '/<span[^>]+data-tpgb-dynamic=(["\'])(.*?)\1[^>]*><\/span>/',
+                                            esc_html($replacement),
+                                            $Title
+                                        );
+                                    }
+                                }
+                            }
+                        } else {
+                            $Title = Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($Title);
+                        }
+                    } else {
+                        $Title = $Title;
+                    }
+
 					if($titleLimitOn=='char'){												
 						$getTitle .= substr($Title,0,$titleCount);
 						if(!empty($titleDots) && strlen($Title) > $titleCount){

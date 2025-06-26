@@ -377,6 +377,11 @@
           "backend": true
         }
       ]
+    },
+    "isRptBlock": {
+        "type": "boolean",
+        "default": false
     }
-  }
+  },
+  "usesContext": [ "postId", "postType","queryId","tpgb/dynamicSubFieldData","tpgb/dynamicRowIndex","tpgb/dynamicPost","tpgb/dynamicRepField"]
 }

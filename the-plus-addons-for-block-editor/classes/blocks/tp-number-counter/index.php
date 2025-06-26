@@ -82,6 +82,11 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content) {
 		}
 	$getCounterNo .= '</h5>';
 	
+    // Set Dynamic URL For Title Link
+    if(class_exists('Tpgbp_Pro_Blocks_Helper')){
+        $linkURL = (isset($attributes['linkURL']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($attributes['linkURL']) : (!empty($attributes['linkURL']['url']) ? $attributes['linkURL']['url'] : '');
+    }
+
 	$getTitle = '';
 	$link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['linkURL']);
 	$ariaLabel = (!empty($attributes['ariaLabel'])) ? esc_attr($attributes['ariaLabel']) : ((!empty($title)) ? esc_attr($title) : esc_attr__("Number Counter", 'the-plus-addons-for-block-editor'));

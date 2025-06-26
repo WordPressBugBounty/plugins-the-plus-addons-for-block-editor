@@ -45,10 +45,13 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             // if ( ! defined('TPGBP_VERSION') ) {
             //     add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
             // }
-            if ( is_admin() ) {
+            $whitedata = get_option('tpgb_white_label');
+            if( is_admin() && ( empty($whitedata) || ( !empty($whitedata['nxt_help_link']) && $whitedata['nxt_help_link'] !== 'on') ) ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
-                add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
             //    add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
+            }
+            if( is_admin() ){
+                add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
             }
             add_action( 'wp_ajax_nxt_dismiss_plugin_rebranding', array( $this,'nxt_dismiss_plugin_rebranding_callback' ), 10, 1 );
             // add_action( 'wp_ajax_nxt_dismiss_plugin_halloween', array( $this,'nxt_dismiss_plugin_halloween' ), 10, 1 );
@@ -277,8 +280,9 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
          * @since 2.0.0
          */
         public function tpbg_extra_links_plugin_row_meta( $plugin_meta = [], $plugin_file =''){
-
-            if ( strpos( $plugin_file, TPGB_BASENAME ) !== false && current_user_can( 'manage_options' ) ) {
+            
+            $whitedata = get_option('tpgb_white_label');
+            if ( strpos( $plugin_file, TPGB_BASENAME ) !== false && current_user_can( 'manage_options' ) && ( empty($whitedata) || ( !empty($whitedata['nxt_help_link']) && $whitedata['nxt_help_link'] !== 'on') ) ) {
 				$new_links = array(
 						'official-site' => '<a href="'.esc_url('https://nexterwp.com/nexter-blocks/?utm_source=wpbackend&utm_medium=pluginpage&utm_campaign=links').'" target="_blank" rel="noopener noreferrer">'.esc_html__( 'Visit Plugin site', 'the-plus-addons-for-block-editor' ).'</a>',
 						'docs' => '<a href="'.esc_url('https://nexterwp.com/docs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" target="_blank" rel="noopener noreferrer" style="color:green;">'.esc_html__( 'Docs', 'the-plus-addons-for-block-editor' ).'</a>',
@@ -291,7 +295,15 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 				 
 				$plugin_meta = array_merge( $plugin_meta, $new_links );
 			}
-			 
+			
+            if( !empty($whitedata['nxt_help_link']) ){
+                foreach ( $plugin_meta as $key => $meta ) {
+					if ( stripos( $meta, 'View details' ) !== false ) {
+						unset( $plugin_meta[ $key ] );
+					}
+				}
+            }
+
 			return $plugin_meta;
         }
     }

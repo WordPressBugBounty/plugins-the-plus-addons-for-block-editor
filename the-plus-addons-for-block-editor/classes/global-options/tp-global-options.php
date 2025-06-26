@@ -1276,7 +1276,14 @@ class Tpgb_Blocks_Global_Options {
 					$output .= '<div class="button-link-wrap">';
 				}else{
 					$link_attr = Tp_Blocks_Helper::add_link_attributes($extBtnUrl);
-					$output .= '<a class="button-link-wrap"  href="'.(!empty($extBtnUrl['url']) ? $extBtnUrl['url']  : '').'"  '.$extBtntarget.' '.$extBtnrel.'  '.$link_attr.'>';
+
+                    $extUrl = '';
+                    if(class_exists('Tpgbp_Pro_Blocks_Helper')){    
+                        $extUrl = (isset($attributes['extBtnUrl']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($attributes['extBtnUrl']) : (!empty($attributes['extBtnUrl']['url']) ? $attributes['extBtnUrl']['url'] : '');
+                    }else{
+                        $extUrl = (!empty($attributes['extBtnUrl']['url']) ? $attributes['extBtnUrl']['url'] : '');
+                    }
+					$output .= '<a class="button-link-wrap"  href="'.(!empty($extUrl) ? $extUrl  : '').'"  '.$extBtntarget.' '.$extBtnrel.'  '.$link_attr.'>';
 				}
 					if($extBtnStyle == 'style-8'){
 						if($extBtniconPosition == 'before'){

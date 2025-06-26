@@ -896,15 +896,7 @@
         },
         "pinHBShadow": {
           "type": "object",
-          "default": {
-            "openShadow": 0,
-            "inset": 0,
-            "horizontal": 0,
-            "vertical": 4,
-            "blur": 8,
-            "spread": 0,
-            "color": "rgba(0,0,0,0.40)"
-          },
+          "default": { "openShadow": 0 },
           "style": [
             {
               "condition": [
@@ -920,13 +912,13 @@
         "pinABShadow": {
           "type": "object",
           "default": {
-            "openShadow": 0,
-            "inset": 0,
-            "horizontal": 0,
-            "vertical": 4,
-            "blur": 8,
-            "spread": 0,
-            "color": "rgba(0,0,0,0.40)"
+              "openShadow": 0,
+              "inset": 0,
+              "horizontal": 0,
+              "vertical": 4,
+              "blur": 8,
+              "spread": 0,
+              "color": "rgba(0,0,0,0.40)"
           },
           "style": [
             {
@@ -1102,7 +1094,15 @@
         },
         "pDotBShadow": {
           "type": "object",
-          "default": { "openShadow": 0, "inset": 0, "horizontal": 0, "vertical": 4, "blur": 8, "spread": 0, "color": "rgba(0,0,0,0.40)" },
+          "default": {
+            "openShadow": 0,
+            "inset": 0,
+            "horizontal": 0,
+            "vertical": 4,
+            "blur": 8,
+            "spread": 0,
+            "color": "rgba(0,0,0,0.40)"
+        },
           "style": [
             {
               "condition": [
@@ -1117,8 +1117,16 @@
           "scopy": true
         },
         "pDotHBShadow": {
-          "type": "object",
-          "default": { "openShadow": 0, "inset": 0, "horizontal": 0, "vertical": 4, "blur": 8, "spread": 0, "color": "rgba(0,0,0,0.40)" },
+            "type": "object",
+            "default": {
+                "openShadow": 0,
+                "inset": 0,
+                "horizontal": 0,
+                "vertical": 4,
+                "blur": 8,
+                "spread": 0,
+                "color": "rgba(0,0,0,0.40)"
+            },
           "style": [
             {
               "condition": [

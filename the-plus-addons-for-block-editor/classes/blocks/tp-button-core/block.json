@@ -18,6 +18,7 @@
       "default": ""
     },
     "btxt": {
+        "type": "string",
       "source": "html",
       "selector": ".tpgb-btn-txt",
       "default": "Click Here"
@@ -365,6 +366,11 @@
           "backend": true
         }
       ]
+    },
+    "isRptBlock": {
+        "type": "boolean",
+        "default": false
     }
-  }
+  },
+  "usesContext": ["postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField"]
 }

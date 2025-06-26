@@ -9,7 +9,7 @@
 		"attributes": {}
 	},
 	"supports": { "align":["wide","full"]},
-  "usesContext" : [ "postId", "postType", "queryId" ],
+    "usesContext" : [ "postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField" ],
 	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
       "block_id": {
@@ -2223,6 +2223,10 @@
         "type": "string",
         "default": "",
         "scopy": true
+      },
+      "isRptBlock": {
+        "type": "boolean",
+        "default": false
       }
     }
 }

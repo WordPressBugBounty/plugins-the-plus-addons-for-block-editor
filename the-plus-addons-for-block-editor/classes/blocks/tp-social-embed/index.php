@@ -202,7 +202,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 			foreach ($VmSelect as $v) {
 				$VmALL[] = $v['value'];
 			}
-
+            
 			$Vm_FullScreen = ((in_array('fullscreen', $VmALL)) ? 'webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"' : '');
 			$Vm_AutoPlay = (in_array('autoplay', $VmALL)) ? 1 : 0;
 			$Vm_loop = (in_array('loop', $VmALL)) ? 1 : 0;
@@ -294,7 +294,7 @@ function tpgb_social_embed_render_callback( $attributes, $content) {
 			$iframeTitle = (!empty($attributes['iframeTitle'])) ? esc_attr($attributes['iframeTitle']) : esc_attr__('Google Map','the-plus-addons-for-block-editor');
 
 			if($mapaccesstoken == 'default'){
-				$output .= '<iframe class="tpgb-gmap-embed" src="http://maps.google.com/maps?q='.esc_attr($gSearchText).'&z='.esc_attr($mapZoom).'&output=embed" height="'.esc_attr($gMHeight).'" loading="lazy" allowfullscreen frameborder="0" scrolling="no" title="'.$iframeTitle.'"></iframe>';
+				$output .= '<iframe class="tpgb-gmap-embed" src="https://maps.google.com/maps?q='.esc_attr($gSearchText).'&z='.esc_attr($mapZoom).'&output=embed" height="'.esc_attr($gMHeight).'" loading="lazy" allowfullscreen frameborder="0" scrolling="no" title="'.$iframeTitle.'"></iframe>';
 			}else if($mapaccesstoken == 'accesstoken'){
 				$gAccesstoken = (!empty($attributes['gAccesstoken'])) ? $attributes['gAccesstoken'] : '';
 				if(!empty($gAccesstoken)){

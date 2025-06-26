@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.3.2
+Stable tag: 4.4.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -211,6 +211,8 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 * <strong> [Audio Music & Podcast Player](https://nexterwp.com/nexter-blocks/blocks/wordpress-audio-music-player/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
 
 * <strong> [Dynamic Content](https://nexterwp.com/nexter-blocks/extras/wordpress-dynamic-content/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
+
+* <strong> [Dynamic Repeater](https://nexterwp.com/nexter-blocks/builder/wordpress-dynamic-repeater-field-listing/ )</strong>
 
 * <strong> [Advanced Border Radius](https://nexterwp.com/nexter-blocks/extras/wordpress-advanced-border-radius/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
 
@@ -509,6 +511,13 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.4.0 = 26 June 2025
+- Fix : Social Embed : Resolved issue with Google Map not displaying.
+- Fix : Progress Tracker : box shadow bug in pin.
+- Fix : White Label : Removed Help link from plugin page in White Label settings.
+- Fix : Button : Attributes Type bug fix.
+- Minor bug Fixes and Overall Performance Improvements.
 
 = 4.3.2 = 04 June 2025
 - Added : Flip Box  :  Inner Padding Option Added.

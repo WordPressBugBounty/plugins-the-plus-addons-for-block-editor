@@ -26,7 +26,7 @@ if($FancyStyle == 'style-1'){
 				$AImg = ( !empty($fdata['images']) && !empty($fdata['images'][0]['source']) ) ? $fdata['images'][0]['source'] : ''; 
                     if($ij == 0){ ?>
                         <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','the-plus-addons-for-block-editor'); ?>">
-                            <?php if($style !== "style-4"){ ?><img class="reference-thumb tpgb-post-thumb" src="<?php echo esc_url($ImageURL); ?>" alt="<?php echo esc_attr__('Facebook Image','tpgbp'); ?>"/><?php } ?>
+                            <?php if($style !== "style-4"){ ?><img class="reference-thumb tpgb-post-thumb" src="<?php echo esc_url($ImageURL); ?>" alt="<?php echo esc_attr__('Facebook Image','the-plus-addons-for-block-editor'); ?>"/><?php } ?>
                         </a>
                     <?php }else{ ?>
                         <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','the-plus-addons-for-block-editor'); ?>">

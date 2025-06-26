@@ -1,4 +1,4 @@
-#toplevel_page_tpgb_gutenberg_settings ul.wp-submenu .wp-first-item {
+#toplevel_page_tpgb_gutenberg_settings ul.wp-submenu .wp-first-item,#ehe-admin-cb {
     display: none;
 }
 .wp-menu-image.dashicons-before.dashicons-tpgb-plus-settings {

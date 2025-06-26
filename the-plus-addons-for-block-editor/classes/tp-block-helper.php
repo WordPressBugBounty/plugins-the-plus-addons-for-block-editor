@@ -193,142 +193,38 @@ class Tp_Blocks_Helper {
 		
 		$enable_normal_blocks = $this->tpgb_get_option('tpgb_normal_blocks_opts','enable_normal_blocks');
 		
-			if(!empty($enable_normal_blocks)){
-				self::$get_load_block = $enable_normal_blocks;
-				self::$get_load_block[] = 'tpgb-settings';
-				$this->include_block( 'tpgb-settings' );
-				
-				foreach ( $load_blocks as $block_id => $block ) {
-					if(in_array($block_id,$enable_normal_blocks)){
-						$this->include_block( $block_id );
-						if(!empty($block_id) && $block_id=='tp-row'){
-							self::$get_load_block[] = 'tp-column';
-							$this->include_block( 'tp-column' );
-						}
-						if(!empty($block_id) && $block_id=='tp-container'){
-							self::$get_load_block[] = 'tp-container-inner';
-							$this->include_block( 'tp-container-inner' );
-						}
-						if(!empty($block_id) && $block_id=='tp-accordion'){
-							self::$get_load_block[] = 'tp-accordion-inner';
-							$this->include_block( 'tp-accordion-inner' );	
-						}
-						if(!empty($block_id) && $block_id=='tp-tabs-tours'){
-							self::$get_load_block[] = 'tp-tab-item';
-							$this->include_block( 'tp-tab-item' );	
-						}
-						if(!empty($block_id) && $block_id=='tp-anything-carousel'){
-							self::$get_load_block[] = 'tp-anything-slide';
-							$this->include_block( 'tp-anything-slide' );	
-						}
-                        if (!empty($block_id) && $block_id == 'tp-form-block') {
-							$formChild = [
-                                'tp-form-block/child-blocks/nxt-name-field',
-                                'tp-form-block/child-blocks/nxt-number-field',
-                                'tp-form-block/child-blocks/nxt-email-field',
-                                'tp-form-block/child-blocks/nxt-message-field',
-                                'tp-form-block/child-blocks/nxt-submit-button',
-                                'tp-form-block/child-blocks/nxt-option-field',
-                                'tp-form-block/child-blocks/nxt-radio-button',
-                                'tp-form-block/child-blocks/nxt-checkbox-button',
+        if(!empty($enable_normal_blocks)){
+            self::$get_load_block = $enable_normal_blocks;
+            self::$get_load_block[] = 'tpgb-settings';
+            $this->include_block( 'tpgb-settings' );
+            
+            foreach ( $load_blocks as $block_id => $block ) {
+                if(in_array($block_id,$enable_normal_blocks)){
+                    $this->include_block( $block_id );
+                    if(!empty($block_id) && $block_id=='tp-row'){
+                        self::$get_load_block[] = 'tp-column';
+                        $this->include_block( 'tp-column' );
+                    }
+                    if(!empty($block_id) && $block_id=='tp-container'){
+                        self::$get_load_block[] = 'tp-container-inner';
+                        $this->include_block( 'tp-container-inner' );
+                    }
+                    if(!empty($block_id) && $block_id=='tp-accordion'){
+                        self::$get_load_block[] = 'tp-accordion-inner';
+                        $this->include_block( 'tp-accordion-inner' );	
+                    }
+                    if(!empty($block_id) && $block_id=='tp-tabs-tours'){
+                        self::$get_load_block[] = 'tp-tab-item';
+                        $this->include_block( 'tp-tab-item' );	
+                    }
+                    if(!empty($block_id) && $block_id=='tp-anything-carousel'){
+                        self::$get_load_block[] = 'tp-anything-slide';
+                        $this->include_block( 'tp-anything-slide' );	
+                    }
 
-                                'tp-form-block/child-blocks/nxt-url-field',
-                                'tp-form-block/child-blocks/nxt-acceptance-button',
-                                'tp-form-block/child-blocks/nxt-time-field',
-                                'tp-form-block/child-blocks/nxt-date-field',
-                                'tp-form-block/child-blocks/nxt-phone-field',
-							];
-                            
-							foreach ($formChild as $block) {
-								self::$get_load_block[] = $block;
-								$this->include_block($block);
-							}
-						}
-						if ( defined('TPGBP_VERSION') ) {
-							if(!empty($block_id) && $block_id=='tp-switcher'){
-								self::$get_load_block[] = 'tp-switch-inner';
-								$this->include_block( 'tp-switch-inner' );	
-							}
-							if(!empty($block_id) && $block_id=='tp-timeline'){
-								self::$get_load_block[] = 'tp-timeline-inner';
-								$this->include_block( 'tp-timeline-inner' );	
-							}
-						}
-					}
-				}
-				
-				$deactivate_block =array();
-				foreach ( $load_blocks as $block_id => $block ) {
-					if(!in_array($block_id,$enable_normal_blocks) && $block_id!='tpgb-settings'){
-						$deactivate_block[] = $block_id;
-					}
-				}
-				if(!in_array('tp-row',$enable_normal_blocks)){
-					$deactivate_block[] = 'tp-column';
-				}
-				if(!in_array('tp-container',$enable_normal_blocks)){
-					$deactivate_block[] = 'tp-container-inner';
-				}
-				if(!in_array('tp-accordion',$enable_normal_blocks)){
-					$deactivate_block[] = 'tp-accordion-inner';
-				}
-				if(!in_array('tp-anything-carousel',$enable_normal_blocks)){
-					$deactivate_block[] = 'tp-anything-slide';
-				}
-				if(!in_array('tp-tabs-tours',$enable_normal_blocks)){
-					$deactivate_block[] = 'tp-tab-item';
-				}
-                if (!in_array('tp-form-block', $enable_normal_blocks)) {
-					$formChild = [
-						'tp-form-block/child-blocks/nxt-name-field',
-                        'tp-form-block/child-blocks/nxt-number-field',
-                        'tp-form-block/child-blocks/nxt-email-field',
-                        'tp-form-block/child-blocks/nxt-message-field',
-                        'tp-form-block/child-blocks/nxt-submit-button',
-                        'tp-form-block/child-blocks/nxt-option-field',
-                        'tp-form-block/child-blocks/nxt-radio-button',
-                        'tp-form-block/child-blocks/nxt-checkbox-button',
-
-                        'tp-form-block/child-blocks/nxt-url-field',
-                        'tp-form-block/child-blocks/nxt-acceptance-button',
-                        'tp-form-block/child-blocks/nxt-time-field',
-                        'tp-form-block/child-blocks/nxt-date-field',
-                        'tp-form-block/child-blocks/nxt-phone-field',
-					];
-					foreach ($formChild as $block) {
-						$deactivate_block[] = $block;
-					}
-				}
-				if ( defined('TPGBP_VERSION') ) {
-					if(!in_array('tp-switcher',$enable_normal_blocks)){
-						$deactivate_block[] = 'tp-switch-inner';
-					}
-					if(!in_array('tp-timeline',$enable_normal_blocks)){
-						$deactivate_block[] = 'tp-timeline-inner';
-					}
-				}
-				self::$get_block_deactivate = $deactivate_block;
-			}else{
-				foreach ( $load_blocks as $block_id => $block ) {
-					self::$get_block_deactivate[] = $block_id;
-					if(!empty($block_id) && $block_id=='tp-row'){
-						self::$get_block_deactivate[] = 'tp-column';
-					}
-					if(!empty($block_id) && $block_id=='tp-container'){
-						self::$get_block_deactivate[] = 'tp-container-inner';
-					}
-					if(!empty($block_id) && $block_id=='tp-accordion'){
-						self::$get_block_deactivate[] = 'tp-accordion-inner';
-					}
-					if(!empty($block_id) && $block_id=='tp-tabs-tours'){
-						self::$get_block_deactivate[] = 'tp-tab-item';
-					}
-					if(!empty($block_id) && $block_id=='tp-anything-carousel'){
-						self::$get_block_deactivate[] = 'tp-anything-slide';
-					}
                     if (!empty($block_id) && $block_id == 'tp-form-block') {
-						$formChild = [
-							'tp-form-block/child-blocks/nxt-name-field',
+                        $formChild = [
+                            'tp-form-block/child-blocks/nxt-name-field',
                             'tp-form-block/child-blocks/nxt-number-field',
                             'tp-form-block/child-blocks/nxt-email-field',
                             'tp-form-block/child-blocks/nxt-message-field',
@@ -342,21 +238,148 @@ class Tp_Blocks_Helper {
                             'tp-form-block/child-blocks/nxt-time-field',
                             'tp-form-block/child-blocks/nxt-date-field',
                             'tp-form-block/child-blocks/nxt-phone-field',
-						];
-						foreach ($formChild as $block) {
-							self::$get_block_deactivate[] = $block;
-						}
-					}
-					if ( defined('TPGBP_VERSION') ) {
-						if(!empty($block_id) && $block_id=='tp-switcher'){
-							self::$get_block_deactivate[] = 'tp-switch-inner';
-						}
-						if(!empty($block_id) && $block_id=='tp-timeline'){
-							self::$get_block_deactivate[] = 'tp-timeline-inner';
-						}
-					}
-				}
-			}
+                        ];
+                        
+                        foreach ($formChild as $block) {
+                            self::$get_load_block[] = $block;
+                            $this->include_block($block);
+                        }
+                    }
+
+                    if ( defined('TPGBP_VERSION') ) {
+                        if(!empty($block_id) && $block_id=='tp-switcher'){
+                            self::$get_load_block[] = 'tp-switch-inner';
+                            $this->include_block( 'tp-switch-inner' );	
+                        }
+                        if(!empty($block_id) && $block_id=='tp-timeline'){
+                            self::$get_load_block[] = 'tp-timeline-inner';
+                            $this->include_block( 'tp-timeline-inner' );	
+                        }
+
+                        if(!empty($block_id) && $block_id=='tp-repeater-block'){
+                            self::$get_load_block[] = 'tp-repeater-layout';
+                            $this->include_block( 'tp-repeater-block/child-block/tp-repeater-layout' );	
+                            
+                            self::$get_load_block[] = 'tp-dynamic-heading';
+                            $this->include_block( 'tp-repeater-block/child-block/tp-dynamic-heading' );	
+                        }
+                    }
+                }
+            }
+            
+            $deactivate_block =array();
+            foreach ( $load_blocks as $block_id => $block ) {
+                if(!in_array($block_id,$enable_normal_blocks) && $block_id!='tpgb-settings'){
+                    $deactivate_block[] = $block_id;
+                }
+            }
+            if(!in_array('tp-row',$enable_normal_blocks)){
+                $deactivate_block[] = 'tp-column';
+            }
+            if(!in_array('tp-container',$enable_normal_blocks)){
+                $deactivate_block[] = 'tp-container-inner';
+            }
+            if(!in_array('tp-accordion',$enable_normal_blocks)){
+                $deactivate_block[] = 'tp-accordion-inner';
+            }
+            if(!in_array('tp-anything-carousel',$enable_normal_blocks)){
+                $deactivate_block[] = 'tp-anything-slide';
+            }
+            if(!in_array('tp-tabs-tours',$enable_normal_blocks)){
+                $deactivate_block[] = 'tp-tab-item';
+            }
+            if (!in_array('tp-form-block', $enable_normal_blocks)) {
+                $formChild = [
+                    'tp-form-block/child-blocks/nxt-name-field',
+                    'tp-form-block/child-blocks/nxt-number-field',
+                    'tp-form-block/child-blocks/nxt-email-field',
+                    'tp-form-block/child-blocks/nxt-message-field',
+                    'tp-form-block/child-blocks/nxt-submit-button',
+                    'tp-form-block/child-blocks/nxt-option-field',
+                    'tp-form-block/child-blocks/nxt-radio-button',
+                    'tp-form-block/child-blocks/nxt-checkbox-button',
+
+                    'tp-form-block/child-blocks/nxt-url-field',
+                    'tp-form-block/child-blocks/nxt-acceptance-button',
+                    'tp-form-block/child-blocks/nxt-time-field',
+                    'tp-form-block/child-blocks/nxt-date-field',
+                    'tp-form-block/child-blocks/nxt-phone-field',
+                ];
+                foreach ($formChild as $block) {
+                    $deactivate_block[] = $block;
+                }
+            }
+            if ( defined('TPGBP_VERSION') ) {
+                if(!in_array('tp-switcher',$enable_normal_blocks)){
+                    $deactivate_block[] = 'tp-switch-inner';
+                }
+                if(!in_array('tp-timeline',$enable_normal_blocks)){
+                    $deactivate_block[] = 'tp-timeline-inner';
+                }
+                if(!in_array('tp-repeater-block',$enable_normal_blocks)){
+                    $deactivate_block[] = 'tp-repeater-layout';
+                    $deactivate_block[] = 'tp-dynamic-heading';
+                }
+            }
+            self::$get_block_deactivate = $deactivate_block;
+        }else{
+            foreach ( $load_blocks as $block_id => $block ) {
+                self::$get_block_deactivate[] = $block_id;
+                if(!empty($block_id) && $block_id=='tp-row'){
+                    self::$get_block_deactivate[] = 'tp-column';
+                }
+                if(!empty($block_id) && $block_id=='tp-container'){
+                    self::$get_block_deactivate[] = 'tp-container-inner';
+                }
+                if(!empty($block_id) && $block_id=='tp-accordion'){
+                    self::$get_block_deactivate[] = 'tp-accordion-inner';
+                }
+                if(!empty($block_id) && $block_id=='tp-tabs-tours'){
+                    self::$get_block_deactivate[] = 'tp-tab-item';
+                }
+                if(!empty($block_id) && $block_id=='tp-anything-carousel'){
+                    self::$get_block_deactivate[] = 'tp-anything-slide';
+                }
+
+                if (!empty($block_id) && $block_id == 'tp-form-block') {
+                    $formChild = [
+                        'tp-form-block/child-blocks/nxt-name-field',
+                        'tp-form-block/child-blocks/nxt-number-field',
+                        'tp-form-block/child-blocks/nxt-email-field',
+                        'tp-form-block/child-blocks/nxt-message-field',
+                        'tp-form-block/child-blocks/nxt-submit-button',
+                        'tp-form-block/child-blocks/nxt-option-field',
+                        'tp-form-block/child-blocks/nxt-radio-button',
+                        'tp-form-block/child-blocks/nxt-checkbox-button',
+
+                        'tp-form-block/child-blocks/nxt-url-field',
+                        'tp-form-block/child-blocks/nxt-acceptance-button',
+                        'tp-form-block/child-blocks/nxt-time-field',
+                        'tp-form-block/child-blocks/nxt-date-field',
+                        'tp-form-block/child-blocks/nxt-phone-field',
+                    ];
+                    foreach ($formChild as $block) {
+                        self::$get_block_deactivate[] = $block;
+                    }
+                }
+
+                if ( defined('TPGBP_VERSION') ) {
+                    if(!empty($block_id) && $block_id=='tp-switcher'){
+                        self::$get_block_deactivate[] = 'tp-switch-inner';
+                    }
+                    if(!empty($block_id) && $block_id=='tp-timeline'){
+                        self::$get_block_deactivate[] = 'tp-timeline-inner';
+                    }
+                    if(!empty($block_id) && $block_id=='tp-repeater-block'){
+                        self::$get_load_block[] = 'tp-repeater-layout';
+                        $this->include_block( 'tp-repeater-layout' );
+
+                        self::$get_load_block[] = 'tp-dynamic-heading';
+                        $this->include_block( 'tp-dynamic-heading' );	
+                    }
+                }
+            }
+        }
 	}
 	
 	/**
@@ -645,7 +668,14 @@ class Tp_Blocks_Helper {
         }
         
         global $post;
-		$homeLink = ( !empty($ctmHomeurl) && !empty($ctmHomeurl['url']) ) ? $ctmHomeurl['url'] : home_url().'/';
+		
+        // Set Dynamic URL For Home Link
+        if(class_exists('Tpgbp_Pro_Blocks_Helper')){
+            $homeLink = (isset($ctmHomeurl['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($ctmHomeurl) : (!empty($ctmHomeurl['url']) ? $ctmHomeurl['url'] : home_url().'/');
+        }else{
+            $homeLink = ( !empty($ctmHomeurl) && !empty($ctmHomeurl['url']) ) ? $ctmHomeurl['url'] : home_url().'/';
+        }
+
         $linkBefore = '<span>';
         $linkAfter = '</span>';
         if($icons_content != '' || $icons_sep_content != '' ||  $text['home'] != ''){
@@ -1981,7 +2011,7 @@ class Tp_Blocks_Helper {
                     }
                     
                     // user Email Shortcode 
-                    if ($reply_to === '[nxt_user_email]') {
+                    if ($reply_to === '[nxt_user_email]' && filter_var($value, FILTER_VALIDATE_EMAIL)) {
                         $reply_to = sanitize_email($value);
                     }
     

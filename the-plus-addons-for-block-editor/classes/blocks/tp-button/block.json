@@ -1811,6 +1811,11 @@
             "selector": ".tpgb-button-fancy .fancybox__backdrop { background : {{fanoverlay}} }"
             }
         ]
-        }
-    }
+        },
+        "isRptBlock": {
+			"type": "boolean",
+			"default": false
+		}
+    },
+    "usesContext": ["postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField"]
 }

@@ -46,7 +46,12 @@ function tpgb_code_highlighter_render_callback( $attributes, $content) {
 	
 	$dwnldIcnType = (!empty($attributes['dwnldIcnType'])) ? $attributes['dwnldIcnType'] : 'none';
 	$dwnldIconStore = (!empty($attributes['dwnldIconStore'])) ? $attributes['dwnldIconStore'] : '';
-	$fileLink = (!empty($attributes['fileLink']['url'])) ? $attributes['fileLink']['url'] : '';
+
+    if(class_exists('Tpgbp_Pro_Blocks_Helper')){
+        $fileLink = (isset($attributes['fileLink']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($attributes['fileLink']) : (!empty($attributes['fileLink']['url']) ? $attributes['fileLink']['url'] : '');
+    }else{
+        $fileLink = (!empty($attributes['fileLink']['url'])) ? $attributes['fileLink']['url'] : '';
+    }
 	
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	

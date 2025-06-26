@@ -1203,7 +1203,11 @@ class Tpgb_Generate_Blocks_Css {
 		}else if (isset($data['openTransform']) && $data['openTransform']) {
 			return [ 'data' => $this->cssTransform($data), 'action' => "append" ]; //Transform
 		}else if (isset($data['openFilter']) && $data['openFilter']) {
-			return [ 'data' => $this->cssFilter($data), 'action' => "append" ]; //cssFilter Ex. blur,contrast...
+            if(isset($data['isbackdrop']) && $data['isbackdrop']){
+                return [ 'data' => $this->cssFilter($data,true), 'action' => "append" ]; //cssFilter Ex. blur,contrast...
+            }else{
+                return [ 'data' => $this->cssFilter($data,false), 'action' => "append" ]; //cssFilter Ex. blur,contrast...
+            }
 		}else if (isset($data['top']) || isset($data['left']) || isset($data['right']) || isset($data['bottom'])) {
 			return [ 'data' => $this->cssDimension($data), 'action' => "replace" ]; //Css Dimension Ex.Padding/Margin...
 		}else {
@@ -1541,7 +1545,7 @@ class Tpgb_Generate_Blocks_Css {
 	/*
 	 * Css Filter Style
 	 */
-	public function cssFilter( $val ){
+	public function cssFilter( $val, $isbackdrop = false ){
 		if(!empty($val['openFilter'])){
 			$filter ='';
 			if(isset($val['blur']) && $val['blur']!=''){
@@ -1560,7 +1564,11 @@ class Tpgb_Generate_Blocks_Css {
 				$filter .= ' hue-rotate('.$val['hue'].'deg)';
 			}
 			if($filter!=''){
-				$filter = 'filter : '.$filter.';';
+				if($isbackdrop){
+					$filter = 'backdrop-filter : '.$filter.';-webkit-backdrop-filter : '.$filter.';';
+				}else{
+					$filter = 'filter : '.$filter.';';
+				}
 			}
 			return $filter;
 		}else{

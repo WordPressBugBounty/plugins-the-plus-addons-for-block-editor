@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.4.0
+Stable tag: 4.4.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -511,6 +511,12 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.4.1 = 30 June 2025
+- Update : Google Fonts Updated 
+- Fix : Pricing List :  Resolved PHP Warning Issue.
+- Fix : Heading Title :  Resolved PHP Warning Issue.
+- Minor bug Fixes & Improvements
 
 = 4.4.0 = 26 June 2025
 - Fix : Social Embed : Resolved issue with Google Map not displaying.

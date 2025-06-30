@@ -43,10 +43,14 @@ function tpgb_pricing_list( $attributes, $content) {
     			if (json_last_error() === JSON_ERROR_NONE && !empty($dataArray['dynamicField'])) {
     				$parts = explode('|', $dataArray['dynamicField']);
 
-    				if (count($parts) === 5) {
+    				if (count($parts) === 5 || count($parts) === 7) {
     					$fieldName = $parts[1] ?? 'Unknown Field';
-    					$repData = apply_filters('tp_get_repeater_data', $parts);
-    					$replacement = $repData['repeater_data'][$rep_Index][$fieldName] ?? '';
+                        $repData = apply_filters('tp_get_repeater_data', $parts);
+                        if (is_wp_error($repData)) {
+                            $replacement = '';
+                        } else {
+                            $replacement = $repData['repeater_data'][$rep_Index][$fieldName] ?? '';
+                        }
 
     					$tagField = preg_replace(
     						'/<span[^>]+data-tpgb-dynamic=(["\'])(.*?)\1[^>]*><\/span>/',

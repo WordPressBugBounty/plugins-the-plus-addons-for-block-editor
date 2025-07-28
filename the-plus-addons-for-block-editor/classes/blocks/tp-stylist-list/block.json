@@ -1180,6 +1180,10 @@
         "globalId": {
             "type": "string",
             "default": ""
+        },
+        "showBlockContent" :{
+            "type": "boolean",
+            "default": true
         }
     }
 }

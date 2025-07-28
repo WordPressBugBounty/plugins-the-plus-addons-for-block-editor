@@ -1040,7 +1040,10 @@ function tpgb_tp_datatable_render() {
             ],
 			'scopy' => true,
         ],
-
+        'showBlockContent' => [
+           'type' => 'boolean',
+           'default' => true,
+        ]
     ];  
 
     $attributesOptions = array_merge($attributesOptions	, $globalBgOption, $globalpositioningOption, $globalPlusExtrasOption);

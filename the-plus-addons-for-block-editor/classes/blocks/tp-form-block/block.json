@@ -723,6 +723,39 @@
 				}
 			],
             "scopy": true
-		}
+		},
+        "formAlign": {
+            "type": "object",
+            "default": {
+                "md": "",
+                "sm": "",
+                "xs": ""
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .nxt-simple-contact-form.block-editor-block-list__layout,{{PLUS_WRAP}} .form-nxt-style-1{ justify-content: {{formAlign}}; } {{PLUS_WRAP}} .nxt-success-message { text-align: {{formAlign}}; }",
+                    "backend": true
+                },
+                {
+                    "selector": "{{PLUS_WRAP}} .nxt-form{ justify-content: {{formAlign}}; } {{PLUS_WRAP}} .nxt-success-message { text-align: {{formAlign}}; }",
+                    "backend": false
+                }
+            ],
+            "scopy": true
+        },
+        "reqIcn": {
+            "type": "boolean",
+            "default": true,
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}} .nxt-check-title-label.required::after,{{PLUS_WRAP}} .nxt-email-label.required::after,{{PLUS_WRAP}} .nxt-message-label.required::after,{{PLUS_WRAP}} .nxt-name-label.required::after,{{PLUS_WRAP}} .nxt-number-label.required::after,{{PLUS_WRAP}} .nxt-option-label.required::after,{{PLUS_WRAP}} .nxt-radio-title-label.required::after { content: '*'; }"
+                }
+            ],
+            "scopy": true
+        },
+        "showBlockContent" :{
+            "type": "boolean",
+            "default": true
+        }
 	}
 }

@@ -105,6 +105,7 @@
     font-size: 12px;
     height: 18px;
     text-align: center;
+    z-index: 9;
     line-height: 17px;
 }
 .toplevel_page_nexter_welcome_page.nxt-admin-notice-active > a,.toplevel_page_nexter_welcome_page.nxt-admin-notice-active:hover > a{

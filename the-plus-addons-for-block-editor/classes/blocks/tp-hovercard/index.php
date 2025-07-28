@@ -714,6 +714,10 @@ function tpgb_tp_hovercard() {
 					],
 				],
 			],
+            'showBlockContent' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
 		];
 		
 	$attributesOptions = array_merge($attributesOptions, $globalBgOption, $globalpositioningOption, $globalPlusExtrasOption);

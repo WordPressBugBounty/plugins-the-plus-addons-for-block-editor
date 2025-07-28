@@ -1023,6 +1023,10 @@
         "activeTab": {
             "type": "string",
             "default": "1"
+        },
+        "showBlockContent" :{
+            "type": "boolean",
+            "default": true
         }
     }
 }

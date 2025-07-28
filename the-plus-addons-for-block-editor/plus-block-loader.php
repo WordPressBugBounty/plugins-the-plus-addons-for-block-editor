@@ -197,6 +197,8 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 			//Load Conditions Rules
 			require_once TPGB_PATH . 'classes/extras/tpgb-conditions-rules.php';
 			require TPGB_PATH . 'includes/rollback.php';
+
+            require TPGB_PATH . 'classes/extras/nexter-block-whats-new.php';
             require TPGB_PATH . 'includes/plus-settings-options.php';
             
             // Reusable Short code

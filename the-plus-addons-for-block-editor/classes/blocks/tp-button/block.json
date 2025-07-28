@@ -1815,7 +1815,11 @@
         "isRptBlock": {
 			"type": "boolean",
 			"default": false
-		}
+		},
+        "showBlockContent" :{
+            "type": "boolean",
+            "default": true
+        }
     },
     "usesContext": ["postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField"]
 }

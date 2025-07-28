@@ -204,9 +204,6 @@ class Tpgb_Core_Init_Blocks {
 				'tpgb_nonce' => wp_create_nonce("tpgb-addons"),
 			)
 		);
-		wp_localize_script(
-			'jquery', 'smoothAllowedBrowsers', array()
-		);
 		
 	}
 	
@@ -245,6 +242,10 @@ class Tpgb_Core_Init_Blocks {
 			$GoogleMap_Api = Tp_Blocks_Helper::get_extra_option('googlemap_api');
 		}
 		
+        if (empty(trim($GoogleMap_Api))) {
+            $GoogleMap_Api = 'AIzaSyA_ez85P6duaw7IrvfeK8LmRxLZPdLG7gs';
+        }
+
 		$googleFonts = apply_filters( 'tpgb_google_font_load', true );
 		$globalCSS = apply_filters( 'tpgb_global_css_load', true );
 		$dashIcons = apply_filters( 'tpgb_dashicons_icon_disable', true );

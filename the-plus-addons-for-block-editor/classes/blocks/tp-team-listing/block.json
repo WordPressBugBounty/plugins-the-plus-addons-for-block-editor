@@ -670,6 +670,10 @@
         "sm": 3,
         "xs": 2
       }
+    },
+    "showBlockContent" :{
+        "type": "boolean",
+        "default": true
     }
   }
 }

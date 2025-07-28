@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.4.1
+Stable tag: 4.5.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -512,6 +512,44 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 == Changelog ==
 
+= 4.5.0 = 28 July 2025
+- New : Revamped Smooth Scroll Block 
+- Added :  Accordion : Add Preset Option for the Ready design.
+- Added :  Advanced Button : Add Preset Option for the Ready design.
+- Added :  Blockquote : Add Preset Option for the Ready design.
+- Added :  Breadcrumbs Bar : Add Preset Option for the Ready design.
+- Added :  Button : Add Preset Option for the Ready design.
+- Added :  Code Highlighter : Add Preset Option for the Ready design.
+- Added :  Countdown : Add Preset Option for the Ready design.
+- Added :  Advanced Image : Add Preset Option for the Ready design.
+- Added :  Data Table : Add Preset Option for the Ready design.
+- Added :  Filp Box : Add Preset Option for the Ready design.
+- Added :  Form : Add Preset Option for the Ready design.
+- Added :  Google Map : Add Preset Option for the Ready design.
+- Added :  Heading Title : Add Preset Option for the Ready design.
+- Added :  Hover Card : Add Preset Option for the Ready design.
+- Added :  Info Box : Add Preset Option for the Ready design.
+- Added :  Interactive Circle Info : Add Preset Option for the Ready design.
+- Added :  Message Box : Add Preset Option for the Ready design.
+- Added :  Navigation Menu : Add Preset Option for the Ready design.
+- Added :  Number Counter : Add Preset Option for the Ready design.
+- Added :  Pricing List : Add Preset Option for the Ready design.
+- Added :  Pricing Table : Add Preset Option for the Ready design.
+- Added :  Progress Bar : Add Preset Option for the Ready design.
+- Added :  Stylish List : Add Preset Option for the Ready design.
+- Added :  Social Icon : Add Preset Option for the Ready design.
+- Added :  Tab Tours : Add Preset Option for the Ready design.
+- Added : Team Member : Add Preset Option for the Ready design.
+- Added :  Testimonials : Add Preset Option for the Ready design.
+- Added :  Video Player : Add Preset Option for the Ready design.
+- Added :  Post Content : Archive Term Description /  Excerpt  Option added.
+- Added :  Form : Alignment Option Added.
+- Added :  Form : Hide Required Icon Option Added.
+- Improve : Google Map : Allows User to setting a pin directly using an address. 
+- Improvement: Dashboard : Auto Save Feature Added for Block Toggle on/off.
+- Fix : Form : Submit Button Click Resize Issue Solved.
+- Fix : CSS Not Load in Kadence Elements Bug Fix.
+
 = 4.4.1 = 30 June 2025
 - Update : Google Fonts Updated 
 - Fix : Pricing List :  Resolved PHP Warning Issue.
@@ -745,103 +783,5 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 - Fixed : Delay 3rd Party JS : LottieFiles Bug Fixed
 - Fixed : Stylist List : CSS Bug Fixed
 - Fixed : Bugs and Improvements
-
-= 3.3.3 = 08 August 2024
-- Improvement : Optimized for performance : Container block
-- Improvement : Optimized for performance : Container Inner block
-- Improvement : Optimized for performance : Image block
-- Improvement : Optimized for performance : Button block
-- Improvement : Optimized for performance : Paragraph block
-- Improvement : Optimized for performance : Icon Box block
-- Improvement : Optimized for performance : Social Icons block
-- Compatibility : Container block : Wide and Full Width in FSE themes
-- Fixed : Search Bar: Search error message Bug
-
-= 3.3.2 = 20 June 2024
-- Fixed : Attributes Options : Convert Field Type String to Number.
-- Fixed : Enqueue Style : Double Slash URL bug Fixed.
-- Fixed : Post Title : Count Limit Word/Character Option Bug Fixed
-- Fixed : Bugs and Improvements
-
-= 3.3.1 = 06 June 2024
-- Fix : Progress Bar : Editor Bug Fixed
-- Fix : Minor Bug Fixes & Improvements
-
-= 3.3.0 = 06 June 2024
-- Improvement : Remove jQuery Dependency
-- Added : AJAX Base Template Load Using Class
-- Added : Lazy Render Using Class
-- Added : Container: Content Box layout option added in Container Full Width.
-- Added : Info Box : Add Carousel Remote Connection option
-- Added : Accordion : Add / Remove Accordion From Toolbar
-- Added : Tab Tours : Add / Remove Tab From Toolbar
-- Added : Testimonials  : Add / Remove Testimonial From Toolbar
-- Fixed : Load Reusable Block CSS : Blocksy Content Template Front End Bug
-- Revamped : Data Table : Converted in Vanilla JS for Top notch performance.
-- Revamped : Google Map  : Converted in Vanilla JS for Top notch performance.
-- Revamped : Progress Bar : Converted in Vanilla JS for Top notch performance.
-- Revamped : Tab Tours  : Converted in Vanilla JS for Top notch performance.
-- Revamped : Video Block  : Converted in Vanilla JS for Top notch performance.
-- Accessibility : Add ALT Tag in All Image Related Blocks
-- Fix : Minor Bug Fixes & Improvements
-
-= 3.2.8 = 18 March 2024
-- Added : Number Counter : Numeration Option
-- Added : Progress Tracker : Pin Point Option and It Will Connect To Container Or Any Unique Id.
-- Added : Plugin Deactivate : QUICK FEEDBACK Popup Added.
-- Fix : Info Box : Carousel Layout Default Button CSS Load Bug Fix.
-- Fix : Social Feeds : Multi-Bytes Bug Fix
-- Fix : Social Reviews : Multi-Bytes Bug Fix
-- Fix : Full Site Editor : Global Color and Typography CSS Loading Bug Fixed
-- Fix : Plus Core Blocks : Preview Device JS Bug Fixed
-- Fix : CSS & JS : Fix for Loading HTTP or HTTPS URLs Bug
-- Fix : Component : Range Field Unit Change Bug Fixed
-- Fix : Post Meta : Post Reading Time Bug Fixed
-
-= 3.2.7 = 28 February 2024
-- Update : Post Listing : Display Post Option Increase Maximum limit
-- Fix : Accordion Inner : Gutenberg Class Name Bug Fix
-- Fix : Display Rules : Compatibility of Advanced iFrame block attributes Bug Fix
-
-= 3.2.6 = 26 February 2024
-- Security : Minor Security Improvements
-
-= 3.2.5 = 07 February 2024
-- Fix : Display Rules : Attribute Other Blocks Plugin Bug Fix
-- Fix : Core Image : CSS Bug Fix.
-- Fix : Interactive Circle Info : CSS Bug Fix.
-
-= 3.2.4 = 31 January 2024
-- Added : Nexter Extra All Global Option Added.
-- Fix : Carousel : Slider Responsive Arrow Bug Fix
-- Fix : Nexter Blocks Settings : Scan Unused Blocks For White Label Bug Fix
-- Fix : Accordion : Popup Builder block conflict CSS Bug Fix
-
-= 3.2.3 = 10 January 2024
-- Compatibility : Gutenberg V17.4.1 : Responsive Preview Device CSS bug fix
-- Fix : Container : Mobile Device Flex Direction bug fix
-
-= 3.2.2 = 04 January 2024
-- Reduce : API's : Posts/Pages and streamlining multiple API calls Reduce and Optimize code
-- Added : All Blocks : Global Flex Option Added.
-- Added : Container : Position Absolute / Fixed Option Added.
-- Added : Google Fonts : Plus Jakarta Sans, Passions Conflict, Kumbh Sans.
-- Added : Info Box : Description Margin Option Added.
-- Added : Post Content: Paragraph( P tag )  Margin Option Added.
-- Update : Datatables : JS Update 
-- Compatibility : Wp Super Cache : Clearing the cache after saving FSE templates.
-- Compatibility : AAWP Plugin : Display Rules Compatibility
-- Compatibility : Formidable Forms : Display Rules Compatibility
-- Compatibility : Range Slider : Kadence Blocks Range Slider Safari Browser Bug Fix
-- Fix : RichText : Space Bar Bug Fix in FSE Theme.
-- Fix : Breadcrumb : Schema Markup Category Page Bug Fix
-- Fix : Breadcrumb : Current Active Typography Bug Fix.
-- Fix : Selector Media Query :  CSS Media Query Bug Fix
-- Fix : Components : Repeater Component Drag Sorting Order Bug Fix
-- Fix : Accordion : Description Typography color option Bug Fix.
-- Fix : Info Box : Carousel Layout Button Css Bug Fix.
-- Fix : Image : Css Bug Fix
-- Fix : FSE Theme : Blog Page cache generate Issue Bug Fix
-- Fix : Performance and Optimized Code
 
 == Upgrade Notice ==

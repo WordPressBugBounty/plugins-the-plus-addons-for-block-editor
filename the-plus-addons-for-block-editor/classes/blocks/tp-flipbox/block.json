@@ -1664,6 +1664,10 @@
           }
         ],
         "scopy": true
-      }
+      },
+      "showBlockContent" :{
+            "type": "boolean",
+            "default": true
+        }
     }
 }

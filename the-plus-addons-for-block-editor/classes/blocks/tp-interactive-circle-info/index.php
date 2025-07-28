@@ -1901,9 +1901,12 @@ function tpgb_tp_interactive_circle_info() {
 			'default' => [
 				'animDirection' => 'clock-wise',
 				'contiRotateSpeed' => ['md' => '', 'unit'=> 's'],
-			],	
+            ],
 		],
-		
+		'showBlockContent' => [
+            'type' => 'boolean',
+            'default' => true,
+        ],
 	);
 	$attributesOptions = array_merge($attributesOptions,$globalBgOption,$globalpositioningOption,$globalPlusExtrasOption);
 	

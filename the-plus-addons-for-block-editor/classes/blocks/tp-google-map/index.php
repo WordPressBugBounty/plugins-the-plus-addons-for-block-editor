@@ -51,25 +51,48 @@ function tpgb_tp_google_map_render_callback( $attributes, $content) {
 	
 	if(!empty($locationPoint)){
 		foreach($locationPoint as $index => $item ) {
-			$longitude = (!empty($item['longitude'])) ? $item['longitude'] : '';
-			$latitude = (!empty($item['latitude'])) ? $item['latitude'] : '';
-			$address = (!empty($item['address'])) ? $item['address'] : '';
-			$pin_icon='';
-			if(!empty($item['pinIcon']["id"]) && !empty($item['pinIcon']["url"])){
-				$pinIconSize=(!empty($item['pinIconSize'])) ? $item['pinIconSize'] : 'full';
-				$img = wp_get_attachment_image_src($item['pinIcon']['id'],$pinIconSize);
-				$pin_icon = (!empty($img)) ? $img[0] : $item['pinIcon']["url"];
-			}else if(!empty($item['pinIcon']["url"])){
-				$pin_icon=$item['pinIcon']["url"];
-			}
-			if(!empty($longitude) || !empty($latitude)){
-				$json_map['places'][] = array(
-					"address"   => wp_kses_post($address),
-					"latitude"  => (float) $latitude,
-					"longitude" => (float) $longitude,		
-					"pin_icon" => esc_url($pin_icon)
-				);
-			}
+            if (isset($item['latOrAddr']) && $item['latOrAddr'] ==='address') {
+                $adrr = (!empty($item['addr'])) ? $item['addr'] : '';
+			    $address = (!empty($item['address'])) ? $item['address'] : '';
+			    $pin_icon='';
+			    if(!empty($item['pinIcon']["id"]) && !empty($item['pinIcon']["url"])){
+			    	$pinIconSize=(!empty($item['pinIconSize'])) ? $item['pinIconSize'] : 'full';
+			    	$img = wp_get_attachment_image_src($item['pinIcon']['id'],$pinIconSize);
+			    	$pin_icon = (!empty($img)) ? $img[0] : $item['pinIcon']["url"];
+			    }else if(!empty($item['pinIcon']["url"])){
+			    	$pin_icon=$item['pinIcon']["url"];
+			    }
+			    if(!empty($adrr)){
+			    	$json_map['places'][] = array(
+			    		"pin_icon" => esc_url($pin_icon),
+                        "latOrAddr"=>isset($item['latOrAddr']) ? $item['latOrAddr'] : 'address',
+                        "addr"=>$adrr,
+                        "address"=>$address
+			    	);
+			    }
+            }
+            else {
+                $longitude = (!empty($item['longitude'])) ? $item['longitude'] : '';
+			    $latitude = (!empty($item['latitude'])) ? $item['latitude'] : '';
+			    $address = (!empty($item['address'])) ? $item['address'] : '';
+			    $pin_icon='';
+			    if(!empty($item['pinIcon']["id"]) && !empty($item['pinIcon']["url"])){
+			    	$pinIconSize=(!empty($item['pinIconSize'])) ? $item['pinIconSize'] : 'full';
+			    	$img = wp_get_attachment_image_src($item['pinIcon']['id'],$pinIconSize);
+			    	$pin_icon = (!empty($img)) ? $img[0] : $item['pinIcon']["url"];
+			    }else if(!empty($item['pinIcon']["url"])){
+			    	$pin_icon=$item['pinIcon']["url"];
+			    }
+			    if(!empty($longitude) || !empty($latitude)){
+			    	$json_map['places'][] = array(
+			    		"address"   => wp_kses_post($address),
+			    		"latitude"  => (float) $latitude,
+			    		"longitude" => (float) $longitude,		
+			    		"pin_icon" => esc_url($pin_icon),
+                        "latOrAddr"  => isset($item['latOrAddr']) ? $item['latOrAddr'] : 'latitude',  
+			    	);
+			    }
+            }
 		}
 	}
 	

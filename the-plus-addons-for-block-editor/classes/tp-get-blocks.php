@@ -638,6 +638,10 @@ Class Tpgb_Get_Blocks {
 			}
 		}
 
+        if ($blockname === 'tpgb/tp-smooth-scroll' && isset($options['smNav']) && !empty($options['smNav'])) {
+            $this->transient_blocks[] = 'tpx-smooth-navigation';
+        }
+
 		return $this->transient_blocks;
 	}
 

@@ -763,6 +763,10 @@ function tpgb_tp_breadcrumbs_render() {
             'type' => 'number',
 			'default' => 1,
         ],
+        'showBlockContent' => [
+           'type' => 'boolean',
+           'default' => true,
+        ]
     ];
 
     $attributesOptions = array_merge($attributesOptions	, $globalBgOption, $globalpositioningOption, $globalPlusExtrasOption);

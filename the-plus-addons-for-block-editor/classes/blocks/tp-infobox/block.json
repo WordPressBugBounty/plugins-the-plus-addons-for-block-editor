@@ -2227,6 +2227,10 @@
       "isRptBlock": {
         "type": "boolean",
         "default": false
-      }
+      },
+      "showBlockContent" :{
+            "type": "boolean",
+            "default": true
+        }
     }
 }

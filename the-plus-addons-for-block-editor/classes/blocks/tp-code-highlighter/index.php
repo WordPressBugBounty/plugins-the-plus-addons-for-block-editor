@@ -62,7 +62,7 @@ function tpgb_code_highlighter_render_callback( $attributes, $content) {
 	if(!empty($lineNumber)){
 		$lineNumClass = 'line-numbers';
 	}
-	if(!empty($dnloadBtn)) {
+	if(!empty($dnloadBtn) && !empty($fileLink)) {
 		$dwnldBtnClass = 'data-src="'.esc_url($fileLink).'" data-download-link="'.esc_url($fileLink).'" data-download-link-label="'.esc_attr($dwnldBtnText).'"';
 		if($dwnldIcnType=='icon'){
 			$dwndicon = $dwnldIconStore;
@@ -1008,6 +1008,10 @@ function tpgb_code_highlighter() {
 			],
 			'scopy' => true,
 		],
+		'showBlockContent' => [
+			'type' => 'boolean',
+			'default' => true,
+		]
 		/* Copy/Download Style End */
 	];
 	$attributesOptions = array_merge($attributesOptions,$globalBgOption,$globalpositioningOption, $globalPlusExtrasOption);

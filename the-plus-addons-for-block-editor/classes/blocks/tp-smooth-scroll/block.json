@@ -21,61 +21,41 @@
             "type": "string",
             "default": ""
         },
-        "frameRate": {
-            "type": "string",
-            "default": "150"
-        },
         "aniTime": {
             "type": "string",
-            "default": "400"
+            "default": "2500"
         },
         "stepSize": {
             "type": "string",
-            "default": "100"
+            "default": "500"
         },
-        "plusAlgo": {
+        "tMult": {
+            "type": "string",
+            "default": "2"
+        },
+        "normalizeWheel": {
             "type": "boolean",
             "default": true
         },
-        "pulseScale": {
+         "easing": {
             "type": "string",
-            "default": "4"
+            "default": "ease-out-cubic"
         },
-        "pulseNorma": {
-            "type": "string",
-            "default": "1"
-        },
-        "accDelta": {
-            "type": "string",
-            "default": "50"
-        },
-        "accMax": {
-            "type": "string",
-            "default": "3"
-        },
-        "keySupp": {
+        "infinite": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
-        "arrowSco": {
+        "smNav": {
+            "type": "boolean",
+            "default": false
+        },
+        "custEase": {
             "type": "string",
-            "default": "50"
+            "default": ""
         },
-        "touchSupp": {
-            "type": "boolean",
-            "default": true
-        },
-        "fixSupp": {
-            "type": "boolean",
-            "default": true
-        },
-        "browsers": {
+        "viewport": {
             "type": "string",
-            "default": "[]"
-        },
-        "responsive": {
-            "type": "boolean",
-            "default": true
+            "default": ""
         }
     }
 }

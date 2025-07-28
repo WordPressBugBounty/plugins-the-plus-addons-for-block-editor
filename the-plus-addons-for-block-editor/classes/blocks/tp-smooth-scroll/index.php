@@ -7,55 +7,41 @@ defined( 'ABSPATH' ) || exit;
 function tpgb_tp_smooth_scroll_render_callback( $attributes ) {
 	$output = '';
     $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
-	$frameRate = (!empty($attributes['frameRate'])) ? (int)$attributes['frameRate'] : 150;
+	// $frameRate = (!empty($attributes['frameRate'])) ? (int)$attributes['frameRate'] : 150;
 	$aniTime = (!empty($attributes['aniTime'])) ? (int)$attributes['aniTime'] : 400;
 	$stepSize = (!empty($attributes['stepSize'])) ? (int)$attributes['stepSize']  : 100;
-	$plusAlgo = (!empty($attributes['plusAlgo'])) ? 1 : 0; 
-	$pulseScale = (!empty($attributes['pulseScale'])) ? (int)$attributes['pulseScale'] : 4;
-	$pulseNorma = (!empty($attributes['pulseNorma'])) ? (int)$attributes['pulseNorma'] : 1;
-	$accDelta = (!empty($attributes['accDelta'])) ? (int)$attributes['accDelta'] : 50;
-	$accMax = (!empty($attributes['accMax'])) ? (int)$attributes['accMax'] : 3;
-	$keySupp = (!empty($attributes['keySupp'])) ? 1 : 0;
-	$arrowSco = (!empty($attributes['arrowSco'])) ? (int)$attributes['arrowSco'] : 50;
 	$touchSupp = (!empty($attributes['touchSupp'])) ? 1 : 0;
-	$fixSupp = (!empty($attributes['fixSupp'])) ? 1 : 0;
-	$browsers = (!empty($attributes['browsers'])) ? $attributes['browsers'] : [];
-	$responsive = (!empty($attributes['responsive'])) ? 'yes' : 'no';
+    $tMult = (!empty($attributes['tMult'])) ? (int)$attributes['tMult'] : 2;
+    $easing = (!empty($attributes['easing'])) ? $attributes['easing'] : '(t) => 1 - Math.pow(1 - t, 3)';
+    $infinite = (!empty($attributes['infinite'])) ? $attributes['infinite'] : false;
+    $smNav = (!empty($attributes['smNav'])) ? $attributes['smNav'] : false;
+    $custEase = (!empty($attributes['custEase'])) ? $attributes['custEase'] : "";
+    $viewport = (!empty($attributes['viewport'])) ? $attributes['viewport'] : "80";
 
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 
 	//Set Data Attr For Js
+    $encodedEase = htmlspecialchars(json_encode($custEase), ENT_QUOTES, 'UTF-8');
+    error_log("custEase = ".$custEase);
 	$dataAttr = [
-		'frameRate' => $frameRate,
+		// 'frameRate' => $frameRate,
 		'animationTime' => $aniTime,
 		'stepSize' => $stepSize,
-		'pulseAlgorithm' => $plusAlgo,
-		'pulseScale' => $pulseScale,
-		'pulseNormalize' => $pulseNorma,
-		'accelerationDelta' => $accDelta,
-		'accelerationMax' => $accMax,
-		'keyboardSupport' => $keySupp,
-		'arrowScroll' => $arrowSco,
-		'touchpadSupport' => $touchSupp,
-		'fixedBackground' => $fixSupp,
-		'responsive' => $responsive,
+        'touchMultiplier'=>$tMult,
+        'easing'=>$easing,
+        'infiniteScroll'=>$infinite,
+        'orientation'=>'vertical',
+        'smoothNavigation'=>$smNav,
+        'viewport'=>$viewport
 	];
-	$bro_arr = array();
-	if ( is_string($browsers )) {
-		$browsers = json_decode($browsers);
-		if (is_array($browsers) || is_object($browsers)) {
-			foreach ($browsers as $value) {
-				$bro_arr[] = $value->value;
-			}
-		}
-	}
-	$bro_arr = !empty($bro_arr) ? $bro_arr : ["ieWin7","chrome","firefox","safari"];
-	$bro_arr = json_encode($bro_arr);
+    if ($easing === 'custom') {
+    	$dataAttr['customEasing'] = $custEase;
+    }
 	
 	$dataAttr = json_encode($dataAttr);
 
     $output .= '<div class="tpgb-smooth-scroll tpgb-relative-block tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' " data-scrollAttr= \'' . $dataAttr . '\' >';
-		$output .= "<script>var smoothAllowedBrowsers = ".($bro_arr)."</script>";
+		
 	$output .= '</div>';
 	
 	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);

@@ -225,6 +225,10 @@
             "type": "string",
             "default": "[]",
             "scopy": true
+        },
+        "showBlockContent" :{
+            "type": "boolean",
+            "default": true
         }
     }
 }

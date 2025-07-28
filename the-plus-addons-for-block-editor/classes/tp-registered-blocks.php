@@ -935,12 +935,17 @@ function tpgb_registered_blocks(){
 				$tpgb_free .'classes/blocks/tp-site-logo/style.css',
 			],
 		],
-		TPGB_CATEGORY.'/tp-smooth-scroll' => [
-			'js' => [
-				$tpgb_free .'assets/js/extra/smoothscroll.min.js',
-				$tpgb_free .'assets/js/main/smooth-scroll/tpgb-smooth-scroll.min.js',
-			],
-		],
+        TPGB_CATEGORY.'/tp-smooth-scroll' => [
+            'js' => [
+                $tpgb_free .'assets/js/extra/smoothscroll.min.js',
+                $tpgb_free .'assets/js/main/smooth-scroll/tpgb-smooth-scroll.min.js',
+            ],
+        ],
+        'tpx-smooth-navigation' => [
+            'js' => [
+                $tpgb_free . 'assets/js/main/smooth-scroll/smooth-navigation.min.js',
+            ],
+        ],
 		TPGB_CATEGORY.'/tp-team-listing' => [
             'css' => [
                 $tpgb_free .'classes/blocks/tp-team-listing/style.css',
@@ -1938,6 +1943,11 @@ Class Tpgb_Library {
 		$GoogleMap_Enable = Tp_Blocks_Helper::get_extra_option('gmap_api_switch');
 		if(!empty($GoogleMap_Enable) && (($GoogleMap_Enable=='enable' && has_block( 'tpgb/tp-google-map' )) || ($GoogleMap_Enable=='enable' && class_exists( 'GeneratePress_Elements_Helper' )) || (!empty($elements) && in_array('tpgb/tp-google-map',$elements)) )){
 			$GoogleMap_Api = Tp_Blocks_Helper::get_extra_option('googlemap_api');
+
+            if (empty(trim($GoogleMap_Api))) {
+                $GoogleMap_Api = 'AIzaSyA_ez85P6duaw7IrvfeK8LmRxLZPdLG7gs';
+            }
+
 			if(!empty($GoogleMap_Api) && !$this->get_delay_css_js()){
 				$depend = [];
 				if($this->get_caching_option() == 'separate'){
@@ -2070,10 +2080,6 @@ Class Tpgb_Library {
 				'ajax_url' => esc_url( admin_url('admin-ajax.php') ),
 				'tpgb_nonce' => wp_create_nonce("tpgb-addons"),
 			)
-		);
-
-		wp_localize_script(
-			$load_localize, 'smoothAllowedBrowsers', array()
 		);
 	}
 

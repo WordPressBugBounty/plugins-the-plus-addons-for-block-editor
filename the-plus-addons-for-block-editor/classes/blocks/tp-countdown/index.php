@@ -868,6 +868,10 @@ function tpgb_tp_countdown_render() {
                 ],
             ],
         ],
+        'showBlockContent' => [
+            'type' => 'boolean',
+            'default' => true,
+        ]
     ];
     
     $attributesOptions = array_merge($attributesOptions	, $globalBgOption, $globalpositioningOption, $globalPlusExtrasOption);

@@ -4,6 +4,19 @@
  */
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Common function to limit content by words or letters, with optional dots.
+ */
+function tpgb_limit_content($content, $limitCountType, $titleLimit, $chideDots = false) {
+    if ($limitCountType === 'words' && !empty($content)) {
+        return wp_trim_words($content, $titleLimit);
+    } else if ($limitCountType === 'letters' && !empty($content)) {
+        return substr(wp_trim_words($content), 0, $titleLimit) . (!empty($chideDots) ? '' : '...');
+    } else {
+        return $content;
+    }
+}
+
 function tpgb_tp_post_content_render_callback( $attr, $content, $block) {
 	$output = '';
 	$post_id = get_the_ID();
@@ -14,13 +27,24 @@ function tpgb_tp_post_content_render_callback( $attr, $content, $block) {
 	$limitCountType = (!empty($attr['limitCountType'])) ? $attr['limitCountType'] :'';
 	$titleLimit = (!empty($attr['titleLimit'])) ? $attr['titleLimit'] :'';
     $chideDots = (!empty($attr['chideDots'])) ? $attr['chideDots'] : false ;
-	
+    $archiveCnt = (!empty($attr['archiveCnt'])) ? $attr['archiveCnt'] :'';
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attr );
 	
 	$content = '';
 	if($types == 'archive'){
-		if ( is_category() || is_tag() || is_tax() ) {
-			$content = term_description();
+       
+		if ( is_category() || is_tag() || is_tax() || is_archive() ) {
+            if($archiveCnt == 'postExcerpt'){
+                $excerpt = get_post_field('post_excerpt', $post_id, 'display');
+                if (!empty($excerpt)) {
+                    $content = tpgb_limit_content($excerpt, $limitCountType, $titleLimit, $chideDots);
+                } else {
+                    $content = get_the_excerpt();
+                    $content = tpgb_limit_content($content, $limitCountType, $titleLimit, $chideDots);
+                }
+            }else{
+                $content = term_description();
+            }
 		}
 	}else{
 		if($contentType == 'postContent'){
@@ -58,19 +82,11 @@ function tpgb_tp_post_content_render_callback( $attr, $content, $block) {
 			unset( $views_ids[ $post_id ] );
 		}else{
 			$excerpt = get_post_field('post_excerpt', $post_id, 'display');
-			if( $limitCountType == 'words' && !empty($excerpt) ){
-				$content = wp_trim_words( $excerpt ,$titleLimit);
-			} else if( $limitCountType == 'letters' && !empty($excerpt) ){
-				$content = substr(wp_trim_words( $excerpt ),0, $titleLimit) . ( !empty($chideDots) ? '' : '...' );
-			} else if( !empty($excerpt) ) {
-				$content = $excerpt;
-			}else {
+			if (!empty($excerpt)) {
+				$content = tpgb_limit_content($excerpt, $limitCountType, $titleLimit, $chideDots);
+			} else {
 				$content = get_the_excerpt();
-				if( $limitCountType == 'words' && !empty($content) ){
-					$content = wp_trim_words( $content ,$titleLimit);
-				} else if( $limitCountType == 'letters' && !empty($content) ){
-					$content = substr(wp_trim_words( $content ),0, $titleLimit) . ( !empty($chideDots) ? '' : '...' );
-				}
+				$content = tpgb_limit_content($content, $limitCountType, $titleLimit, $chideDots);
 			}
 		}
 	}
@@ -111,6 +127,10 @@ function tpgb_post_content() {
 				'type' => 'string',
 				'default' => 'postExcerpt',
 			],
+            'archiveCnt' => [
+                'type' => 'string',
+                'default' => 'term_desc',
+            ],
 			'limitCountType' => [
 				'type' => 'string',
 				'default' => 'default',

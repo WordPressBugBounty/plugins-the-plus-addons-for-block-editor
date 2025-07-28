@@ -507,7 +507,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					}
 
 					if (isFormValid()) {
-						if (hasEmail) {
+                        if (hasEmail) {
 							const submitButton =
 								formBlock.querySelector(".nxt-submit");
 							const loaderSpan =
@@ -517,10 +517,10 @@ document.addEventListener("DOMContentLoaded", function () {
 							let buttonText =
 								submitButton.querySelector(".nxt-btn-text");
 							buttonText
-								? (buttonText.style.display = "none")
+								? (buttonText.style.opacity = "0")
 								: "";
-							buttonSvg ? (buttonSvg.style.display = "none") : "";
-							loaderSpan.style.display = "inline-block";
+							buttonSvg ? (buttonSvg.style.opacity = "0") : "";
+							loaderSpan.style.opacity = "1";
 
 							fetch(tpgb_config.ajax_url, {
 								method: "POST",
@@ -533,14 +533,12 @@ document.addEventListener("DOMContentLoaded", function () {
 								.then((response) => response.json())
 								.then((responseData) => {
 									isSubmitting = false;
-									loaderSpan.style.display = "none";
+									loaderSpan.style.opacity = "0";
 									buttonSvg
-										? (buttonSvg.style.display =
-												"inline-block")
+										? (buttonSvg.style.opacity = "1")
 										: "";
 									buttonText
-										? (buttonText.style.display =
-												"inline-block")
+										? (buttonText.style.opacity = "1")
 										: "";
 
 									if (responseData.success) {
@@ -562,26 +560,22 @@ document.addEventListener("DOMContentLoaded", function () {
 											responseData.data ||
 											"Unknown error occurred.";
 										showMessage(errorMessage, true);
-										loaderSpan.style.display = "none";
+										loaderSpan.style.opacity = "0";
 										buttonSvg
-											? (buttonSvg.style.display =
-													"inline-block")
+											? (buttonSvg.style.opacity = "1")
 											: "";
 										buttonText
-											? (buttonText.style.display =
-													"inline-block")
+											? (buttonTextstyle.opacity = "1")
 											: "";
 									}
 								})
 								.catch((error) => {
-									loaderSpan.style.display = "none";
+									loaderSpan.style.opacity = "0";
 									buttonSvg
-										? (buttonSvg.style.display =
-												"inline-block")
+										? (buttonSvgstyle.opacity = "1")
 										: "";
 									buttonText
-										? (buttonText.style.display =
-												"inline-block")
+										? (buttonTextstyle.opacity = "1")
 										: "";
 									showMessage(
 										"An error occurred while sending the form data.",

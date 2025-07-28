@@ -20,7 +20,7 @@ class Kadence_Theme_Pro_Compat {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new Kadence_Theme_Pro_Compat();
 
-			add_action( 'wp_enqueue_scripts', [ self::$instance, 'load_enqueue_css' ] );
+			add_action( 'wp_enqueue_scripts', [ self::$instance, 'load_enqueue_css' ] , 11 );
 		}
 
 		return self::$instance;

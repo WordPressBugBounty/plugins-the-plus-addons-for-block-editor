@@ -102,10 +102,14 @@ class Tpgb_Gutenberg_Settings_Options {
      */
 
     public function nxt_new_update_notice_callback(){
-        $get_option = get_option( 'nxt_menu_notice_count' );
-        if ( get_option( 'nxt_menu_notice_count' ) < TPGB_ADMIN_NOTICE_FALG ) {
-            update_option( 'nxt_menu_notice_count', TPGB_ADMIN_NOTICE_FALG, false );
+        $data = get_option( 'nxt_menu_notice_count', [] );
+        if ( ! is_array( $data ) ) {
+            $data = [];
         }
+        $flag = isset( $data['notice_flag'] ) ? intval( $data['notice_flag'] ) : 1;
+        $data['menu_notice_count'] = $flag;
+        update_option( 'nxt_menu_notice_count', $data );
+
     }
 
     /**
@@ -113,8 +117,14 @@ class Tpgb_Gutenberg_Settings_Options {
      * @since 4.2.1
      */
 
-    public function nxt_notice_should_show(){
-        return ( get_option( 'nxt_menu_notice_count' ) < TPGB_ADMIN_NOTICE_FALG );
+     public function nxt_notice_should_show(){
+        $data = get_option( 'nxt_menu_notice_count', [] );
+        if ( ! is_array( $data ) ) {
+            return false;
+        }
+        $menu_count = isset( $data['menu_notice_count'] ) ? intval( $data['menu_notice_count'] ) : 0;
+        $flag       = isset( $data['notice_flag'] ) ? intval( $data['notice_flag'] ) : 1;
+        return $menu_count < $flag;
     }
 
 	/**
@@ -392,12 +402,14 @@ class Tpgb_Gutenberg_Settings_Options {
 			$activation_result = activate_plugin( $plugin_basename );
 
 			$success = null === $activation_result;
+            add_option('wkit_onbording_end ', true);
 			wp_send_json(['Sucees' => true]);
 
 		} elseif ( isset( $installed_plugins[ $plugin_basename ] ) ) {
 			$activation_result = activate_plugin( $plugin_basename );
 
 			$success = null === $activation_result;
+            add_option('wkit_onbording_end ', true);
 			wp_send_json(['Sucees' => true]);
 
 		}
@@ -1385,8 +1397,8 @@ class Tpgb_Gutenberg_Settings_Options {
 			],
 			'tp-smooth-scroll' => [
 				'label' => esc_html__('Smooth Scroll','the-plus-addons-for-block-editor'),
-				'demoUrl' => '',
-				'docUrl' => '',
+				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-smooth-scroll/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'docUrl' => 'https://nexterwp.com/help/nexter-blocks/smooth-scroll/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '#',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
@@ -1784,6 +1796,11 @@ class Tpgb_Gutenberg_Settings_Options {
         $all_block['enable_normal_blocks'] = array_unique( array_merge( $all_block['enable_normal_blocks'], $sani_blockList ) );
 
         update_option( $option_key, $all_block );
+
+        if (class_exists('Tpgb_Library') && method_exists('Tpgb_Library', 'remove_backend_dir_files')) {
+            Tpgb_Library()->remove_backend_dir_files();
+        }
+
         return [ 'success' => true , 'message'  => 'success' , 'description' => 'success' ];
     }
 

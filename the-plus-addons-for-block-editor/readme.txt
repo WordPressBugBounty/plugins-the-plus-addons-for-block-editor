@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.5.0
+Stable tag: 4.5.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -29,6 +29,7 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 ### 👑 What Makes Our WordPress Gutenberg Blocks Unique?
 
 * <strong>Optimized Code Delivery</strong> with <strong>Ultra Light Modular</strong> backend architecture
+* <strong>Presets</strong> to instantly import professionally designed templates with ease, saving time and effort in building from scratch.
 * <strong>SEO Friendly, A/B Tested Designs</strong> and <strong>Mobile Friendly</strong>
 * Plugin Regularly Audited by <strong>Top Security Experts </strong> 🔐
 * <strong>Supports RTL | WPML</strong> or any Translation | <strong>Multisite Networks</strong>
@@ -202,6 +203,7 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 
 * <strong> [FREE Advanced Image](https://nexterwp.com/nexter-blocks/blocks/wordpress-advanced-image/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
 
+* <strong> [FREE Smooth Scroll](https://nexterwp.com/nexter-blocks/blocks/wordpress-smooth-scroll/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
 
 ###🏆 45+ Premium WordPress Gutenberg Blocks
 * <strong> [Table of Contents](https://nexterwp.com/nexter-blocks/blocks/wordpress-table-of-contents/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong>
@@ -512,6 +514,10 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 == Changelog ==
 
+= 4.5.1 = 28 July 2025
+- Readme File Updated.
+- Minor bug Fixes & Improvements.
+
 = 4.5.0 = 28 July 2025
 - New : Revamped Smooth Scroll Block 
 - Added :  Accordion : Add Preset Option for the Ready design.
@@ -546,7 +552,7 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 - Added :  Form : Alignment Option Added.
 - Added :  Form : Hide Required Icon Option Added.
 - Improve : Google Map : Allows User to setting a pin directly using an address. 
-- Improvement: Dashboard : Auto Save Feature Added for Block Toggle on/off.
+- Improve: Dashboard : Auto Save Feature Added for Block Toggle on/off.
 - Fix : Form : Submit Button Click Resize Issue Solved.
 - Fix : CSS Not Load in Kadence Elements Bug Fix.
 

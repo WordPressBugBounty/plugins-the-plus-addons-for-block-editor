@@ -71,7 +71,7 @@ function nxt_form_block_callback($attr, $content) {
 
     $dataRedirect = '';
     if (!empty($redirectUrl)) {
-        $dataRedirect .= 'data-redirect="' . esc_attr($redirectUrl) . '"';
+        $dataRedirect .= 'data-redirect="' . esc_url($redirectUrl) . '"';
     }
     if ($redirectTarget === 1 ) {
         $dataRedirect .= ' data-link-blank="1"';

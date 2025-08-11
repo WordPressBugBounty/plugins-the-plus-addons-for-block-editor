@@ -319,7 +319,7 @@ class Tpgb_Core_Init_Blocks {
 					'methods'  => WP_REST_Server::READABLE,
 					'callback' => array($this, 'tpgb_get_global_settings'),
 					'permission_callback' => function () {
-                        return true;
+                        return current_user_can('edit_posts');
                     },
 					'args' => array()
 				),
@@ -434,7 +434,7 @@ class Tpgb_Core_Init_Blocks {
 					'methods'  => 'POST',
 					'callback' => array($this, 'tpgb_get_taxonomy_list'),
 					'permission_callback' => function () {
-                        return true;
+                        return current_user_can('edit_posts');
                     },
 					'args' => array()
 				),
@@ -451,7 +451,7 @@ class Tpgb_Core_Init_Blocks {
 						'methods'  => 'POST',
 						'callback' => array($this, 'tpgb_get_Acf_Field'),
 						'permission_callback' => function () {
-							return true;
+							return current_user_can('edit_posts');
 						},
 						'args' => array()
 					),

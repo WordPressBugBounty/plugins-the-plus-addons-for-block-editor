@@ -1283,7 +1283,7 @@ class Tpgb_Blocks_Global_Options {
                     }else{
                         $extUrl = (!empty($attributes['extBtnUrl']['url']) ? $attributes['extBtnUrl']['url'] : '');
                     }
-					$output .= '<a class="button-link-wrap"  href="'.(!empty($extUrl) ? $extUrl  : '').'"  '.$extBtntarget.' '.$extBtnrel.'  '.$link_attr.'>';
+					$output .= '<a class="button-link-wrap"  href="'.(!empty($extUrl) ? esc_url($extUrl)  : '').'"  '.$extBtntarget.' '.$extBtnrel.'  '.$link_attr.'>';
 				}
 					if($extBtnStyle == 'style-8'){
 						if($extBtniconPosition == 'before'){

@@ -59,7 +59,7 @@ function tpgb_tp_countdown_callback( $attributes, $content) {
     if($style == 'style-2'){
         $dataAttr .= ' data-filptheme = "'.esc_attr($flipTheme).'"';
     }
-    $dataAttr .= ' data-countdata= \'' . json_encode($countData) . '\'';
+    $dataAttr .= ' data-countdata= \'' .esc_attr(wp_json_encode($countData)). '\'';
 
     $output .= '<div class="tp-countdown tpgb-relative-block tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' countdown-'.esc_attr($style).'"  data-offset="'.esc_attr($offset_time).'"  '.$dataAttr.'>';
         if($countdownSelection == 'normal') {

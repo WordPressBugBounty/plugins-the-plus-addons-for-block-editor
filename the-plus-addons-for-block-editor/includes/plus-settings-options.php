@@ -299,7 +299,7 @@ class Tpgb_Gutenberg_Settings_Options {
                     'siteUrl' => get_option('siteurl'),
 				],
 				'blockList' => array_merge($this->block_lists,$this->block_extra,(array) $nxt_format_widget),
-				'avtiveBlock' => isset( $default_load['enable_normal_blocks']) && is_array($default_load['enable_normal_blocks']) ? count($default_load['enable_normal_blocks']) : 0,
+				'avtiveBlock' => ( isset( $default_load['enable_normal_blocks'] )  && is_array( $default_load['enable_normal_blocks'] ) ) ? count( array_filter( $default_load['enable_normal_blocks'], function( $block ) { return strpos( $block, 'tp-' ) === 0; }) ) : 0,
 				'enableBlock' => array_merge( is_array($default_load['enable_normal_blocks']) ? $default_load['enable_normal_blocks'] : [], isset($default_load['tp_extra_option']) && is_array($default_load['tp_extra_option']) ? $default_load['tp_extra_option'] : [] ),
 				'extOption' => get_option('tpgb_connection_data'),
 				'cacheData' => [ get_option('tpgb_performance_cache') , get_option('tpgb_delay_css_js') , get_option('tpgb_defer_css_js') ],

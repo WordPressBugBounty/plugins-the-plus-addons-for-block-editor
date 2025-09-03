@@ -91,6 +91,8 @@ class Tpgb_Core_Init_Blocks {
 		add_filter('mpcs_classroom_style_handles', array( $this,'memberpress_remove_style') );
 		add_filter( 'tpgb_dashicons_icon_disable', array( $this,'check_tpgb_dashicons_icon') );
 
+        add_filter( 'tpgb_preset_import_disable', array( $this,'check_tpgb_preset_import') );
+
 	}
 	
 	/**
@@ -218,8 +220,6 @@ class Tpgb_Core_Init_Blocks {
 		if (!defined('TPGBP_VERSION')) {
 			wp_enqueue_style('tpgb-block-editor-css', TPGB_ASSETS_URL.'assets/css/admin/blocks.css', array('wp-edit-blocks' , 'dashicons'),TPGB_VERSION);
 		}
-		
-		wp_enqueue_script( 'tpgb-xdlocalstorage-js', TPGB_ASSETS_URL . 'assets/js/extra/xdlocalstorage.js', array( 'wp-blocks' ), TPGB_VERSION, false );
 		global $pagenow;
 		if (!defined('TPGBP_VERSION')) {
 			$scripts_dep = array( 'moment', 'react', 'react-dom', 'wp-block-editor','wp-escape-html', 'wp-element', 'wp-wordcount', 'wp-blocks', 'wp-i18n','wp-plugins', 'wp-components','wp-api-fetch');
@@ -227,7 +227,7 @@ class Tpgb_Core_Init_Blocks {
 				$scripts_dep = array_merge($scripts_dep, array('wp-editor', 'wp-edit-post'));
 				wp_enqueue_script('tpgb-block-editor-js', TPGB_ASSETS_URL.'assets/js/admin/blocks.js', $scripts_dep,TPGB_VERSION, false);
 
-				wp_set_script_translations( 'tpgb-block-editor-js', 'the-plus-addons-for-block-editor' , TPGB_PATH . '/lang/' );
+				wp_set_script_translations( 'tpgb-block-editor-js', 'the-plus-addons-for-block-editor' , TPGB_PATH . '/languages/' );
 			}
 		}
 		
@@ -255,6 +255,8 @@ class Tpgb_Core_Init_Blocks {
 			$googleFonts_list = false;
 		}
 
+		$preset_import = Tp_Blocks_Helper::get_extra_option('preset_import');
+
 		// Check WDesignkit Installed Or Not
 		$wdadded = false;
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -264,6 +266,8 @@ class Tpgb_Core_Init_Blocks {
 						$wdadded = true;
 				}
 		}
+
+        $presetImport = apply_filters( 'tpgb_preset_import_disable', true );
 
 		$wp_localize_tpgb = array(
 			'activeTheme' => esc_html( get_template() ),
@@ -297,6 +301,7 @@ class Tpgb_Core_Init_Blocks {
 			'dashicons_icon' => $dashIcons,
             'nexter_block_pro' => defined('TPGBP_VERSION'),
             'adminEmail' => current_user_can('manage_options') ? get_option('admin_email') : '',
+            'preset_import' => $presetImport,
 		);
 		
 		if(has_filter('tpgb_load_localize')) {
@@ -1801,6 +1806,18 @@ class Tpgb_Core_Init_Blocks {
 		}
 		return $data;
 	}
+
+    /**
+     * Check Preset Import
+     * @since 4.5.6
+     */
+    public function check_tpgb_preset_import( $data = true){
+        $check_preset_import = Tp_Blocks_Helper::get_extra_option('tpgb_preset_import');
+        if( !empty($check_preset_import) && $check_preset_import === 'enable' ){
+            $data = false;
+        }
+        return $data;
+    }
 }
 
 Tpgb_Core_Init_Blocks::get_instance();

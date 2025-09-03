@@ -104,7 +104,7 @@
 }
 
 @media (max-width:767px) {
-	.pt_plus_breadcrumbs_bar.bred-mobile-center {
+	.pt_plus_breadcrumbs_bar.bred-mobile-center,.pt_plus_breadcrumbs_bar.bred-mobile-center #breadcrumbs {
 		justify-content:center
 	}
 	.pt_plus_breadcrumbs_bar.bred-mobile-right {

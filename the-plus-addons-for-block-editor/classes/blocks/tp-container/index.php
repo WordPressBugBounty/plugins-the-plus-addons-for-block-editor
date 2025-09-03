@@ -21,12 +21,17 @@ function tpgb_tp_container_render_callback( $attributes, $content) {
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 
 	$selectedLayout = (!empty($attributes['selectedLayout'])) ? $attributes['selectedLayout'] : '';
+    $nxtcontType = (!empty($attributes['nxtcontType'])) ? $attributes['nxtcontType'] : false;
+    $contwidFull = (!empty($attributes['contwidFull'])) ? $attributes['contwidFull'] : '';
 
 	$sectionClass = '';
 	if( !empty( $height ) ){
 		$sectionClass .= ' tpgb-section-height-'.esc_attr($height);
 	}
 	
+    if( defined('NXT_VERSION') && $contentWidth !== 'full' && !empty($nxtcontType) ){
+        $sectionClass .= ' tpgb-nxtcont-type';
+    }
 	// Toogle Class For wrapper Link
 
 	$linkdata = '';
@@ -46,6 +51,12 @@ function tpgb_tp_container_render_callback( $attributes, $content) {
 	}
 
 	$output .= '<'.Tp_Blocks_Helper::validate_html_tag($tagName).' '.$customId.' class="tpgb-container-row tpgb-block-'.esc_attr($block_id).' '.esc_attr($sectionClass).' '.esc_attr($customClass).' '.esc_attr($blockClass).' '.($colDir == 'c100' || $colDir == 'r100' ? ' tpgb-container-inline' : '').'  tpgb-container-'.esc_attr($contentWidth).' '.($selectedLayout == 'grid' ? 'tpgb-grid' : '').'" data-id="'.esc_attr($block_id).' " '.$linkdata.' >';
+
+    //top layer Div 
+    if( isset($attributes['topOption']) && $attributes['topOption'] != '' ){
+        $output .= '<div class="tpgb-top-layer"></div>';
+    }
+
 	if($contentWidth=='wide'){
 		$output .= '<div class="tpgb-cont-in">';
 	}
@@ -115,6 +126,10 @@ function tpgb_tp_container_row() {
 						'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'wide']],
 						'selector' => '{{PLUS_WRAP}} > .tpgb-cont-in{ --content-width : {{containerWide}};}',
 					],
+                    (object) [
+                        'condition' => [ (object) ['key' => 'contentWidth', 'relation' => '==', 'value' => 'wide']],
+                        'selector' => '{{PLUS_WRAP}}.tpgb-nxtcont-type.tpgb-container-wide.alignwide { max-width : {{containerWide}} !important; } ',
+                    ],
 				],
 			],
 			'contwidFull' => [
@@ -1379,6 +1394,98 @@ function tpgb_tp_container_row() {
 				'type' => 'string',
 				'default' => '',
 			],
+            'topOption' => [
+				'type' => 'string',
+				'default' => '',
+				'scopy' => true,
+			],
+			'topBgtype' => [
+				'type' => 'object',
+				'default' => (object) [
+					'openBg'=> 0,
+					'bgType' => 'color',
+				],
+				'style' => [
+					(object) [
+						'condition' => [(object) ['key' => 'topOption', 'relation' => '==', 'value' => 'color' ]],
+						'selector' => '{{PLUS_WRAP}} .tpgb-top-layer'
+					],
+				],
+				'scopy' => true,
+			],
+			'textureImg' => [
+				'type' => 'object',
+				'default' => [
+					'url' => '',
+					'id' => '',
+				],
+				'style' => [
+					(object) [
+						'condition' => [(object) ['key' => 'topOption', 'relation' => '==', 'value' => 'texture-img' ]],
+						'selector' => '{{PLUS_WRAP}} .tpgb-top-layer{ background-image: {{textureImg}}; }'
+					],
+				],
+				'scopy' => true,
+			],
+			'teximgPosition' => [
+				'type' => 'object',
+				'default' => [ 'md' => '','sm' => '','xs' => '' ],
+				'style' => [
+					(object) [
+						'condition' => [(object) ['key' => 'topOption', 'relation' => '==', 'value' => 'texture-img' ]],
+						'selector' => '{{PLUS_WRAP}} .tpgb-top-layer { background-position : {{teximgPosition}}; }',
+					],
+				],
+				'scopy' => true,
+			],
+			'teximgAtta' => [
+				'type' => 'object',
+				'default' => [ 'md' => '','sm' => '','xs' => '' ],
+				'style' => [
+					(object) [
+						'condition' => [(object) ['key' => 'topOption', 'relation' => '==', 'value' => 'texture-img' ]],
+						'selector' => '{{PLUS_WRAP}} .tpgb-top-layer { background-attachment : {{teximgAtta}}; }',
+					],
+				],
+				'scopy' => true,
+			],
+			'teximgRepeat' => [
+				'type' => 'object',
+				'default' => [ 'md' => '','sm' => '','xs' => '' ],
+				'style' => [
+					(object) [
+						'condition' => [(object) ['key' => 'topOption', 'relation' => '==', 'value' => 'texture-img' ]],
+						'selector' => '{{PLUS_WRAP}} .tpgb-top-layer { background-repeat : {{teximgRepeat}}; }',
+					],
+				],
+				'scopy' => true,
+			],
+			'teximgSize' => [
+				'type' => 'object',
+				'default' => [ 'md' => '','sm' => '','xs' => '' ],
+				'style' => [
+					(object) [
+						'condition' => [(object) ['key' => 'topOption', 'relation' => '==', 'value' => 'texture-img' ]],
+						'selector' => '{{PLUS_WRAP}} .tpgb-top-layer { background-size : {{teximgSize}}; }',
+					],
+				],
+				'scopy' => true,
+			],
+			'timgOpacity' => [
+				'type' => 'string',
+				'default' => '',
+				'style' => [
+					(object) [
+						'condition' => [(object) ['key' => 'topOption', 'relation' => '!=', 'value' => '' ]],
+						'selector' => '{{PLUS_WRAP}} .tpgb-top-layer{opacity : {{timgOpacity}} }'
+					],
+				],
+				'scopy' => true,
+			],
+            'nxtcontType' => [
+                'type' => 'boolean',
+                'default' => false,
+            ],
  		];
 		
 	$attributesOptions = array_merge( $attributesOptions, $displayRules );

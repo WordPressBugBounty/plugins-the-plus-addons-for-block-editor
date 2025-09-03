@@ -134,11 +134,7 @@
 	font-size: 12px;
 }
 
-.nxt-nobtn-primary {
-	background-color: #1717CC;
-	color: #fff;
-	border: none;
-	box-shadow: none;
+.nxt-nobtn-secondary, .nxt-nobtn-primary{
     padding: 8px 16px;
     border-radius: 4px;
     font-weight: 600;
@@ -147,14 +143,24 @@
     text-decoration: none;
     display: inline-flex
 }
-.nxt-nobtn-primary:hover {
-    background-color: #1717CC;
-    color: #fff;
+
+.nxt-nobtn-secondary, .nxt-nobtn-secondary:hover, .nxt-nobtn-secondary:focus {
+    background-color: #fff;
+    color: #1717CC;
+    border: 1px solid #1717CC;
+    box-shadow: none;
+    margin-left: 8px;
 }
-.nxt-nobtn-primary:focus {
+.nxt-nobtn-primary,.nxt-nobtn-primary:hover, .nxt-nobtn-primary:focus {
+	background-color: #1717CC;
+	color: #fff;
+	border: none;
+	box-shadow: none;
+}
+
+.nxt-nobtn-primary:focus, .nxt-nobtn-secondary:focus {
     box-shadow: none;
     outline: none;
-    color: #fff;
 }
 .nxt-notice-wrap .notice-dismiss:focus {
     box-shadow: none;

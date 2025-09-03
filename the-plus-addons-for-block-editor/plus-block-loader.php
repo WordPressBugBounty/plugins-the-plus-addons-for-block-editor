@@ -41,91 +41,88 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
             
             $this->loader_helper();
             
+            // Show admin notice after 2 days
+            if ( ! defined('TPGBP_VERSION') ) {
+                add_action( 'admin_notices', array( $this , 'nexter_block_show_pro_notice' )  );
+            }
+
             add_action( 'plugins_loaded', array( $this, 'tp_plugin_loaded' ) );
-            // if ( ! defined('TPGBP_VERSION') ) {
-            //     add_action( 'admin_notices', array( $this, 'nxt_halloween_offer' ) );
-            // }
+
             $whitedata = get_option('tpgb_white_label');
             if( is_admin() && ( empty($whitedata) || ( !empty($whitedata['nxt_help_link']) && $whitedata['nxt_help_link'] !== 'on') ) ) {
                 add_filter( 'plugin_action_links_' . TPGB_BASENAME, array( $this, 'tpgb_settings_pro_link' ) );
-            //    add_action( 'after_plugin_row', array( $this, 'nxt_plugins_page_rebranding_banner' ), 10, 1 );
             }
             if( is_admin() ){
                 add_filter( 'plugin_row_meta', array( $this, 'tpbg_extra_links_plugin_row_meta' ), 10, 2 );
             }
             add_action( 'wp_ajax_nxt_dismiss_plugin_rebranding', array( $this,'nxt_dismiss_plugin_rebranding_callback' ), 10, 1 );
-            // add_action( 'wp_ajax_nxt_dismiss_plugin_halloween', array( $this,'nxt_dismiss_plugin_halloween' ), 10, 1 );
+
+            add_action( 'wp_ajax_nexter_dismiss_notice', array( $this, 'nexter_dismiss_notice' ) );
         }
         
         /**
-         * Black Friday Sale Admin Notice
-         *
-         * @param $plugin_file
-         *
-         * @since 4.0.3
+         * Dismiss Notice Ajax
+         * @since 4.5.5
          */
-        // public function nxt_halloween_offer() {
-
-        //     if ( ! get_option('nxt_cybermonday_dismissed') && !defined('TPGBP_VERSION') ) {
-        //         echo '<div class="nxt-plugin-halloween notice" style="border-left-color: #1717cc;">
-                        
-        //                 <div class="inline nxt-plugin-halloween-notice" style="display: flex;column-gap: 12px;align-items: center;padding: 15px;position: relative;    margin-left: 0px;">
-        //                     <img style="max-width: 110px;max-height: 110px;" src="'.esc_url( TPGB_URL.'/assets/images/cyber-monday.png' ).'" />
-        //                     <div style="margin: .7rem .8rem .8rem;">  
-        //                         <h3 style="margin-top:10px;margin-bottom:7px;">' . esc_html__( "Best Time to Upgrade to Nexter Blocks Pro – Save $300!", 'the-plus-addons-for-block-editor' ) . '</h3>
-        //                         <p> '. esc_html__( "Our Cyber Monday Sale is live! Upgrade now and save $300 on the pro version.", 'the-plus-addons-for-block-editor' ) .' </p>
-        //                         <p style="display: flex;column-gap: 12px;">  <span> • '. esc_html__("1,000+ WordPress Templates", 'the-plus-addons-for-block-editor').'</span>  <span> • '. esc_html__("90+ WordPress Blocks", 'the-plus-addons-for-block-editor').'</span>  <span> • '. esc_html__("Trusted by 10K+ Users", 'the-plus-addons-for-block-editor').'</span> </p>
-        //                         <a href="'.esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage').'" class="button" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Claim Your Offer', 'the-plus-addons-for-block-editor') . '</a>
-        //                     </div>
-        //                     <span class="nxt-halloween-notice-dismiss"></span>
-        //                 </div></div>';
-        //     }
-        // }
-
-         /*
-        public function nxt_plugins_page_rebranding_banner( $plugin_file ) {
-            if ( ! get_option('nxt_rebranding_dismissed') ) {
-                
-                $plugin_file_array = explode( '/', $plugin_file );
-                if ( end( $plugin_file_array ) === 'the-plus-addons-for-block-editor.php' ) {
-                    echo '<tr class="nxt-plugin-rebranding-update">
-                        <td colspan="4" style="padding: 20px 40px; background: #f0f6fc; border-left: 4px solid #72aee6; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);">
-                        <div class="nxt-plugin-update-notice inline notice notice-alt notice-warning">
-                            <h4 style="margin-top:10px;margin-bottom:7px;font-size:14px;">' . esc_html__( "The Plus Blocks for Gutenberg is now Nexter Blocks : Better UI, Faster Performance & Improved Features", 'the-plus-addons-for-block-editor' ) . '</h4>
-                            <a target="_blank" rel="noopener noreferrer" href="'.esc_url('https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings').'" style="text-decoration:underline;margin-bottom:10px;display:inline-block;">' . esc_html__( 'Read What\'s New & What Changed?', 'the-plus-addons-for-block-editor') . '</a>
-                            <span class="nxt-plugin-notice-dismiss"></span>
-                        </div>
-                        </td></tr>';
-                }
+        public function nexter_dismiss_notice() {
+            if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
+                wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'tpgbp') ) );
             }
-        } */
 
+            if ( ! empty($_POST['notice_id']) ) {
+                $notice_id = sanitize_text_field($_POST['notice_id']);
+                update_option($notice_id . '_dismissed', true);
+                wp_send_json_success(['dismissed' => $notice_id]);
+            } else {
+                wp_send_json_error('Invalid Notice ID');
+            }
+        }
+        
         /**
-         * Halloween Notice disable
-         * @since 4.0.3
+         * Pro Block Notice 
+         * @since 4.5.6
          */
-        // public function nxt_dismiss_plugin_halloween() {
-        //     // Verify nonce for security
-        //     if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tpgb-addons' ) ) {
-        //         wp_send_json_error( array( 'message' => esc_html__('Invalid nonce. Unauthorized request.', 'the-plus-addons-for-block-editor') ) );
-        //     }
-        
-        //     if ( ! current_user_can( 'manage_options' ) ) {
-        //         wp_send_json_error( array( 'message' => esc_html__('Insufficient permissions.', 'the-plus-addons-for-block-editor') ) );
-        //     }
-        
-        //     $option_key = 'nxt_cybermonday_dismissed';
-        //     update_option( $option_key, true );
+        public function nexter_block_show_pro_notice(){
             
-        //     if ( get_option( 'nxt_blackfriday_dismissed' ) !== false ) {
-        //         delete_option( 'nxt_blackfriday_dismissed' );
-        //     }
-        //     if ( get_option( 'nxt_halloween_dismissed' ) !== false ) {
-        //         delete_option( 'nxt_halloween_dismissed' );
-        //     }
+            if ( get_option( 'nexter_block_show_pro_dismissed' ) ) {
+                return;
+            }
+           
+            // Only show for admins
+            if ( ! current_user_can( 'manage_options' ) ) {
+                return;
+            }
+           
+            $nxtData = get_option( 'nexter-installed-data' );
+            
+            if ( ! is_array( $nxtData ) || empty( $nxtData['install-date'] ) ) {
+                return;
+            }
         
-        //     wp_send_json_success( array( 'message' => esc_html__('Notice dismissed successfully.', 'the-plus-addons-for-block-editor') ) );
-        // }
+            // Convert from d-m-Y to timestamp
+            $inTime = strtotime( $nxtData['install-date'] );
+           
+            if ( ! $inTime ) {
+                return;
+            }
+            
+            $dayCount = floor( ( current_time( 'timestamp' ) - $inTime ) / DAY_IN_SECONDS );
+            // Show after 2 days
+            if ( $dayCount >= 2 ) {
+
+                echo '<div class="notice notice-info is-dismissible nxt-notice-wrap" data-notice-id="nexter_block_show_pro">';
+                    echo '<div class="nexter-license-activate">';
+                        echo '<div class="nexter-license-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><rect width="24" height="24" fill="#1717CC" rx="5"/><path fill="#fff" d="M12.605 17.374c.026 0 .038.013.039.038.102 0 .192.014.27.04.025 0 .05.012.076.037.128.077.23.167.307.27v.038c0 .026.013.051.039.077v.038a.63.63 0 0 1 .038.193l-.038 1.882h-2.652v-2.613h1.921Zm.308-13.414c.128 0 .23.038.308.115a.259.259 0 0 1 .115.23V15.26c.025.153-.052.295-.23.423a.872.872 0 0 1-.578.192h-1.844V3.96h2.23Z"/></svg></div>';
+                        echo '<div class="nexter-license-content">';
+                            echo '<h2>' . esc_html__( 'Upgrade to Nexter Blocks Pro', 'the-plus-addons-for-block-editor' ) . '</h2>';
+                            echo '<p>' . esc_html__( 'Nexter Blocks free features are just the tip of the iceberg. Unlock powerful tools like Login Form, Form Builder, Mega Menu Builder, Popup Builder, and many more.', 'the-plus-addons-for-block-editor' ) . '</p>';
+                            echo '<a href="' . esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') . '" target="_blank" rel="noopener noreferrer" class="nxt-nobtn-primary">' . esc_html__( 'Upgrade Now', 'the-plus-addons-for-block-editor' ) . '</a>';
+                            echo '<a href="' . esc_url('https://nexterwp.com/free-vs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') . '" target="_blank" rel="noopener noreferrer" class="nxt-nobtn-secondary">' . esc_html__( 'Compare Free vs Pro', 'the-plus-addons-for-block-editor' ) . '</a>';
+                        echo '</div>';
+                    echo '</div>';
+                echo '</div>';
+            }
+        }
 
         /**
          * Rebranding Notice disable

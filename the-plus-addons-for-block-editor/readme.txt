@@ -1,10 +1,10 @@
-=== Nexter Blocks - WordPress Gutenberg Blocks & 1000+ Starter Templates ===
+=== Nexter Gutenberg Blocks - Website Builder & 1000+ Starter Templates ===
 Contributors: posimyththemes, nirmalkavaiya, sagarpatel124, jigar9998
 Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.5.5
+Stable tag: 4.5.6
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -13,7 +13,7 @@ WordPress 90+ Gutenberg Blocks with 1000+ Ready to Use WordPress Pages & Section
 
 == Description ==
 
-<strong>[Nexter WordPress Gutenberg Blocks](https://nexterwp.com/nexter-blocks/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong> is the ultimate no-code page builder plugin you need to create any type of website effortlessly with over <strong>90+ Gutenberg Blocks & 1000+ Ready to Use WordPress Templates for Starter Websites.</strong>
+<strong>[Nexter Gutenberg Blocks](https://nexterwp.com/nexter-blocks/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)</strong> is the ultimate no-code page builder plugin you need to create any type of website effortlessly with over <strong>90+ Gutenberg Blocks & 1000+ Ready to Use WordPress Templates for Starter Websites.</strong>
 
 Whether you’re a beginner or an experienced user, Nexter Blocks empowers you to build stunning websites with ease—no coding required!
 ###Looking for The Plus Blocks for Gutenberg? Nexter Blocks is Now The Plus Blocks for Gutenberg - [Read Why?](https://nexterwp.com/blog/all-new-nexter-experience-unified-solution-wordpress-website-building?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
@@ -513,6 +513,15 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.5.6 = 03 Sep 2025
+- Added :  Dashboard : Disable Template import Button Option added.
+- Added : Container : Background Top Layer (Overlay) option. 
+- Improve : Onboarding Block List Layout Improve.
+- Update : Form Block : Minor layout Change in mail body part.
+- Update : Iframe Injection Remove From Live Copy.
+- Fix : Heading Block : Color & Typo issue Solved on editor Side.
+- Minor bug Fixes & Improvements.
 
 = 4.5.5 = 11 Aug 2025
 - Fix : Countdown : Security Patch ( Low Security )

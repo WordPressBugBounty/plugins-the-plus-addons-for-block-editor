@@ -1731,7 +1731,9 @@ Class Tpgb_Library {
 		if( is_home() || is_singular() || is_archive() || is_search() || (isset( $wp_query ) && (bool) $wp_query->is_posts_page) || is_404() ){
 			$queried_obj = get_queried_object_id();
 			if(isset( $wp_query ) && isset($wp_query->is_post_type_archive) && !empty($wp_query->is_post_type_archive)){
-				$queried_obj = $wp_query->query['post_type'];
+                if ( isset( $wp_query->query['post_type'] ) && ! empty( $wp_query->query['post_type'] ) ) {
+                    $queried_obj = $wp_query->query['post_type'];
+                }
 			}
 			if(is_search()){
 				$queried_obj = 'search';

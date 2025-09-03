@@ -104,6 +104,10 @@
 		"isInline": {
 			"type": "boolean",
 			"default": false
-		}
+		},
+        "parentFormId": {
+            "type": "string", 
+            "default": "" 
+        }
 	}
 }

@@ -39,9 +39,15 @@
         "tColor": {
             "type": "string",
             "default": "",
-            "style": [{
-                "selector": "{{PLUS_WRAP}}.tp-core-heading { color: {{tColor}}; }"
-            }],
+            "style": [
+                    {
+                    "selector": "{{PLUS_WRAP}}.tp-core-heading , {{PLUS_WRAP}}.tp-core-heading > a { color: {{tColor}}; }"
+                },
+                {
+                    "selector": "{{PLUS_CLIENT_ID}} span { color: {{tColor}}; }",
+                    "backend": true
+                }
+            ],
             "scopy": true
         },
         "tTypo": {
@@ -53,9 +59,15 @@
                 "unit": "px"
             }
             },
-            "style": [{
-                "selector": "{{PLUS_WRAP}}.tp-core-heading"
-            }],
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}}.tp-core-heading"
+                },
+                {
+                    "selector": "{{PLUS_CLIENT_ID}} span",
+                    "backend": true
+                }
+            ],
             "scopy": true
         },
         "tAlign": {

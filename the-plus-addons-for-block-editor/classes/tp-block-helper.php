@@ -1972,11 +1972,26 @@ class Tp_Blocks_Helper {
         $action_option_raw = isset($_POST['actionOption']) ? $_POST['actionOption'] : '[]'; 
         $action_option = $this->tpgb_simple_decrypt($action_option_raw,'dy');
         $action_option = json_decode($action_option,true);
-    
-    
-        if ($action_option && $action_option['actionOption'] && $action_option['actionOption'] === 'email') { 
+
+        $formId = $action_option['formId']??'';
+
+        $proceed_with_email = true;
+
+        if ( isset($_POST['cf-turnstile-response']) ) {
+            // If Turnstile response exists, validate it
+            $captcha_value = sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) );
+            $captcha_error = apply_filters('nxt_block_form_content', $captcha_value, $formId, '');
+            
+            if(!empty($captcha_error)) {
+                $proceed_with_email = false;
+                $errors .= $captcha_error;
+            }
+        }
+        
+        if($proceed_with_email && $action_option && $action_option['actionOption'] && $action_option['actionOption'] === 'email') {
             $email_to = isset($action_option['emailTo1']) && !empty($action_option['emailTo1']) ? sanitize_email($action_option['emailTo1']) : '';
             $subject = isset($action_option['subject1']) && !empty($action_option['subject1']) ? sanitize_text_field($action_option['subject1']) : '';
+
             if (!empty($email_to) && !empty($subject)) {
                 $message = isset($action_option['message1']) && !empty($action_option['message1']) ? sanitize_textarea_field($action_option['message1']) : '';
                 $from_name = isset($action_option['frmNme']) && !empty($action_option['frmNme']) ? ($action_option['frmNme'] === '[nxt_name]' ? get_option('blogname') : sanitize_text_field($action_option['frmNme'])) : '';
@@ -1986,14 +2001,14 @@ class Tp_Blocks_Helper {
                 $bcc = isset($action_option['bccEmail1']) && !empty($action_option['bccEmail1']) ? sanitize_text_field($action_option['bccEmail1']) : '';
                 $emailHdg = isset($action_option['emailHdg']) && !empty($action_option['emailHdg']) ? sanitize_text_field($action_option['emailHdg']) : 'You have received a new form submission:';
                 $regular_fields = [];  
-                                
+                        
                 foreach ($_POST as $key => $value) {
-                    if (in_array($key, ['actionOption', 'nonce', 'Captchaopt'], true)) {
+                    if (in_array($key, ['actionOption', 'nonce', 'Captchaopt', 'cf-turnstile-response'], true)) {
                         continue;
                     }
-    
+            
                     $formatted_key = str_replace('_', ' ', $key);
-    
+            
                     //validation for html
                     if (preg_replace('/<[^>]*>/', '', $value) !== $value) {
                         $errors .= "HTML content not allowed in $formatted_key field. ";
@@ -2003,9 +2018,7 @@ class Tp_Blocks_Helper {
                     //validation for email
                     if (!empty($value) && is_string($value) && strpos($value, '@') !== false && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                         $field_label = ucfirst(str_replace(['_', '-'], ' ', $key));
-                        $valErrMsg = isset($action_option['valErrMsg']) && !empty($action_option['valErrMsg']) 
-                            ? sanitize_text_field($action_option['valErrMsg']) 
-                            : "Invalid email format in " . $field_label . " field. ";
+                        $valErrMsg = isset($action_option['valErrMsg']) && !empty($action_option['valErrMsg']) ? sanitize_text_field($action_option['valErrMsg']) : "Invalid email format in " . $field_label . " field. ";
                         $errors .= $valErrMsg;
                         continue;
                     }
@@ -2014,14 +2027,14 @@ class Tp_Blocks_Helper {
                     if ($reply_to === '[nxt_user_email]' && filter_var($value, FILTER_VALIDATE_EMAIL)) {
                         $reply_to = sanitize_email($value);
                     }
-    
+            
                     if (is_array($value)) {
                         $regular_fields[$formatted_key] = array_map('sanitize_text_field', $value);
                     } else {
                         $regular_fields[$formatted_key] = sanitize_text_field($value);
                     }
                 }
-    
+            
                 $full_message = "<h2>$emailHdg</h2>"; 
                 $non_empty_fields = array_filter($regular_fields, function ($value, $key) { 
                     if (is_array($value)) { 
@@ -2037,78 +2050,120 @@ class Tp_Blocks_Helper {
                     if (is_array($value)) { 
                         $value = implode(', ', $value); 
                     } 
-                    $full_message .= "<p><strong>" . ucfirst($key) . ":</strong> $value</p>"; 
+                    $full_message .= "<p>" . ucfirst($key) . ": $value\n</p>"; 
                 }
+
                 $full_message .= "<hr style='border: 1px dashed #ccc; margin: 20px 0;'>";
-    
+            
                 if (isset($action_option['metaDataOpt']) && is_array($action_option['metaDataOpt'])) {
-                    $full_message .= "<p><strong>Meta Data:</strong></p><ul>";
+                    $full_message .= "<p>Meta Data:</p>";
                 
                     foreach ($action_option['metaDataOpt'] as $metaData) {
                         $label = isset($metaData['label']) && !empty($metaData['label']) ? $metaData['label'] : 'Unknown Label';
                         $value = 'Unknown Value';
-                
+                    
                         if (isset($metaData['value'])) {
                             switch ($metaData['value']) {
-                                case 'metaDate':
-                                    $value = date('Y-m-d');
-                                    break;
-                                case 'metaTime':
-                                    $value = date('H:i:s');
-                                    break;
-                                case 'metaRemoteIp':
-                                    $value = $_SERVER['REMOTE_ADDR'] ?? 'Unknown IP';
-                                    break;
-                                case 'metaUserAgent':
-                                    $value = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown User Agent';
-                                    break;
-                                case 'metaPageUrl':
-                                    $value = $_SERVER['HTTP_REFERER'] ?? 'Unknown Page URL';
-                                    break;
-                                default:
-                                    $value = 'Unknown Value';
+                            case 'metaDate':
+                                $value = date('Y-m-d');
+                                break;
+                            case 'metaTime':
+                                $value = date('H:i:s');
+                                break;
+                            case 'metaRemoteIp':
+                                $value = $_SERVER['REMOTE_ADDR'] ?? 'Unknown IP';
+                                break;
+                            case 'metaUserAgent':
+                                $value = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown User Agent';
+                                break;
+                            case 'metaPageUrl':
+                                $value = $_SERVER['HTTP_REFERER'] ?? 'Unknown Page URL';
+                                break;
+                            default:
+                                $value = 'Unknown Value';
                             }
                         }
-                
-                        $full_message .= "<li><strong>$label:</strong> $value</li>";
+                    
+                        $full_message .= "$label: $value<br>";
                     }
                 
-                    $full_message .= "</ul>";
+                    // $full_message .= "</ul>";
                 } else {
                     $full_message .= "<p><em>No metadata options provided.</em></p>";
                 }
-        
+                $full_message .= '<p>Powered by Nexter Form</p>';
                 $headers = [ 
                     "From: $from_name <$from_email>", 
                     "Reply-To: $reply_to", 
                     "Content-Type: text/html; charset=UTF-8" 
                 ]; 
-        
+            
                 if (!empty($cc)) { 
                     $headers[] = "Cc: $cc"; 
                 } 
-        
+            
                 if (!empty($bcc)) { 
                     $headers[] = "Bcc: $bcc"; 
                 } 
-        
+            
                 $mail_sent = wp_mail($email_to, $subject, $full_message, $headers); 				
                 $actions_success['email'] = $mail_sent ? true : false;
                 if(!$mail_sent){
-                    $failMsg = isset($action_option['failMsg']) && !empty($action_option['failMsg']) ? sanitize_textarea_field($action_option['failMsg']) : 'Failed to send email.';
+                    $failMsg = isset($action_option['failMsg']) && !empty($action_option['failMsg']) ? sanitize_textarea_field($action_option['failMsg']) : __( 'Failed to send email.', 'the-plus-addons-for-block-editor' );
                     $errors .= $failMsg;
                 }
-            } else { 
-                $errors .= 'Email address and Subject is required. '; 
+            } else {
+                $errors .= __('Email address and Subject is required. ', 'the-plus-addons-for-block-editor'); 
                 $actions_success['email'] = false; 
             } 
         }
-        
+        if( has_filter( 'nxt_form_pro_action_callback' ) ){
+            $data = apply_filters( 'nxt_form_pro_action_callback', $data );
+        }
+       
         $response['success'] = empty($errors);
         $response['data'] = empty($errors) ? 'Success' : $errors;
         
         echo wp_json_encode($response);
         wp_die();
+    }
+
+    /*
+     * Form Content Render
+     * @since 4.5.6
+     */
+    public function nxt_block_form_content_render( $captcha_val = '', $formId = '',  $errors = '' ){
+
+        if ( ! empty($captcha_val) ) {
+            $captcha_value = sanitize_text_field( wp_unslash( $captcha_val ) );
+            $response_captcha = apply_filters(
+                'nexter_form_validate' . esc_attr($formId),
+                [],     
+                $captcha_value
+            );
+
+            // Ensure result is an array
+            if ( is_array($response_captcha) ) {
+
+                // If success is explicitly false
+                if ( isset($response_captcha['success']) && $response_captcha['success'] === false ) {
+
+                    // If there is data, you could log it or use it
+                    if ( ! empty($response_captcha['data']) ) {
+                        $errors .= $response_captcha['data'];
+                    } else {
+                        $errors .= __('No Cloudflare Turnstile response received.','the-plus-addons-for-block-editor');
+                    }
+
+                }
+
+            } else {
+                $errors .= __('Invalid CAPTCHA validation response format.','the-plus-addons-for-block-editor');
+            }
+        }
+
+        return $errors;
+
     }
 }
 

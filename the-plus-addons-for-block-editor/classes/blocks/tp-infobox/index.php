@@ -34,6 +34,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 	$imgOverlay = (!empty($attributes['imgOverlay'])) ? $attributes['imgOverlay'] : false;
 	$iconShine = (!empty($attributes['iconShine'])) ? $attributes['iconShine'] : false;
 	$IconName = (!empty($attributes['IconName'])) ? $attributes['IconName'] : '';
+    $TextIcon = (!empty($attributes['textIcon'])) ? $attributes['textIcon'] : '';
 	$imageName = (!empty($attributes['imageName']['url'])) ? $attributes['imageName'] : '';
 	$imageSize = (!empty($attributes['imageSize'])) ? $attributes['imageSize'] : 'full';
 	$Title = (!empty($attributes['Title'])) ? $attributes['Title'] : '';
@@ -138,6 +139,8 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 					$getIcon .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-'.esc_attr($block_id).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-fillEnable="yes">';
 						$getIcon .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 					$getIcon .= '</div>';
+				}else if($iconType=='text' && !empty($TextIcon)){
+					$getIcon .='<span class="tpgb-icon-wrap-text">'.esc_attr($TextIcon).'</span>';
 				}
 				$getIcon .='</div>';
 			$getIcon .='</div>';
@@ -458,7 +461,9 @@ function tpgb_getCInfobox($attributes){
 							$getCIcon .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-'.esc_attr($item['_key']).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-fillEnable="yes">';
 								$getCIcon .= '<object id="service-svg-'.esc_attr($item['_key']).'" class="info-box-svg" type="image/svg+xml" data="'.esc_url($item['svgIcon']['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 							$getCIcon .= '</div>';
-						}
+						}else if($item['iconType']=='text' && !empty($item['textIcon'])){
+                            $getCIcon .='<span class="tpgb-icon-wrap-text">'.esc_attr($item['textIcon']).'</span>';    
+                        }
 					$getCIcon .='</div>';
 				$getCIcon .='</div>';
 			}

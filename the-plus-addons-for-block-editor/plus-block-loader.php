@@ -117,7 +117,7 @@ if ( !class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
                             echo '<h2>' . esc_html__( 'Upgrade to Nexter Blocks Pro', 'the-plus-addons-for-block-editor' ) . '</h2>';
                             echo '<p>' . esc_html__( 'Nexter Blocks free features are just the tip of the iceberg. Unlock powerful tools like Login Form, Form Builder, Mega Menu Builder, Popup Builder, and many more.', 'the-plus-addons-for-block-editor' ) . '</p>';
                             echo '<a href="' . esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') . '" target="_blank" rel="noopener noreferrer" class="nxt-nobtn-primary">' . esc_html__( 'Upgrade Now', 'the-plus-addons-for-block-editor' ) . '</a>';
-                            echo '<a href="' . esc_url('https://nexterwp.com/free-vs/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') . '" target="_blank" rel="noopener noreferrer" class="nxt-nobtn-secondary">' . esc_html__( 'Compare Free vs Pro', 'the-plus-addons-for-block-editor' ) . '</a>';
+                            echo '<a href="' . esc_url('https://nexterwp.com/free-vs-pro/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage') . '" target="_blank" rel="noopener noreferrer" class="nxt-nobtn-secondary">' . esc_html__( 'Compare Free vs Pro', 'the-plus-addons-for-block-editor' ) . '</a>';
                         echo '</div>';
                     echo '</div>';
                 echo '</div>';

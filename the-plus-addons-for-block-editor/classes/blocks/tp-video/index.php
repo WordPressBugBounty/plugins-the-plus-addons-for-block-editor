@@ -10,6 +10,9 @@ function tpgb_tp_video_callback( $settings, $content) {
 	$anim_styles = isset ( $settings[ 'style' ] ) ? $settings[ 'style' ] : 'style-1';
 	
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $settings );
+    $secVid = isset ( $settings[ 'secVid' ]['url'] ) ? $settings[ 'secVid' ]['url'] : '';
+    $fallbackImage = isset ( $settings[ 'fallbackImage' ]['url'] ) ? $settings[ 'fallbackImage' ]['url'] : '';
+    
 
 	//Google Schema Attributes
 	$mainsch =  $thumbsch =  $titlesch =  $descsch = '';
@@ -243,11 +246,17 @@ function tpgb_tp_video_callback( $settings, $content) {
 						}
 					$video_content .= '</div></div>';
                 } else if( $VideoType == 'self-hosted' ) {
-                    $video_content .= '<div class="ts-video-wrapper ts-video-hover-effect-zoom ts-type-' . esc_attr( $VideoType ) . '" data-mode="lazyload" data-provider="' . esc_attr($VideoType) . '" id="ts-video-video-6" '.$mainsch.' data-grow=""><div class="tpgb-video-embed-wrap" ><img class="tpgb-video-thumb" data-object-fit="" '.$thumbsch.' content="'.esc_url( $BannerImg ).'" src="' . esc_url( $BannerImg ) . '" alt="' . esc_attr__( "Video Thumbnail",'the-plus-addons-for-block-editor' ) . '"><h5 '.$titlesch.' class="tpgb-video-title">' . $title . '</h5><div class="video_container"><video class="tpgb-video-poster" width="100%" poster="' . esc_url( $BannerImg ) . '" controls > <source src="' . esc_url( $mp4Url ) . '" type="video/mp4" ></video></div></span><button class="tpgb-video-play-btn ts-video-blay-btn-youtube" type="button">' . $OverlayIconImg_url . '</button>';
-						if(!empty($settings[ 'markupSch' ])){
-							$video_content .= '<div class="tpgb-video-upload" itemprop="uploadDate" content="'.$uploadate.'"></div><div class="tpgb-video-upload" itemprop="contentUrl" content="' . esc_url ( $mp4Url ) . '"></div>';
-						}
-					$video_content .= '</div></div>';
+                    $video_content .= '<div class="ts-video-wrapper ts-video-hover-effect-zoom ts-type-' . esc_attr($VideoType) . '" data-mode="lazyload" data-provider="' . esc_attr($VideoType) . '" id="ts-video-video-6" ' . $mainsch . ' data-grow=""><div class="tpgb-video-embed-wrap"><img class="tpgb-video-thumb" data-object-fit="" ' . $thumbsch . ' content="' . esc_url($BannerImg) . '" src="' . esc_url               ($BannerImg) . '" alt="' . esc_attr__("Video Thumbnail", "the-plus-addons-for-block-editor") . '"><h5 ' . $titlesch . ' class="tpgb-video-title">' . $title . '</h5><div class="video_container">';
+                                
+                    $video_content .= (!empty($mp4Url) || !empty($secVid) || !empty($fallbackImage)) ? '<video class="tpgb-video-poster" width="100%" poster="' . esc_url($BannerImg) . '" controls data-fallback-ready="false">' . (!empty($mp4Url) ? '<source src="' . esc_url($mp4Url) . '" type="video/' . strtolower(pathinfo($mp4Url, PATHINFO_EXTENSION)) . '" />' : '') . (!empty($secVid) ? '<source src="' . esc_url($secVid) . '" type="video/' . strtolower(pathinfo($secVid, PATHINFO_EXTENSION)) . '" />' : '') . 
+                    '</video>' .(!empty($fallbackImage) ? '<img class="tpgb-video-poster nxt-fallback-img" width="100%" src="' . esc_url($fallbackImage) . '" alt="Fallback image" style="display:none;" />' : '') : '';
+                    $video_content .= '</div></span><button class="tpgb-video-play-btn ts-video-blay-btn-youtube" type="button">' . $OverlayIconImg_url . '</button>';
+
+                    if (!empty($settings['markupSch'])) {
+                        $video_content .= '<div class="tpgb-video-upload" itemprop="uploadDate" content="' . $uploadate . '"></ div><div                 class="tpgb-video-upload" itemprop="contentUrl" content="' . esc_url($mp4Url) . '"></   div>';
+                    }
+
+                    $video_content .= '</div></div>';
                 }
             }
         } else {
@@ -257,22 +266,24 @@ function tpgb_tp_video_callback( $settings, $content) {
             } else if( $VideoType == 'vimeo' ) {
                 $video_content .= '<div class="ts-video-wrapper embed-container  ts-type-' . esc_attr( $VideoType ) . '"><iframe src="https://player.vimeo.com/video/' . $VimeoID . '?html5=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;' . $vimeo_frame_attr . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen title="'.$iframeTitle.'"></iframe></div>';
             } else if( $VideoType == 'self-hosted' ) {
-                $video_content .= '<div class="ts-video-wrapper ts-type-' . esc_attr( $VideoType ) . '"><video ' . esc_attr( $self_video_attr ) . '> <source src="' . esc_url( $mp4Url ) . '" type="video/mp4" ></video></div>';
+                $video_content .= '<div class="ts-video-wrapper ts-type-' . esc_attr($VideoType) . '">';
+                    $video_content .= (!empty($mp4Url) || !empty($secVid) || !empty($fallbackImage)) ? '<video ' . esc_attr($self_video_attr) . ' data-fallback-ready="false">'. (!empty($mp4Url) ? '<source src="' . esc_url($mp4Url) . '" type="video/' . strtolower(pathinfo($mp4Url, PATHINFO_EXTENSION)) . '" />' : '') . (!empty($secVid) ? '<source src="' . esc_url($secVid) . '" type="video/' . strtolower(pathinfo($secVid, PATHINFO_EXTENSION)) . '" />' : '') . '</video>' .(!empty($fallbackImage) ? '<img class="nxt-fallback-img" width="100%" src="' . esc_url($fallbackImage) . '" alt="Fallback image" style="display:none;" />' : '') : '';
+                $video_content .= '</div>';
             }
         }
     } else if( $image_banner == 'only_icon' ) {
             if( $VideoType == 'youtube' ) {
-                $video_content .= '<a href="https://www.youtube.com/embed/' . esc_attr( $YoutubeID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox >' . $only_image . '</a>';
+                $video_content .= '<a href="https://www.youtube.com/embed/' . esc_attr( $YoutubeID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox="'.esc_attr($block_id).'">' . $only_image . '</a>';
             } else if( $VideoType == 'vimeo' ) {
-                $video_content .= '<a href="https://player.vimeo.com/video/' . esc_attr( $VimeoID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox >' . $only_image . '</a>';
+                $video_content .= '<a href="https://player.vimeo.com/video/' . esc_attr( $VimeoID ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox="'.esc_attr($block_id).'">' . $only_image . '</a>';
             } else if( $VideoType == 'self-hosted' ) {
-                $video_content .= '<a href="' . esc_url( $mp4Url ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox type="video/mp4">' . $only_image . '</a>';
+                $video_content .= '<a href="' . esc_url( $mp4Url ) . '" class="tp-video-popup ' . esc_attr( $icon_effect ) . '" data-fancybox="'.esc_attr($block_id).'" type="video/mp4">' . $only_image . '</a>';
             }
         $IconAlign_video = $settings[ 'IconAlign' ];
     }
 
 	$uid = 'video_player'.esc_attr($block_id);
-    $video_player = '<div class="tp-video tpgb-video-box tpgb-block-' . esc_attr($block_id) . ' ' . esc_attr( $uid ) . ' '.esc_attr($blockClass).' " data-id="'.esc_attr($block_id).'">';
+    $video_player = '<div class="tp-video tpgb-video-box tpgb-block-' . esc_attr($block_id) . ' ' . esc_attr( $uid ) . ' '.esc_attr($blockClass).'" data-id="'.esc_attr($block_id).'">';
 		$video_player .= '<div class="tpgb_video_player tpgb-relative-block ' . esc_attr( $video_touchable ) . ' ' . esc_attr( $video_space ) . ' text-' . esc_attr( $IconAlign_video ) . '">';
 			$video_player .= $video_content;
 		$video_player .= '</div>';

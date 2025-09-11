@@ -656,6 +656,11 @@ function tpgb_registered_blocks(){
 				$tpgb_free . 'assets/js/main/video/plus-video-player.min.js',
 			],
 		],
+        'nxt-video-fallback-image'=>[
+            'js'=>[
+                $tpgb_free . 'assets/js/main/video/nxt-video-fallback-image-min.js',
+            ]
+        ],
 		TPGB_CATEGORY.'/tp-creative-image' => [
 			'css' => [
 				$tpgb_free .'classes/blocks/tp-creative-image/style.css',

@@ -626,6 +626,13 @@ Class Tpgb_Get_Blocks {
 			$this->transient_blocks = apply_filters('tpgb_has_blocks_condition', $this->transient_blocks, $options, $blockname );
 		}
 
+        //video
+        if($blockname=='tpgb/tp-video' && !empty($options) ) {
+            if(!empty($options['fallbackImage']['url'])){
+                $this->transient_blocks[] = 'nxt-video-fallback-image';
+            }
+        }
+
 		/* Pricing Table */
 		if($blockname=='tpgb/tp-pricing-table'){
 			/* Content */

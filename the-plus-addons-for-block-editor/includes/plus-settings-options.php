@@ -403,6 +403,12 @@ class Tpgb_Gutenberg_Settings_Options {
 
 			$success = null === $activation_result;
             add_option('wkit_onbording_end ', true);
+
+            // Elementor Disable in WDK plugin
+            $settings = array('gutenberg_builder' => true,'gutenberg_template' => true,);              
+            $builder = array( 'elementor');             
+            do_action( 'wdkit_active_settings', $settings, $builder );
+
 			wp_send_json(['Sucees' => true]);
 
 		} elseif ( isset( $installed_plugins[ $plugin_basename ] ) ) {
@@ -410,6 +416,12 @@ class Tpgb_Gutenberg_Settings_Options {
 
 			$success = null === $activation_result;
             add_option('wkit_onbording_end ', true);
+
+            // Elementor Disable in WDK plugin
+            $settings = array('gutenberg_builder' => true,'gutenberg_template' => true,);              
+            $builder = array( 'elementor');             
+            do_action( 'wdkit_active_settings', $settings, $builder );
+
 			wp_send_json(['Sucees' => true]);
 
 		}

@@ -247,7 +247,7 @@ function tpgb_mega_menu($attributes,$att=''){
 			$current_active ='';
 			if(!empty($LinkFilter['filter']['url'])){
 				$itemUrl = $LinkFilter['filter']['url'];
-				if($LinkFilter['filter']['id'] === get_the_ID()){
+				if(isset($LinkFilter['filter']['id']) && $LinkFilter['filter']['id'] === get_the_ID()){
 					$current_active = ' active';
 				}
 			}else{

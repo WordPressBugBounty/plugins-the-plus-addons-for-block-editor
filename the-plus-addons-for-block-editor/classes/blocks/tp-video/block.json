@@ -450,6 +450,14 @@
         "showBlockContent" :{
             "type": "boolean",
             "default": true
-        }
+        },
+        "secVid": {
+			"type": "object",
+			"default": []
+		},
+		"fallbackImage": {
+			"type": "object",
+			"default": []
+		}
     }
 }

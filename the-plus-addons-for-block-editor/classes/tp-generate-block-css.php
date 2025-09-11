@@ -1521,7 +1521,7 @@ class Tpgb_Generate_Blocks_Css {
 			if( isset($val['fontFamily']['family']) && $val['fontFamily']['family'] != '' && isset($val['fontFamily']['customFont']) && $val['fontFamily']['customFont'] !=''){
 				$css .= ( $val['fontFamily']['family'] ) ? "font-family:'" . $val['fontFamily']['family'] . "',Sans-serif;" : '';
 			}else if( isset($val['fontFamily']['family']) && $val['fontFamily']['family'] != '' ){
-				$css .= ( $val['fontFamily']['family'] ) ? "font-family:'" . $val['fontFamily']['family'] . ( $val['fontFamily']['type'] ? "'," . $val['fontFamily']['type'] : "'") .";" : '';
+				$css .= ( $val['fontFamily']['family'] ) ? "font-family:'" . $val['fontFamily']['family'] . ( isset($val['fontFamily']['type']) && $val['fontFamily']['type'] ? "'," . $val['fontFamily']['type'] : "'") .";" : '';
 			}
 			if(isset($val['fontFamily']['fontWeight'])){
 				("string" == gettype($val['fontFamily']['fontWeight']) && preg_match("/[a-z]/i", $val['fontFamily']['fontWeight'])) ?

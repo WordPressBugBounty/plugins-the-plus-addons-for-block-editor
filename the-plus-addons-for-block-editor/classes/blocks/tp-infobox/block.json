@@ -9,7 +9,7 @@
 		"attributes": {}
 	},
 	"supports": { "align":["wide","full"]},
-    "usesContext" : [ "postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField" ],
+    "usesContext": ["postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField"],
 	"textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
       "block_id": {
@@ -26,7 +26,7 @@
       },
       "Alignment": {
         "type": "object",
-       "default": {
+        "default": {
           "md": "center"
         },
         "style": [
@@ -75,6 +75,10 @@
       "IconName": {
         "type": "string",
         "default": "fab fa-angellist"
+      },
+      "textIcon": {
+        "type": "string",
+        "default": ""
       },
       "imageName": {
         "type": "object",
@@ -160,6 +164,10 @@
               "type": "string",
               "default": "fab fa-angellist"
             },
+            "textIcon": {
+                "type": "string",
+                "default": ""
+            },
             "imageName": {
               "type": "object",
               "default": {
@@ -208,6 +216,7 @@
             "dispPinText": false,
             "pinText": "New",
             "IBoxLink": { "url": "" },
+            "textIcon":"",
             "IBoxLinkTgl": false
           },
           {
@@ -223,6 +232,7 @@
             "dispPinText": false,
             "pinText": "New",
             "IBoxLink": { "url": "" },
+            "textIcon":"",
             "IBoxLinkTgl": false
           }
         ]
@@ -2226,11 +2236,222 @@
       },
       "isRptBlock": {
         "type": "boolean",
-        "default": false
+		"default": false
       },
-      "showBlockContent" :{
+        "showBlockContent" :{
             "type": "boolean",
             "default": true
-        }
+        },
+          "textIconTypo": {
+            "type": "object",
+            "default": {
+                "openTypography": 0,
+                "size": { "md": "", "unit": "px" }
+              },
+            "style": [
+                {
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .tpgb-icon-wrap-text"
+                }
+            ],
+            "scopy": true
+          },
+          "txtGrNToggle": {
+            "type": "boolean",
+            "default": false,
+            "scopy": true
+          },
+          "txtGrNClr": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "condition": [
+                  {
+                    "key": "txtGrNToggle",
+                    "relation": "==",
+                    "value": true
+                  }
+                ],
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .tpgb-icon-wrap-text { background: {{txtGrNClr}}; background-color: transparent; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }"
+              }
+            ],
+            "scopy": true
+          },
+          "txtGrHToggle": {
+            "type": "boolean",
+            "default": false,
+            "scopy": true
+          },
+          "txtGrHClr": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "condition": [
+                  {
+                    "key": "txtGrHToggle",
+                    "relation": "==",
+                    "value": true
+                  }
+                ],
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .tpgb-icon-wrap-text:hover { background: {{txtGrHClr}}; background-color: transparent; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }"
+              }
+            ],
+            "scopy": true
+          },
+          "txtNormalColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "condition": [
+                    {
+                    "key": "txtGrNToggle",
+                    "relation": "==",
+                    "value": false
+                    }
+                ],
+                "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text{ color: {{txtNormalColor}}; }"
+              }
+            ],
+            "scopy": true
+          },
+          "txtHoverColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "condition": [
+                    {
+                    "key": "txtGrHToggle",
+                    "relation": "==",
+                    "value": false
+                    }
+                ],
+                "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text:hover{ color: {{txtHoverColor}}; }"
+              }
+            ],
+            "scopy": true
+          },
+          "txtbgNormalColor": {
+            "type": "object",
+            "default": {
+              "openBg": 0
+            },
+            "style": [
+              {
+                "condition": [
+                    {
+                    "key": "txtGrNToggle",
+                    "relation": "==",
+                    "value": false
+                    }
+                ],
+                "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text"
+              }
+            ],
+            "scopy": true
+          },
+          "txtbgHoverColor": {
+            "type": "object",
+            "default": {
+              "openBg": 0
+            },
+            "style": [
+              {
+                "condition": [
+                    {
+                    "key": "txtGrHToggle",
+                    "relation": "==",
+                    "value": false
+                    }
+                ],
+                "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text:hover"
+              }
+            ],
+            "scopy": true
+          },
+          "txtBdrNmlRadius": {
+            "type": "object",
+            "default": {
+              "md": {
+                "top": "",
+                "right": "",
+                "bottom": "",
+                "left": ""
+              },
+              "unit": "px"
+            },
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text{border-radius: {{txtBdrNmlRadius}};}"
+              }
+            ],
+            "scopy": true
+          },
+          "txtBdrHvrRadius": {
+            "type": "object",
+            "default": {
+              "md": {
+                "top": "",
+                "right": "",
+                "bottom": "",
+                "left": ""
+              },
+              "unit": "px"
+            },
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text:hover{border-radius: {{txtBdrHvrRadius}};}"
+              }
+            ],
+            "scopy": true
+          },
+         "txtBdrNmlType": {
+                "type": "object",
+                "default": {
+                  "openBorder": 0,
+                  "type": "",
+                  "color": "",
+                  "width": {
+                    "md": {
+                      "top": "",
+                      "left": "",
+                      "bottom": "",
+                      "right": ""
+                    },
+                    "unit": ""
+                  }
+                },
+                "style": [
+                  {
+                    "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text"
+                  }
+                ],
+                "scopy": true
+            },
+          "txtBdrHvrColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text:hover{ border-color: {{txtBdrHvrColor}}; }"
+              }
+            ],
+            "scopy": true
+          },
+          "textPadding": {
+            "type": "object",
+            "default": {
+              "md": { "top": "", "right": "", "bottom": "", "left": "" },
+              "unit": "px"
+            },
+            "style": [
+              {
+                "selector": "{{PLUS_WRAP}} .tpgb-icon-wrap-text{padding: {{textPadding}};}"
+              }
+            ],
+            "scopy": true
+          }
     }
 }

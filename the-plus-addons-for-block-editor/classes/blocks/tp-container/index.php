@@ -24,6 +24,9 @@ function tpgb_tp_container_render_callback( $attributes, $content) {
     $nxtcontType = (!empty($attributes['nxtcontType'])) ? $attributes['nxtcontType'] : false;
     $contwidFull = (!empty($attributes['contwidFull'])) ? $attributes['contwidFull'] : '';
 
+    //Equal Height
+    $equalHeightAttr = Tp_Blocks_Helper::global_equal_height( $attributes );
+
 	$sectionClass = '';
 	if( !empty( $height ) ){
 		$sectionClass .= ' tpgb-section-height-'.esc_attr($height);
@@ -32,8 +35,12 @@ function tpgb_tp_container_render_callback( $attributes, $content) {
     if( defined('NXT_VERSION') && $contentWidth !== 'full' && !empty($nxtcontType) ){
         $sectionClass .= ' tpgb-nxtcont-type';
     }
-	// Toogle Class For wrapper Link
+	
+    if(!empty($equalHeightAttr)){
+        $sectionClass .= ' tpgb-equal-height';
+    }
 
+    // Toogle Class For wrapper Link
 	$linkdata = '';
 	if(!empty($wrapLink)){
 		$rowUrl = (!empty($attributes['rowUrl'])) ? $attributes['rowUrl'] : '';
@@ -50,7 +57,7 @@ function tpgb_tp_container_render_callback( $attributes, $content) {
 		$linkdata .= Tp_Blocks_Helper::add_link_attributes($attributes['rowUrl']);
 	}
 
-	$output .= '<'.Tp_Blocks_Helper::validate_html_tag($tagName).' '.$customId.' class="tpgb-container-row tpgb-block-'.esc_attr($block_id).' '.esc_attr($sectionClass).' '.esc_attr($customClass).' '.esc_attr($blockClass).' '.($colDir == 'c100' || $colDir == 'r100' ? ' tpgb-container-inline' : '').'  tpgb-container-'.esc_attr($contentWidth).' '.($selectedLayout == 'grid' ? 'tpgb-grid' : '').'" data-id="'.esc_attr($block_id).' " '.$linkdata.' >';
+	$output .= '<'.Tp_Blocks_Helper::validate_html_tag($tagName).' '.$customId.' class="tpgb-container-row tpgb-block-'.esc_attr($block_id).' '.esc_attr($sectionClass).' '.esc_attr($customClass).' '.esc_attr($blockClass).' '.($colDir == 'c100' || $colDir == 'r100' ? ' tpgb-container-inline' : '').'  tpgb-container-'.esc_attr($contentWidth).' '.($selectedLayout == 'grid' ? 'tpgb-grid' : '').'" data-id="'.esc_attr($block_id).' " '.$linkdata.' '.$equalHeightAttr.' >';
 
     //top layer Div 
     if( isset($attributes['topOption']) && $attributes['topOption'] != '' ){
@@ -90,7 +97,8 @@ function tpgb_tp_container_row() {
 			$displayRules = Tpgb_Display_Conditions_Rules::tpgb_display_option();
 		}
 	}
-	
+	$globalEqualHeightOptions = Tpgb_Blocks_Global_Options::load_plusEqualHeight_options();
+
 	$attributesOptions = [
 			'block_id' => [
                 'type' => 'string',
@@ -1488,7 +1496,7 @@ function tpgb_tp_container_row() {
             ],
  		];
 		
-	$attributesOptions = array_merge( $attributesOptions, $displayRules );
+	$attributesOptions = array_merge( $attributesOptions, $displayRules,$globalEqualHeightOptions );
 	
 	register_block_type( 'tpgb/tp-container', array(
 		'attributes' => $attributesOptions,

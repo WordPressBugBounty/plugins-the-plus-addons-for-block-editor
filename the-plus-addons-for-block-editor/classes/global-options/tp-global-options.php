@@ -1678,6 +1678,30 @@ class Tpgb_Blocks_Global_Options {
 
 		return false;
 	}
+    
+    /**
+	 * Extra Options : Equal Height
+	 * @since 4.5.8
+	 */
+	public static function load_plusEqualHeight_options() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+		$options = [
+			'tpgbEqualHeight' => [
+				'type' => 'boolean',
+				'default' => false,	
+				'scopy' => true,
+			],
+			'equalUnqClass' => [
+				'type' => 'string',
+				'default' => '',	
+				'scopy' => true,
+			],
+		];
+
+		return $options;
+	}
 }
 
 Tpgb_Blocks_Global_Options::get_instance();

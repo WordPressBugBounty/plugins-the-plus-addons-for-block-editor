@@ -2,7 +2,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     drawsvgInit(document);
 });
 
-  function drawsvgInit(doc){
+function resolveCSSVar(value) {
+    if (value && value.startsWith("var(")) {
+        const cssVar = value.replace(/var\(|\)/g, "").trim();
+        return getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+    }
+    return value;
+}
+
+function drawsvgInit(doc){
     let drawSVG = doc.querySelectorAll('.tpgb-draw-svg');
     if(drawSVG){
         drawSVG.forEach((ds)=>{
@@ -14,7 +22,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 fillcolor = ds.getAttribute("data-fillcolor");
             if(data_id){
                 var objectElement = document.getElementById(data_id);
-  
+
                 if (objectElement && objectElement.contentDocument) {
                     var svgDocument = objectElement.contentDocument;
                         
@@ -37,15 +45,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     }
                     show_id.style.opacity = "1";
                     if(data_stroke!='' && cAll !=undefined){
+
+                        const dystoColor = resolveCSSVar(data_stroke);
+                        const dyfillColor   = resolveCSSVar(fillcolor);
+
                         for (var i = 0; i < cAll.length; i++) {
                             if(cAll[i].nodeName != '#text'){
-                                cAll[i].setAttribute("fill", fillcolor);
-                                cAll[i].setAttribute("stroke", data_stroke);
+                                cAll[i].setAttribute("fill", dyfillColor);
+                                cAll[i].setAttribute("stroke", dystoColor);
                                 var pchildern = cAll[i].children;
                                 if(pchildern != undefined){
                                     for(var j=0; j < pchildern.length; j++){
-                                        pchildern[j].setAttribute("fill", fillcolor);
-                                        pchildern[j].setAttribute("stroke", data_stroke);
+                                        pchildern[j].setAttribute("fill", dyfillColor);
+                                        pchildern[j].setAttribute("stroke", dystoColor);
                                     }
                                 }
                             }
@@ -71,4 +83,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
     }
-  }
+}

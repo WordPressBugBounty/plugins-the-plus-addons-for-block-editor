@@ -90,6 +90,12 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	$classattr .= ' '.$list_layout;
 	$classattr .= ' '.$styleLayoutclass;
 
+    //Equal Height
+    $equalHeightAttr = Tp_Blocks_Helper::global_equal_height( $attributes );
+    if(!empty($equalHeightAttr)){
+            $classattr .= ' tpgb-equal-height';
+    }
+
 	if ($layout == 'metro') {
 		// Desktop columns
 		if (isset($metrocolumns['md']) && !empty($metrocolumns['md'])) {
@@ -157,7 +163,7 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	if ( ! $query->have_posts() ) {
 		$output .='<h3 class="tpgb-no-posts-found">'.esc_html__( "No Posts found", 'the-plus-addons-for-block-editor' ).'</h3>';
 	}else{
-		$output .= '<div id="'.esc_attr($block_id).'" class="tpgb-post-listing tpgb-relative-block  '.esc_attr($blockClass).' '.esc_attr($classattr).' " data-id="'.esc_attr($block_id).'" data-style="'.esc_attr($list_style).'" '.( $layout == 'metro' ? $metroDataAttr : '' ).'  data-layout="'.esc_attr($layout).'"  data-connection="tpgb_search"  >';
+		$output .= '<div id="'.esc_attr($block_id).'" class="tpgb-post-listing tpgb-relative-block  '.esc_attr($blockClass).' '.esc_attr($classattr).' " data-id="'.esc_attr($block_id).'" data-style="'.esc_attr($list_style).'" '.( $layout == 'metro' ? $metroDataAttr : '' ).'  data-layout="'.esc_attr($layout).'"  data-connection="tpgb_search"  '.$equalHeightAttr.' >';
 			
 			$output .= '<div class="tpgb-row post-loop-inner" >';
 				while ( $query->have_posts() ) {
@@ -214,6 +220,7 @@ function tpgb_tp_post_listing() {
 	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
 	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
 	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
+    $globalEqualHeightOptions = Tpgb_Blocks_Global_Options::load_plusEqualHeight_options();
 
 	$attributesOptions = [
 			'block_id' => [
@@ -1120,7 +1127,7 @@ function tpgb_tp_post_listing() {
 			],
 		];
 	
-	$attributesOptions = array_merge($attributesOptions,$globalBgOption,$globalpositioningOption,$globalPlusExtrasOption);
+	$attributesOptions = array_merge($attributesOptions,$globalBgOption,$globalpositioningOption,$globalPlusExtrasOption,$globalEqualHeightOptions);
 	
 	register_block_type( 'tpgb/tp-post-listing', [
 		'attributes' => $attributesOptions,

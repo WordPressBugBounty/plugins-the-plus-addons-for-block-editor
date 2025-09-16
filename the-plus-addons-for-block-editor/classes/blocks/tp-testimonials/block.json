@@ -828,6 +828,14 @@
         "showBlockContent" :{
             "type": "boolean",
             "default": true
+        },
+        "tpgbEqualHeight": {
+            "type": "boolean",
+            "default": false
+        },
+        "equalUnqClass": {
+            "type": "string",
+            "default": ""
         }
     }
 }

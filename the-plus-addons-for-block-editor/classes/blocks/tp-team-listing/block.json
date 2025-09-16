@@ -674,6 +674,24 @@
     "showBlockContent" :{
         "type": "boolean",
         "default": true
+    },
+    "conPadding": {
+        "type": "object",
+        "default": {
+            "md": {
+            "top": "",
+            "right": "",
+            "bottom": "",
+            "left": ""
+            },
+            "unit": "px"
+        },
+        "style": [
+            {
+            "selector": "{{PLUS_WRAP}}.tpgb-team-member-list .post-content-bottom{padding:{{conPadding}}; }"
+            }
+        ],
+        "scopy": true
     }
   }
 }

@@ -137,7 +137,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content) {
 					$getIcon .= $imgSrc;
 				}else if($iconType=='svg' && !empty($svgIcon) && !empty($svgIcon['url'])){
 					$getIcon .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-'.esc_attr($block_id).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-fillEnable="yes">';
-						$getIcon .= '<object id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
+						$getIcon .= '<object class="info-box-svg" id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
 					$getIcon .= '</div>';
 				}else if($iconType=='text' && !empty($TextIcon)){
 					$getIcon .='<span class="tpgb-icon-wrap-text">'.esc_attr($TextIcon).'</span>';

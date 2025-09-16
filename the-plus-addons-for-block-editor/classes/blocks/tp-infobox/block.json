@@ -2234,6 +2234,139 @@
         "default": "",
         "scopy": true
       },
+      "svgbgNmlColor": {
+        "type": "object",
+        "default": {
+            "openBg": 0
+        },
+        "style": [
+            {
+            "condition": [
+                {
+                "key": "txtGrNToggle",
+                "relation": "==",
+                "value": false
+                }
+            ],
+            "selector": "{{PLUS_WRAP}} .service-icon-wrap .info-box-svg"
+            }
+        ],
+        "scopy": true
+        },
+        "svgNmlBorder": {
+            "type": "object",
+            "default": {
+                "openBorder": 0,
+                "type": "",
+                "color": "",
+                "width": {
+                "md": {
+                    "top": "",
+                    "left": "",
+                    "bottom": "",
+                    "right": ""
+                },
+                "unit": ""
+                }
+            },
+            "style": [
+                {
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .info-box-svg"
+                }
+            ],
+            "scopy": true
+        },
+        "svgBdrNmlRadius": {
+            "type": "object",
+            "default": {
+                "md": {
+                "top": "",
+                "right": "",
+                "bottom": "",
+                "left": ""
+                },
+                "unit": "px"
+            },
+            "style": [
+                {
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .info-box-svg{border-radius: {{svgBdrNmlRadius}};}"
+                }
+            ],
+            "scopy": true
+        },
+        "svgbgHovColor": {
+        "type": "object",
+        "default": {
+            "openBg": 0
+        },
+        "style": [
+            {
+            "condition": [
+                {
+                "key": "txtGrNToggle",
+                "relation": "==",
+                "value": false
+                }
+            ],
+            "selector": "{{PLUS_WRAP}} .service-icon-wrap .info-box-svg:hover"
+            }
+        ],
+        "scopy": true
+        },
+        "svgHovBorder": {
+            "type": "object",
+            "default": {
+                "openBorder": 0,
+                "type": "",
+                "color": "",
+                "width": {
+                "md": {
+                    "top": "",
+                    "left": "",
+                    "bottom": "",
+                    "right": ""
+                },
+                "unit": ""
+                }
+            },
+            "style": [
+                {
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .info-box-svg:hover"
+                }
+            ],
+            "scopy": true
+        },
+        "svgBdrHovRadius": {
+            "type": "object",
+            "default": {
+                "md": {
+                "top": "",
+                "right": "",
+                "bottom": "",
+                "left": ""
+                },
+                "unit": "px"
+            },
+            "style": [
+                {
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .info-box-svg:hover{border-radius: {{svgBdrHovRadius}};}"
+                }
+            ],
+            "scopy": true
+        },
+        "svgPadding": {
+            "type": "object",
+            "default": {
+                "md": { "top": "", "right": "", "bottom": "", "left": "" },
+                "unit": "px"
+            },
+            "style": [
+                {
+                "selector": "{{PLUS_WRAP}} .service-icon-wrap .info-box-svg{padding: {{svgPadding}};}"
+                }
+            ],
+            "scopy": true
+        },
       "isRptBlock": {
         "type": "boolean",
 		"default": false

@@ -1325,7 +1325,7 @@ class Tpgb_Generate_Blocks_Css {
 		$unit = (isset($val['unit']) && !empty($val['unit'])) ? $val['unit'] : 'px';
 		$output ='';
 		if( (isset($val['top']) && $val['top']!='') || (isset($val['right']) && $val['right']!='') || (isset($val['bottom']) && $val['bottom']!='') || (isset($val['left'])  && $val['left']!='') ){
-			$output .= (!empty($val['top']) ? $val['top'].$unit : 0) . ' ' . (!empty($val['right']) ? $val['right'] . $unit : 0) . ' ' . (!empty($val['bottom']) ? $val['bottom'] . $unit : 0) .' ' . (!empty($val['left']) ? $val['left'] . $unit : 0);
+			$output .= (!empty($val['top']) ? $val['top'].$unit : 0) . ' ' . (!empty($val['right']) ? $val['right'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) ) . ' ' . (!empty($val['bottom']) ? $val['bottom'] . $unit : 0) .' ' . (!empty($val['left']) ? $val['left'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) );
 		}
 		return $output;
 	}

@@ -4315,22 +4315,23 @@ function tpgb_search($onLoadAttr = []){
 		'posts' => null,
 	);
 
+    if( !empty($searchData) ){
+        foreach ($searchData as $key => $value) {
+            if (strpos($key, 'taxonomy_') !== false) {
+                // Key contains 'taxonomy'
+                $taxonomy_name = str_replace('taxonomy_', '', $key);
+                
+                $taxonomy = get_taxonomy( $taxonomy_name );
+                if ( $taxonomy && ! empty( $taxonomy->object_type ) ) {
+                    $post_types = $taxonomy->object_type;
+                    $PostType = $post_types[0];
+                } else {
+                    $PostType = 'any';
+                }
+            }
+        }
+    }
 
-	foreach ($searchData as $key => $value) {
-		if (strpos($key, 'taxonomy_') !== false) {
-			// Key contains 'taxonomy'
-			$taxonomy_name = str_replace('taxonomy_', '', $key);
-			
-			$taxonomy = get_taxonomy( $taxonomy_name );
-			if ( $taxonomy && ! empty( $taxonomy->object_type ) ) {
-				$post_types = $taxonomy->object_type;
-				$PostType = $post_types[0];
-			} else {
-				$PostType = 'any';
-			}
-		}
-	}
-	
 	$query_args = array(
 		'post_type' => $PostType,
 		'suppress_filters' => false,
@@ -4484,20 +4485,21 @@ function tpgb_search($onLoadAttr = []){
 		];
 	}
 
-	foreach ($searchData as $key => $value) {
-		if (strpos($key, 'taxonomy_') !== false) {
-			// Key contains 'taxonomy'
-			$modifiedKey = str_replace('taxonomy_', '', $key);
-			if (isset($value) && !empty($value) && $value !='all') {
-				$tax_query[] = [
-					'taxonomy' => $modifiedKey,
-					'field'    => 'term_id',
-					'terms'    => $value
-				];
-			}
-		}
-	}
-	
+    if( !empty($searchData) ){
+        foreach ($searchData as $key => $value) {
+            if (strpos($key, 'taxonomy_') !== false) {
+                // Key contains 'taxonomy'
+                $modifiedKey = str_replace('taxonomy_', '', $key);
+                if (isset($value) && !empty($value) && $value !='all') {
+                    $tax_query[] = [
+                        'taxonomy' => $modifiedKey,
+                        'field'    => 'term_id',
+                        'terms'    => $value
+                    ];
+                }
+            }
+        }
+    }
 
 
 	if(!empty($DefaultData['includeTerms']) && !empty($DefaultData['taxonomySlug'])){

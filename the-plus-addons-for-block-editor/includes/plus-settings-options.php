@@ -1531,7 +1531,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-same-equal-height/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/help/nexter-extras/wordpress-same-equal-height/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
-				'tag' => 'pro',
+				'tag' => 'free',
 				'block_cate' => esc_html__('Extras', 'the-plus-addons-for-block-editor'),
 			],
 			'tp-global-tooltip' => [
@@ -1804,8 +1804,23 @@ class Tpgb_Gutenberg_Settings_Options {
         }
 
         $sani_blockList = map_deep( wp_unslash( $blockList ), 'sanitize_text_field' );
-
+        
         $all_block['enable_normal_blocks'] = array_unique( array_merge( $all_block['enable_normal_blocks'], $sani_blockList ) );
+
+        if ( in_array( 'tp-google-map', $sani_blockList, true ) ) {
+			$connection_key  = 'tpgb_connection_data';
+			$connection_opts = get_option( $connection_key );
+
+			if ( ! is_array( $connection_opts ) ) {
+				$connection_opts = [];
+			}
+
+			// Check if not set OR explicitly "disable"
+			if ( ! isset( $connection_opts['gmap_api_switch'] ) || $connection_opts['gmap_api_switch'] == "disable" ) {
+				$connection_opts['gmap_api_switch'] = 'enable';
+				update_option( $connection_key, $connection_opts );
+			}
+		}
 
         update_option( $option_key, $all_block );
 

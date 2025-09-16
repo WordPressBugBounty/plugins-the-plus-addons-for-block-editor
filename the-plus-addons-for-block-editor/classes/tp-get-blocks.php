@@ -400,6 +400,9 @@ Class Tpgb_Get_Blocks {
 					$this->transient_blocks[] = 'tpx-post-listing-style-1';
 			}
 
+            if(!empty($options) && !empty($options['tpgbEqualHeight'])){
+                $this->transient_blocks[] = 'equal-height';
+            }
 		}
 		
 		//External-Form-Styler
@@ -569,6 +572,10 @@ Class Tpgb_Get_Blocks {
 			if( ( !empty($options) &&  !empty($options['telayout']) && $options['telayout'] == 'grid' ) || ( isset($options['caroByheight']) && !empty( $options['caroByheight'] ) && $options['caroByheight'] == 'height' ) ){
 				$this->transient_blocks[] = 'tpx-testimonials-scroll';
 			}
+
+            if(!empty($options) && !empty($options['tpgbEqualHeight'])){
+                $this->transient_blocks[] = 'equal-height';
+            }
 		}
 
 		/* Blockquote */
@@ -647,6 +654,10 @@ Class Tpgb_Get_Blocks {
 
         if ($blockname === 'tpgb/tp-smooth-scroll' && isset($options['smNav']) && !empty($options['smNav'])) {
             $this->transient_blocks[] = 'tpx-smooth-navigation';
+        }
+
+        if($blockname=='tpgb/tp-container' && !empty($options) && !empty($options['tpgbEqualHeight'])){
+            $this->transient_blocks[] = 'equal-height';
         }
 
 		return $this->transient_blocks;

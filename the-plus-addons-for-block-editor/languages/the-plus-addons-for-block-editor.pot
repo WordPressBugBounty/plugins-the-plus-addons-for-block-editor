@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.5.6\n"
+"Project-Id-Version: Nexter Blocks 4.5.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-27T09:52:41+00:00\n"
+"POT-Creation-Date: 2025-09-16T05:12:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: the-plus-addons-for-block-editor/classes/blocks/tp-button/index.php:68
 #: the-plus-addons-for-block-editor/classes/blocks/tp-button/index.php:222
 #: the-plus-addons-for-block-editor/classes/blocks/tp-interactive-circle-info/index.php:82
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:778
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:790
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Button"
@@ -70,8 +70,8 @@ msgstr ""
 #: the-plus-addons-for-block-editor/classes/blocks/tp-draw-svg/index.php:42
 #: the-plus-addons-for-block-editor/classes/blocks/tp-flipbox/index.php:94
 #: the-plus-addons-for-block-editor/classes/blocks/tp-flipbox/index.php:151
-#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:139
-#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:459
+#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:140
+#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:462
 #: the-plus-addons-for-block-editor/classes/blocks/tp-number-counter/index.php:131
 #: the-plus-addons-for-block-editor/classes/blocks/tp-pricing-table/index.php:82
 msgid "icon"
@@ -98,8 +98,8 @@ msgstr ""
 msgid "Card Image"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:79
-#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:438
+#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:80
+#: the-plus-addons-for-block-editor/classes/blocks/tp-infobox/index.php:441
 msgid "Info Box"
 msgstr ""
 
@@ -126,7 +126,7 @@ msgid "Counter Number"
 msgstr ""
 
 #: the-plus-addons-for-block-editor/classes/blocks/tp-number-counter/index.php:92
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1120
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1132
 msgid "Number Counter"
 msgstr ""
 
@@ -196,7 +196,7 @@ msgstr ""
 msgid "Block Re-rendering halted"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-post-listing/index.php:158
+#: the-plus-addons-for-block-editor/classes/blocks/tp-post-listing/index.php:164
 msgid "No Posts found"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgid "Price Icon"
 msgstr ""
 
 #: the-plus-addons-for-block-editor/classes/blocks/tp-progress-bar/index.php:39
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1264
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1276
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Progress Bar"
@@ -236,7 +236,7 @@ msgstr ""
 msgid "Button Image"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-search-bar/index.php:4743
+#: the-plus-addons-for-block-editor/classes/blocks/tp-search-bar/index.php:4745
 msgid "Thumb Image"
 msgstr ""
 
@@ -247,7 +247,7 @@ msgstr ""
 #: the-plus-addons-for-block-editor/classes/blocks/tp-site-logo/index.php:113
 #: the-plus-addons-for-block-editor/classes/blocks/tp-site-logo/index.php:118
 #: the-plus-addons-for-block-editor/classes/blocks/tp-site-logo/index.php:124
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1300
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1312
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Site Logo"
@@ -273,7 +273,7 @@ msgid "Social Youtube"
 msgstr ""
 
 #: the-plus-addons-for-block-editor/classes/blocks/tp-social-embed/index.php:294
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:958
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:970
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Google Map"
@@ -338,26 +338,26 @@ msgstr ""
 msgid "Phone No"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-testimonials/index.php:141
-#: the-plus-addons-for-block-editor/classes/blocks/tp-testimonials/index.php:148
+#: the-plus-addons-for-block-editor/classes/blocks/tp-testimonials/index.php:147
+#: the-plus-addons-for-block-editor/classes/blocks/tp-testimonials/index.php:154
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Author Avatar"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:70
+#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:73
 msgid "play-icon"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:96
+#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:99
 msgid "video"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:246
+#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:249
 msgid "Video Thumbnail"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:254
+#: the-plus-addons-for-block-editor/classes/blocks/tp-video/index.php:263
 msgid "My Video"
 msgstr ""
 
@@ -715,19 +715,19 @@ msgstr ""
 msgid "Sale"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2528
+#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2538
 msgid "Nexter Performance"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2535
+#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2545
 msgid "Purge All Pages"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2543
+#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2553
 msgid "Purge Current Page"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2561
+#: the-plus-addons-for-block-editor/classes/tp-registered-blocks.php:2571
 msgid "Edit Template"
 msgstr ""
 
@@ -756,591 +756,591 @@ msgstr ""
 msgid "Failed to retrieve plugin information."
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:426
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:438
 msgid "You are not allowed to do this action"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:690
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:702
 msgid "Accordion"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:695
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1044
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1412
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1430
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:707
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1056
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1424
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1442
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Tabbed"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:699
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:711
 msgid "Pro Buttons"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:704
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:713
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:722
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:731
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:774
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:801
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:828
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:855
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:900
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:909
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:990
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1008
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1053
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1377
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:716
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:725
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:734
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:743
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:786
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:813
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:840
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:867
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:912
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:921
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1002
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1020
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1065
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1389
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Advanced"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:708
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:720
 msgid "Advanced Chart"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:717
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:729
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Advanced Typography"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:726
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:738
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Animated Service Boxes"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:734
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:746
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Audio Player"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:739
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:748
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:756
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:810
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:819
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:846
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:864
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:882
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:891
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:936
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:945
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:972
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:999
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1062
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1071
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1089
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1107
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1233
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1251
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1278
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1323
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1332
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1395
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1404
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1466
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:751
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:760
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:768
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:822
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:831
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:858
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:876
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:894
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:903
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:948
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:957
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:984
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1011
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1074
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1083
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1101
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1119
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1245
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1263
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1290
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1335
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1344
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1407
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1416
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1478
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Creative"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:743
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:755
 msgid "Before After"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:751
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:763
 msgid "Blockquote"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:760
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:772
 msgid "Breadcrumbs"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:765
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:783
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:792
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:837
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:873
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:918
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:927
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:963
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:981
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1017
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1026
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1035
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1125
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1215
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1224
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1242
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1269
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1296
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1314
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1341
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1350
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1421
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1475
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:777
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:795
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:804
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:849
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:885
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:930
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:939
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:975
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:993
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1029
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1038
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1047
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1137
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1227
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1236
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1254
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1281
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1308
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1326
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1353
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1362
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1433
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1487
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Essential"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:769
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:781
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Advanced Button"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:787
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:799
 msgid "Carousel Anything"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:796
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:808
 msgid "Carousel Remote"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:805
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:817
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Circle Menu"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:814
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:826
 msgid "Code Highlighter"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:823
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:835
 msgid "Countdown"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:832
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:844
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Container"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:841
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:853
 msgid "Coupon Code"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:850
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:862
 msgid "Advanced Image"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:859
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:871
 msgid "CTA Banner"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:868
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:880
 msgid "Data Table"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:877
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:889
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Dark Mode"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:886
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:898
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Design Tool"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:895
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:907
 msgid "Draw SVG"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:904
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:916
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Dynamic Device"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:913
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:925
 msgid "Spacer"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:922
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:934
 msgid "External Form Styler"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:931
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:943
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Expand"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:940
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:952
 msgid "Flipbox"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:949
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:961
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Form"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:954
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1098
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1116
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1134
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1143
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1152
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1161
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1170
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1188
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1197
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1206
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1305
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:966
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1110
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1128
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1146
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1155
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1164
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1173
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1182
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1200
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1209
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1218
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1317
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Builder"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:967
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:979
 msgid "Heading Animation"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:976
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:988
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Heading"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:985
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:997
 msgid "Advanced Heading"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:994
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1006
 msgid "Hotspot"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1003
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1015
 msgid "Hover Card"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1012
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1024
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Icon"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1021
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1033
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Image"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1030
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1042
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Infobox"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1039
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1051
 msgid "Interactive Circle Info"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1048
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1060
 msgid "Login & Signup"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1057
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1069
 msgid "LottieFiles Animation"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1066
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1078
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Mailchimp"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1075
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1087
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Media Listing"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1080
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1179
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1260
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1439
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1448
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1457
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1092
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1191
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1272
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1451
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1460
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1469
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Listing"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1084
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1096
 msgid "Message box"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1093
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1105
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Mobile Menu"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1102
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1114
 msgid "Mouse Cursor"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1111
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1123
 msgid "Navigation Menu"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1129
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1141
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Popup Builder"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1138
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1150
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Post Author"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1147
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1159
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Post Comments"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1156
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1168
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Post Content"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1165
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1177
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Post Image"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1174
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1186
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Post Listing"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1183
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1195
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Post Meta Info"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1192
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1204
 msgid "Post Navigation"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1201
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1213
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Post Title"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1210
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1222
 msgid "Pricing List"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1219
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1231
 msgid "Pricing Table"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1228
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1240
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Pre Loader"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1237
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1249
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Paragraph"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1246
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1258
 msgid "Process Steps"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1255
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1267
 msgid "Product Listing"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1273
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1285
 msgid "Progress Tracker"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1291
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1303
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Row"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1309
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1321
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Stylish List"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1318
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1330
 msgid "Scroll Navigation"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1327
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1339
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Scroll Sequence"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1336
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1348
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Search Bar"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1345
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1357
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Social Icon"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1354
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1366
 msgid "Social Embed"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1359
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1368
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1386
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1371
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1380
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1398
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Social"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1363
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1375
 #: the-plus-addons-for-block-editor/includes/social-feed/fancybox-feed-post.php:28
 msgid "Social Feed"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1372
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1384
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Social Sharing"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1381
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1393
 msgid "Social Reviews"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1390
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1402
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Spline 3D Viewer"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1399
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1411
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Smooth Scroll"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1407
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1419
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Switcher"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1416
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1428
 msgid "Table of Contents"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1425
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1437
 msgid "Tabs Tours"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1434
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1446
 msgid "Taxonomy Listing"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1443
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1455
 msgid "Team Member"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1452
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1464
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Testimonials"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1461
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1473
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Timeline"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1470
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1482
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Video"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1482
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1494
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Global Block Style"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1486
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1493
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1500
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1507
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1515
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1523
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1530
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1537
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1544
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1551
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1558
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1498
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1505
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1512
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1519
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1527
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1535
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1542
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1549
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1556
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1563
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1570
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Extras"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1489
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1501
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Advanced Border Radius"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1496
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1508
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Content Hover Effect"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1503
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1515
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Continuous Animation"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1510
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1522
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Display Rules"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1518
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1530
 msgid "Equal Column Height"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1526
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1538
 msgid "Global Tooltip"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1533
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1545
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Magic Scroll"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1540
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1552
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "Mouse Parallax"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1547
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1559
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "On Scroll Animation"
 msgstr ""
 
-#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1554
+#: the-plus-addons-for-block-editor/includes/plus-settings-options.php:1566
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 msgid "3D Tilt"
 msgstr ""
@@ -2093,6 +2093,7 @@ msgid "Fallback URL"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Fallback Image"
 msgstr ""
 
@@ -4677,6 +4678,7 @@ msgid "Unique Class"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Enter Unique Class"
 msgstr ""
 
@@ -5225,19 +5227,23 @@ msgid "Keyboard Navigation"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Nexter : Equal Height"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/dashboard/build/index.js:1
 msgid "Equal Height"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Enter Unique Class Here"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Apply Equal Height"
 msgstr ""
 
@@ -6794,6 +6800,7 @@ msgid "Vertical Alignment"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Gradient Color"
 msgstr ""
 
@@ -18212,6 +18219,10 @@ msgid "By Enabling This Option, You Will See The Post ID Of Each In The Back-end
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+msgid "If you want to exclude multiple posts, enter their IDs separated by commas without spaces. Example: ID1,ID2,ID3"
+msgstr ""
+
+#: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Filters Options"
 msgstr ""
@@ -19618,6 +19629,16 @@ msgstr ""
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
 #: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
 msgid "Video Description"
+msgstr ""
+
+#: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
+msgid "Compatibility"
+msgstr ""
+
+#: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1
+#: the-plus-addons-for-block-editor/assets/js/admin/blocks.js:1
+msgid "Upload Secondary Video"
 msgstr ""
 
 #: the-plus-addons-for-block-editor-pro/assets/js/admin/blocks.js:1

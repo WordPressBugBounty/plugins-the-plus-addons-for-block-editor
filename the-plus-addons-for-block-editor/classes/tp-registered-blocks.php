@@ -1124,6 +1124,11 @@ function tpgb_registered_blocks(){
 				$tpgb_free . 'assets/js/main/post-listing/post-masonry.min.js',
 			],
 		],
+        'equal-height' => [
+            'js' => [
+                $tpgb_free .'assets/js/main/plus-extras/plus-equal-height.min.js',
+            ],
+        ],
 	];
 	
 	if(has_filter('tpgb_blocks_register')) {

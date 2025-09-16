@@ -134,7 +134,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-richtext,{{PLUS_WRAP}} .nxt-name-input .nxt-input-container .nxt-name-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} nxt-name-input .nxt-name-richtext, {{PLUS_WRAP}}.nxt-style-1 .nxt-number-input .nxt-input-container, {{PLUS_WRAP}}.nxt-style-1 .nxt-number-input .nxt-input-container .nxt-number-richtext,  {{PLUS_WRAP}} .nxt-input-wrapper, {{PLUS_WRAP}} .nxt-message-richtext::-webkit-scrollbar-thumb {border-radius:{{inpBdrRds}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext,{{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container, {{PLUS_WRAP}} .nxt-input-wrapper, {{PLUS_WRAP}} .nxt-input-wrapper .nxt-country-dropdown {border-radius:{{inpBdrRds}}}"
 				}
 			]
 		},

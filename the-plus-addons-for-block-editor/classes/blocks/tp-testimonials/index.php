@@ -32,6 +32,12 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 		$Style3Layout ='layout-'.$styleLayout;
 	} 
 
+    //Equal Height
+    $equalHeightAttr = Tp_Blocks_Helper::global_equal_height( $attributes );
+    if(!empty($equalHeightAttr)){
+            $blockClass .= ' tpgb-equal-height';
+    }
+
 	//Carousel Options
 	
 	$dataAttr = '';
@@ -73,7 +79,7 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content) {
 		$column_class .= isset($attributes['columns']['xs']) ? " tpgb-col-".$attributes['columns']['xs'] : ' tpgb-col-6';
 	}
 
-    $output .= '<div class="tpgb-testimonials tpgb-relative-block testimonial-'.esc_attr($style).' '.esc_attr($Style3Layout).' tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' '.esc_attr($Sliderclass).' '.esc_attr($list_layout).' " '.$dataAttr.' data-layout="'.esc_attr($telayout).'" data-id="'.esc_attr($block_id).'" >';
+    $output .= '<div class="tpgb-testimonials tpgb-relative-block testimonial-'.esc_attr($style).' '.esc_attr($Style3Layout).' tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' '.esc_attr($Sliderclass).' '.esc_attr($list_layout).' " '.$dataAttr.' data-layout="'.esc_attr($telayout).'" data-id="'.esc_attr($block_id).'" '.$equalHeightAttr.' >';
 
 		if( $telayout == 'carousel' && ( isset($showArrows['md']) && !empty($showArrows['md']) ) || ( isset($showArrows['sm']) && !empty($showArrows['sm']) ) || ( isset($showArrows['xs']) && !empty($showArrows['xs']) ) ){
 			$output .= Tp_Blocks_Helper::tpgb_carousel_arrow($arrowsStyle,$arrowsPosition);

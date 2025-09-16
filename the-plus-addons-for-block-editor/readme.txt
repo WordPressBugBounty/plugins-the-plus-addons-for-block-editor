@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.5.7
+Stable tag: 4.5.8
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -514,6 +514,18 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 == Changelog ==
 
+= 4.5.8 = 16 Sep 2025
+- Added : Info box :  Global support for SVG fill and stroke color.
+- Added : Info box :  SVG Icon Border , Background option added.
+- Added : Flip box :  Global support for SVG fill and stroke color.
+- Added : Number Counter :  Global support for SVG fill and stroke color.
+- Added : Pricing Table :  Global support for SVG fill and stroke color.
+- Added : Draw Svg :  Global support for SVG fill and stroke color.
+- Added : Global  Equal Height Option Added.
+- Improve : Container : Margin option now defaults to auto if not set. 
+- Fix : Google Map :  Fixed issue where map was not displaying after Kit import.
+- Minor bug Fixes & Improvements.
+
 = 4.5.7 = 11 Sep 2025
 - Added : Heading Title : Main Title & Sub Title Text Gradient Color Option added.
 - Added : Infobox : Icon Text Option added.
@@ -725,105 +737,5 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 - Fixed : Image : Image Alt Text Bug Fix.
 - Fixed : Post Meta : Sorting Meta Field Bug Fix.
 - Fixed : Minor Bugs and Improvements.
-
-= 4.0.13 = 30 December 2024
-- Fixed : Minor Bug Fixed and Improvements
-
-= 4.0.12 = 20 December 2024
-- Fixed : Tab Tours : Image Icon Bug Fixed.
-
-= 4.0.11 = 19 December 2024
-- Added : Image Block Disable Lazy Loading Option Added For Performance Improve
-- Fixed : Tab Tours : Editor Mobile Force Accordion Bug Fixed.
-- Fixed : Global Position : Responsive CSS Bug Fixed.
-- Fixed : All Blocks: Display Rules Bug Fixed.
-- Fixed : Minor Bug Fixes and Improvements.
-
-= 4.0.10 = 05 December 2024
-- Fixed : Layout option : Warning Bug Fixed
-
-= 4.0.9 = 05 December 2024
-- Fixed : Performance : Auto Regenerate Dynamic CSS Bug Fixed
-
-= 4.0.8 = 03 December 2024
-- Added : Navigation Builder : Add Repeater Base Navigation Menu
-- Added : Stylish List : Move to Pro to Free.
-- Added : Team Listing : Style 1 Added.
-- Added : Switcher : Style 1 Added.
-- Added : Post Listing : Metro Style Added.
-- Added : Testimonial : New Style Added With 2 Different layout.
-- Added : Pricing Table : Title Alignment Option Added.
-- Added : Pricing Table : Price Alignment Option Added.
-- Added : Pricing Table : Call to action Option Added.
-- Added : Pricing Table : Content Area Stylist list Option Added.
-- Added : Pricing Table : Content Area Stylist list Option Added.
-- Added : Pricing Table : Style-1 for Ribbon option Added 
-- Added : Accordion : Content Border & Border Radius Option Added.
-- Added : Tab Tours : Responsive Option Added.
-- Improvement : Deactivate Form Design & Functionality Improve.
-- Improvement : DashBoard Responsive View Improve.
-- Fixed : Draw SVG Load Bug Fix.
-- Fixed : Video Block Popup Bug Fix.
-- Fixed : More Translation strings updated, all need text domain.
-- Fixed : Minor Bug Fixes and Improvements.
-
-= 4.0.7 = 22 November 2024
-- Fixed : Minor Bug Fixes and Improvements.
-
-= 4.0.6 = 22 November 2024
-- Fixed : Minor Bug Fixes and Improvements.
-
-= 4.0.5 = 19 November 2024
-- Compatibility : WordPress 6.7
-- Fixed : Hover Card : Sanitize bug Fix.
- 
-= 4.0.4 = 30 October 2024
-- Fixed : Breadcrumb : Latter Limit Bug Fix.
-- Fixed : Minor Bug Fixes and Improvements.
-- Fixed : Component : Range Field : Unit value bug Fix.
-
-= 4.0.3 = 24 October 2024
-- Added : Post Meta : Post Publish Date / Post Modified Option added
-- Fixed : FSE Theme : Dynamic Css Bug Fix
-- Fixed : Count Down : Style-1 Dynamic Label Bug Fix. 
-- Fixed : Accordion Inner : Editor Deprecated Block Bug Fixed
-
-= 4.0.2 = 18 October 2024
-- Fixed : Regenerate All Assets : Tab Tours Tab Color Bug Fix.
-- Fixed : Display Rules Kadence Block Compatibility Bug Fix.
-- Fixed : Post Author Mail Link Bug Fix.
-- Fixed : Testimonial : Yoast SEO plugin Compatibility of bug Fix
-
-= 4.0.1 = 07 October 2024
-- Fixed : Breadcrumbs : Letter Limit Bug Fixed
-- Fixed : Regenerate All Assets : Repeater Field Css & Group Field Css Bug Fixed
-
-= 4.0.0 = 07 October 2024
-- Important Release: New era for Gutenberg blocks, We rebranded The Plus Blocks for Gutenberg to Nexter Blocks.
-- New : Revamped Dashboard
-- New : Revamped Block Controllers
-- New : Revamped Block Editing Area
-- New : Block Change Identifier Dot in Individual Setting
-- New : Block Change Identifier Dot in Panel Setting
-- New : 100% Built on Vanilla JS - No JQuery Loaded at Frontend
-- New : Improved AJAX Loading with SEO Optimised
-- Improvement : Remove jQuery Dependency
-- Improvement : Optimized For Performance : All Blocks
-- Added : AJAX Base Template Load Using Class
-- Added: Container: Content Box layout option added in Container Full Width.
-- Added : Info Box : Add Carousel Remote Connection option
-- Added : Lazy Render Using Class
-- Added : Accordion : Add / Remove Accordions From Toolbar
-- Added : Tab Tours : Add / Remove tab From Toolbar
-- Added : Testimonials : Add / Remove Testimonial From Toolbar
-- Added : Breadcrumbs : Show Terms Taxonomy & Child Terms Taxonomy Option Added.
-- Revamped : Data Table : Converted in Vanilla JS for Top notch performance.
-- Revamped : Google Map : Converted in Vanilla JS for Top notch performance.
-- Revamped : Progress Bar : Converted in Vanilla JS for Top notch performance.
-- Revamped : Tab Tours : Converted in Vanilla JS for Top notch performance.
-- Revamped : Video Block : Converted in Vanilla JS for Top notch performance.
-- Fixed : Delay 3rd Party JS : LottieFiles Bug Fixed
-- Fixed : Stylist List : CSS Bug Fixed
-- Fixed : Bugs and Improvements
 
 == Upgrade Notice ==

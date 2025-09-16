@@ -2165,6 +2165,23 @@ class Tp_Blocks_Helper {
         return $errors;
 
     }
+
+    /**
+	 * Equal Height Attribute Function
+	 * @since 4.5.8
+	 */
+	public static function global_equal_height( $attr ){
+		$equalHeight = (!empty($attr['tpgbEqualHeight'])) ? $attr['tpgbEqualHeight'] : false;
+		$equalUnqClass = (!empty($attr['equalUnqClass'])) ? $attr['equalUnqClass'] : '';
+
+		$eqlOpt = ''; $equalHeightAttr = '';
+		if(!empty($equalHeight)){
+			$eqlOpt = esc_attr($equalUnqClass);
+			$equalHeightAttr .= ' data-tpgb-equal-height="'.esc_attr($eqlOpt).'"';
+		}
+
+		return $equalHeightAttr;
+	}
 }
 
 Tp_Blocks_Helper::get_instance();

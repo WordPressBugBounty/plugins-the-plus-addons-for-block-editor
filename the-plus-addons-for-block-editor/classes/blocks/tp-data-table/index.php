@@ -148,7 +148,7 @@ function tpgb_tp_datatable_callback( $attributes, $content) {
                                     if( (!empty($item['Trbtn'])) && $item['Trbtn'] == TRUE ){
 										$btn_attr = Tp_Blocks_Helper::add_link_attributes($item['TrbtnLink']);
                                         $DTBody .='<div class="pt_tpgb_button tp-repeater-item-'.esc_attr($item['_key']).' button-style-8">';
-                                            $DTBody .='<a '.(!empty($Btnlink) ? $Btnlink : 'href="#"').'  '.$target.' '.$nofollow.' class="button-link-wrap" '.$btn_attr.'>'.wp_kses_post($Btntx).'</a>';
+                                        $DTBody .='<a '.(!empty($Btnlink) ? $Btnlink : 'href="#"').'  '.$target.' '.$nofollow.' class="button-link-wrap" '.$btn_attr.'>' .wp_kses_post($Btntx). ( !empty($item['btnIcon']) ? '<i class="'.esc_attr($item['btnIcon']).'"></i>' : '' ).'</a>';
                                         $DTBody .='</div>';
                                     }
                                  
@@ -412,21 +412,25 @@ function tpgb_tp_datatable_render() {
                         'type' => 'string',
                         'default' => 'td',	
                     ],
+                    'btnIcon' => [
+                        'type'=> 'string',
+                        'default'=> '',
+                    ],
                 ],
             ],
             'default' => [ 
                 ['_key'=> '0','trAction'=>'row', 'TrLink' => [ 'url' => '' ]],
-                ['_key'=> '1','trAction'=>'cell','trtext'=>'Sample #1', 'TrLink' => [ 'url' => '' ]],
-                ['_key'=> '2','trAction'=>'cell','trtext'=>'Row 1, Content 1', 'TrLink' => [ 'url' => '' ]],
-                ['_key'=> '3','trAction'=>'cell','trtext'=>'Row 1, Content 2', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '1','trAction'=>'cell','trtext'=>'Sample #1', 'TrLink' => [ 'url' => '' ] , "TrbtnLink"  => [ 'url' => '' ] ],
+                ['_key'=> '2','trAction'=>'cell','trtext'=>'Row 1, Content 1', 'TrLink' => [ 'url' => '' ], "TrbtnLink"  => [ 'url' => '' ]],
+                ['_key'=> '3','trAction'=>'cell','trtext'=>'Row 1, Content 2', 'TrLink' => [ 'url' => '' ], "TrbtnLink"  => [ 'url' => '' ]],
                 ['_key'=> '4','trAction'=>'row', 'TrLink' => [ 'url' => '' ]],
                 ['_key'=> '5','trAction'=>'cell','trtext'=>'Sample #2', 'TrLink' => [ 'url' => '' ]],
-                ['_key'=> '6','trAction'=>'cell','trtext'=>'Row 2, Content 1', 'TrLink' => [ 'url' => '' ]],
-                ['_key'=> '7','trAction'=>'cell','trtext'=>'Row 2, Content 2', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '6','trAction'=>'cell','trtext'=>'Row 2, Content 1', 'TrLink' => [ 'url' => '' ], "TrbtnLink"  => [ 'url' => '' ]],
+                ['_key'=> '7','trAction'=>'cell','trtext'=>'Row 2, Content 2', 'TrLink' => [ 'url' => '' ], "TrbtnLink"  => [ 'url' => '' ]],
                 ['_key'=> '8','trAction'=>'row', 'TrLink' => [ 'url' => '' ]],
                 ['_key'=> '9','trAction'=>'cell','trtext'=>'Sample #3', 'TrLink' => [ 'url' => '' ]],
-                ['_key'=> '10','trAction'=>'cell','trtext'=>'Row 3, Content 1', 'TrLink' => [ 'url' => '' ]],
-                ['_key'=> '11','trAction'=>'cell','trtext'=>'Row 3, Content 2', 'TrLink' => [ 'url' => '' ]],
+                ['_key'=> '10','trAction'=>'cell','trtext'=>'Row 3, Content 1', 'TrLink' => [ 'url' => '' ], "TrbtnLink"  => [ 'url' => '' ]],
+                ['_key'=> '11','trAction'=>'cell','trtext'=>'Row 3, Content 2', 'TrLink' => [ 'url' => '' ], "TrbtnLink"  => [ 'url' => '' ]],
             ],
         ], 
 
@@ -1043,6 +1047,52 @@ function tpgb_tp_datatable_render() {
         'showBlockContent' => [
            'type' => 'boolean',
            'default' => true,
+        ],
+        'btnIconColor' => [
+            'type' => 'string',
+            'default' => '',
+            'style' => [
+                (object) [
+                    'selector' => '{{PLUS_WRAP}} .pt_tpgb_button .button-link-wrap i{color:{{btnIconColor}};}',
+                ],
+            ],
+                        'scopy' => true,
+        ],
+        'hoverBtnIconColor' => [
+            'type' => 'string',
+            'default' => '',
+            'style' => [
+                (object) [
+                    'selector' => '{{PLUS_WRAP}} .pt_tpgb_button .button-link-wrap:hover i{color:{{hoverBtnIconColor}};}',
+                ],
+            ],
+                        'scopy' => true,
+        ],
+        'btnIconSize' => [
+            'type' => 'object',
+            'default' => [
+                'md' => '',
+                "unit" => 'px',
+            ],        
+            'style' => [
+                (object) [
+                    'selector' => '{{PLUS_WRAP}} .pt_tpgb_button .button-link-wrap i{font-size:{{btnIconSize}};}',
+                ],
+            ],
+                        'scopy' => true,
+        ],
+        'btnIconSpacing' => [
+            'type' => 'object',
+            'default' => [
+                'md' => '',
+                "unit" => 'px',
+            ],        
+            'style' => [
+                (object) [
+                    'selector' => '{{PLUS_WRAP}} .pt_tpgb_button .button-link-wrap i{margin-left:{{btnIconSpacing}};}',
+                ],
+            ],
+            'scopy' => true,
         ]
     ];  
 

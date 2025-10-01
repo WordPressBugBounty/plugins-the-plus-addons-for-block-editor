@@ -232,3 +232,7 @@ span.sort-style {
     align-items: center;
     justify-content: center;
 }
+.pt_tpgb_button .button-link-wrap:has(i) {
+	display: flex;
+	align-items: center;
+}

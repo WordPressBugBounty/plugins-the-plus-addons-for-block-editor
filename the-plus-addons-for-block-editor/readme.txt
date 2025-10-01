@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 4.5.8
+Stable tag: 4.5.9
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -513,6 +513,14 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.5.9 = 01 Oct 2025
+- Added : Quick Action Bar on editor.
+- Added : Data Table : Button Icon Option added.
+- Added : Info box : SVG Background ,  Border & padding option Added.
+- Update : SVG Animation Stop by Set Duration option.
+- Update : New Google Fonts Updated.
+- Minor bug Fixes & Improvements.
 
 = 4.5.8 = 16 Sep 2025
 - Added : Info box :  Global support for SVG fill and stroke color.

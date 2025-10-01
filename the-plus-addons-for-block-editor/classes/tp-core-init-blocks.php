@@ -92,6 +92,7 @@ class Tpgb_Core_Init_Blocks {
 		add_filter( 'tpgb_dashicons_icon_disable', array( $this,'check_tpgb_dashicons_icon') );
 
         add_filter( 'tpgb_preset_import_disable', array( $this,'check_tpgb_preset_import') );
+        add_filter( 'nxt_qab_enable', array( $this,'nxt_qab_enable_callback') );
 
 	}
 	
@@ -302,6 +303,8 @@ class Tpgb_Core_Init_Blocks {
             'nexter_block_pro' => defined('TPGBP_VERSION'),
             'adminEmail' => current_user_can('manage_options') ? get_option('admin_email') : '',
             'preset_import' => $presetImport,
+            'qab'=> apply_filters( 'nxt_qab_enable', true ),
+            'site_name'=>  get_bloginfo('name'),
 		);
 		
 		if(has_filter('tpgb_load_localize')) {
@@ -1816,6 +1819,23 @@ class Tpgb_Core_Init_Blocks {
         if( !empty($check_preset_import) && $check_preset_import === 'enable' ){
             $data = false;
         }
+        return $data;
+    }
+
+    /**
+     * Filter to enable/disable the Quick Action Bar
+     * since 4.5.9
+     * @param bool $data Default value (true = enabled)
+     * @return bool Modified value
+     */
+    public function nxt_qab_enable_callback( $data = true){
+        // Get the option value
+        $qba = Tp_Blocks_Helper::get_extra_option('nxt_qab_enable');
+        
+        // Check if the option is set and equals '1'
+        if( !empty($qba) && $qba === 'enable' ){
+            $data = false;
+        } 
         return $data;
     }
 }

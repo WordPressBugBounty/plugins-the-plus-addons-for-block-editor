@@ -43,20 +43,6 @@ class Tp_Blocks_Helper {
 		add_action('plugins_loaded', array($this, 'init_blocks_load'));
 		add_action('wp_head', array($this,'custom_css_js_load'));
 		add_filter('upload_mimes', array($this,'tpgb_mime_types') );
-		if(is_admin()){
-			add_action( 'wp_ajax_tpgb_cross_cp_import', array( $this, 'cross_copy_paste_media_import' ) );
-		}
-		
-
-		/*Get Social Reviews Api Token*/
-		add_action('wp_ajax_tpgb_f_socialreview_Gettoken', array($this, 'tpgb_f_socialreview_Gettoken'));
-		add_action('wp_ajax_nopriv_tpgb_f_socialreview_Gettoken', array($this, 'tpgb_f_socialreview_Gettoken'));
-
-		/*Remove Cache Transient*/
-		if(is_admin()){
-			add_action('wp_ajax_Tp_f_delete_transient', array($this, 'Tp_f_delete_transient'));
-			add_action('wp_ajax_nopriv_Tp_f_delete_transient', array($this, 'Tp_f_delete_transient'));
-		}
 
 		// Ajax For Template Content
 		add_action('wp_ajax_tpgb_get_template_content', array($this, 'tpgb_get_template_content'));
@@ -97,7 +83,7 @@ class Tp_Blocks_Helper {
 			$get_js= $get_custom_css_js['tpgb_custom_js_editor'];
 			$load_css_js .= wp_print_inline_script_tag($get_js);
 		}
-		echo $load_css_js;
+		echo $load_css_js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 	
 	/*
@@ -201,10 +187,6 @@ class Tp_Blocks_Helper {
             foreach ( $load_blocks as $block_id => $block ) {
                 if(in_array($block_id,$enable_normal_blocks)){
                     $this->include_block( $block_id );
-                    if(!empty($block_id) && $block_id=='tp-row'){
-                        self::$get_load_block[] = 'tp-column';
-                        $this->include_block( 'tp-column' );
-                    }
                     if(!empty($block_id) && $block_id=='tp-container'){
                         self::$get_load_block[] = 'tp-container-inner';
                         $this->include_block( 'tp-container-inner' );
@@ -272,9 +254,6 @@ class Tp_Blocks_Helper {
                 if(!in_array($block_id,$enable_normal_blocks) && $block_id!='tpgb-settings'){
                     $deactivate_block[] = $block_id;
                 }
-            }
-            if(!in_array('tp-row',$enable_normal_blocks)){
-                $deactivate_block[] = 'tp-column';
             }
             if(!in_array('tp-container',$enable_normal_blocks)){
                 $deactivate_block[] = 'tp-container-inner';
@@ -590,8 +569,6 @@ class Tp_Blocks_Helper {
     }
 	/*-wpforms end-*/
 	
-	
-	/* Generate HTML of Breadcrumbs */
 	/* Generate HTML of Breadcrumbs */
 	public static function theplus_breadcrumbs( $icontype='', $sepIconType='', $icons='', $homeTitle='', $sepIcons='', $activeTextDefault='',$breadcrumbs_last_sec_tri_normal='', $bdToggleHome='', $bdToggleParent='', $bdToggleCurrent='', $letterLimitParent='', $letterLimitCurrent='', $markupSch =false, $ctmHomeurl=[] , $showTerms = false , $taxonomySlug ='' ,  $showpartTerms =true , $showchildTerms = true) {
 		
@@ -748,7 +725,7 @@ class Tp_Blocks_Helper {
 				);
             }elseif (is_singular('topic') ){
                 $post_type = get_post_type_object(get_post_type());
-                printf($link, $homeLink . '/forums/', $post_type->labels->singular_name);
+                printf($link, $homeLink . '/forums/', $post_type->labels->singular_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$schemaArr['itemListElement'][] = array(
 					"@type" => "ListItem",
 					"position"=> ++$breadposi,
@@ -759,7 +736,7 @@ class Tp_Blocks_Helper {
             /* in forum, add link to support forum page template */
             elseif (is_singular('forum')){
                 $post_type = get_post_type_object(get_post_type());
-                printf($link, $homeLink . '/forums/', $post_type->labels->singular_name);
+                printf($link, $homeLink . '/forums/', $post_type->labels->singular_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$schemaArr['itemListElement'][] = array(
 					"@type" => "ListItem",
 					"position"=> ++$breadposi,
@@ -768,7 +745,7 @@ class Tp_Blocks_Helper {
 				);
             }elseif (is_tax('topic-tag')){
                 $post_type = get_post_type_object(get_post_type());
-                printf($link, $homeLink . '/forums/', $post_type->labels->singular_name);
+                printf($link, $homeLink . '/forums/', $post_type->labels->singular_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$schemaArr['itemListElement'][] = array(
 					"@type" => "ListItem",
 					"position"=> ++$breadposi,
@@ -1108,9 +1085,9 @@ class Tp_Blocks_Helper {
 					);
                    
 					if($letterLimitParent != '0'){
-						printf($link, get_permalink($parent), substr($parent->post_title,0,intval($letterLimitParent)));
+						printf($link, get_permalink($parent), substr($parent->post_title,0,intval($letterLimitParent))); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}else{
-						printf($link, get_permalink($parent), $parent->post_title);
+						printf($link, get_permalink($parent), $parent->post_title); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 
 					if($letterLimitCurrent != '0'){
@@ -1472,157 +1449,6 @@ class Tp_Blocks_Helper {
 		return $Sliderclass;
 	}
 	
-	/**
-	 * Cross copy paste media import
-	 * @since  1.1.0
-	 */
-	public static function cross_copy_paste_media_import() {
-		
-		check_ajax_referer( 'tpgb-addons', 'nonce' );
-
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error(
-				__( 'Not a Valid', 'the-plus-addons-for-block-editor'),
-				403
-			);
-		}
-		require_once TPGB_PATH . 'classes/global-options/tp-import-media.php';
-		$media_import = isset( $_POST['content'] ) ? wp_unslash( $_POST['content'] ) : '';
-		
-		if ( empty( $media_import ) ) {
-			wp_send_json_error( __( 'Empty Content.', 'the-plus-addons-for-block-editor') );
-		}
-
-		$media_import = array( json_decode( $media_import, true ) );
-		$media_import = self::tp_import_media_copy_content( $media_import );
-
-		wp_send_json_success( $media_import );
-	}
-	
-	/**
-	 * Recursively data.
-	 *
-	 * Accept any type of data and a callback function. The callback
-	 * function runs recursively for each data and his child data.
-	 *
-	 * @since 1.1.0
-	 * @access public
-	 *
-	 */
-	public static function tp_import_media_copy_content( $data_import ){
-		return self::array_recursively_data(
-			$data_import,
-			function( $block_data ) {
-				
-				$elements = self::block_data_instance( $block_data );
-				
-				return $elements;
-			}
-		);
-	}
-	
-	/*
-	 * Block Data inner Block Instance
-	 *
-	 * @since 1.1.3
-	 */
-	public static function block_data_instance( array $block_data, array $args = [], $block_args = null ){
-
-		if ( $block_data['name'] && $block_data['clientId'] && $block_data['attributes'] ) {
-		
-			foreach($block_data['attributes'] as $block_key => $block_val) {
-				
-				if( isset( $block_val['url'] ) && isset( $block_val['id'] ) && !empty( $block_val['url'] ) ){
-					$new_media = Tpgb_Import_Images::media_import( $block_val );
-					$block_data['attributes'][$block_key] = $new_media;
-				}else if(isset( $block_val['url'] ) && !empty( $block_val['url'] ) && preg_match('/\.(jpg|png|jpeg|gif|svg|webp)$/', $block_val['url'])) {
-					$new_media = Tpgb_Import_Images::media_import( $block_val );
-					$block_data['attributes'][$block_key] = $new_media;
-				}else if(is_array($block_val) && !empty($block_val)){
-					if( !array_key_exists("md",$block_val) && !array_key_exists("openTypography",$block_val) && !array_key_exists("openBorder",$block_val) && !array_key_exists("openShadow",$block_val) && !array_key_exists("openFilter",$block_val)  ){
-						foreach($block_val as $key => $val) {
-							if(is_array($val) && !empty($val)){
-								
-								if( isset( $val['url'] ) && ( isset( $val['Id'] ) || isset( $val['id'] ) ) && !empty( $val['url'] ) ){
-									$new_media = Tpgb_Import_Images::media_import( $val );
-									$block_data['attributes'][$block_key][$key] = $new_media;
-								}else if( isset( $val['url'] ) && !empty( $val['url'] ) && preg_match('/\.(jpg|png|jpeg|gif|svg|webp)$/', $val['url']) ) {
-									$new_media = Tpgb_Import_Images::media_import( $val );
-									$block_data['attributes'][$block_key][$key] = $new_media;
-								}else{
-									foreach($val as $sub_key => $sub_val) {
-										if( isset( $sub_val['url'] ) && ( isset( $sub_val['Id'] ) || isset( $sub_val['id'] ) ) && !empty( $sub_val['url'] ) ){
-											$new_media = Tpgb_Import_Images::media_import( $sub_val );
-
-                                            if( is_array($sub_val) && is_array($new_media) ){
-                                                $block_data['attributes'][$block_key][$key][$sub_key] = array_merge($sub_val , $new_media);
-                                            }else{
-                                                $block_data['attributes'][$block_key][$key][$sub_key] =  $new_media;
-                                            }
-											
-
-										}else if( isset( $sub_val['url'] ) && !empty( $sub_val['url'] ) && preg_match('/\.(jpg|png|jpeg|gif|svg|webp)$/', $sub_val['url'])) {
-											$new_media = Tpgb_Import_Images::media_import( $sub_val );
-											$block_data['attributes'][$block_key][$key][$sub_key] = $new_media;
-										}else if(is_array($sub_val) && !empty($sub_val)){
-											foreach($sub_val as $sub_key1 => $sub_val1) {
-												if( isset( $sub_val1['url'] ) && ( isset( $sub_val1['Id'] ) || isset( $sub_val1['id'] ) ) && !empty( $sub_val1['url'] ) ){
-													$new_media = Tpgb_Import_Images::media_import( $sub_val1 );
-                                                    if( is_array($sub_val1) && is_array($new_media) ){
-													    $block_data['attributes'][$block_key][$key][$sub_key][$sub_key1] = array_merge($sub_val1 , $new_media);
-                                                    }else{
-                                                        $block_data['attributes'][$block_key][$key][$sub_key][$sub_key1] = $new_media;
-                                                    }
-												}else if( isset( $sub_val1['url'] ) && !empty( $sub_val1['url'] ) && preg_match('/\.(jpg|png|jpeg|gif|svg|webp)$/', $sub_val1['url'])) {
-													$new_media = Tpgb_Import_Images::media_import( $sub_val1 );
-													$block_data['attributes'][$block_key][$key][$sub_key][$sub_key1] = $new_media;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		return $block_data;
-	}
-	
-	/**
-	 * Recursively data.
-	 *
-	 * Accept any type of data and a callback function. The callback
-	 * function runs recursively for each data and his child data.
-	 *
-	 * @since 1.1.0
-	 * @access public
-	 *
-	 */
-	public static function array_recursively_data( $data, $callback, $args = [] ) {
-		if ( isset( $data['name'] ) ) {
-			if ( ! empty( $data['innerBlocks'] ) ) {
-				$data['innerBlocks'] = self::array_recursively_data( $data['innerBlocks'], $callback, $args );
-			}
-
-			return call_user_func( $callback, $data, $args );
-		}
-
-		foreach ( $data as $block_key => $block_value ) {
-			$block_data = self::array_recursively_data( $data[ $block_key ], $callback, $args );
-
-			if ( null === $block_data ) {
-				continue;
-			}
-
-			$data[ $block_key ] = $block_data;
-		}
-
-		return $data;
-	}
-	
 	/*
 	 * Custom Font Load
 	 * @since 1.2.0
@@ -1828,94 +1654,6 @@ class Tp_Blocks_Helper {
 	}
 
 	/*
-	 * Social Review Get API
-	 * @since 1.4.8
-	 */
-	public function tpgb_f_socialreview_Gettoken() {
-		$result = [];
-		check_ajax_referer('tpgb-addons', 'tpgb_nonce');
-		$get_json = wp_remote_get("https://theplusaddons.com/wp-json/template_socialreview_api/v2/socialreviewAPI?time=".time());
-		if ( is_wp_error( $get_json ) ) {
-			wp_send_json_error( array( 'messages' => 'something wrong in API' ) );
-		}else{
-			$URL_StatusCode = wp_remote_retrieve_response_code($get_json);
-			if($URL_StatusCode == 200){
-				$getdata = wp_remote_retrieve_body($get_json);
-				$result['SocialReview'] = json_decode($getdata, true);
-				$result['success'] = 1;
-				wp_send_json($result);
-			}
-		}
-		wp_send_json_error( array( 'messages' => 'something wrong in API' ) );
-	}
-
-	/*
-	 * Remove Cache Transient Data
-	 * @since 1.4.8
-	 */
-	public function Tp_f_delete_transient() {
-		$result = [];
-		check_ajax_referer('tpgb-addons', 'tpgb_nonce');
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_die( 'You can not Permission.' );
-		}
-		global $wpdb;
-		$transient = [];
-			$table_name = $wpdb->prefix . "options";
-			$query = $wpdb->prepare("SELECT * FROM %s", $table_name);
-			$DataBash = $wpdb->get_results($query);
-			$blockName = !empty($_POST['blockName']) ? sanitize_text_field(wp_unslash($_POST['blockName'])) : '';
-			
-			if($blockName == 'SocialFeed'){
-				$transient = array(
-					// facebook
-						'Fb-Url-','Fb-Time-','Data-Fb-',
-					// vimeo
-						'Vm-Url-', 'Vm-Time-', 'Data-Vm-',
-					// Instagram basic
-						'IG-Url-', 'IG-Profile-', 'IG-Time-', 'Data-IG-',	
-					// Instagram Graph
-						'IG-GP-Url-', 'IG-GP-Time-', 'IG-GP-Data-', 'IG-GP-UserFeed-Url-', 'IG-GP-UserFeed-Data-', 'IG-GP-Hashtag-Url-', 'IG-GP-HashtagID-data-', 'IG-GP-HashtagData-Url-', 'IG-GP-Hashtag-Data-', 'IG-GP-story-Url-', 'IG-GP-story-Data-', 'IG-GP-Tag-Url-', 'IG-GP-Tag-Data-',
-					// Tweeter
-						'Tw-BaseUrl-', 'Tw-Url-', 'Tw-Time-', 'Data-tw-',
-					// Youtube
-						'Yt-user-', 'Yt-user-Time-', 'Data-Yt-user-', 'Yt-Url-', 'Yt-Time-', 'Data-Yt-', 'Yt-C-Url-', 'Yt-c-Time-', 'Data-c-Yt-',
-					// loadmore
-						'SF-Loadmore-',
-					// Performance
-						'SF-Performance-'
-				);
-			}else if($blockName == 'SocialReview'){
-				$transient = array(
-					// Facebook
-						'Fb-R-Url-', 'Fb-R-Time-', 'Fb-R-Data-',
-					// Google
-						'G-R-Url-', 'G-R-Time-', 'G-R-Data-',
-					// loadmore
-						'SR-LoadMore-',
-					// Performance
-						'SR-Performance-',
-					// Beach
-						'Beach-Url-', 'Beach-Time-', 'Beach-Data-',
-				);
-			}
-			foreach ($DataBash as $First) {
-				if(!empty($transient)){
-					foreach ($transient as $second) {
-						$Find_Transient = !empty($First->option_name) ? strpos( $First->option_name, $second ) : '';
-						if(!empty($Find_Transient)){
-							$wpdb->delete( $table_name, array( 'option_name' => $First->option_name ) );
-						}
-					}
-				}
-			}
-			
-		$result['success'] = 1;
-		$result['blockName'] = $blockName;
-		echo wp_send_json($result);
-	}
-
-	/*
 	 * Get load activate extra Option for tpgb
 	 *	@Array
 	 */
@@ -1930,17 +1668,23 @@ class Tp_Blocks_Helper {
 	}
 
 	public function tpgb_get_template_content(){
-		$nonce = isset($_POST['tpgb_nonce']) ? sanitize_text_field(wp_unslash($_POST['tpgb_nonce'])) : '';
-		
-		if ( !isset($_POST["tpgb_nonce"]) || !wp_verify_nonce( $nonce, 'tpgb-addons' ) ){
-			die ( 'Security checked!');
-		}
+        
+        check_ajax_referer('tpgb-addons', 'tpgb_nonce');
+
 		if ( isset( $_POST['postid'] ) && !empty( $_POST['postid'] ) ) {
 			$post_id =  intval($_POST['postid']);
 			if( isset($post_id) && !empty($post_id) ) {
 				$content_post = get_post($post_id);
 				$content = '';
+
 				if(is_object($content_post)){
+
+                    if($content_post->post_type != 'wp_block'){
+                        $content = 'Please use this feature only for reusable blocks ( Pattern )';
+                        wp_send_json_error($content);
+                        return;
+                    }
+
 					$content = $content_post->post_content;
 					$content = apply_filters('the_content', $content);
 					$content = str_replace('strokewidth', 'stroke-width', $content);
@@ -1989,7 +1733,7 @@ class Tp_Blocks_Helper {
         }
         
         if($proceed_with_email && $action_option && $action_option['actionOption'] && $action_option['actionOption'] === 'email') {
-            $email_to = isset($action_option['emailTo1']) && !empty($action_option['emailTo1']) ? sanitize_email($action_option['emailTo1']) : '';
+            $email_to = isset($action_option['emailTo1']) && !empty($action_option['emailTo1']) ? (strpos($action_option['emailTo1'], ',') !== false ? array_map('sanitize_email', array_map('trim', explode(',', $action_option['emailTo1']))) : sanitize_email($action_option['emailTo1'])) : '';
             $subject = isset($action_option['subject1']) && !empty($action_option['subject1']) ? sanitize_text_field($action_option['subject1']) : '';
 
             if (!empty($email_to) && !empty($subject)) {
@@ -2182,6 +1926,26 @@ class Tp_Blocks_Helper {
 
 		return $equalHeightAttr;
 	}
+
+    /**
+     * Get the upload directory with HTTPS enforced (proxy/CDN safe).
+     * @since 4.5.10
+     * @return array Modified wp_upload_dir() array with correct baseurl.
+     */
+    public static function tpgb_get_upload_url() {
+        // Get default upload directory info
+        $upload_dir = wp_get_upload_dir();
+    
+        // Detect HTTPS correctly (including proxy/CDN setups)
+        $is_ssl = ( is_ssl() || ( 0 === stripos( get_option( 'siteurl' ), 'https://' ) ) || ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] ) );
+    
+        // Correct protocol for URLs
+        if ( $is_ssl ) {
+            $upload_dir['baseurl'] = str_replace('http://', 'https://', $upload_dir['baseurl']);
+        }
+    
+        return trailingslashit( $upload_dir['baseurl'] );
+    }
 }
 
 Tp_Blocks_Helper::get_instance();

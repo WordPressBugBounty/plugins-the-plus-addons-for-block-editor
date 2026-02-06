@@ -1,4 +1,5 @@
 .tp-core-heading {
     position: relative;
-    display: block
+    display: block;
+    overflow-wrap: anywhere;
 }

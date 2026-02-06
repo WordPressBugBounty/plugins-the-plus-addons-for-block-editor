@@ -1,4 +1,7 @@
 <?php 
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 // condition uncommented as it was making issue for metro style
 	$bg_attr = '';
 	if(!empty($layout) && $layout=='metro'){
@@ -54,8 +57,8 @@
 	</div>
 	<?php if( $layout == 'metro' ) { ?>
 		<div class="tpgb-post-featured-img tpgb-dynamic-tran <?php echo esc_attr($imageHoverStyle); ?>">
-			<a href="<?php echo esc_url(get_the_permalink()); ?>" aria-label="<?php echo esc_attr(get_the_title()); ?>" <?php echo $newTabPostAttr; ?>>
-				<?php echo '<div class="tpgb-blog-image-metro"  '.$bg_attr.' ></div>'; ?>
+			<a href="<?php echo esc_url(get_the_permalink()); ?>" aria-label="<?php echo esc_attr(get_the_title()); ?>" <?php echo $newTabPostAttr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $newTabPostAttr. ?>>
+				<?php echo '<div class="tpgb-blog-image-metro"  '.$bg_attr.' ></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $bg_attr. ?>
 			</a>
 		</div>
 	<?php } ?>

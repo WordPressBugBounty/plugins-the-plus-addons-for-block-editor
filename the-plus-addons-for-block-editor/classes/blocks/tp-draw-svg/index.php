@@ -14,8 +14,16 @@ function tpgb_tp_draw_svg_render_callback( $attributes, $content) {
 	$strokeColor = (!empty($attributes['strokeColor'])) ? $attributes['strokeColor'] : '';
 	$fillToggle = (!empty($attributes['fillToggle'])) ? $attributes['fillToggle'] : false;
 	$fillColor = (!empty($attributes['fillColor'])) ? $attributes['fillColor'] : '';
-	
+	$svgLink = (!empty($attributes['svgLink']['url'])) ? $attributes['svgLink']['url'] : '';
+	$target = (!empty($attributes['svgLink']['target'])) ? ' target="_blank" ' : '';
+	$nofollow = (!empty($attributes['svgLink']['nofollow'])) ? ' rel="nofollow" ' : '';
+    $link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['svgLink']);
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
+
+    
+    if(class_exists('Tpgbp_Pro_Blocks_Helper')){
+		$svgLink = (isset($attributes['svgLink']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($attributes['svgLink']) : (!empty($attributes['svgLink']['url']) ? $attributes['svgLink']['url'] : '');
+	}
 	
 	$fillEnable=$fill_color = '';
 	if(!empty($fillToggle)){
@@ -38,9 +46,17 @@ function tpgb_tp_draw_svg_render_callback( $attributes, $content) {
 	}
 	$output = '';
 	$output .= '<div class="tpgb-draw-svg tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' '.esc_attr($draw_hover).'" data-id="tpgb-block-'.esc_attr($block_id).'" data-type="'.esc_attr($drawType).'" data-duration="'.esc_attr($duration).'" data-stroke="'.esc_attr($strokeColor).'" data-fillcolor="'.esc_attr($fill_color).'" data-fillenable="'.esc_attr($fillEnable).'">';
-		$output .= '<div class="svg-inner-block">';
-			$output .= '<object id="tpgb-block-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgsrc).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
-		$output .= '</div>';
+		if($svgLink && ( $svgLink != '' )){   
+			$output .= '<a '.$link_attr.' href="'.esc_url($svgLink).'" '.$target.' '.$nofollow.'>';
+                $output .= '<div class="svg-inner-block">';
+                    $output .= '<object id="tpgb-block-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgsrc).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
+                $output .= '</div>';
+            $output .= '</a>';
+        }else{
+            $output .= '<div class="svg-inner-block">';
+                $output .= '<object id="tpgb-block-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgsrc).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
+            $output .= '</div>';
+        }
 	$output .= '</div>';
 	
 	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);
@@ -52,91 +68,6 @@ function tpgb_tp_draw_svg_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_draw_svg() {
-	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
-	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
-	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
-	
-	$attributesOptions = array(
-		'block_id' => [
-			'type' => 'string',
-			'default' => '',
-		],
-		'selectSvg' => [
-			'type' => 'string',
-			'default' => 'preBuild',	
-		],
-		'svgList' => [
-			'type' => 'string',
-			'default' => 'app',	
-		],
-		'customSVG' => [
-			'type' => 'object',
-			'default' => [
-				'url' => TPGB_ASSETS_URL.'assets/images/svg/app.svg',
-			],
-		],
-		'alignment' => [
-			'type' => 'string',
-			'default' => 'center',
-			'style' => [
-				(object) [
-					'selector' => '{{PLUS_WRAP}}{ text-align: {{alignment}}; }',
-				],
-			],
-			'scopy' => true,
-		],
-		'maxWidth' => [
-			'type' => 'object',
-			'default' => [ 
-				'md' => '',
-				"unit" => 'px',
-			],
-			'style' => [
-				(object) [
-					'selector' => '{{PLUS_WRAP}}.tpgb-draw-svg .svg-inner-block{ max-width: {{maxWidth}}; max-height: {{maxWidth}}; }',
-				],
-			],
-			'scopy' => true,
-		],
-		'strokeColor' => [
-			'type' => 'string',
-			'default' => '#8072fc',
-			'scopy' => true,
-		],
-		'fillToggle' => [
-			'type' => 'boolean',
-			'default' => false,	
-			'scopy' => true,
-		],
-		'fillColor' => [
-			'type' => 'string',
-			'default' => '#000000',
-			'scopy' => true,
-		],
-		'drawType' => [
-			'type' => 'string',
-			'default' => 'delayed',	
-			'scopy' => true,
-		],
-		'duration' => [
-			'type' => 'string',
-			'default' => '90',	
-			'scopy' => true,
-		],
-		'hoverDraw' => [
-			'type' => 'string',
-			'default' => 'onScroll',
-			'scopy' => true,
-		],
-	);
-	$attributesOptions = array_merge($attributesOptions,$globalBgOption,$globalpositioningOption,$globalPlusExtrasOption);
-	
-	register_block_type( 'tpgb/tp-draw-svg', array(
-		'attributes' => $attributesOptions,
-		'editor_script' => 'tpgb-block-editor-js',
-		'editor_style'  => 'tpgb-block-editor-css',
-        'render_callback' => 'tpgb_tp_draw_svg_render_callback'
-    ) ); */
 	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_draw_svg_render_callback');
 	register_block_type( $block_data['name'], $block_data );
 }

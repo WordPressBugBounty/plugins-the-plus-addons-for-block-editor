@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define('TPGB_ASSET_PATH', wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . 'theplus_gutenberg');
-define('TPGB_ASSET_URL', wp_upload_dir()['baseurl'] . '/theplus_gutenberg');
+define('TPGB_ASSET_URL', Tp_Blocks_Helper::tpgb_get_upload_url() . '/theplus_gutenberg');
 
 /**
  * Tpgb_Core_Init_Blocks.
@@ -67,9 +67,6 @@ class Tpgb_Core_Init_Blocks {
 			add_action('wp_enqueue_scripts', array($this, 'enqueue_load_block_css_js'));
 			add_action('wp_enqueue_scripts', array($this, 'enqueue_post_css'));
 		}
-		if(is_admin()){
-			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_css_js'));
-		}
 		
 		//Blocksy Compatibility
 		add_action('blocksy:pro:content-blocks:pre-output', array($this, 'tpgb_blocksy_content_blocks'), 10, 1);
@@ -79,18 +76,19 @@ class Tpgb_Core_Init_Blocks {
 			//admin bar enqueue scripts
 			add_action( 'wp_footer', [ $this, 'admin_bar_enqueue_scripts' ] );
 		}
-
-		// Table Of Content Rank Math Compatiblility
-		add_filter( 'rank_math/researches/toc_plugins', array( $this,'tpgb_rank_table_of_content') );
+        
 		if ( class_exists( 'Astra_Target_Rules_Fields' ) ) {
 			add_action( 'wp', array( $this, 'astra_custom_layouts_assets' ) );
 		}
 
 		add_filter( 'tpgb_google_font_load', array( $this,'check_load_google_fonts') );
 		add_filter( 'tpgb_global_css_load', array( $this,'check_load_global_css') );
-		add_filter('mpcs_classroom_style_handles', array( $this,'memberpress_remove_style') );
-		add_filter( 'tpgb_dashicons_icon_disable', array( $this,'check_tpgb_dashicons_icon') );
 
+        if (class_exists('memberpress\courses\models\Course') && class_exists('memberpress\courses\models\Lesson')) {
+		    require_once TPGB_PATH.'classes/extras/compatibility/class-tpgb-memberpress.php';
+        }
+        
+		add_filter( 'tpgb_dashicons_icon_disable', array( $this,'check_tpgb_dashicons_icon') );
         add_filter( 'tpgb_preset_import_disable', array( $this,'check_tpgb_preset_import') );
         add_filter( 'nxt_qab_enable', array( $this,'nxt_qab_enable_callback') );
 
@@ -132,11 +130,13 @@ class Tpgb_Core_Init_Blocks {
 	 * @since 1.0.0
 	 */
 	public function tp_register_block_category( $categories, $post ) {
+        $get_whitelabel = get_option( 'tpgb_white_label' );
+        $wpluginName    = isset( $get_whitelabel ) && ! empty( $get_whitelabel['tpgb_free_plugin_name'] ) ? $get_whitelabel['tpgb_free_plugin_name'] : '';
 		return array_merge(
 			array(
 				array(
 					'slug'  => TPGB_CATEGORY,
-					'title' => __( 'Nexter Blocks', 'the-plus-addons-for-block-editor'),
+					'title' => $wpluginName && $wpluginName != '' ? $wpluginName : __( 'Nexter Blocks', 'the-plus-addons-for-block-editor'),
 				),
 			),
 			$categories
@@ -270,6 +270,35 @@ class Tpgb_Core_Init_Blocks {
 
         $presetImport = apply_filters( 'tpgb_preset_import_disable', true );
 
+        $nxtAiSettings = [];
+        $nxtAiSettingsRaw = Tp_Blocks_Helper::get_extra_option( 'nxtAiSettings' );
+        $encrypted = '';
+
+        if ( is_string( $nxtAiSettingsRaw ) && $nxtAiSettingsRaw !== '' ) {
+            $encrypted = $nxtAiSettingsRaw;
+        } elseif ( is_array( $nxtAiSettingsRaw ) && ! empty( $nxtAiSettingsRaw ) ) {
+
+            if ( isset( $nxtAiSettingsRaw[0] ) && is_string( $nxtAiSettingsRaw[0] ) ) {
+                $encrypted = $nxtAiSettingsRaw[0];
+            } elseif ( count( $nxtAiSettingsRaw ) === 1 ) {
+                $value = reset( $nxtAiSettingsRaw );
+                if ( is_string( $value ) && $value !== '' ) {
+                    $encrypted = $value;
+                }
+            }
+        }
+
+        // Decrypt ONLY if we truly have a value
+        if ( $encrypted !== '' ) {
+            $decrypted = Tp_Blocks_Helper::tpgb_simple_decrypt( $encrypted, 'dy');
+            $decoded = json_decode( $decrypted, true );
+
+            // Accept only valid decoded arrays
+            if ( is_array( $decoded ) ) {
+                $nxtAiSettings = $decoded;
+            }
+        }
+
 		$wp_localize_tpgb = array(
 			'activeTheme' => esc_html( get_template() ),
 			'category' => TPGB_CATEGORY,
@@ -297,7 +326,7 @@ class Tpgb_Core_Init_Blocks {
 			'taxonomy_list' => Tp_Blocks_Helper::tpgb_get_post_taxonomies(),
 			'custom_font' => Tp_Blocks_Helper::tpgb_custom_font(),
 			'tpgb_extra_opt' => Tp_Blocks_Helper::get_extra_opt_enabled(),
-			'pluginnonce' => wp_create_nonce( 'tpgb-dash-ajax-nonce' ),
+			'pluginnonce' => wp_create_nonce( 'nexter_admin_nonce' ),
 			'WDesignkit_in' => $wdadded,
 			'dashicons_icon' => $dashIcons,
             'nexter_block_pro' => defined('TPGBP_VERSION'),
@@ -305,6 +334,11 @@ class Tpgb_Core_Init_Blocks {
             'preset_import' => $presetImport,
             'qab'=> apply_filters( 'nxt_qab_enable', true ),
             'site_name'=>  get_bloginfo('name'),
+            'isNxtAiText'  => ( ! empty($nxtAiSettings['geminiEnableText']) && ! empty($nxtAiSettings['geminiApiKey']) ) || ( ! empty($nxtAiSettings['chatgptEnableText']) && ! empty($nxtAiSettings['chatgptApiKey']) ) ? '1' : '0',
+            'isNxtAiImage' => ( ! empty($nxtAiSettings['geminiEnableImage']) && ! empty($nxtAiSettings['geminiApiKey']) ) || ( ! empty($nxtAiSettings['chatgptEnableImage']) && ! empty($nxtAiSettings['chatgptApiKey']) ) ? '1' : '0',
+            'isGemini'     => ! empty($nxtAiSettings['geminiEnableImage']) && ! empty($nxtAiSettings['geminiApiKey']) ? '1' : '0',
+            'isAiTextApi'  => ! empty($nxtAiSettings['geminiApiKey']) || ! empty($nxtAiSettings['chatgptApiKey']) ? '1' : '0',
+            'isAiIntegrationEnabled' => ! empty($nxtAiSettings['aiIntegrationEnabled']) ? '1' : '0',
 		);
 		
 		if(has_filter('tpgb_load_localize')) {
@@ -905,7 +939,7 @@ class Tpgb_Core_Init_Blocks {
 				}else{
 					$css_path = $dir . $filename;
 					if (!$this->is_editor_screen() && $wp_filesystem->exists($css_path)) {
-						$css_url = trailingslashit($upload_dir['baseurl']) . 'theplus_gutenberg/'. $filename;
+						$css_url = Tp_Blocks_Helper::tpgb_get_upload_url() . 'theplus_gutenberg/'. $filename;
 						$plus_version=time();
 						$this->update_posts_metadata($post_id, '_block_css','version',$plus_version);
 						wp_enqueue_style("plus-post-{$post_id}", esc_url($css_url), $dependency, $plus_version);
@@ -1000,7 +1034,7 @@ class Tpgb_Core_Init_Blocks {
 			$this->tpgb_load_google_fonts($post_id, $plus_css['font_link']);
 		}
 		
-		$css_file_url = trailingslashit($upload_dir['baseurl']);
+		$css_file_url = Tp_Blocks_Helper::tpgb_get_upload_url();
 		if( isset($_GET['preview']) && $_GET['preview'] == true && file_exists($preview_css_path)){
 			if (file_exists($preview_css_path)) {
 				$css_url     = $css_file_url . "theplus_gutenberg/plus-preview-{$post_id}.css";
@@ -1172,14 +1206,14 @@ class Tpgb_Core_Init_Blocks {
 				$this->tpgb_load_google_fonts($post_id, $plus_css['font_link']);
 			}
 			if( isset($_GET['preview']) && $_GET['preview'] == true && file_exists($preview_css_path)){
-				$css_file_url = trailingslashit($upload_dir['baseurl']);
+				$css_file_url = Tp_Blocks_Helper::tpgb_get_upload_url();
 				$css_url     = $css_file_url . "theplus_gutenberg/plus-preview-{$post_id}.css";
 				if (!$this->is_editor_screen()) {
 					wp_enqueue_style("plus-preview-{$post_id}", esc_url($css_url), false, $plus_version.time());
 				}
 			}else if (file_exists($css_path)) {
 				
-				$css_file_url = trailingslashit($upload_dir['baseurl']);
+				$css_file_url = Tp_Blocks_Helper::tpgb_get_upload_url();
 				$css_url     = $css_file_url . "theplus_gutenberg/plus-css-{$post_id}.css";
 				if (!$this->is_editor_screen()) {
 					wp_enqueue_style("plus-post-{$post_id}", esc_url($css_url), $dependency, $plus_version);
@@ -1188,31 +1222,6 @@ class Tpgb_Core_Init_Blocks {
 				$this->make_block_css_by_post_id($post_id, $dependency);
 			}
 		}
-	}
-	
-	/*
-	 * Admin Enqueue Scripts
-	 * @since 1.3.0.2
-	 **/
-	public function admin_enqueue_css_js( $hook ){
-		
-		if (!did_action('wp_enqueue_media')) {
-			wp_enqueue_media();
-		}
-		wp_enqueue_style( 'tpgb-admin-css', TPGB_URL .'assets/css/admin/tpgb-admin.css', array(),TPGB_VERSION,false );
-		
-        if ( 'edit-comments.php' === $hook ) {
-			return;
-		}
-
-		wp_enqueue_script( 'tpgb-admin-js', TPGB_URL . 'assets/js/admin/tpgb-admin.js',array() , TPGB_VERSION, true );
-		wp_localize_script(
-			'tpgb-admin-js', 'tpgb_admin', array(
-				'ajax_url' => esc_url( admin_url('admin-ajax.php') ),
-				'tpgb_nonce' => wp_create_nonce("tpgb-addons"),
-			)
-		);
-
 	}
 
 	/**
@@ -1336,7 +1345,7 @@ class Tpgb_Core_Init_Blocks {
 						if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 							$render_list = '';
 							foreach ( $terms as $term ) {
-								$render_list .= '<a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( sprintf( __( '%s', 'the-plus-addons-for-block-editor'), $term->name ) ) . '" class="'.esc_attr($value).'-'.esc_attr($term->slug). '">' . $term->name . '</a> ';
+								$render_list .= '<a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( $term->name ) . '"  class="'.esc_attr($value).'-'.esc_attr($term->slug). '">' . $term->name . '</a> ';
 							}
 							$meta_list[$value] = $render_list;
 						}
@@ -1665,7 +1674,7 @@ class Tpgb_Core_Init_Blocks {
 		}
 
 		return $content;
-	}	
+	}
 	
 
 	/*
@@ -1687,35 +1696,6 @@ class Tpgb_Core_Init_Blocks {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Rank Math SEO filter For TOC List
-	 *
-	 * @param array $plugins TOC plugins.
-	 */
-	public function tpgb_rank_table_of_content($plugins){
-		$plugins['the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php'] = 'Nexter Blocks';
-		return $plugins;
-	}
-
-	/*
-	 * MemberPress Course Compatibility
-	 * @since 3.0.5
-	 * */
-	public function memberpress_remove_style( $allowed_handles = [] ){
-		if (class_exists('memberpress\courses\models\Course') && class_exists('memberpress\courses\models\Lesson')) {
-			global $wp_styles;
-			if(!empty($wp_styles)){
-				foreach($wp_styles->queue as $style) {
-					$handle = $wp_styles->registered[$style]->handle;
-					if(preg_match('/^tpgb-/i', $handle) || substr( $handle, 0, 13 ) === 'plus-preview-' || substr( $handle, 0, 10 ) === 'plus-post-' || substr( $handle, 0, 7 ) === 'theplus' || $handle === 'plus-global'){
-						$allowed_handles[] = $handle;
-					}
-				}
-			}
-		}
-		return $allowed_handles;
 	}
 
 	/*
@@ -1797,46 +1777,40 @@ class Tpgb_Core_Init_Blocks {
 		return $results;
 	}
 
-	/*
-	* Disables DashIcons Filter
-	* @since 4.1.0
-	* */
-
-	public function check_tpgb_dashicons_icon( $data = true){
-		$check_dashicons_icon = Tp_Blocks_Helper::get_extra_option('tpgb_dashicons_icon');
-		if( !empty($check_dashicons_icon) && $check_dashicons_icon === 'enable' ){
-			$data = false;
-		}
-		return $data;
-	}
-
-    /**
-     * Check Preset Import
-     * @since 4.5.6
+	/**
+     * Generic helper to disable a feature based on an option key.
+     *
+     * @param bool   $data       Default state (true = enabled).
+     * @param string $option_key Option name to check.
+     * @return bool
      */
-    public function check_tpgb_preset_import( $data = true){
-        $check_preset_import = Tp_Blocks_Helper::get_extra_option('tpgb_preset_import');
-        if( !empty($check_preset_import) && $check_preset_import === 'enable' ){
-            $data = false;
-        }
-        return $data;
+    private function is_option_disabled( $data, $option_key ) {
+        $option_value = Tp_Blocks_Helper::get_extra_option( $option_key );
+        return ( ! empty( $option_value ) && $option_value === 'enable' ) ? false : $data;
     }
 
     /**
-     * Filter to enable/disable the Quick Action Bar
-     * since 4.5.9
-     * @param bool $data Default value (true = enabled)
-     * @return bool Modified value
+     * Disable DashIcons
+     * @since 4.1.0
      */
-    public function nxt_qab_enable_callback( $data = true){
-        // Get the option value
-        $qba = Tp_Blocks_Helper::get_extra_option('nxt_qab_enable');
-        
-        // Check if the option is set and equals '1'
-        if( !empty($qba) && $qba === 'enable' ){
-            $data = false;
-        } 
-        return $data;
+    public function check_tpgb_dashicons_icon( $data = true ) {
+        return $this->is_option_disabled( $data, 'tpgb_dashicons_icon' );
+    }
+
+    /**
+     * Disable Preset Import
+     * @since 4.5.6
+     */
+    public function check_tpgb_preset_import( $data = true ) {
+        return $this->is_option_disabled( $data, 'tpgb_preset_import' );
+    }
+
+    /**
+     * Enable/Disable Quick Action Bar
+     * @since 4.5.9
+     */
+    public function nxt_qab_enable_callback( $data = true ) {
+        return $this->is_option_disabled( $data, 'nxt_qab_enable' );
     }
 }
 

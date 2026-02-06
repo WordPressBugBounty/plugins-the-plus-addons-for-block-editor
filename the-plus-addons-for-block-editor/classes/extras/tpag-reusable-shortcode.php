@@ -136,7 +136,7 @@ if ( ! class_exists( 'Tpgb_Resuable_Shortcode' ) ) {
 							<label for="copy-input"> <?php echo esc_html__('Shortcode for Ajax render:', 'the-plus-addons-for-block-editor') ?></label>
 							<div class="tpgb-shcode-wrap nrow-gap">
 								<input type="text" id="tpgb-ajax-code" class="nxt-ajax-shcode" readonly/>
-								<?php echo $copyicon; ?>
+								<?php echo $copyicon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</div>
 							<div class="tpgb-shcode-class">
 								<h3 class="tpgb-feed-head-title"><?php echo esc_html__( 'AJAX Class', 'the-plus-addons-for-block-editor'); ?> </h3>
@@ -146,17 +146,17 @@ if ( ! class_exists( 'Tpgb_Resuable_Shortcode' ) ) {
 									<div class="tpgb-shcode-inner">  
 										<span> <?php echo esc_html__('Hover trigger: ' ,'the-plus-addons-for-block-editor') ?> </span>
 										<input id="tpgb-ajax-hover" type="text" id="" class="nxt-ajax-shcode" readonly/>
-										<?php echo $copyicon; ?>
+										<?php echo $copyicon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</div>
 									<div class="tpgb-shcode-inner">  
 										<span> <?php echo esc_html__('Click trigger: ','the-plus-addons-for-block-editor') ?> </span>
 										<input id="tpgb-ajax-click" type="text" id="" class="nxt-ajax-shcode" readonly/>
-										<?php echo $copyicon; ?>
+										<?php echo $copyicon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</div>
 									<div class="tpgb-shcode-inner">  
 										<span> <?php echo esc_html__('On view trigger: ','the-plus-addons-for-block-editor') ?> </span>
 										<input id="tpgb-ajax-view" type="text" id="" class="nxt-ajax-shcode" readonly/>
-										<?php echo $copyicon; ?>
+										<?php echo $copyicon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</div>
 								</div>
 							</div>

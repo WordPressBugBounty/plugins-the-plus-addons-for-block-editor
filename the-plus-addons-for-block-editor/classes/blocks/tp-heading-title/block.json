@@ -1,5 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
 	"name": "tpgb/tp-heading-title",
 	"version": "0.1.0",
 	"title": "Advanced Heading",
@@ -70,6 +71,14 @@
 		  ],
 		  "scopy": true
 		},
+        "advHeadingLink": {
+            "type": "object",
+            "default": {
+            "url": "",
+            "target": "",
+            "nofollow": ""
+            }
+        },
 		"limitTgl": {
 		  "type": "boolean",
 		  "default": false

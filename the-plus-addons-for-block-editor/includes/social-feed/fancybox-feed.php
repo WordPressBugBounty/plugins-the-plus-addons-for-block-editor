@@ -25,11 +25,11 @@ if($FancyStyle == 'style-1'){
 			foreach ($videoURL as $fdata){              
 				$AImg = ( !empty($fdata['images']) && !empty($fdata['images'][0]['source']) ) ? $fdata['images'][0]['source'] : ''; 
                     if($ij == 0){ ?>
-                        <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','the-plus-addons-for-block-editor'); ?>">
+                        <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $FancyBoxJS. ?> aria-label="<?php echo esc_attr__('Facebook Post','the-plus-addons-for-block-editor'); ?>">
                             <?php if($style !== "style-4"){ ?><img class="reference-thumb tpgb-post-thumb" src="<?php echo esc_url($ImageURL); ?>" alt="<?php echo esc_attr__('Facebook Image','the-plus-addons-for-block-editor'); ?>"/><?php } ?>
                         </a>
                     <?php }else{ ?>
-                        <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; ?> aria-label="<?php echo esc_attr__('Facebook Post','the-plus-addons-for-block-editor'); ?>">
+                        <a href="<?php echo esc_url($AImg); ?>" <?php echo $FancyBoxJS; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $FancyBoxJS. ?> aria-label="<?php echo esc_attr__('Facebook Post','the-plus-addons-for-block-editor'); ?>">
                             <img class="hidden-image" src="<?php echo esc_url($AImg); ?>" alt="<?php echo esc_attr__('Facebook Image','the-plus-addons-for-block-editor'); ?>"/>
                         </a>
                     <?php  }
@@ -39,11 +39,11 @@ if($FancyStyle == 'style-1'){
 	}else{
 		if( ($Type == 'video' || $Type == 'photo') && (!empty($ImageURL)) ){
 			if($style == "style-1" || $style == "style-2"){ ?> 
-				<a <?php echo $PopupLink . $PopupTarget . $FancyBoxJS; ?> class="tpgb-soc-img-cls tpgb-relative-block" aria-label="<?php echo esc_attr__('Social Media Post','the-plus-addons-for-block-editor'); ?>">
+				<a <?php echo $PopupLink . $PopupTarget . $FancyBoxJS; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $PopupLink, $PopupTarget, and $FancyBoxJS. ?> class="tpgb-soc-img-cls tpgb-relative-block" aria-label="<?php echo esc_attr__('Social Media Post','the-plus-addons-for-block-editor'); ?>">
 					<?php if( $PopupOption !== "GoWebsite" ){ ?><img class="tpgb-post-thumb" src="<?php echo esc_url($ImageURL); ?>"  alt="<?php echo esc_attr__('Social Media Image','the-plus-addons-for-block-editor'); ?>"/> <?php } ?>
 				</a>
 			<?php }else if($style == "style-3" || $style == "style-4"){
-				echo '<a '.$PopupLink . $PopupTarget . $FancyBoxJS.' class="tpgb-image-link" aria-label="'.esc_attr__('Social Media Post','the-plus-addons-for-block-editor').'"></a>';
+				echo '<a '.$PopupLink . $PopupTarget . $FancyBoxJS.' class="tpgb-image-link" aria-label="'.esc_attr__('Social Media Post','the-plus-addons-for-block-editor').'"></a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $PopupLink, $PopupTarget, and $FancyBoxJS.
 			}
 		} 
 	}

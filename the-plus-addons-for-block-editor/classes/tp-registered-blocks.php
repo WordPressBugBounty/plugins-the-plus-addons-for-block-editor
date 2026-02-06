@@ -1647,7 +1647,7 @@ Class Tpgb_Library {
 				$tp_core->tpgb_load_google_fonts($post_id, $plus_css['font_link']);
 			}
 			if( isset($_GET['preview']) && $_GET['preview'] == true && file_exists($preview_css_path)){
-				$css_file_url = trailingslashit($upload_dir['baseurl']);
+				$css_file_url = Tp_Blocks_Helper::tpgb_get_upload_url();
 				$css_url     = $css_file_url . "theplus_gutenberg/plus-preview-{$post_id}.css";
 				if (!$this->is_editor_screen()) {
 					wp_enqueue_style("plus-preview-{$post_id}", esc_url($css_url), false, $plus_version.time());
@@ -1657,7 +1657,7 @@ Class Tpgb_Library {
 				if($in_footer === true && $this->get_caching_option() == 'separate' ){
 					$deps = [];
 				}
-				$css_file_url = trailingslashit($upload_dir['baseurl']);
+				$css_file_url = Tp_Blocks_Helper::tpgb_get_upload_url();
 				$css_url     = $css_file_url . "theplus_gutenberg/plus-css-{$post_id}.css";
 				wp_enqueue_style("plus-post-{$post_id}", esc_url($css_url), $deps, $plus_version);
 			}else if(!file_exists($css_path) && class_exists('Tpgb_Core_Init_Blocks')){
@@ -2043,7 +2043,7 @@ Class Tpgb_Library {
 		
 		$tpgbAjax = Tp_Blocks_Helper::get_extra_option('tpgb_template_load');
 		$tplzy = Tp_Blocks_Helper::get_extra_option('tpgb_lazy_render');
-		if( (isset($tpgbAjax) && !empty($tpgbAjax) && $tpgbAjax=='enable') || ( isset($tplzy) && !empty($tplzy) && $tplzy=='enable' ) || empty($tpgbAjax) || empty($tplzy) ){
+		if( (isset($tpgbAjax) && !empty($tpgbAjax) && $tpgbAjax=='enable') || ( isset($tplzy) && !empty($tplzy) && $tplzy=='enable' ) ){
 			$ajaxdepe = [];
 			if( !empty( $load_localize ) ){
 				$ajaxdepe =  [$load_localize];
@@ -2420,7 +2420,7 @@ Class Tpgb_Library {
 		$upload_dir			= wp_get_upload_dir();
 		$upload_base_dir 	= trailingslashit($upload_dir['basedir']);
 		$global_path = $upload_base_dir . "theplus_gutenberg/plus-global.css";
-		$css_file_url = trailingslashit($upload_dir['baseurl']);
+		$css_file_url = Tp_Blocks_Helper::tpgb_get_upload_url();
 		$global_css = get_option( '_tpgb_global_css' );
 
 		global $wp_filesystem;
@@ -2580,7 +2580,7 @@ Class Tpgb_Library {
      * @since 1.0.0
      */
     public function tpgb_smart_perf_clear_cache() {
-		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
+		check_ajax_referer('nexter_admin_nonce', 'security');
 
         // clear cache files
 		$this->remove_dir_files(TPGB_ASSET_PATH);
@@ -2594,7 +2594,7 @@ Class Tpgb_Library {
      * @since 1.1.3
      */
     public function tpgb_dynamic_style_cache() {
-		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
+		check_ajax_referer('nexter_admin_nonce', 'security');
 
         // clear cache files
 		$this->remove_dir_dynamic_style_files(TPGB_ASSET_PATH);
@@ -2692,7 +2692,7 @@ Class Tpgb_Library {
             return;
         }
 		if(get_option('tpgb_backend_cache_at') === false){
-			add_option('tpgb_backend_cache_at', strtotime('now'),false);
+			add_option('tpgb_backend_cache_at', strtotime('now') );
 		}else{
 			update_option('tpgb_backend_cache_at', strtotime('now'),false);
 		}
@@ -2720,7 +2720,7 @@ Class Tpgb_Library {
 			unlink($this->secure_path_url(TPGB_ASSET_PATH . DIRECTORY_SEPARATOR . '/theplus.min.js'));
 		}
 		if(get_option('tpgb_backend_cache_at') === false){
-			add_option('tpgb_backend_cache_at', strtotime('now'),false);
+			add_option('tpgb_backend_cache_at', strtotime('now'));
 		}else{
 			update_option('tpgb_backend_cache_at', strtotime('now'),false);
 		}
@@ -3112,58 +3112,6 @@ Class Tpgb_Library {
 
         return false;
     }
-	
-	/*
-	 * Toolset blocks Compatibility enqueue templates
-	 * @since 2.0.0
-	 * */
-	public function toolset_blocks_compatibility_enqueue_wpa( $content ) {
-		
-		if ( ! is_archive() && ! is_home() && !	is_search()	) {
-			return;
-		}
-		$wpa_id = apply_filters( 'wpv_filter_wpv_get_current_archive', null );
-
-		if ( ! $wpa_id ) {
-			return;
-		}
-
-		$maybe_wpa_helper_id = apply_filters( 'wpv_filter_wpv_get_wpa_helper_post', $wpa_id );
-
-		if ( !empty($maybe_wpa_helper_id) && class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
-			$load_enqueue = Tpgb_Core_Init_Blocks::get_instance();
-			
-			if ( !empty($load_enqueue) && is_callable( array( $load_enqueue, 'enqueue_post_css' ) ) ) {
-				$load_enqueue->enqueue_post_css( $maybe_wpa_helper_id );
-			}
-		}
-	}
-
-	/*
-	 * Toolset blocks Compatibility enqueue assets
-	 * @since 2.0.0
-	 * */
-	public function toolset_blocks_compatibility_ct_assets() {
-		if ( ! is_single() ) {
-			return;
-		}
-
-		global $post;
-
-		$maybe_ct_selected = apply_filters( 'wpv_content_template_for_post', 0, $post );
-
-		if ( 0 === (int) $maybe_ct_selected ) {
-			return;
-		}
-
-		if ( !empty($maybe_ct_selected) && class_exists( 'Tpgb_Core_Init_Blocks' ) ) {
-			$load_enqueue = Tpgb_Core_Init_Blocks::get_instance();
-			
-			if ( !empty($load_enqueue) && is_callable( array( $load_enqueue, 'enqueue_post_css' ) ) ) {
-				$load_enqueue->enqueue_post_css( $maybe_ct_selected );
-			}
-		}
-	}
 
 
 	public function tpgb_onload_style_css( $html, $handle, $href, $media ){
@@ -3234,8 +3182,7 @@ Class Tpgb_Library {
 
 		//Toolset Compatibility
 		if ( defined( 'WPV_VERSION' ) ) {
-			add_filter( 'wp', array( $this, 'toolset_blocks_compatibility_enqueue_wpa' ) );
-			add_action( 'wp', array( $this, 'toolset_blocks_compatibility_ct_assets' ) );
+			require_once TPGB_PATH.'classes/extras/compatibility/class-tpgb-toolset.php';
 		}
 	}
 }

@@ -38,10 +38,19 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 	$animationScale = (!empty($attributes['animationScale'])) ? $attributes['animationScale'] : [];
 	$animationRotate = (!empty($attributes['animationRotate'])) ? $attributes['animationRotate'] : [];
 	$extrOpt = (!empty($attributes['extrOpt'])) ? $attributes['extrOpt'] : [];
-	
+
+	$advHeadingLink = (!empty($attributes['advHeadingLink']['url'])) ? $attributes['advHeadingLink']['url'] : '';
+	$target = (!empty($attributes['advHeadingLink']['target'])) ? ' target="_blank" ' : '';
+	$nofollow = (!empty($attributes['advHeadingLink']['nofollow'])) ? ' rel="nofollow" ' : '';
+    $link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['advHeadingLink']);
+
 	$anchor = ( isset($attributes['anchor']) && !empty($attributes['anchor'])) ? 'id="'.esc_attr($attributes['anchor']).'"' : '';
 
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
+
+    if(class_exists('Tpgbp_Pro_Blocks_Helper')){
+		$advHeadingLink = (isset($attributes['advHeadingLink']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($attributes['advHeadingLink']) : (!empty($attributes['advHeadingLink']['url']) ? $attributes['advHeadingLink']['url'] : '');
+	}
 	
 	$getExtraTitle = '';
 	if(!empty($extraTitle)){
@@ -164,6 +173,8 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 	}
 	
     $output .= '<div '.$anchor.' class="tpgb-heading-title tpgb-relative-block heading_style tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).' heading-'.esc_attr($style).'">';
+    if($advHeadingLink && ( $advHeadingLink != '' )){   
+        $output .= '<a '.$link_attr.' href="'.esc_url($advHeadingLink).'" '.$target.' '.$nofollow.'>';
 		if($style!='style-9'){
 			$output .='<div class="sub-style">';
 				if($style=='style-5'){
@@ -228,6 +239,73 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
 				$output .= wp_kses_post($Title);
 			$output .='</'.Tp_Blocks_Helper::validate_html_tag($titleType).'>';
 		}
+        $output .= '</a>';
+    }else{
+        if($style!='style-9'){
+			$output .='<div class="sub-style">';
+				if($style=='style-5'){
+					$output .='<div class="vertical-divider top"></div>';
+				}
+				if($subTitlePosition=='onBottonTitle'){
+					if(!empty($Title)){
+						$output .=$getTitle;
+					}
+					if($style=='style-3' && !empty($Title)){
+						$output .=$style_3_sep;
+					}
+					if($style=='style-8' && !empty($Title)){
+						$output .=$style_8_sep;
+					}
+				}
+				if($subTitlePosition=='onTopTitle'){
+					$output .=$getSubTitle;
+				}
+				
+				if($subTitlePosition=='onBottonTitle'){
+					$output .=$getSubTitle;
+				}
+				if($subTitlePosition=='onTopTitle'){
+					if(!empty($Title)){
+						$output .=$getTitle;
+					}
+					if($style=='style-3' && !empty($Title)){
+						$output .=$style_3_sep;
+					}
+					if($style=='style-8' && !empty($Title)){
+						$output .=$style_8_sep;
+					}
+				}
+				if($style=='style-5'){
+					$output .='<div class="vertical-divider bottom"></div>';
+				}
+			$output .= '</div>';
+		}else{
+			$splitClass = 'tpgb-split-'.esc_attr($splitType);
+			$nSplitType = ($splitType=='lines') ? 'lines,chars' : esc_attr($splitType);
+			$annimtypedtaattr = ' data-animsplit-type="'.$nSplitType.'"';
+			$htaattr =[
+				'effect' => $aniEffect,
+				'x' => (!empty($aniPosition) && !empty($aniPosition['tpgbReset']) && !empty($aniPosition['aniPositionX'])) ? (int)$aniPosition['aniPositionX'] : 0,
+				'y' => (!empty($aniPosition) && !empty($aniPosition['tpgbReset']) && !empty($aniPosition['aniPositionY'])) ? (int)$aniPosition['aniPositionY'] : 0,
+
+				'scaleX' => (!empty($animationScale) && !empty($animationScale['tpgbReset']) && !empty($animationScale['animationScaleX'])) ? (int)$animationScale['animationScaleX'] : 0,
+				'scaleY' => (!empty($animationScale) && !empty($animationScale['tpgbReset']) && !empty($animationScale['animationScaleY'])) ? (int)$animationScale['animationScaleY'] : 0,
+				'scaleZ' => (!empty($animationScale) && !empty($animationScale['tpgbReset']) && !empty($animationScale['animationScaleZ'])) ? (int)$animationScale['animationScaleZ'] : 0,
+				'rotationX' => (!empty($animationRotate) && !empty($animationRotate['tpgbReset']) && !empty($animationRotate['animationRotateX'])) ? (int)$animationRotate['animationRotateX'] : 0,
+				'rotationY' => (!empty($animationRotate) && !empty($animationRotate['tpgbReset']) && !empty($animationRotate['animationRotateY'])) ? (int)$animationRotate['animationRotateY'] : 0,
+				'rotationZ' => (!empty($animationRotate) && !empty($animationRotate['tpgbReset']) && !empty($animationRotate['animationRotateZ'])) ? (int)$animationRotate['animationRotateZ'] : 0,
+
+				'opacity' => (!empty($extrOpt) && !empty($extrOpt['tpgbReset']) && !empty($extrOpt['animationOpacity'])) ? (float)$extrOpt['animationOpacity'] : 0,
+				'speed' => (!empty($extrOpt) && !empty($extrOpt['tpgbReset']) && !empty($extrOpt['animationSpeed'])) ? (float)$extrOpt['animationSpeed'] : 1,
+				'delay' => (!empty($extrOpt) && !empty($extrOpt['tpgbReset']) && !empty($extrOpt['animationDelay'])) ? (float)$extrOpt['animationDelay'] : 0.02,
+			];
+			$htaattrbunch= 'data-aniattrht = '.json_encode($htaattr);
+			$output .='<'.Tp_Blocks_Helper::validate_html_tag($titleType).' class="sub-style '.esc_attr($splitClass).'" '.$annimtypedtaattr.' '.$htaattrbunch.'>';
+				$Title = (class_exists('Tpgbp_Pro_Blocks_Helper')) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val($Title) : $Title;
+				$output .= wp_kses_post($Title);
+			$output .='</'.Tp_Blocks_Helper::validate_html_tag($titleType).'>';
+		}
+    }
 	$output .= '</div>';
 	
 	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);
@@ -239,495 +317,6 @@ function tpgb_tp_heading_title_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_tp_heading_title() {
-	/* $globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
-	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
-	$globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
-	
-	$attributesOptions = array(
-			'block_id' => array(
-                'type' => 'string',
-				'default' => '',
-			),
-			'anchor' => array(
-				'type' => 'string',
-			),
-			'style' => [
-				'type' => 'string',
-				'default' => 'style-1',	
-			],
-			'splitType' => [
-				'type' => 'string',
-				'default' => 'words',
-			],
-			'Title' => [
-				'type' => 'string',
-				'default' => 'Main Heading',
-			],
-			'subTitle' => [
-				'type' => 'string',
-				'default' => 'It’s Sub Heading',
-			],
-			'extraTitle' => [
-				'type' => 'string',
-				'default' => 'I am Extra',
-			],
-			'ETPosition' => [
-				'type' => 'string',
-				'default' => 'afterTitle',	
-			],
-			
-			'headingType' => [
-				'type' => 'string',
-				'default' => 'default',	
-			],
-			'Alignment' => [
-				'type' => 'object',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '!=', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-heading-title{ text-align: {{Alignment}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'limitTgl' => [
-				'type' => 'boolean',
-				'default' => false,
-			],
-			'titleLimit' => [
-				'type' => 'boolean',
-				'default' => false,
-			],
-			'titleLimitOn' => [
-				'type' => 'string',
-				'default' => 'char',	
-			],
-			'titleCount' => [
-				'type' => 'string',
-				'default' => '3',	
-			],
-			'titleDots' => [
-				'type' => 'boolean',
-				'default' => false,
-			],
-			'subTitleLimit' => [
-				'type' => 'boolean',
-				'default' => false,
-			],
-			'subTitleLimitOn' => [
-				'type' => 'string',
-				'default' => 'char',	
-			],
-			'subTitleCount' => [
-				'type' => 'string',
-				'default' => '3',	
-			],
-			'subTitleDots' => [
-				'type' => 'boolean',
-				'default' => false,
-			],
-			'subTitlePosition' => [
-				'type' => 'string',
-				'default' => 'onBottonTitle',	
-			],
-			'aniEffect' => [
-				'type' => 'string',
-				'default' => 'default',	
-			],
-			'aniPosition' => [
-				'type' => 'object',
-				'default' => [
-					'aniPositionX' => '',
-					'aniPositionY' => '',
-				],	
-			],
-			'animationScale' => [
-				'type' => 'object',
-				'default' => [
-					'animationScaleX' => '',
-					'animationScaleY' => '',
-					'animationScaleZ' => '',
-				],	
-			],
-			'animationRotate' => [
-				'type' => 'object',
-				'default' => [
-					'animationRotateX' => '',
-					'animationRotateY' => '',
-					'animationRotateZ' => '',
-				],	
-			],
-			'extrOpt' => [
-				'type' => 'object',
-				'default' => [
-					'animationOpacity' => '',
-					'animationSpeed' => '',
-					'animationDelay' => '',
-				],	
-			],
-			
-			'imgName' => [
-				'type' => 'object',
-				'default' => [
-					'url' => '',
-					'Id' => '',
-				],
-			],
-			'sepColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-						(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-heading-title .title-sep{ border-color: {{sepColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-4 .heading-title:after,{{PLUS_WRAP}}.heading-style-4 .heading-title:before{ background: {{sepColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-5 .vertical-divider{ background-color: {{sepColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-8 .title-sep{ border-color: {{sepColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'sepWidth' => [
-				'type' => 'object',
-				'default' => ["md" => "","unit" => "%"],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-3 .title-sep{ width: {{sepWidth}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'imgName.url', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-3 .seprator{ width: {{sepWidth}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-8 .seprator{ width: {{sepWidth}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'sepHeight' => [
-				'type' => 'object',
-				'default' => ["md" => "","unit" => "px"],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-3 .title-sep{ border-width: {{sepHeight}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			
-			'topSepHeight' => [
-				'type' => 'object',
-				'default' => ["md" => "","unit" => "px"],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-4 .heading-title:before{ height: {{topSepHeight}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'bottomSepHeight' => [
-				'type' => 'object',
-				'default' => ["md" => "","unit" => "px"],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-4 .heading-title:after{ height: {{bottomSepHeight}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'sepDotColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-6' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-6 .head-title:after{ color: {{sepDotColor}}; text-shadow:15px 0 {{sepDotColor}},-15px 0 {{sepDotColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-8 .sep-dot{ color: {{sepDotColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'septopspa' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'style', 'relation' => '==', 'value' => 'style-6' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-6 .head-title:after{ top : {{septopspa}}px; }',
-					]
-				],
-				'scopy' => true,
-			],
-			'titleType' => [
-				'type' => 'string',
-				'default' => 'h3',
-				'scopy' => true,
-			],
-			'titleTypo' => [
-				'type'=> 'object',
-				'default'=> (object) [
-					'openTypography' => 0,
-					'size' => [ 'md' => '', 'unit' => 'px' ],
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '!=', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title,{{PLUS_WRAP}}.heading_style .heading-title>a',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style > div',
-					],
-				],
-				'scopy' => true,
-			],
-			'titleColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '!=', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title,{{PLUS_WRAP}}.heading_style .heading-title>a{ color: {{titleColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style > div { color: {{titleColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'titleMargin' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => [
-						"top" => '',
-						"right" => '',
-						"bottom" => '',
-						"left" => '',
-					],
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title{margin: {{titleMargin}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style { margin: {{titleMargin}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'titlePadd' => [
-				'type' => 'object',
-				'default' => (object) [
-					'md' => [
-						"top" => '',
-						"right" => '',
-						"bottom" => '',
-						"left" => '',
-					],
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title{padding: {{titlePadd}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style { padding: {{titlePadd}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'titleB' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openBorder' => 0,
-					'type' => '',
-					'color' => '',
-					'width' => (object) [
-						'md' => (object)[
-							'top' => '',
-							'left' => '',
-							'bottom' => '',
-							'right' => '',
-						],
-						"unit" => "",
-					],
-				],
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style',
-					],
-				],
-				'scopy' => true,
-			],
-			'titleBRadius' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => [
-						"top" => '',
-						"right" => '',
-						"bottom" => '',
-						"left" => '',
-					],
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title{border-radius: {{titleBRadius}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style { border-radius: {{titleBRadius}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'titleBg' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openBg'=> 0,
-				],
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style',
-					],
-				],
-				'scopy' => true,
-			],
-			'titleShadow' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openShadow' => 0,
-					'blur' => 8,
-					'color' => "rgba(0,0,0,0.40)",
-					'horizontal' => 0,
-					'inset' => 0,
-					'spread' => 0,
-					'vertical' => 4
-				],
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-title',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'Title', 'relation' => '!=', 'value' => '' ], ['key' => 'style', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.heading-style-9 .sub-style',
-					],
-				],
-				'scopy' => true,
-			],
-			'subTitleType' => [
-				'type' => 'string',
-				'default' => 'h3',
-				'scopy' => true,
-			],
-			'subTitleTypo' => [
-				'type'=> 'object',
-				'default'=> (object) [
-					'openTypography' => 0,
-					'size' => [ 'md' => '', 'unit' => 'px' ],
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'subTitle', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-sub-title,{{PLUS_WRAP}}.heading_style .heading-sub-title>a',
-					],
-				],
-				'scopy' => true,
-			],
-			'subTitleColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'subTitle', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-sub-title,{{PLUS_WRAP}}.heading_style .heading-sub-title>a{ color: {{subTitleColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'subTitleMargin' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => [
-						"top" => '',
-						"right" => '',
-						"bottom" => '',
-						"left" => '',
-					],
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.heading_style .heading-sub-title{margin: {{subTitleMargin}};}',
-					],
-				],
-				'scopy' => true,
-			],
-			'extraTitleTypo' => [
-				'type'=> 'object',
-				'default'=> (object) [
-					'openTypography' => 0,
-					'size' => [ 'md' => '', 'unit' => 'px' ],
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'extraTitle', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.heading_style .title-s,{{PLUS_WRAP}}.heading_style .title-s>a',
-					],
-				],
-				'scopy' => true,
-			],
-			'extraTitleColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'extraTitle', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.heading_style .title-s,{{PLUS_WRAP}}.heading_style .title-s>a{ color: {{extraTitleColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			
-		);
-	$attributesOptions = array_merge($attributesOptions, $globalBgOption, $globalpositioningOption, $globalPlusExtrasOption);
-	
-	register_block_type( 'tpgb/tp-heading-title', array(
-		'attributes' => $attributesOptions,
-		'editor_script' => 'tpgb-block-editor-js',
-		'editor_style'  => 'tpgb-block-editor-css',
-        'render_callback' => 'tpgb_tp_heading_title_render_callback'
-    ) ); */
 	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_heading_title_render_callback');
 	register_block_type( $block_data['name'], $block_data );
 }

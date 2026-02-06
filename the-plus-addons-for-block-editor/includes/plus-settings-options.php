@@ -15,6 +15,7 @@ class Tpgb_Gutenberg_Settings_Options {
      * @var string
      */
     protected $setting_name = '';
+    protected $setting_logo = '';
 	
 	/**
      * Options Page hook
@@ -29,27 +30,28 @@ class Tpgb_Gutenberg_Settings_Options {
      */
     public function __construct() {
 		if( is_admin() ){
-            
+
             add_action('init', [$this, 'nexter_block_init']);
 		
 			add_action( 'wp_ajax_tpgb_blocks_opts_save', array( $this,'tpgb_blocks_opts_save_action') );
 			add_action( 'wp_ajax_tpgb_connection_data_save', array( $this,'tpgb_connection_data_save_action') );
 			add_action( 'wp_ajax_tpgb_custom_css_js_save', array( $this,'tpgb_custom_css_js_save_action') );
-			
 			add_action( 'wp_ajax_tpgb_is_block_used_not', array( $this, 'tpgb_is_block_used_not_fun' ) );
 			add_action( 'wp_ajax_tpgb_unused_disable_block', array( $this, 'tpgb_disable_unsed_block_fun' ) );
 			add_action( 'wp_ajax_tpgb_performance_opt_cache', array( $this,'tpgb_performance_opt_cache_save_action') );
 			
-			add_action( 'admin_enqueue_scripts', array( $this, 'tpgb_dash_admin_scripts' ), 10, 1 );
-
+            if(!defined('NEXTER_EXT_VER')){
+			    add_action( 'admin_enqueue_scripts', array( $this, 'tpgb_dash_admin_scripts' ), 10, 1 );
+            }
 			// Install WdesignKit
-			add_action( 'wp_ajax_nxt_install_wdesign', array( $this,'nxt_install_wdesign') );
+			add_action( 'wp_ajax_nexter_ext_plugin_install', [ $this, 'nexter_ext_plugin_install_ajax']);
 
 			// Remove All Notice From Dashboard Screnn
 			add_action( 'admin_head', array( $this,'nxt_remove_admin_notices_page') );
 
+
 			// Install Nexter Theme
-			add_action( 'wp_ajax_nxt_install_theme', array( $this,'nxt_install_theme') );
+			add_action( 'wp_ajax_nexter_ext_theme_install', array( $this,'nexter_ext_theme_install_ajax') );
 
 			// add Filter to Enable All Block 
 			add_filter( 'tpgb_blocks_enable_all', array( $this, 'tpgb_blocks_enable_all_filter' ) );
@@ -58,13 +60,24 @@ class Tpgb_Gutenberg_Settings_Options {
 			add_filter( 'tpgb_disable_unsed_block_filter', array( $this, 'tpgb_disable_unsed_block_filter_fun' ) );
 
             // Wdesignkit Block Enable Ajax
-            add_action( 'wp_ajax_nxt_wdk_widget_ajax_call', array( $this,'nxt_wdk_widget_ajax_call') );
-			
+            add_action( 'wp_ajax_nxt_wdk_widget_ajax_call', array( $this,'nxt_wdk_widget_ajax_callback') );
+
             // WDesignKit Template Block List Merge hook
             add_filter( 'nexter_block_list_merge', [$this, 'nexter_block_list_merge_action'] , 10, 1 );
 
             // Store User Data in Database From Onborading
             add_action('wp_ajax_nxt_boarding_store', array($this, 'nxt_block_boarding_store'));
+
+            add_filter( 'nxt_dashboard_localize_data', array( $this, 'localize_data' ),10,1 );
+
+            add_filter( 'admin_body_class', function( $classes ) {
+                if ( isset($_GET['page']) && $_GET['page'] === 'nxt_builder' ) {
+                    $classes .= ' post-type-nxt_builder nxt-page-nexter-builder ';
+                }
+                return $classes;
+            }, 11);
+
+            add_action( 'wp_ajax_nexter_temp_api_call', [ $this, 'nexter_temp_api_call' ] );
 		}
 		
     }
@@ -74,12 +87,14 @@ class Tpgb_Gutenberg_Settings_Options {
      * @since 4.2.0
      */
 
-    public function nexter_block_init(){
+     public function nexter_block_init(){
         if(defined('TPGBP_VERSION')){
             $options = get_option( 'tpgb_white_label' );
-            $this->setting_name = (!empty($options['tpgb_plugin_name'])) ? $options['tpgb_plugin_name'] : __('Nexter Blocks','the-plus-addons-for-block-editor');
+            $this->setting_name = ( isset($options['brand_name']) && !empty($options['brand_name']) ) ? $options['brand_name'] : ( !empty($options['tpgb_plugin_name'])  ? $options['tpgb_plugin_name'] : __('Nexter','the-plus-addons-for-block-editor') ) ;
+			$this->setting_logo = ( isset($options['theme_logo']) && !empty($options['theme_logo']) ) ? $options['theme_logo'] : ( isset($options['tpgb_plus_logo']) && !empty($options['tpgb_plus_logo'])  ? $options['tpgb_plus_logo'] : esc_url(TPGB_URL . 'dashboard/assets/svg/nexter-logo.svg') );
         }else{
-            $this->setting_name = esc_html__('Nexter Blocks', 'the-plus-addons-for-block-editor');
+            $this->setting_name = esc_html__('Nexter', 'the-plus-addons-for-block-editor');
+			$this->setting_logo = esc_url(TPGB_URL . 'dashboard/assets/svg/nexter-logo.svg');
         }
 
         $this->block_listout();
@@ -92,33 +107,119 @@ class Tpgb_Gutenberg_Settings_Options {
 	public function hooks() {
 		if( is_admin() ){
             add_action( 'nxt_new_update_notice' , array( $this, 'nxt_new_update_notice_callback' ) );
-			add_action('admin_menu', array( $this, 'add_options_page' ));
+            if( !defined('NEXTER_EXT_VER') ){
+			    add_action('admin_menu', array( $this, 'add_options_page' ));
+            }
 		}
     }
-	
+
     /**
-     * Add action to Update Notice Count
-     * @since 4.2.1
+     * Replace Textdomain Recursive
+     * @since 4.6.0
      */
+    public function nxt_replace_blockcate_domain( $array ) {
+
+        foreach ( $array as $key => $item ) {
+            if ( isset( $item['block_cate'] ) ) {
+    
+                // Replace ONLY the text-domain inside esc_html__()
+                $array[$key]['block_cate'] = str_replace(
+                    "the-plus-addons-for-block-editor",
+                    "nexter-extension",
+                    $item['block_cate']
+                );
+            }
+        }
+    
+        return $array;
+    }
+
+    /**
+     * Localize Data
+     * @since 4.6.0
+     */
+    public function localize_data( $data ) {
+		$default_load=get_option( 'tpgb_normal_blocks_opts' );
+		//Apply Filters
+        $nxt_format_widget = [];
+        if ( has_filter( 'nxt_wdk_widget_ajax_call' ) ) {
+            $wdk_widget_data = apply_filters('nxt_wdk_widget_ajax_call', 'nxt_wdk_get_widget_ajax');
+            foreach ($wdk_widget_data as $block) {
+                $uniqueKey = isset($block['title']) ? $block['title'] : 'block_' . $block['id'];
+            
+                $nxt_format_widget[$uniqueKey] = [
+                    'label'      => esc_html($block['title']),
+                    'demoUrl'    => esc_url($block['live_demo']),
+                    'docUrl'     => '',
+                    'videoUrl'   => '',
+                    'tag'        => $block['free_pro'] === 'pro' ? 'pro' : 'free',
+                    'block_cate' => esc_html__('WDesignKit', 'nexter-extension'),
+                    'keyword'    => [],
+                    'w_unique'   => $block['id'],
+                    'uniqueId'   => $block['w_unique'],
+                ];
+                if (isset($block['w_type']) && !empty($block['w_type'])) {
+                    if( $block['w_type'] === 'Publish' ){
+                        $nxt_format_widget[$uniqueKey]['w_type'] = 'Publish';
+                    }else if( $block['w_type'] === 'Draft' ){
+                        $nxt_format_widget[$uniqueKey]['w_type'] = 'Draft';
+                    }
+                    
+                }
+            }
+        }
+		
+        $ext_option = get_option('tpgb_connection_data');
+
+        if ( is_array($ext_option) && isset($ext_option['nxtAiSettings']) && ! empty($ext_option['nxtAiSettings']) ) {
+            $decrypted = Tp_Blocks_Helper::tpgb_simple_decrypt( $ext_option['nxtAiSettings'], 'dy' );
+
+            // Convert JSON string → PHP array
+            $decoded = json_decode($decrypted, true);
+
+            // Safety check
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $ext_option['nxtAiSettings'] = $decoded;
+            } else {
+                // Fallback: keep decrypted string if JSON fails
+                $ext_option['nxtAiSettings'] = $decrypted;
+            }
+        }
+
+		//Merge WDesignKit Block List
+		$data['tpgb_nonce'] = wp_create_nonce( 'nexter_admin_nonce' );
+		$data['tpgb_url'] = TPGB_URL.'dashboard/';
+		$data['tpgb_pro'] = defined('TPGBP_VERSION');
+		$data['dashData']['blockList'] = array_merge($this->nxt_replace_blockcate_domain($this->block_lists),$this->nxt_replace_blockcate_domain($this->block_extra),(array) $nxt_format_widget);
+		$data['dashData']['avtiveBlock'] = ( isset( $default_load['enable_normal_blocks'] )  && is_array( $default_load['enable_normal_blocks'] ) ) ? count( array_filter( $default_load['enable_normal_blocks'], function( $block ) { return strpos( $block, 'tp-' ) === 0; }) ) : 0;
+		$data['dashData']['enableBlock'] = array_merge( is_array($default_load['enable_normal_blocks']) ? $default_load['enable_normal_blocks'] : [], isset($default_load['tp_extra_option']) && is_array($default_load['tp_extra_option']) ? $default_load['tp_extra_option'] : [] );
+		$data['dashData']['extOption'] = $ext_option;
+		$data['dashData']['rollbacVer'] = Tpgb_Rollback::get_rollback_versions();
+		$data['dashData']['tpgb_keyActmsg'] = class_exists('Tpgb_Pro_Library') ? Tpgb_Pro_Library::tpgb_pro_activate_msg() : '';
+		//$data['dashData']['nxtactivateKey'] = get_option('tpgb_activate');
+		$data['dashData']['tpgb_activePlan'] = ( class_exists('Tpgb_Pro_Library') && method_exists('Tpgb_Pro_Library', 'tpgb_get_activate_plan') ) ? Tpgb_Pro_Library::tpgb_get_activate_plan() : '';
+		$data['dashData']['cacheData'] = [ get_option('tpgb_performance_cache') , get_option('tpgb_delay_css_js') , get_option('tpgb_defer_css_js') ];
+		$data['dashData']['customCode'] = get_option('tpgb_custom_css_js');
+        $data['dashData']['nxt_onboarding'] = get_option('nxt_onboarding_done');
+        $data['dashData']['nxt_wdkit_url'] = 'https://wdesignkit.com/';
+        $data['dashData']['extensionPro'] = defined('NXT_PRO_EXT_VER');
+        $data['dashData']['tpgbRollbackUrl'] = wp_nonce_url(admin_url('admin-post.php?action=tpgb_rollback&version=TPGB_VERSION'), 'tpgb_rollback');
+		return $data;
+	}
 
     public function nxt_new_update_notice_callback(){
-        $data = get_option( 'nxt_menu_notice_count', [] );
+        $data = get_option( 'nxt_ext_menu_notice_count', [] );
         if ( ! is_array( $data ) ) {
             $data = [];
         }
         $flag = isset( $data['notice_flag'] ) ? intval( $data['notice_flag'] ) : 1;
         $data['menu_notice_count'] = $flag;
-        update_option( 'nxt_menu_notice_count', $data );
+        update_option( 'nxt_ext_menu_notice_count', $data );
 
     }
 
-    /**
-     * Condition to Check Notice Show
-     * @since 4.2.1
-     */
-
-     public function nxt_notice_should_show(){
-        $data = get_option( 'nxt_menu_notice_count', [] );
+    public function nxt_notice_should_show(){
+        $data = get_option( 'nxt_ext_menu_notice_count', [] );
         if ( ! is_array( $data ) ) {
             return false;
         }
@@ -132,18 +233,105 @@ class Tpgb_Gutenberg_Settings_Options {
      * @since 1.0.0
      */
 	public function add_options_page(){
-		add_menu_page( $this->setting_name, $this->setting_name, 'manage_options', 'nexter_welcome_page', array( $this, 'admin_page_display' ),'dashicons-tpgb-plus-settings' , 58.5 );
+		global $submenu;
+		unset($submenu['themes.php'][20]);
+		unset($submenu['themes.php'][15]);
 
-		add_submenu_page( 'nexter_welcome_page', esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), 'manage_options', esc_url( admin_url('edit.php?post_type=wp_block') ));
+        $options = get_option( 'tpgb_white_label' );
+        
+        // Set default or dynamic icon
+        $menu_icon = 'dashicons-nxt-builder-groups';
+        if ( isset( $options['theme_logo'] ) && !empty( $options['theme_logo'] ) ) {
+            $menu_icon = esc_url( $options['theme_logo'] );
+        }else if( isset( $options['tpgb_plus_logo'] ) && !empty( $options['tpgb_plus_logo'] ) ) {
+            $menu_icon = esc_url( $options['tpgb_plus_logo'] );
+        }
+
+		add_menu_page( 
+			esc_html( $this->setting_name ),
+			esc_html( $this->setting_name ),
+			'manage_options',
+			'nexter_welcome',
+			array( $this, 'nexter_ext_dashboard' ),
+			$menu_icon,
+			58
+		);
+
+		add_submenu_page(
+			'nexter_welcome',
+			__( 'Dashboard', 'the-plus-addons-for-block-editor' ),
+			__( 'Dashboard', 'the-plus-addons-for-block-editor' ),
+			'manage_options',
+			'nexter_welcome',
+		);
+
+        if( !isset($options['nxt_template_tab']) || ( isset($options['nxt_template_tab']) && $options['nxt_template_tab'] !== 'on' )  ) {
+            add_submenu_page(
+                'nexter_welcome',
+                __( 'Templates', 'the-plus-addons-for-block-editor' ),
+                __( 'Templates', 'the-plus-addons-for-block-editor' ),
+                'manage_options',
+                'nexter_welcome#/templates',
+                array( $this, 'nexter_ext_dashboard' ),
+            );
+        }
+		add_submenu_page(
+			'nexter_welcome',
+			__( 'Blocks', 'the-plus-addons-for-block-editor' ),
+			__( 'Blocks', 'the-plus-addons-for-block-editor' ),
+			'manage_options',
+			'nexter_welcome#/blocks',
+			array( $this, 'nexter_ext_dashboard' ),
+		);
+        add_submenu_page(
+            'nexter_welcome',
+            __( 'Theme Builder', 'the-plus-addons-for-block-editor' ),
+            __( 'Theme Builder', 'the-plus-addons-for-block-editor' ),
+            'manage_options',
+            'nxt_builder',
+            array($this, 'nexter_blocks_builder_display')
+        );
+		add_submenu_page(
+			'nexter_welcome',
+			__( 'Code Snippets', 'the-plus-addons-for-block-editor' ),
+			__( 'Code Snippets', 'the-plus-addons-for-block-editor' ),
+			'manage_options',
+			'nxt_code_snippets',
+			array($this, 'nexter_code_snippet_display'),
+		);
+		add_submenu_page(
+			'nexter_welcome',
+			__( 'Extensions', 'the-plus-addons-for-block-editor' ),
+			__( 'Extensions', 'the-plus-addons-for-block-editor' ),
+			'manage_options',
+			'nexter_welcome#/utilities',
+			array( $this, 'nexter_ext_dashboard' ),
+		);
+		add_submenu_page(
+			'nexter_welcome',
+			__( 'Theme Customizer', 'the-plus-addons-for-block-editor' ),
+			__( 'Theme Customizer', 'the-plus-addons-for-block-editor' ),
+			'manage_options',
+			'nexter_welcome#/theme_customizer',
+			array( $this, 'nexter_ext_dashboard' ),
+		);
+        
+        add_submenu_page( 'nexter_welcome', esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), 'manage_options', esc_url( admin_url('edit.php?post_type=wp_block') ));
 
 		if( !defined('TPGBP_VERSION') ){
-			add_submenu_page( 'nexter_welcome_page', esc_html__( 'Upgrade Now', 'the-plus-addons-for-block-editor' ), esc_html__( 'Upgrade Now', 'the-plus-addons-for-block-editor' ), 'manage_options', esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings'));
+			add_submenu_page( 
+				'nexter_welcome', 
+				esc_html__( 'Get Pro Nexter', 'the-plus-addons-for-block-editor' ), 
+				esc_html__( 'Get Pro Nexter', 'the-plus-addons-for-block-editor' ), 
+				'manage_options', 
+				esc_url('https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings')
+			);
 		}
-
+        
 		add_action('admin_footer', array($this, 'nxt_link_in_new_tab'));
 
 		// Hook to modify the submenu head title
-		add_action('admin_menu', array($this, 'nxt_submenu_head_title') , 101);
+		//add_action('admin_menu', array($this, 'nxt_submenu_head_title') , 101);
 	}
 
 	/**
@@ -152,8 +340,8 @@ class Tpgb_Gutenberg_Settings_Options {
      */
 	public function nxt_submenu_head_title() {
 		global $submenu;
-		if ( isset($submenu['nexter_welcome_page'] )) {
-			$submenu['nexter_welcome_page'][0][0] = esc_html__( 'Dashboard', 'the-plus-addons-for-block-editor' );
+		if ( isset($submenu['nexter_welcome'] )) {
+			$submenu['nexter_welcome'][0][0] = esc_html__( 'Dashboard', 'the-plus-addons-for-block-editor' );
 		}
 	}
 
@@ -170,42 +358,114 @@ class Tpgb_Gutenberg_Settings_Options {
 					upgradeLink.setAttribute('target', '_blank');
 					upgradeLink.setAttribute('rel', 'noopener noreferrer');
 				}
-                <?php if( $this->nxt_notice_should_show() ) { ?>
-                    var menuItem = document.querySelector('.toplevel_page_nexter_welcome_page.menu-top');
+                <?php if( $this->nxt_notice_should_show() ) { ?> 
+                    var menuItem = document.querySelector('.toplevel_page_nexter_welcome.menu-top');
                     if (menuItem) {
                         menuItem.classList.add('nxt-admin-notice-active');
-                    }
+                    } 
                 <?php } ?>
+
+                // const menuLinks = document.querySelectorAll( "#toplevel_page_nexter_welcome_page .wp-submenu a" );
+
+                // menuLinks.forEach((link) => {
+                //     if (link.href.includes("nexter_welcome_page#")) {
+                //     link.addEventListener("click", (e) => {
+                //         e.preventDefault();
+                //         const url = new URL(link.href);
+                //         window.location.hash = url.hash; // update hash only
+                //     });
+                //     }
+                // });
 			});
 		</script>
 		<?php
 	}
 
-	
-	/**
+	/*
 	 * Enqueue DashBoard Scripts admin area.
-	 *
-	 * @since   1.0.0
-	 *
-	 * @param string $page use for check page type.
+	 * @since 2.0.0
+	 */
+	/*
+	 * Enqueue DashBoard Scripts admin area.
+	 * @since 2.0.0
 	 */
 	public function tpgb_dash_admin_scripts( $page ) {
-		
-		$slug = array( 'toplevel_page_nexter_welcome_page' );
-		if ( ! in_array( $page, $slug, true ) ) {
-			return;
+        
+        $wdadded = false;
+		$nxtextension = false;
+
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		$pluginslist = get_plugins();
+		if ( isset( $pluginslist[ 'wdesignkit/wdesignkit.php' ] ) && !empty( $pluginslist[ 'wdesignkit/wdesignkit.php' ] ) ) {
+			if( is_plugin_active('wdesignkit/wdesignkit.php') ){
+				$wdadded = true;
+			}
 		}
 
-		$this->tpgb_dash_enqueue_style();
-		$this->tpgb_dash_enqueue_scripts();
+        $extensionactivate = false;
+		if ( isset( $pluginslist[ 'nexter-extension/nexter-extension.php' ] ) && !empty( $pluginslist[ 'nexter-extension/nexter-extension.php' ] ) ) {
+			if( is_plugin_active('nexter-extension/nexter-extension.php') ){
+				$nxtextension = true;
+			}else{
+                $extensionactivate = true;
+            }
+		}
+
+		if ( isset($_GET['page']) && $_GET['page'] === 'nexter_welcome') {
+			$this->tpgb_dash_enqueue_style();
+		    $this->tpgb_dash_enqueue_scripts();
+		}else if( isset($_GET['page']) && $_GET['page'] === 'nxt_builder' ){
+            // Theme Builder JS Enqueue
+            wp_enqueue_style( 'nexter-theme-builder', TPGB_URL . 'dashboard/theme-builder/build/index.css', array(), TPGB_VERSION, 'all' );
+
+            wp_enqueue_script( 'nexter-theme-builder', TPGB_URL . 'dashboard/theme-builder/build/index.js', array('react', 'react-dom', 'wp-dom-ready', 'wp-i18n'), TPGB_VERSION, true );
+
+            $nexter_theme_builder_config = array(
+                'adminUrl' => admin_url(),
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'ajax_nonce' => wp_create_nonce('nexter_admin_nonce'),
+                'assets' => TPGB_URL . 'dashboard/theme-builder/assets/',
+                'is_pro' => (defined('NXT_PRO_EXT')) ? true : false,
+                'dashboard_url' => admin_url( 'admin.php?page=nexter_welcome' ),
+                'version' => TPGB_VERSION,
+                'import_temp_nonce' => wp_create_nonce('nxt_ajax'),
+                'wdkPlugin' => $wdadded,
+                'extensioninstall' => $nxtextension,
+                'extensionactivate' => $extensionactivate,
+            );
+
+            wp_localize_script( 'nexter-theme-builder', 'nexter_theme_builder_config', $nexter_theme_builder_config );
+
+            wp_set_script_translations( 'nexter-theme-builder', 'the-plus-addons-for-block-editor', TPGB_PATH . '/languages/');
+            
+        }else if( isset($_GET['page']) && $_GET['page'] === 'nxt_code_snippets' ){
+           
+            wp_enqueue_style( 'nxt-code-snippet-style', TPGB_URL . 'dashboard/code-snippets/index.css', array(), TPGB_VERSION, 'all' );
+
+            wp_enqueue_script( 'nxt-code-snippet', TPGB_URL . 'dashboard/code-snippets/index.js', array(), TPGB_VERSION, true );
+            
+            // Attach JavaScript translations
+            wp_set_script_translations(
+                'nxt-code-snippet',
+                'the-plus-addons-for-block-editor',
+            );
+            wp_localize_script(
+                'nxt-code-snippet',
+                'nxt_code_snippet_data',
+                array(
+                    'ajax_url'    => admin_url( 'admin-ajax.php' ),
+                    'ajax_nonce' => wp_create_nonce('nexter_admin_nonce'),
+                    'extensioninstall' => $nxtextension,
+                    'extensionactivate' => $extensionactivate,
+                )
+            );
+        }
+		
 	}
 
-	/**
+	/*
 	 * Enqueue Styles admin area.
-	 *
-	 * @since   1.0.0
-	 *
-	 * @param string $page use for check page type.
+	 * @since 2.0.0
 	 */
 	public function tpgb_dash_enqueue_style() {
 		wp_enqueue_style( 'tpgb-dash-style', TPGB_URL . 'dashboard/build/index.css', array(), TPGB_VERSION, 'all' );
@@ -214,7 +474,7 @@ class Tpgb_Gutenberg_Settings_Options {
 	/**
 	 * Enqueue script admin area.
 	 *
-	 * @since   1.0.0
+	 * @since 2.0.0
 	 */
 	public function tpgb_dash_enqueue_scripts() {
 		$user = wp_get_current_user();
@@ -224,40 +484,64 @@ class Tpgb_Gutenberg_Settings_Options {
 		$wdadded = false;
 		$nxtextension = false;
 		$uichemy = false;
-        $nxtheme = false;
+		$nxtheme = false;
         $plusAddons = false ;
 
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
 		$pluginslist = get_plugins();
+
+        $wdkactive = false;
 		if ( isset( $pluginslist[ 'wdesignkit/wdesignkit.php' ] ) && !empty( $pluginslist[ 'wdesignkit/wdesignkit.php' ] ) ) {
 			if( is_plugin_active('wdesignkit/wdesignkit.php') ){
 				$wdadded = true;
-			}
+			}else{
+                $wdkactive = true;
+            }
 		}
 
+        $extensionactivate = false;
 		if ( isset( $pluginslist[ 'nexter-extension/nexter-extension.php' ] ) && !empty( $pluginslist[ 'nexter-extension/nexter-extension.php' ] ) ) {
 			if( is_plugin_active('nexter-extension/nexter-extension.php') ){
 				$nxtextension = true;
-			}
+			}else{
+                $extensionactivate = true;
+            }
 		}
 
+        $nxtPlugin = false;
+        $tpgbactivate = false;
+        if ( isset( $pluginslist[ 'the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php' ] ) && !empty( $pluginslist[ 'the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php' ] ) ) {
+            if( is_plugin_active('the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php') ){
+                $nxtPlugin = true;
+            }else{
+                $tpgbactivate = true;
+            }
+        }
+
+        $uichemyactive = false;
 		if ( isset( $pluginslist[ 'uichemy/uichemy.php' ] ) && !empty( $pluginslist[ 'uichemy/uichemy.php' ] ) ) {
 			if( is_plugin_active('uichemy/uichemy.php') ){
 				$uichemy = true;
+			}else{
+                $uichemyactive = true;
 			}
 		}
 
 		$active_theme = wp_get_theme();
 		$theme_name = $active_theme->get('Name');
 		if( isset($theme_name) && !empty($theme_name) && $theme_name == 'Nexter' ){
-				$nxtheme = true;
+			$nxtheme = true;
 		}else if ( file_exists( WP_CONTENT_DIR.'/themes/'.'nexter') && $theme_name != 'Nexter' ) {
-				$nxtheme = 'available';
+			$nxtheme = 'available';
 		}
 
+        $tpaeactive = false;
         if ( isset( $pluginslist[ 'the-plus-addons-for-elementor-page-builder/theplus_elementor_addon.php' ] ) && !empty( $pluginslist[ 'the-plus-addons-for-elementor-page-builder/theplus_elementor_addon.php' ] ) ) {
             if( is_plugin_active('the-plus-addons-for-elementor-page-builder/theplus_elementor_addon.php') ){
                 $plusAddons = true;
+            }else{
+                $tpaeactive = true;
             }
         }
 
@@ -279,6 +563,7 @@ class Tpgb_Gutenberg_Settings_Options {
                     'w_unique'   => $block['id'],
                     'uniqueId'   => $block['w_unique'],
                 ];
+
                 if (isset($block['w_type']) && !empty($block['w_type'])) {
                     if( $block['w_type'] === 'Publish' ){
                         $nxt_format_widget[$uniqueKey]['w_type'] = 'Publish';
@@ -289,8 +574,36 @@ class Tpgb_Gutenberg_Settings_Options {
                 }
             }
         }
+        
+        if ( is_multisite() ) {
+            $main_site_id = get_main_site_id();
+            $licence_key = get_blog_option( $main_site_id, 'tpgb_activate', [] );
+            if(empty($licence_key)){
+                    $licence_key = get_option('tpgb_activate');
+            }
+        }else{
+                $licence_key = get_option('tpgb_activate');
+        }
 
 		if ( $user ){
+
+            $ext_option = get_option('tpgb_connection_data');
+
+            if ( is_array($ext_option) && isset($ext_option['nxtAiSettings']) && ! empty($ext_option['nxtAiSettings']) ) {
+                $decrypted = Tp_Blocks_Helper::tpgb_simple_decrypt( $ext_option['nxtAiSettings'], 'dy' );
+
+                // Convert JSON string → PHP array
+                $decoded = json_decode($decrypted, true);
+
+                // Safety check
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $ext_option['nxtAiSettings'] = $decoded;
+                } else {
+                    // Fallback: keep decrypted string if JSON fails
+                    $ext_option['nxtAiSettings'] = $decrypted;
+                }
+            }
+
 			$dashData = [
 				'userData' => [
 					'userName' => esc_html($user->display_name),
@@ -298,212 +611,237 @@ class Tpgb_Gutenberg_Settings_Options {
                     'userEmail' => get_option('admin_email'),
                     'siteUrl' => get_option('siteurl'),
 				],
-				'blockList' => array_merge($this->block_lists,$this->block_extra,(array) $nxt_format_widget),
+                'whiteLabelData' => [
+                        'brandname' => $this->setting_name,
+                        'brandlogo' => $this->setting_logo
+                    ],
+				'blockList'   => array_merge( $this->block_extra, $this->block_lists,(array) $nxt_format_widget),
 				'avtiveBlock' => ( isset( $default_load['enable_normal_blocks'] )  && is_array( $default_load['enable_normal_blocks'] ) ) ? count( array_filter( $default_load['enable_normal_blocks'], function( $block ) { return strpos( $block, 'tp-' ) === 0; }) ) : 0,
 				'enableBlock' => array_merge( is_array($default_load['enable_normal_blocks']) ? $default_load['enable_normal_blocks'] : [], isset($default_load['tp_extra_option']) && is_array($default_load['tp_extra_option']) ? $default_load['tp_extra_option'] : [] ),
-				'extOption' => get_option('tpgb_connection_data'),
+				'extOption' => $ext_option,
 				'cacheData' => [ get_option('tpgb_performance_cache') , get_option('tpgb_delay_css_js') , get_option('tpgb_defer_css_js') ],
 				'customCode' => get_option('tpgb_custom_css_js'),
 				'rollbacVer' => Tpgb_Rollback::get_rollback_versions(),
-				'rollbackUrl' => $rollback_url,
+				'tpgbRollbackUrl' => $rollback_url,
 				'wdadded' => $wdadded,
-				'wdTemplates' => [], 
+                'nexterBlock' => $nxtPlugin,
+                'tpgbinstall' => $nxtPlugin,
+                'nexterThemeActive' => (defined('NXT_VERSION')) ? true : false,
+				'wdTemplates' => [],
 				'nexterext' => $nxtextension,
+                'extensioninstall'=>$nxtextension,
+                'extensionPro' =>  defined('NXT_PRO_EXT_VER'),
 				'wpVersion' => get_bloginfo('version'),
 				'pluginVer' => TPGB_VERSION,
 				'uichemy' => $uichemy,
 				'nextheme' => $nxtheme,
+                'nexterThemeIntall' =>  $nxtheme,
+                'nexterCustLink' => admin_url('customize.php'),
 				'whiteLabel' => get_option('tpgb_white_label'),
 				'keyActmsg' => class_exists('Tpgb_Pro_Library') ? Tpgb_Pro_Library::tpgb_pro_activate_msg() : '',
-				'nxtactivateKey' => get_option('tpgb_activate'),
+				'nxtactivateKey' => $licence_key,
 				'activePlan' => ( class_exists('Tpgb_Pro_Library') && method_exists('Tpgb_Pro_Library', 'tpgb_get_activate_plan') ) ? Tpgb_Pro_Library::tpgb_get_activate_plan() : '',
                 'showSidebar' => $this->nxt_notice_should_show(),
                 'nxt_onboarding' => get_option('nxt_onboarding_done'),
-                'plusAddons'=>$plusAddons,
+                'tpaeAddon'=>$plusAddons,
+                'nxtThemeSetting' => (array) get_option( 'nexter_settings_opts', [] ),
+                'nxt_wdkit_url'=> 'https://wdesignkit.com/',
+                'extensionactivate' => $extensionactivate,
+                'tpgbactivate' => $tpgbactivate,
+                'tpaeactive' => $tpaeactive,
+                'wdkactive' => $wdkactive,
+                'uichemyactive' => $uichemyactive,
+                'nexterThemeDet' => admin_url('themes.php').'?theme=nexter'
 			];
 		}
 
-		wp_enqueue_script( 'tpgb-dashscript', TPGB_URL . 'dashboard/build/index.js', array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element','wp-i18n' ), TPGB_VERSION, true );
-		wp_set_script_translations( 'tpgb-dashscript', 'the-plus-addons-for-block-editor' );
+		wp_enqueue_script( 'nexter-dashscript', TPGB_URL . 'dashboard/build/index.js', array( 'react', 'react-dom','wp-i18n', 'wp-dom-ready', 'wp-element','wp-components', 'wp-block-editor', 'wp-editor' ), TPGB_VERSION, true );
+        
 		wp_localize_script(
-			'tpgb-dashscript',
-			'tpgb_ajax_object',
+			'nexter-dashscript',
+			'nxtext_ajax_object',
 			array(
 				'adminUrl' => admin_url(),
 				'ajax_url'    => admin_url( 'admin-ajax.php' ),
-				'nonce'       => wp_create_nonce( 'tpgb-dash-ajax-nonce' ),
+				'ajax_nonce'       => wp_create_nonce( 'nexter_admin_nonce' ),
+                'nxtex_url' => TPGB_URL . 'dashboard/',
 				'tpgb_url' => TPGB_URL.'dashboard/',
 				'pro' => defined('TPGBP_VERSION'),
 				'dashData' => $dashData
 			)
 		);
+
+        wp_set_script_translations( 'nexter-dashscript', 'the-plus-addons-for-block-editor' , TPGB_PATH . '/languages/' );
 	}
-	
+
 	/*
 	 * Install Wdesignkit Plugin
 	 * @since 1.4.0
 	 */
-	public function nxt_install_wdesign(){
-		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
+    public function nexter_ext_plugin_install_ajax(){
 
-		if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'the-plus-addons-for-block-editor' ) ) );
-		}
+        check_ajax_referer( 'nexter_admin_nonce', 'nexter_nonce' );
 
-		$plu_slug = ( isset( $_POST['slug'] ) && !empty( $_POST['slug'] ) ) ? sanitize_text_field($_POST['slug']) : '';
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'the-plus-addons-for-block-editor' ) ) );
+        }
 
-        $plugin_file_map = [
-            'the-plus-addons-for-elementor-page-builder' => 'theplus_elementor_addon.php',
-        ];
-        
-        $plugin_file = isset($plugin_file_map[$plu_slug]) ? $plugin_file_map[$plu_slug] : $plu_slug.'.php';
-        
-        $plugin_basename = $plu_slug.'/'.$plugin_file;
+        $plu_slug = ( isset( $_POST['slug'] ) && !empty( $_POST['slug'] ) ) ? sanitize_text_field( wp_unslash($_POST['slug']) ) : '';
 
-		$installed_plugins = get_plugins();
 
-		include_once ABSPATH . 'wp-admin/includes/file.php';
-		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		include_once ABSPATH . 'wp-admin/includes/class-automatic-upgrader-skin.php';
-		include_once ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php';
+        $phpFileName = $plu_slug;
+        if(!empty($plu_slug) && $plu_slug == 'the-plus-addons-for-elementor-page-builder'){
+            $phpFileName = 'theplus_elementor_addon';
+        }
 
-		$result   = array();
-		$response = wp_remote_post(
-			'http://api.wordpress.org/plugins/info/1.0/',
-			array(
-				'body' => array(
-					'action'  => 'plugin_information',
-					'request' => serialize(
-						(object) array(
-							'slug'   => $plu_slug,
-							'fields' => array(
-								'version' => false,
-							),
-						)
-					),
-				),
-			)
-		);
+        $installed_plugins = get_plugins();
 
-		$plugin_info = unserialize( wp_remote_retrieve_body( $response ) );
+        include_once ABSPATH . 'wp-admin/includes/file.php';
+        include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+        include_once ABSPATH . 'wp-admin/includes/class-automatic-upgrader-skin.php';
+        include_once ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php';
 
-		if ( ! $plugin_info ) {
-			wp_send_json_error( array( 'content' => __( 'Failed to retrieve plugin information.', 'the-plus-addons-for-block-editor' ) ) );
-		}
+        $result   = array();
+        $response = wp_remote_post(
+            'http://api.wordpress.org/plugins/info/1.0/',
+            array(
+                'body' => array(
+                    'action'  => 'plugin_information',
+                    'request' => serialize(
+                        (object) array(
+                            'slug'   => $plu_slug,
+                            'fields' => array(
+                                'version' => false,
+                            ),
+                        )
+                    ),
+                ),
+            )
+        );
 
-		$skin     = new \Automatic_Upgrader_Skin();
-		$upgrader = new \Plugin_Upgrader( $skin );
+        $plugin_info = unserialize( wp_remote_retrieve_body( $response ) );
 
-		$plugin_basename = ''.esc_attr($plu_slug).'/'.esc_attr($plu_slug).'.php';
-		
-		if ( ! isset( $installed_plugins[ $plugin_basename ] ) && empty( $installed_plugins[ $plugin_basename ] ) ) {
-			$installed = $upgrader->install( $plugin_info->download_link );
+        if ( ! $plugin_info ) {
+            wp_send_json_error( array( 'content' => __( 'Failed to retrieve plugin information.', 'the-plus-addons-for-block-editor' ) ) );
+        }
 
-			$activation_result = activate_plugin( $plugin_basename );
+        $skin     = new \Automatic_Upgrader_Skin();
+        $upgrader = new \Plugin_Upgrader( $skin );
 
-			$success = null === $activation_result;
-            add_option('wkit_onbording_end ', true);
+        $plugin_basename = ''.$plu_slug.'/'.$phpFileName.'.php';
 
-            // Elementor Disable in WDK plugin
-            $settings = array('gutenberg_builder' => true,'gutenberg_template' => true,);              
-            $builder = array( 'elementor');             
+        if ( ! isset( $installed_plugins[ $plugin_basename ] ) && empty( $installed_plugins[ $plugin_basename ] ) ) {
+            $installed = $upgrader->install( $plugin_info->download_link );
+            $activation_result = activate_plugin( $plugin_basename );
+            if(!empty($plu_slug) && $plu_slug == 'wdesignkit'){
+                $this->wdk_installed_settings_enable();
+            }
+            $success = null === $activation_result;
+            wp_send_json(['Sucees' => true]);
+        } elseif ( isset( $installed_plugins[ $plugin_basename ] ) ) {
+            $activation_result = activate_plugin( $plugin_basename );
+            if(!empty($plu_slug) && $plu_slug == 'wdesignkit'){
+                $this->wdk_installed_settings_enable();
+            }
+            $success = null === $activation_result;
+            wp_send_json(['Sucees' => true]);
+        }
+
+    }
+
+    public function wdk_installed_settings_enable(){
+
+        if( defined( 'TPGB_VERSION' ) ){
+            $settings = array('gutenberg_builder' => true,'gutenberg_template' => true);
+            $builder = array( 'elementor' );
             do_action( 'wdkit_active_settings', $settings, $builder );
-
-			wp_send_json(['Sucees' => true]);
-
-		} elseif ( isset( $installed_plugins[ $plugin_basename ] ) ) {
-			$activation_result = activate_plugin( $plugin_basename );
-
-			$success = null === $activation_result;
-            add_option('wkit_onbording_end ', true);
-
-            // Elementor Disable in WDK plugin
-            $settings = array('gutenberg_builder' => true,'gutenberg_template' => true,);              
-            $builder = array( 'elementor');             
+        }else if( defined('ELEMENTOR_VERSION') ){
+            $settings = array('elementor_builder' => true,'elementor_template' => true);
+            $builder = array( 'nexter-blocks');
             do_action( 'wdkit_active_settings', $settings, $builder );
+        }
 
-			wp_send_json(['Sucees' => true]);
-
-		}
-	}
+    }
 
 	/*
 	 * Install Nexter Theme
 	 * @since 2.0.0
 	 */
-	public function nxt_install_theme(){
-		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
+    public function nexter_ext_theme_install_ajax(){
+        check_ajax_referer( 'nexter_admin_nonce', 'nexter_nonce' ); 
 
-		if ( !current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( __( 'You are not allowed to do this action', 'the-plus-addons-for-block-editor' ) );
-		}
+        if ( !current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'You are not allowed to do this action', 'the-plus-addons-for-block-editor' ) );
+        }
+        
+        $theme_slug = (!empty($_POST['slug'])) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : 'nexter';
+        $theme_api_url = 'https://api.wordpress.org/themes/info/1.0/';
 
-		$theme_slug = 'nexter';
-		$theme_api_url = 'https://api.wordpress.org/themes/info/1.0/';
+        // Parameters for the request
 
-		// Parameters for the request
-		$args = array(
-			'body' => array(
-				'action' => 'theme_information',
-				'request' => serialize((object) array(
-					'slug' => 'nexter',
-					'fields' => [
-						'description' => false,
-						'sections' => false,
-						'rating' => true,
-						'ratings' => false,
-						'downloaded' => true,
-						'download_link' => true,
-						'last_updated' => true,
-						'homepage' => true,
-                		'tags' => true,
-						'template' => true,
-						'active_installs' => false,
-						'parent' => false,
-						'versions' => false,
-						'screenshot_url' => true,
-						'active_installs' => false
-					],
-				))),
-		);
+        $args = array(
+            'body' => array(
+                'action' => 'theme_information',
+                'request' => serialize((object) array(
+                    'slug' => 'nexter',
+                    'fields' => [
+                        'description' => false,
+                        'sections' => false,
+                        'rating' => true,
+                        'ratings' => false,
+                        'downloaded' => true,
+                        'download_link' => true,
+                        'last_updated' => true,
+                        'homepage' => true,
+                        'tags' => true,
+                        'template' => true,
+                        'active_installs' => false,
+                        'parent' => false,
+                        'versions' => false,
+                        'screenshot_url' => true,
+                        'active_installs' => false
+                    ],
 
-		// Make the request
-		$response = wp_remote_post($theme_api_url, $args);
+                ))),
+        );
 
-		// Check for errors
-		if (is_wp_error($response)) {
-			$error_message = $response->get_error_message();
+        // Make the request
+        $response = wp_remote_post($theme_api_url, $args);
 
-			wp_send_json(['Sucees' => false]);
-		} else {
-			$theme_info = unserialize( $response['body'] );
-			$theme_name = $theme_info->name;
-			$theme_zip_url = $theme_info->download_link;
-			global $wp_filesystem;
-			// Install the theme
-			$theme = wp_remote_get( $theme_zip_url );
-			if ( ! function_exists( 'WP_Filesystem' ) ) {
-				require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/file.php' );
-			}
+        // Check for errors
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+             wp_send_json(['Sucees' => false]);
+        } else {
+            $theme_info = unserialize( $response['body'] );
+            $theme_name = $theme_info->name;
+            $theme_zip_url = $theme_info->download_link;
+            global $wp_filesystem;
 
-			WP_Filesystem();
+            // Install the theme
+            $theme = wp_remote_get( $theme_zip_url );
+            if ( ! function_exists( 'WP_Filesystem' ) ) {
+                require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/file.php' );
+            }
 
-			$active_theme = wp_get_theme();
-			$theme_name = $active_theme->get('Name');
-			
-			$wp_filesystem->put_contents( WP_CONTENT_DIR.'/themes/'.$theme_slug . '.zip', $theme['body'] );
-			$zip = new ZipArchive();
-			if ( $zip->open( WP_CONTENT_DIR . '/themes/' . $theme_slug . '.zip' ) === true ) {
-				$zip->extractTo( WP_CONTENT_DIR . '/themes/' );
-				$zip->close();
-			}
-			$wp_filesystem->delete( WP_CONTENT_DIR . '/themes/' . $theme_slug . '.zip' );
-			
+            WP_Filesystem();
+            $active_theme = wp_get_theme();
+            $theme_name = $active_theme->get('Name');
 
-			wp_send_json(['Sucees' => true]);
-		}
-		exit;
-	}
+            $wp_filesystem->put_contents( WP_CONTENT_DIR.'/themes/'.$theme_slug . '.zip', $theme['body'] );
+
+            $zip = new ZipArchive();
+            if ( $zip->open( WP_CONTENT_DIR . '/themes/' . $theme_slug . '.zip' ) === true ) {
+                $zip->extractTo( WP_CONTENT_DIR . '/themes/' );
+                $zip->close();
+            }
+            $wp_filesystem->delete( WP_CONTENT_DIR . '/themes/' . $theme_slug . '.zip' );
+            wp_send_json(['Sucees' => true]);
+        }
+
+        exit;
+
+    }
 
 	/*
 	 * Remove All Notice From Dash Board
@@ -530,18 +868,17 @@ class Tpgb_Gutenberg_Settings_Options {
 		}
 	}
 
+
 	/*
 	 * Save Performance Cache Option 
 	 * @since 1.4.0
 	 */
 	public function tpgb_performance_opt_cache_save_action(){
-		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
-		$action_page = 'tpgb_performance_cache';
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_redirect( esc_url( admin_url('admin.php?page='.$action_page) ) );
-		}
-		$perf_caching = wp_unslash( sanitize_text_field( $_POST['perf_caching'] ) );
-		if((isset($perf_caching) && !empty($perf_caching)) || isset($_POST['delay_js']) || isset($_POST['defer_js'])){
+		check_ajax_referer('nexter_admin_nonce', 'security');
+		
+		if((isset($_POST['perf_caching']) && !empty($_POST['perf_caching'])) || isset($_POST['delay_js']) || isset($_POST['defer_js'])){
+			$action_page = 'tpgb_performance_cache';
+			$perf_caching = wp_unslash( sanitize_text_field( $_POST['perf_caching'] ) );
 			if ( FALSE === get_option($action_page) ){
 				add_option( $action_page, $perf_caching );
 			}else{
@@ -570,18 +907,18 @@ class Tpgb_Gutenberg_Settings_Options {
 	public function tpgb_blocks_opts_save_action() {
 		$action_page = 'tpgb_normal_blocks_opts';
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_redirect( esc_url( admin_url('admin.php?page='.$action_page) ) );
+			wp_safe_redirect( esc_url( admin_url('admin.php?page=nexter_welcome') ) );
 		}
 		if(isset($_POST["submit-key"]) && !empty($_POST["submit-key"]) && $_POST["submit-key"]=='Save'){
 			
-			if ( ! isset( $_POST['nonce_tpgb_normal_blocks_opts'] ) || ! wp_verify_nonce( sanitize_key($_POST['nonce_tpgb_normal_blocks_opts']), 'tpgb-dash-ajax-nonce' ) ) { //nonce_tpgb_normal_blocks_action
-			   wp_redirect( esc_url(admin_url('admin.php?page='.$action_page)) );
+			if ( ! isset( $_POST['nonce_tpgb_normal_blocks_opts'] ) || ! wp_verify_nonce( sanitize_key($_POST['nonce_tpgb_normal_blocks_opts']), 'nexter_admin_nonce' ) ) { //nonce_tpgb_normal_blocks_action
+			   wp_safe_redirect( esc_url(admin_url('admin.php?page=nexter_welcome')) );
 			} else {
 				Tpgb_Library()->remove_backend_dir_files();
 				if ( FALSE === get_option($action_page) ){
 					$default_value = array('enable_normal_blocks' => '' , 'tp_extra_option' => '');
 					add_option($action_page,$default_value);
-					wp_redirect( esc_url(admin_url('admin.php?page=tpgb_normal_blocks_opts')) );
+					wp_safe_redirect( esc_url(admin_url('admin.php?page=nexter_welcome')) );
 				}
 				else{
 					$update_value = array('enable_normal_blocks' => '');
@@ -607,8 +944,8 @@ class Tpgb_Gutenberg_Settings_Options {
 					}
 					
 					$block_value = array_merge( $update_value , $update_extra_val );
+					
 					$updated = update_option($action_page, $block_value);
-
                     $response = '';
                     if ( has_filter( 'nxt_wdk_widget_ajax_call' ) ) {
                         $response = apply_filters( 'nxt_wdk_widget_ajax_call', 'wdk_update_widget' );
@@ -628,41 +965,80 @@ class Tpgb_Gutenberg_Settings_Options {
 	}
 
 	public function tpgb_connection_data_save_action(){
+        if (class_exists('Tp_Blocks_Helper')) {
+            error_log("Tp_Blocks_Helper class exists.");
+        }
 		$action_page = 'tpgb_connection_data';
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_redirect( esc_url( admin_url('admin.php?page='.$action_page) ) );
+			wp_safe_redirect( esc_url( admin_url('admin.php?page=nexter_welcome') ) );
 		}
-		if(isset($_POST["submit-key"]) && !empty($_POST["submit-key"]) && $_POST["submit-key"]=='Save'){
-			if ( ! isset( $_POST['nonce_tpgb_connection_data'] ) || ! wp_verify_nonce( sanitize_key($_POST['nonce_tpgb_connection_data']), 'tpgb-dash-ajax-nonce' ) ) {
-				wp_redirect( esc_url(admin_url('admin.php?page='.$action_page)) );
-			} else {
-				$getArr = array_map('sanitize_text_field', $_POST);
-				unset($getArr['nonce_tpgb_connection_data']);
-				unset($getArr['_wp_http_referer']);
-				unset($getArr['action']);
-				unset($getArr['submit-key']);
+		if (isset($_POST["submit-key"]) && !empty($_POST["submit-key"]) && $_POST["submit-key"] === 'Save') {
+        // Verify nonce
+        if (!isset($_POST['nonce_tpgb_connection_data']) || !wp_verify_nonce(sanitize_key($_POST['nonce_tpgb_connection_data']), 'nexter_admin_nonce')) {
+            wp_send_json([
+                'success' => false,
+                'message' => 'Security check failed.'
+            ], 403);
+            exit;
+        }
 
-				$getArr = json_decode(stripslashes( $getArr['tpgb_connection_data'] ),true);
-				if ( FALSE === get_option($action_page) ){
-					$added = add_option($action_page,$getArr);
-					if ($added) {
-						wp_send_json(['Success' => true]);
-					} else {
-						wp_send_json(['Success' => false]);
-					}
-				}else{
-					$updated = update_option( $action_page, $getArr );
-					if ($updated) {
-						wp_send_json(['Success' => true]);
-					} else {
-						wp_send_json(['Success' => false]);
-					}
-					wp_redirect( esc_url( admin_url('admin.php?page='.$action_page) ) );
-				}
-			}
-		}else{
-			wp_redirect( esc_url( admin_url('admin.php?page='.$action_page) ) );
-		}
+        // Validate connection data exists
+        if (!isset($_POST['tpgb_connection_data']) || empty($_POST['tpgb_connection_data'])) {
+            wp_send_json([
+                'success' => false,
+                'message' => 'No data provided.'
+            ], 400);
+            exit;
+        }
+
+        // Decode and validate JSON
+        $getArr = json_decode(stripslashes(sanitize_text_field($_POST['tpgb_connection_data'])), true);
+        
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($getArr)) {
+            wp_send_json([
+                'success' => false,
+                'message' => 'Invalid data format.'
+            ], 400);
+            exit;
+        }
+
+        // Encrypt AI settings if they exist
+        if (class_exists('Tp_Blocks_Helper') && isset($getArr['nxtAiSettings']) && is_array($getArr['nxtAiSettings'])) {
+            $getArr['nxtAiSettings'] = Tp_Blocks_Helper::tpgb_simple_decrypt(
+                json_encode($getArr['nxtAiSettings']),
+                'ey'
+            );
+        }
+
+        // Save or update option
+        $option_exists = get_option($action_page);
+        
+        if (false === $option_exists) {
+            // Option doesn't exist, add it
+            $result = add_option($action_page, $getArr);
+        } else {
+            // Option exists, update it
+            $result = update_option($action_page, $getArr);
+        }
+
+        // Send JSON response
+        if ($result) {
+            wp_send_json([
+                'success' => true,
+                'message' => 'Settings saved successfully.'
+            ]);
+        } else {
+            wp_send_json([
+                'success' => false,
+                'message' => 'Failed to save settings. No changes were made.'
+            ]);
+        }
+        exit;
+        } else {
+            // Invalid request, redirect to admin page
+            wp_safe_redirect(esc_url(admin_url('admin.php?page=nexter_welcome')));
+            exit;
+        }
 
 	}
 
@@ -672,7 +1048,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			wp_send_json(['Success' => false]);
 		}
 		if(isset($_POST["submit-key"]) && !empty($_POST["submit-key"]) && $_POST["submit-key"]=='Save'){
-			if ( ! isset( $_POST['nonce_tpgb_custom_css_js'] ) || ! wp_verify_nonce( sanitize_key($_POST['nonce_tpgb_custom_css_js']), 'tpgb-dash-ajax-nonce' ) ) {
+			if ( ! isset( $_POST['nonce_tpgb_custom_css_js'] ) || ! wp_verify_nonce( sanitize_key($_POST['nonce_tpgb_custom_css_js']), 'nexter_admin_nonce' ) ) {
 				wp_send_json(['Success' => false]);
 			} else {
 				$getArr = $_POST;
@@ -705,7 +1081,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['accordion', 'tabs', 'toggle', 'faq', 'collapse', 'show hide content', 'Tiles'],
+				'keyword' => [ 'accordion', 'FAQ', 'content accordion', 'collapsible content', 'expandable content', 'hover-accordion', 'SEO schema accordion', 'foldable content', 'video accordion'],
 			],
 			'tp-advanced-buttons' => [
 				'label' => esc_html__('Pro Buttons', 'the-plus-addons-for-block-editor'),
@@ -714,7 +1090,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button'],
+				'keyword' => ['pro buttons', 'animated CTA button', 'animated download button', 'interactive button', 'hover-effect button', 'call-to-action button', 'CTA download button', 'stylish download button'],
 			],
 			'tp-advanced-chart' => [
 				'label' => esc_html__('Advanced Chart', 'the-plus-addons-for-block-editor'),
@@ -723,7 +1099,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['chart', 'diagram'],
+				'keyword' => ['chart', 'line chart', 'bar chart', 'radar chart', 'doughnut chart', 'pie chart', 'polar area chart', 'bubble chart', 'animated chart', 'chart tooltip', 'responsive chart', 'interactive chart'],
 			],
 			'tp-adv-typo' => [
 				'label' => esc_html__('Advanced Typography', 'the-plus-addons-for-block-editor'),
@@ -732,7 +1108,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['adv','text','typo'],
+				'keyword' => ['advanced typography', 'text effects', 'knockout text', 'circular text', 'marquee text', 'vertical text', 'text stroke', 'outline text', 'blend-mode text', 'text blend', 'image reveal text', 'vertical typography', 'text mask', 'arc text', 'underline animation'],
 			],
 			'tp-animated-service-boxes' => [
 				'label' => esc_html__('Animated Service Boxes', 'the-plus-addons-for-block-editor'),
@@ -741,6 +1117,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
+                'keyword' => ['animated service boxes', 'image accordion', 'vertical image accordion', 'horizontal image accordion', 'info banner', 'service element', 'Lottie animated box', 'expandable service box', 'interactive service boxes', 'animated info banner', 'animated service element', 'animated Lottie box', 'animated expandable service box', 'animated interactive service box']
 			],
 			'tp-audio-player' => [
 				'label' => esc_html__('Audio Player','the-plus-addons-for-block-editor'),
@@ -749,7 +1126,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['audio player', 'music player'],
+				'keyword' => ['audio player', 'music playlist', 'streaming audio', 'self-hosted audio', 'external audio source', 'audio playback', 'audio block', 'embed audio', 'sound player'],
 			],
 			'tp-before-after' => [
 				'label' => esc_html__('Before After', 'the-plus-addons-for-block-editor'),
@@ -758,6 +1135,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+                'keyword' => ['before-after slider', 'image comparison', 'before after image', 'horizontal image compare', 'vertical image compare', 'opacity image slider', 'photo comparison', 'before after photo']
 			],
 			'tp-blockquote' => [
 				'label' => esc_html__('Blockquote','the-plus-addons-for-block-editor'),
@@ -766,7 +1144,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-                'keyword' => ['blockquote', 'Block Quotation', 'Citation', 'Pull Quotes','block quote'],
+                'keyword' => ['blockquote', 'quote box', 'author quote', 'text quote', 'quote', 'content quote', 'text highlighting'],
 			],
 			'tp-breadcrumbs' => [
 				'label' => esc_html__('Breadcrumbs','the-plus-addons-for-block-editor'),
@@ -775,7 +1153,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['breadcrumbs bar', 'breadcrumb trail', 'navigation', 'site navigation', 'breadcrumb navigation']
+				'keyword' => ['breadcrumb', 'breadcrumb navigation', 'breadcrumb trail', 'SEO breadcrumb', 'full-width breadcrumb', 'home icon breadcrumb', 'responsive breadcrumb', 'navigation path']
 			],
 			'tp-button' => [
 				'label' => esc_html__('Advanced Button','the-plus-addons-for-block-editor'),				
@@ -784,7 +1162,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button']
+				'keyword' => [  'advanced button', 'button', 'CTA button', 'hover-text button', 'icon button', 'call-to-action button', 'button with icon', 'gradient button', 'popup button interactions', 'eye-catching button designs']
 			],
 			'tp-button-core' => [
 				'label' => esc_html__('Button','the-plus-addons-for-block-editor'),
@@ -793,7 +1171,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['core button','Button', 'CTA', 'link', 'creative button', 'Call to action', 'Marketing Button']
+				'keyword' => ['button', 'custom button', 'call-to-action button', 'CTA button', 'icon button', 'image button']
 			],
 			'tp-anything-carousel' => [
 				'label' => esc_html__('Carousel Anything','the-plus-addons-for-block-editor'),
@@ -802,7 +1180,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['carousel anything', 'slider', 'slideshow'],
+				'keyword' => ['carousel anything', 'vertical carousel', 'infinite loop slider', 'multi-column carousel', 'autoplay carousel', 'draggable slider', 'slider', 'autoplay slideshow', 'slideshow', 'mousewheel slider'],
 			],
 			'tp-carousel-remote' => [
 				'label' => esc_html__('Carousel Remote','the-plus-addons-for-block-editor'),
@@ -811,7 +1189,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-                'keyword' => ['carousel remote', 'slider controller','next prev','dots','Remote Sync'],
+                'keyword' => ['carousel navigation', 'carousel remote', 'synced carousel', 'remote-control slider', 'remote navigation', 'next/prev controller', 'dot pagination controller', 'switcher remote', 'remote sync'],
 			],
 			'tp-circle-menu' => [
 				'label' => esc_html__('Circle Menu', 'the-plus-addons-for-block-editor'),
@@ -820,7 +1198,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['circle menu', 'compact menu', 'mobile menu']
+				'keyword' => ['circle menu', 'bubble menu', 'circular nav', 'circular navigation', 'radial menu', 'toggle menu', 'icon menu']
 			],
 			'tp-code-highlighter' => [
 				'label' => esc_html__('Code Highlighter', 'the-plus-addons-for-block-editor'),
@@ -829,7 +1207,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['prism', 'Source code beautifier', 'code Highlighter',  'syntax Highlighter', 'Custom Code', 'CSS', 'JS', 'PHP', 'HTML', 'React']
+				'keyword' => ['syntax highlighter', 'code highlighter', 'code syntax highlighter', 'highlight code']
 			],
 			'tp-countdown' => [
 				'label' => esc_html__('Countdown','the-plus-addons-for-block-editor'),
@@ -838,7 +1216,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Countdown', 'countdown timer', 'timer', 'Scarcity Countdown', 'Urgency Countdown', 'Event countdown', 'Sale Countdown', 'chronometer', 'stopwatch']
+				'keyword' => ['countdown timer', 'scarcity countdown', 'evergreen countdown', 'fake-number counter', 'content swap timer', 'FOMO countdown', 'inline countdown', 'marketing countdown timer', 'urgency countdown', 'event countdown', 'offer countdown']
 			],
 			'tp-container' => [
 				'label' => esc_html__('Container','the-plus-addons-for-block-editor'),
@@ -847,7 +1225,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['container','flex-wrap','flex-based','full-width']
+				'keyword' => ['container', 'flexbox container', 'grid container', 'full-width container', 'boxed container', 'responsive container', 'sticky container', 'clickable container', 'parallax container', 'video container', 'animated container', 'multi-column container', 'nested container']
 			],
 			'tp-coupon-code' => [
 				'label' => esc_html__('Coupon Code', 'the-plus-addons-for-block-editor'),
@@ -856,7 +1234,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Coupon Code', 'Promo Code', 'Offers' , 'Discounts', 'Sales', 'Copy Coupon Code']
+				'keyword' => ['coupon code', 'peel coupon', 'scratch coupon', 'slide-out coupon', 'masked link coupon', 'popup coupon', 'redirect coupon', 'discount code', 'promotional coupon', 'discount coupon']
 			],
 			'tp-creative-image' => [
 				'label' => esc_html__('Advanced Image','the-plus-addons-for-block-editor'),
@@ -865,7 +1243,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Creative image', 'Image', 'Animated Image', 'ScrollReveal', 'scrolling image', 'decorative image', 'image effect', 'Photo', 'Visual']
+				'keyword' => ['advanced image', 'creative image', 'scroll reveal image', 'image mask', 'parallax image', 'animated image', 'scrolling image']
 			],
 			'tp-cta-banner' => [
 				'label' => esc_html__('CTA Banner','the-plus-addons-for-block-editor'),
@@ -874,7 +1252,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['advertisement', 'banner', 'advertisement banner', 'ad manager', 'announcement', 'announcement banner']
+				'keyword' => ['advertisement banner', 'interactive banner', 'hover effects banner', 'parallax ad banner', 'CTA banner', 'promotional banner', 'ad banner', 'image banner', 'marketing banner']
 			],
 			'tp-data-table' => [
 				'label' => esc_html__('Data Table','the-plus-addons-for-block-editor'),
@@ -883,7 +1261,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Data table', 'datatable', 'grid', 'csv table', 'table', 'tabular layout', 'Table Showcase']
+				'keyword' => [ 'table', 'data table', 'sort table', 'search table', 'CSV import table', 'Google Sheet table', 'responsive table']
 			],
 			'tp-dark-mode' => [
 				'label' => esc_html__('Dark Mode','the-plus-addons-for-block-editor'),
@@ -892,17 +1270,17 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['dark', 'light', 'darkmode', 'dual']
+				'keyword' => ['dark mode toggle', 'dark mode button', 'night mode switcher', 'dark theme', 'night theme', 'night mode']
 			],
-			'tp-design-tool' => [
-				'label' => esc_html__('Design Tool','the-plus-addons-for-block-editor'),
-				'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-design-grid-tool/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
-				'docUrl' => '',
-				'videoUrl' => '',
-				'tag' => 'pro',
-				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['design','tool']
-			],
+			// 'tp-design-tool' => [
+			// 	'label' => esc_html__('Design Tool','the-plus-addons-for-block-editor'),
+			// 	'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-design-grid-tool/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+			// 	'docUrl' => '',
+			// 	'videoUrl' => '',
+			// 	'tag' => 'pro',
+			// 	'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+			// 	'keyword' => ['design','tool']
+			// ],
 			'tp-draw-svg' => [
 				'label' => esc_html__('Draw SVG','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-draw-animated-svg-icon/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
@@ -910,7 +1288,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Draw SVG', 'Draw Icon', 'illustration', 'animated svg', 'animated icons', 'Lottie animations', 'Lottie files', 'effects', 'image effect']
+				'keyword' => ['draw SVG', 'SVG animation', 'custom SVG animation', 'SVG path animation']
 			],
 			'tp-dynamic-device' => [
 				'label' => esc_html__('Dynamic Device','the-plus-addons-for-block-editor'),
@@ -919,7 +1297,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['dynamic device', 'website mockups', 'portfolio', 'desktop view', 'tablet view', 'mobile view']
+				'keyword' => ['dynamic device', 'device mockup', 'responsive screen mockup', 'iframe mockup', 'manual scroll device', 'auto-scroll device', 'device slider', 'custom device mockup', 'mockup carousel', 'carousel mockup', 'scrolling device preview', 'live website mockup']
 			],
 			'tp-empty-space' => [
 				'label' => esc_html__('Spacer','the-plus-addons-for-block-editor'),
@@ -928,7 +1306,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Spacer', 'Divider', 'Spacing','empty space']
+				'keyword' => ['blank space', 'spacer', 'vertical space', 'empty block', 'adjustable spacer', 'white-space', 'page spacer', 'content gap']
 			],
 			'tp-external-form-styler' => [
 				'label' => esc_html__('External Form Styler','the-plus-addons-for-block-editor'),
@@ -937,7 +1315,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['form', 'contect form', 'everest', 'gravity', 'wpform','Contact Form 7', 'contact form', 'form', 'feedback', 'subscribe', 'newsletter', 'contact us', 'custom form', 'popup form', 'cf7']
+				'keyword' => ['external form styling', 'form customization', 'form design', 'responsive form design', 'CSS form styling']
 			],
 			'tp-expand' => [
 				'label' => esc_html__('Expand','the-plus-addons-for-block-editor'),
@@ -946,7 +1324,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Expand', 'read more', 'show hide content', 'Expand tabs', 'show more', 'toggle', 'Excerpt']
+				'keyword' => ['expandable content', 'collapsible section', 'unfold section', 'content toggle', 'collapsible panel', 'expand button', 'read more section', 'load more section']
 			],
 			'tp-flipbox' => [
 				'label' => esc_html__('Flipbox','the-plus-addons-for-block-editor'),
@@ -955,7 +1333,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['flipbox', 'flip box', 'flip', 'flip image', 'flip card', 'action box', 'flipbox 3D', 'card'],
+				'keyword' => ['flipbox', 'horizontal flipbox', 'vertical flipbox', 'flipbox carousel', 'flipbox grid', 'interactive flipbox', 'flipbox with button', 'animated flipbox', 'responsive flipbox',],
 			],
             'tp-form-block' => [
                 'label' => esc_html__('Form', 'the-plus-addons-for-block-editor'),
@@ -964,7 +1342,7 @@ class Tpgb_Gutenberg_Settings_Options {
                 'videoUrl' => '',
                 'tag' => 'freemium',
                 'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-                'keyword' => ['forms' , 'contact Form' , 'marketing']
+                'keyword' => ['form builder', 'contact form', 'newsletter form', 'free form', 'CAPTCHA form', 'Google reCAPTCHA form', 'Cloudflare Turnstile form', 'email notification form', 'database entry form', 'redirect form', 'Brevo form', 'Mailchimp form', 'GetResponse form', 'ConvertKit form', 'Slack form', 'Discord form', 'WebHook form', 'Drip form']
             ],
 			'tp-google-map' => [
 				'label' => esc_html__('Google Map','the-plus-addons-for-block-editor'),
@@ -973,7 +1351,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Map', 'Maps', 'Google Maps', 'g maps', 'location map', 'map iframe', 'embed']
+				'keyword' => ['google map', 'multiple locations map', 'custom map marker', 'multiple map markers', 'map overlay content', 'map terrain map', 'hybrid map', 'satellite map', 'roadmap']
 			],
 			'tp-heading-animation' => [
 				'label' => esc_html__('Heading Animation','the-plus-addons-for-block-editor'),
@@ -982,7 +1360,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Heading Animation', 'Animated Heading', 'Animation Text', 'Animated Text', 'Text Animation']
+				'keyword' => ['animated heading', 'text animation', 'heading animation', 'text animation effects', 'typing heading', 'flipping text', 'zoom-in heading', 'underline heading animation', 'slide-in heading', 'bounce letter heading', 'prefix-postfix heading', 'split text animation', 'looping animated title', 'heading highlight animation']
 			],
 			'tp-heading' => [
 				'label' => esc_html__('Heading','the-plus-addons-for-block-editor'),
@@ -991,7 +1369,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Heading', 'Title', 'Text', 'Heading title', 'Headline']
+				'keyword' => ['heading', 'heading text', 'heading block', 'custom heading']
 			],
 			'tp-heading-title' => [
 				'label' => esc_html__('Advanced Heading','the-plus-addons-for-block-editor'),
@@ -1000,7 +1378,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Heading', 'Title', 'Text', 'Heading title', 'Headline']
+				'keyword' => ['advanced heading', 'styled heading', 'animated heading', 'heading with subtitle', 'subtitle', 'extra title', 'heading separator']
 			],
 			'tp-hotspot' => [
 				'label' => esc_html__('Hotspot','the-plus-addons-for-block-editor'),
@@ -1009,7 +1387,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => [ 'Image hotspot', 'maps', 'pin' ],
+				'keyword' => [ 'hotspot image', 'interactive hotspot', 'image pin tooltip', 'icon hotspot', 'text hotspot', 'hotspot tooltip', 'animated hotspot', 'custom hotspot' ],
 			],
 			'tp-hovercard' => [
 				'label' => esc_html__('Hover Card','the-plus-addons-for-block-editor'),
@@ -1018,7 +1396,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Hover Card', 'Card', 'Business Card'],
+				'keyword' => ['hover card', 'interactive card', 'animated hover card', 'custom hover layout', 'responsive hover card', 'customizable card'],
 			],
 			'tp-icon-box' => [
 				'label' => esc_html__('Icon','the-plus-addons-for-block-editor'),
@@ -1027,7 +1405,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['iconbox', 'icon box', 'fontawesome']
+				'keyword' => ['icon', 'custom icon', 'SVG icon', 'font icon', 'icon hover effect']
 			],
 			'tp-image' => [
 				'label' => esc_html__('Image','the-plus-addons-for-block-editor'),
@@ -1036,7 +1414,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['image', 'media']
+				'keyword' => ['image', 'image block', 'insert image', 'custom image']
 			],
 			'tp-infobox' => [
 				'label' => esc_html__('Infobox','the-plus-addons-for-block-editor'),
@@ -1045,7 +1423,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Infobox', 'Information', 'Info box', 'card', 'info']
+				'keyword' => ['infobox', 'infobox layout', 'infobox carousel', 'infobox listing', 'animated info box', 'svg infobox', 'linked infobox', 'icon infobox', 'image infobox', 'responsive infobox', 'infobox button']
 			],
 			'tp-interactive-circle-info' => [
 				'label' => esc_html__('Interactive Circle Info','the-plus-addons-for-block-editor'),
@@ -1054,7 +1432,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['interactive circle', 'interactive', 'circle', 'info']
+				'keyword' => ['interactive circle', 'circle infographic', 'interactive circle info', 'circular CTA', 'circle navigation']
 			],
 			'tp-login-register' => [
 				'label' => __('Login & Signup', 'the-plus-addons-for-block-editor'),
@@ -1063,7 +1441,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['login', 'register', 'Sign up','forgot password']
+				'keyword' => ['login form', 'registration form', 'signup form', 'wp login form', 'wp registration form', 'login register form', 'social login', 'password reset', 'login redirect', 'recaptcha signup', 'facebook login', 'google login', 'mailchimp subscribe', 'user registration form', 'user login form']
 			],
 			'tp-lottiefiles' => [
 				'label' => esc_html__('LottieFiles Animation','the-plus-addons-for-block-editor'),
@@ -1072,7 +1450,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['animation', 'lottie', 'files']
+				'keyword' => ['Lottie animation', 'Lottie autoplay', 'Lottie hover animation', 'Lottie scroll animation', 'Lottie parallax effect']
 			],
 			'tp-mailchimp' => [
 				'label' => esc_html__('Mailchimp','the-plus-addons-for-block-editor'),
@@ -1081,7 +1459,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Mailchimp', 'Mailchimp addon', 'subscribe form']
+				'keyword' => ['Mailchimp signup form', 'email opt-in form', 'newsletter subscription form', 'GDPR-ready form', 'double opt-in signup', 'lead capture form', 'subscription form', 'email marketing form']
 			],
 			'tp-media-listing' => [
 				'label' => esc_html__('Media Listing','the-plus-addons-for-block-editor'),
@@ -1090,7 +1468,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Video Gallery', 'Image Gallery', 'Video Carousel', 'Image Carousel', 'Video Listing', 'Image Listing', 'Youtube', 'Vimeo','media gallery']
+				'keyword' => ['gallery listing', 'media listing', 'image gallery', 'video gallery', 'grid gallery', 'masonry gallery', 'metro gallery', 'carousel gallery', 'filterable gallery', 'repeater gallery']
 			],
 			'tp-messagebox' => [
 				'label' => esc_html__('Message box','the-plus-addons-for-block-editor'),
@@ -1099,7 +1477,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Message box', 'Notification box', 'alert box']
+				'keyword' => ['message box', 'alert box', 'notification box', 'dismissible message', 'closeable alert', 'CTA notification', 'warning message', 'user alert', 'pop-up message']
 			],
 			'tp-mobile-menu' => [
 				'label' => esc_html__('Mobile Menu','the-plus-addons-for-block-editor'),
@@ -1108,7 +1486,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['mobile menu', 'menu','toggle menu']
+				'keyword' => ['mobile menu', 'off-canvas menu', 'swiper menu', 'split mobile menu', 'fixed bottom menu', 'sticky mobile nav', 'extra toggle bar', 'slide-out menu']
 			],
 			'tp-mouse-cursor' => [
 				'label' => esc_html__('Mouse Cursor','the-plus-addons-for-block-editor'),
@@ -1117,7 +1495,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['mouse', 'cursor', 'animated cursor', 'mouse cursor', 'pointer']
+				'keyword' => ['custom cursor', 'mouse cursor', 'mouse pointer', 'follow image cursor', 'follow text cursor', 'follow circle cursor', 'blend cursor', 'cursor effects', 'custom pointer', 'animated mouse pointer']
 			],
 			'tp-navigation-builder' => [
 				'label' => esc_html__('Navigation Menu','the-plus-addons-for-block-editor'),
@@ -1126,7 +1504,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['navigation menu', 'mega menu', 'header builder', 'sticky menu', 'navigation bar', 'header menu', 'menu', 'navigation builder','vertical menu', 'swiper menu']
+				'keyword' => ['navigation menu', 'horizontal menu', 'vertical menu', 'mega menu', 'mobile navigation', 'toggle menu', 'menu hover effect', 'repeater menu', 'responsive menu', 'swiper menu', 'hamburger menu', 'dropdown menu', 'custom menu', 'mobile-friendly menu']
 			],
 			'tp-number-counter' => [
 				'label' => esc_html__('Number Counter','the-plus-addons-for-block-editor'),
@@ -1135,7 +1513,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['number counter', 'counter', 'animated counter', 'Odometer']
+				'keyword' => ['number counter', 'animated counter', 'milestone counter', 'counter block', 'number animation', 'statistics counter', 'counter animation', 'count-up block', 'KPI counter', 'live counter']
 			],
 			'tp-popup-builder' => [
 				'label' => esc_html__('Popup Builder','the-plus-addons-for-block-editor'),
@@ -1144,7 +1522,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['popup', 'pop up', 'alertbox', 'offcanvas', 'modal box', 'modal popup']
+				'keyword' => ['popup', 'popup builder', 'modal popup', 'off-canvas popup', 'slide popup', 'corner popup', 'exit-intent popup', 'page scroll popup', 'timed popup']
 			],
 			'tp-post-author' => [
 				'label' => esc_html__('Post Author', 'the-plus-addons-for-block-editor'),
@@ -1153,7 +1531,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['post author', 'author','user info']
+				'keyword' => ['post author box', 'author bio', 'author information', 'post author profile', 'blog author details', 'author image', 'author name', 'author social links', 'author details', 'customized author box', 'author info', 'blog post author', 'author box']
 			],
 			'tp-post-comment' => [
 				'label' => esc_html__('Post Comments', 'the-plus-addons-for-block-editor'),
@@ -1162,7 +1540,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['post comments', 'comments','comments area']
+                'keyword' => ['post comment', 'comment section', 'blog comments', 'user feedback', 'comment form']
 			],
 			'tp-post-content' => [
 				'label' => esc_html__('Post Content', 'the-plus-addons-for-block-editor'),
@@ -1171,7 +1549,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['content', 'post content', 'post excerpt', 'archive description']
+				'keyword' => ['post content', 'blog content', 'dynamic post content', 'post excerpt']
 			],
 			'tp-post-image' => [
 				'label' => esc_html__('Post Image', 'the-plus-addons-for-block-editor'),
@@ -1180,7 +1558,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['post featured image', 'post image', 'featured image']
+				'keyword' => ['post featured image', 'blog featured image', 'featured image', 'dynamic post image', 'post thumbnail']
 			],
 			'tp-post-listing' => [
 				'label' => esc_html__('Post Listing', 'the-plus-addons-for-block-editor'),
@@ -1189,7 +1567,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['blog listing', 'article listing','custom post listing','blog view','post listing','masonry','carousel','content view','blog item listing','grid', 'post listing', 'related posts', 'archive posts', 'post list', 'post grid', 'post masonry','post carousel', 'post slider']
+				'keyword' => ['blog listing', 'post listing', 'post grid', 'masonry blog', 'metro blog layout', 'post carousel', 'post filter', 'load more posts', 'post pagination', 'lazy load posts', 'order posts']
 			],
 			'tp-post-meta' => [
 				'label' => esc_html__('Post Meta Info', 'the-plus-addons-for-block-editor'),
@@ -1198,7 +1576,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['post category', 'post tags', 'post meta info', 'meta info', 'post date', 'post comment', 'post author']
+				'keyword' => [ 'post meta', 'meta data', 'post meta information', 'date meta', 'author name meta', 'taxonomy meta', 'comment count meta', 'post metadata']
 			],
 			'tp-post-navigation' => [
 				'label' => esc_html__('Post Navigation', 'the-plus-addons-for-block-editor'),
@@ -1207,7 +1585,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['previous next', 'post previous next', 'post navigation']
+				'keyword' => ['post navigation', 'blog post nav', 'prev next buttons', 'post prev next', 'blog post navigation', 'next post button', 'previous post button', 'blog navigation buttons']
 			],
 			'tp-post-title' => [
 				'label' => esc_html__('Post Title', 'the-plus-addons-for-block-editor'),
@@ -1216,7 +1594,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['post title', 'page title', 'archive title']
+				'keyword' => ['post title', 'dynamic title', 'post heading', 'blog title']
 			],
 			'tp-pricing-list' => [
 				'label' => esc_html__('Pricing List','the-plus-addons-for-block-editor'),
@@ -1225,7 +1603,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Pricing list', 'Item price', 'price card', 'Price Guide', 'price box']
+				'keyword' => ['pricing list', 'menu price list', 'modern pricing list', 'food menu', 'menu list', 'flip-box pricing']
 			],
 			'tp-pricing-table' => [
 				'label' => esc_html__('Pricing Table','the-plus-addons-for-block-editor'),
@@ -1234,7 +1612,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Pricing table', 'pricing list', 'price table', 'plans table', 'pricing plans', 'dynamic pricing', 'price comparison', 'Plans & Pricing Table', 'Price Chart']
+				'keyword' => ['pricing table', 'pricing plan comparison', 'pricing comparison', 'responsive pricing table', 'highlighted pricing']
 			],
 			'tp-preloader' => [
 				'label' => esc_html__('Pre Loader','the-plus-addons-for-block-editor'),
@@ -1243,7 +1621,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => [ 'pre loader', 'loader', 'loading','Preloader' ],
+				'keyword' => [ 'preloader', 'page loader', 'page loader animation', 'Lottie preloader', 'image preloader', 'icon preloader', 'text preloader', 'progress bar preloader', 'multiple preloaders', 'page transition', 'custom preloader', 'loading animations' ],
 			],
 			'tp-pro-paragraph' => [
 				'label' => esc_html__('Paragraph','the-plus-addons-for-block-editor'),
@@ -1252,7 +1630,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Paragraph', 'wysiwyg', 'editor', 'editor block', 'textarea', 'text area', 'text editor'],
+				'keyword' => ['paragraph', 'styled paragraph', 'advanced paragraph'],
 			],
 			'tp-process-steps' => [
 				'label' => esc_html__('Process Steps','the-plus-addons-for-block-editor'),
@@ -1261,7 +1639,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Process steps', 'post timeline', 'step process', 'steps form', 'Steppers', 'timeline', 'Progress Tracker']
+				'keyword' => ['process steps', 'step-by-step flow', 'horizontal steps', 'vertical steps', 'numbered steps', 'icon steps', 'image steps', 'Lottie steps', 'interactive process steps', 'custom process steps']
 			],
 			'tp-product-listing' => [
 				'label' => esc_html__('Product Listing','the-plus-addons-for-block-editor'),
@@ -1270,7 +1648,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Product', 'Woocommerce']
+				'keyword' => ['product listing', 'WooCommerce products', 'product grid', 'product carousel', 'product metro style', 'product masonry style', 'product filtering', 'product pagination', 'load-more products']
 			],
 			'tp-progress-bar' => [
 				'label' => esc_html__('Progress Bar','the-plus-addons-for-block-editor'),
@@ -1279,7 +1657,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Progress bar', 'progressbar', 'status bar', 'progress indicator', 'scroll progress', 'process progress bar', 'Progress Tracker']
+				'keyword' => ['progress bar', 'circular progress', 'circle progress bar', 'linear progress bar', 'animated progress bar', 'percentage counter', 'progress indicator', 'skill meter', 'percentage progress indicator', 'pie progress', 'bar chart progress']
 			],
 			'tp-progress-tracker' => [
 				'label' => esc_html__('Progress Tracker','the-plus-addons-for-block-editor'),
@@ -1288,26 +1666,26 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => [ 'Progress bar', 'progressbar', 'status bar', 'progress indicator', 'scroll progress', 'process progress bar', 'Progress Tracker', 'Page scroll tracker','Reading progress indicator','Reading progress bar','Reading position tracker', 'Scroll depth indicator', 'Scroll tracking', 'Scroll Progress Visualizer' ]
+				'keyword' => [ 'reading progress tracker', 'reading progress bar', 'scroll progress bar', 'reading indicator', 'page scroll meter', 'content scroll indicator', 'reading time bar', 'reading-meter' ]
 			],
-             'tp-repeater-block' => [
-				'label' => esc_html__('Repeater', 'tpgb'),
+            'tp-repeater-block' => [
+				'label' => esc_html__('Repeater', 'the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/listing/wordpress-repeater/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'docUrl' => 'https://nexterwp.com/docs/display-dynamic-repeater-field-data-in-wordpress/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
 				'videoUrl' => '',
 				'tag' => 'pro',
-				'block_cate' => esc_html__('Listing', 'tpgb'),
-				'keyword' => ['repeater']
+				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
+				'keyword' => ['repeater field', 'dynamic repeater', 'custom field listing', 'ACF repeater', 'JetEngine repeater', 'SCF repeater', 'repeater block']
 			],
-			'tp-row' => [
-				'label' => esc_html__('Row','the-plus-addons-for-block-editor'),
-				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-container/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
-				'docUrl' => '',
-				'videoUrl' => '',
-				'tag' => 'free',
-				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Row', 'layout'],
-			],
+			// 'tp-row' => [
+			// 	'label' => esc_html__('Row','the-plus-addons-for-block-editor'),
+			// 	'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-container/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+			// 	'docUrl' => '',
+			// 	'videoUrl' => '',
+			// 	'tag' => 'free',
+			// 	'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
+			// 	'keyword' => ['Row', 'layout'],
+			// ],
 			'tp-site-logo' => [
 				'label' => esc_html__('Site Logo','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/builder/wordpress-site-logo/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
@@ -1315,7 +1693,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Builder', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['site logo', 'logo','dual logo'],
+				'keyword' => ['site logo', 'site logo uploader', 'custom logo', 'sticky header logo', 'logo change on hover', 'interactive logo', 'custom logo link', 'dual logo'],
 			],
 			'tp-stylist-list' => [
 				'label' => esc_html__('Stylish List','the-plus-addons-for-block-editor'),
@@ -1324,7 +1702,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Stylish list', 'listing', 'item listing'],
+				'keyword' => ['stylish list', 'icon list', 'stylish icon list', 'vertical icon list', 'horizontal icon list', 'interactive icon list', 'tooltip icon list', 'hover background list', 'pin hint list', 'read more list'],
 			],
 			'tp-scroll-navigation' => [
 				'label' => esc_html__('Scroll Navigation','the-plus-addons-for-block-editor'),
@@ -1333,7 +1711,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Scroll navigation', 'slide show', 'slideshow', 'vertical slider'],
+				'keyword' => ['scroll navigation', 'one page navigation', 'single page scrolling', 'section-based navigation', 'smooth scroll navigation'],
 			],
 			'tp-scroll-sequence' => [
 				'label' => esc_html__('Scroll Sequence','the-plus-addons-for-block-editor'),
@@ -1342,7 +1720,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Cinematic Scroll Image Animation', 'Video Scroll Sequence', 'Image Scroll Sequence'],
+				'keyword' => ['scroll animation', 'scroll sequence', 'image gallery animation', 'dynamic scroll effects', 'interactive image sequences', 'image sequence animation', 'sequence scrolling'],
 			],
 			'tp-search-bar' => [
 				'label' => esc_html__('Search Bar', 'the-plus-addons-for-block-editor'),
@@ -1351,7 +1729,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['search', 'post search','WordPress Search Bar', 'Find', 'Search Tool', 'SearchWP'],
+				'keyword' => [ 'ajax search bar', 'live search bar', 'ajax live search', 'search autocomplete', 'taxonomy search', 'cpt search', 'product search', 'advanced search', 'real-time search', 'instant search', 'custom post type search', 'search suggestions', 'site search', 'custom field search'],
 			],
 			'tp-social-icons' => [
 				'label' => esc_html__('Social Icon','the-plus-addons-for-block-editor'),
@@ -1360,7 +1738,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Social Icon', 'Icon', 'link']
+				'keyword' => ['social icons', 'tooltip social icon', 'animated social icon', 'custom social links', 'vertical icon layout', 'horizontal icon layout']
 			],
 			'tp-social-embed' => [
 				'label' => esc_html__('Social Embed','the-plus-addons-for-block-editor'),
@@ -1369,7 +1747,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Social', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['iframe', 'facebook feed', 'facebook comments', 'facebook like', 'facebook share', 'facebook page' ]
+				'keyword' => ['social media embed', 'facebook embed', 'X (twitter) embed', 'instagram embed', 'youtube embed', 'vimeo embed', 'google maps embed', 'social feed', 'facebook comments', 'facebook post', 'facebook vVideo', 'facebook page', 'facebook like button', 'twitter profile', 'instagram reels', 'youtube playlist', 'google maps', 'vimeo video', 'tweets', 'retweet button', 'twitter follow button', 'twitter likes timeline']
 			],
 			'tp-social-feed' => [
 				'label' => esc_html__('Social Feed','the-plus-addons-for-block-editor'),
@@ -1378,7 +1756,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Social', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['feed', 'facebook', 'google', 'youtube', 'social', 'posts', 'instagram','vimeo']
+				'keyword' => ['social feed', 'live social feed', 'instagram feed', 'facebook feed', 'X (twitter) feed', 'youtube feed', 'vimeo feed', 'multi-platform social feed', 'social feed carousel', 'masonry social feed', 'grid social feed', 'social media wall']
 			],
 			'tp-social-sharing' => [
 				'label' => esc_html__('Social Sharing','the-plus-addons-for-block-editor'),
@@ -1387,7 +1765,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Advanced', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Social Sharing', 'Social Media Sharing']
+				'keyword' => ['social sharing', 'share buttons', 'share counter', 'social share toggle', 'horizontal social share', 'vertical social share', 'fake share count']
 			],
 			'tp-social-reviews' => [
 				'label' => esc_html__('Social Reviews','the-plus-addons-for-block-editor'),
@@ -1396,7 +1774,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Social', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['social', 'reviews', 'rating', 'stars', 'badges']
+				'keyword' => ['social reviews', 'facebook reviews', 'google reviews', 'manual reviews', 'review badge', 'review carousel', 'review grid layout', 'facebook badge', 'google badge', 'social proof block', 'customer reviews', 'user reviews', 'social validation']
 			],
 			'tp-spline-3d-viewer' => [
 				'label' => esc_html__('Spline 3D Viewer','the-plus-addons-for-block-editor'),
@@ -1405,7 +1783,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['canvas animation', 'spline', '3d', 'Spline 3D viewer', 'Spline 3D model embed', 'Spline 3D interactive']
+				'keyword' => ['3D viewer', 'interactive 3D objects', 'Spline 3D viewer', 'embedded 3D model', '3D embed', '3D object viewer', 'web-3D model', '3D model embed', 'responsive 3D model']
 			],
 			'tp-smooth-scroll' => [
 				'label' => esc_html__('Smooth Scroll','the-plus-addons-for-block-editor'),
@@ -1414,6 +1792,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
+                'keyword' => ['smooth scroll', 'smooth scroll effect', 'smooth scrolling', 'page smooth scroll', 'scroll navigation', 'infinite scroll', 'scrolling effects', 'scrolling animation']
 			],
 			'tp-switcher' => [
 				'label' => esc_html__('Switcher','the-plus-addons-for-block-editor'),
@@ -1422,7 +1801,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Switcher', 'on/off', 'switch control', 'toggle', 'true/false', 'toggle switch', 'state', 'binary']
+				'keyword' => ['switcher', 'content toggle', 'dual content switch', 'dual content', 'comparison toggle', 'plan switcher']
 			],
 			'tp-table-content' => [
 				'label' => esc_html__('Table of Contents','the-plus-addons-for-block-editor'),
@@ -1431,7 +1810,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => [ 'Table of Contents', 'Contents', 'toc', 'index', 'listing', 'appendix' ]
+				'keyword' => [ 'table of contents', 'TOC', 'collapsible table', 'sticky table of contents', 'collapsible TOC', 'sticky TOC', 'smooth-scroll TOC', 'fixed table of contents', 'article navigation', 'content outline' ]
 			],
 			'tp-tabs-tours' => [
 				'label' => esc_html__('Tabs Tours', 'the-plus-addons-for-block-editor'),
@@ -1440,7 +1819,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '#video',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Tabbed', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Tabs', 'Tours', 'tab content', 'pills', 'toggle']
+				'keyword' => [ 'tabs block', 'tabs tours', 'content tabs', 'tab navigation', 'tab layout', 'vertical tab', 'horizontal tab' ]
 			],
 			'tp-dynamic-category' => [
 				'label' => esc_html__('Taxonomy Listing','the-plus-addons-for-block-editor'),
@@ -1449,7 +1828,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Category', 'Tags', 'Taxonomy', 'WP Term' , 'Category Grid' , 'product category' , 'Post' , 'CPT' , 'WooCommerce', 'Product Tags']
+				'keyword' => ['dynamic category', 'dynamic tags', 'dynamic taxonomy', 'dynamic term', 'dynamic category grid', 'dynamic product category', 'dynamic post category', 'dynamic CPT category', 'dynamic WooCommerce category', 'dynamic product tags']
 			],
 			'tp-team-listing' => [
 				'label' => esc_html__('Team Member', 'the-plus-addons-for-block-editor'),
@@ -1458,7 +1837,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Team Member Gallery', 'Team Gallery', 'Team Member Carousel']
+				'keyword' => ['team member listing', 'team listing', 'team profile', 'team carousel', 'team grid', 'team masonry', 'team profile filter', 'team bio']
 			],
 			'tp-testimonials' => [
 				'label' => esc_html__('Testimonials', 'the-plus-addons-for-block-editor'),
@@ -1467,7 +1846,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'freemium',
 				'block_cate' => esc_html__('Listing', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Testimonials', 'testimonial', 'slider', 'client reviews', 'ratings']
+				'keyword' => ['testimonial', 'client review', 'testimonial carousel', 'review grid', 'masonry testimonials', 'testimonial grid', 'customer feedback', 'client testimonials']
 			],
 			'tp-timeline' => [
 				'label' => esc_html__('Timeline', 'the-plus-addons-for-block-editor'),
@@ -1476,7 +1855,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'pro',
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-                'keyword' => ['timeline','Schedule','Sequence','History','Events','Timeframe','Historical data','Time Line']
+                'keyword' => ['timeline', 'event timeline', 'milestone timeline', 'vertical timeline', 'masonry timeline', 'responsive timeline']
 			],
 			'tp-video' => [
 				'label' => esc_html__('Video', 'the-plus-addons-for-block-editor'),
@@ -1485,7 +1864,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'videoUrl' => '',
 				'tag' => 'free',
 				'block_cate' => esc_html__('Essential', 'the-plus-addons-for-block-editor'),
-				'keyword' => ['Video', 'youtube video', 'vimeo video', 'video player', 'mp4 player', 'web player', 'youtube content', 'Youtube embed', 'youtube iframe']
+				'keyword' => ['video embed', 'video player', 'YouTube embed', 'Vimeo video', 'self-hosted video', 'video popup', 'responsive video player', 'video embedding']
 			],
 		];
 	
@@ -1572,14 +1951,84 @@ class Tpgb_Gutenberg_Settings_Options {
 		];
 	}
 	
-	/**
-     * Theplus Gutenberg Display Page
+    /**
+     * Render Dashboard Root Div
+     * @since 1.0.0 nxtext
+     */
+    public function nexter_ext_dashboard() {
+        echo '<div id="nexter-dash"></div>';
+        do_action('nxt_new_update_notice');
+    }
+	
+    /**
+     * Code Snippet Render html
      * @since  1.0.0
      */
-    public function admin_page_display() {
-		echo '<div id="tpgb-dash"></div>';
-        do_action('nxt_new_update_notice');
-	}
+    public function nexter_code_snippet_display() {
+        $features = [
+            __('Replace multiple small plugins with a single, unified snippet manager', 'the-plus-addons-for-block-editor'),
+            __('Add PHP, HTML, CSS safely without editing theme or core files', 'the-plus-addons-for-block-editor'),
+            __('Apply snippets site-wide or on specific pages, posts, or conditions', 'the-plus-addons-for-block-editor'),
+            __('Stay protected with built-in validation, version control & rollback', 'the-plus-addons-for-block-editor'),
+            __('Keep your site fast, only active snippets are loaded', 'the-plus-addons-for-block-editor'),
+            __('Import or Organise snippets from our 1000+ Cloud Snippets Library', 'the-plus-addons-for-block-editor'),
+            __('Preview, test, and toggle snippets without affecting live visitors', 'the-plus-addons-for-block-editor'),
+        ];
+
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        $pluginslist = get_plugins();
+
+        $extensioninstall = false;
+        $extensionactivate = false;
+        if ( isset( $pluginslist[ 'nexter-extension/nexter-extension.php' ] ) && !empty( $pluginslist[ 'nexter-extension/nexter-extension.php' ] ) ) {
+            if( is_plugin_active('nexter-extension/nexter-extension.php') ){
+                $extensioninstall = true;
+            }else{
+                $extensionactivate = true;
+            }
+        }
+
+        echo '<div id="nexter-code-snippets">
+            <div class="nxt-code-heading-title">'.esc_html__('Code Snippets','the-plus-addons-for-block-editor').'</div>
+            <section class="nxt-install-ext-sec">
+                <div class="nxt-ins-ext-cover">
+                    <div class="nxt-ins-ext-inner">
+                        <span class="badge">' . esc_html__('Code Snippets', 'the-plus-addons-for-block-editor') . '</span>
+                        <h1 class="nxt-ins-heading">' . esc_html__('Add Custom PHP, HTML, CSS & JS Code to WordPress - No Child Theme or Extra Plugins Needed', 'the-plus-addons-for-block-editor') . '</h1>
+                        <p class="nxt-ins-desc">' . esc_html__('Skip the pain of editing core files or juggling dozens of mini plugins. Nexter Code Snippets lets you safely add and manage custom PHP, HTML, CSS right inside your dashboard, no child theme required. Build smarter, cleaner sites with total control and zero risk to performance.', 'the-plus-addons-for-block-editor') . '</p>
+                        <div class="nxt-ins-btns">
+                            <button class="nxt-inst-ext-btn ins-btn-primary">' . (!empty($extensionactivate) ? esc_html__('Activate Nexter Extensions', 'the-plus-addons-for-block-editor') : esc_html__('Install Nexter Extensions', 'the-plus-addons-for-block-editor')) . '</button>
+                            <a href="https://nexterwp.com/nexter-extension/features/#code%20snippets?utm_source=wpbackend&utm_medium=dashboard&utm_campaign=nextersettings" rel="noopener noreferrer" target="_blank" class="ins-btn-outline">' . esc_html__('Explore All Features', 'the-plus-addons-for-block-editor') . '</a>
+                        </div>
+                        <ul class="nxt-feature-list">';
+
+                        foreach ($features as $feature) {
+                            echo '<li>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" fill="none" viewBox="0 0 14 15">
+                                    <path fill="#1717cc" d="M6.373.505a7.13 7.13 0 0 0-3.7 1.474c-.535.41-1.228 1.183-1.628 1.813a9.6 9.6 0 0 0-.63 1.29c-.135.367-.28.931-.351 1.367-.085.534-.085 1.547 0 2.081a6.9 6.9 0 0 0 .65 2.04c.361.738.736 1.26 1.34 1.866a6.5 6.5 0 0 0 1.866 1.34 7 7 0 0 0 2.042.649c.534.084 1.548.084 2.083 0a7 7 0 0 0 2.041-.65 6.5 6.5 0 0 0 1.867-1.339 6.5 6.5 0 0 0 1.34-1.865c.241-.49.362-.81.493-1.304C13.96 8.61 14 8.251 14 7.49c0-.762-.041-1.12-.214-1.778a6.3 6.3 0 0 0-.493-1.304 6.5 6.5 0 0 0-1.34-1.865 6.5 6.5 0 0 0-1.867-1.34A6.8 6.8 0 0 0 8.058.56C7.655.497 6.756.467 6.373.505"/>
+                                    <path fill="#fff" d="M10.673 4.482c.137.044.348.249.406.4a.76.76 0 0 1-.017.561c-.088.178-4.599 4.654-4.802 4.766a.66.66 0 0 1-.624-.003c-.116-.06-2.193-1.92-2.547-2.279a.68.68 0 0 1-.205-.506c.005-.414.31-.693.72-.666.1.008.22.033.267.06.074.036 1.458 1.282 1.907 1.712l.129.126 2.05-2.046c1.126-1.123 2.086-2.062 2.135-2.087a.7.7 0 0 1 .58-.038"/>
+                                </svg>
+                                ' . esc_html($feature) . '
+                            </li>';
+                        }
+
+                echo'</ul>
+                    </div>
+                    <div class="nxt-ins-ext-img">
+                        <img src="' . esc_url(TPGB_URL . 'dashboard/assets/images/install-nexter-extension.png') . '" alt="' . esc_attr__('Nexter Extension', 'the-plus-addons-for-block-editor') . '" />
+                    </div>
+                </div>
+            </section>
+        </div>';
+    }
+
+    /**
+     * Theme Builder Render html
+     * @since  1.0.0
+     */
+    public function nexter_blocks_builder_display() {
+        echo '<div id="nexter-theme-builder"></div>';
+    }
 	
 	public function get_post_statuses_sql(){
 		$statuses = array_map(
@@ -1599,7 +2048,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && 
 			isset( $_POST['nonce'] ) && 
 			!empty( $_POST['nonce'] ) && 
-			wp_verify_nonce( sanitize_text_field( wp_unslash ($_POST['nonce']) ), 'tpgb-dash-ajax-nonce' ) 
+			wp_verify_nonce( sanitize_text_field( wp_unslash ($_POST['nonce']) ), 'nexter_admin_nonce' ) 
 		) {
 			global $wpdb;
 			$block_scan =[];
@@ -1654,7 +2103,7 @@ class Tpgb_Gutenberg_Settings_Options {
 	 * @since 1.4.4
 	 */
 	public function tpgb_disable_unsed_block_fun(){
-		if( defined('DOING_AJAX') && DOING_AJAX && isset( $_POST['nonce'] ) && !empty($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash ($_POST['nonce'] ) ), 'tpgb-dash-ajax-nonce') ){
+		if( defined('DOING_AJAX') && DOING_AJAX && isset( $_POST['nonce'] ) && !empty($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash ($_POST['nonce'] ) ), 'nexter_admin_nonce') ){
 			
 			if(!isset($_POST['blocks']) || empty($_POST['blocks'])){
 				echo 0;
@@ -1691,7 +2140,7 @@ class Tpgb_Gutenberg_Settings_Options {
 	 * @since 4.0.14
 	 */
 
-	 public function tpgb_blocks_enable_all_filter() {
+	public function tpgb_blocks_enable_all_filter() {
 		$this->block_listout();
 		$default_value = array(
 			'enable_normal_blocks' => array(),
@@ -1775,8 +2224,10 @@ class Tpgb_Gutenberg_Settings_Options {
 	 * Wdesignkit Widgets Enable / Disabled Ajax
 	 * @since 4.0.7
 	 */
-    public function  nxt_wdk_widget_ajax_call(){
+    public function nxt_wdk_widget_ajax_callback(){
+
         $response = apply_filters( 'nxt_wdk_widget_ajax_call', 'wdk_update_widget' );
+
         wp_send_json( $response );
         wp_die();
     }
@@ -1804,9 +2255,9 @@ class Tpgb_Gutenberg_Settings_Options {
         }
 
         $sani_blockList = map_deep( wp_unslash( $blockList ), 'sanitize_text_field' );
-        
-        $all_block['enable_normal_blocks'] = array_unique( array_merge( $all_block['enable_normal_blocks'], $sani_blockList ) );
 
+        $all_block['enable_normal_blocks'] = array_unique( array_merge( $all_block['enable_normal_blocks'], $sani_blockList ) );
+        
         if ( in_array( 'tp-google-map', $sani_blockList, true ) ) {
 			$connection_key  = 'tpgb_connection_data';
 			$connection_opts = get_option( $connection_key );
@@ -1823,11 +2274,6 @@ class Tpgb_Gutenberg_Settings_Options {
 		}
 
         update_option( $option_key, $all_block );
-
-        if (class_exists('Tpgb_Library') && method_exists('Tpgb_Library', 'remove_backend_dir_files')) {
-            Tpgb_Library()->remove_backend_dir_files();
-        }
-
         return [ 'success' => true , 'message'  => 'success' , 'description' => 'success' ];
     }
 
@@ -1837,7 +2283,7 @@ class Tpgb_Gutenberg_Settings_Options {
     */
     public function nxt_block_boarding_store(){
 
-		check_ajax_referer('tpgb-dash-ajax-nonce', 'security');
+		check_ajax_referer('nexter_admin_nonce', 'security');
 
 		$tponbData = ( isset($_POST['boardingData']) && !empty($_POST['boardingData']) ) ? wp_unslash(json_decode(stripslashes($_POST['boardingData']), true)) : [];
     
@@ -1909,7 +2355,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				) );
 
 				if (is_wp_error($response)) {
-					echo wp_send_json([ 'onBoarding' => false ]);
+					wp_send_json([ 'onBoarding' => false ]);
 				} else {
 					$StatusOne = wp_remote_retrieve_response_code($response);
 					if($StatusOne == 200){
@@ -1917,20 +2363,78 @@ class Tpgb_Gutenberg_Settings_Options {
 						$GetDataOne = (array) json_decode(json_decode($GetDataOne, true));
 						if(isset($GetDataOne['success']) && !empty($GetDataOne['success']) ){
                             add_option( 'nxt_onboarding_done' , true );
-                            echo wp_send_json([ 'onBoarding' => true ]);
+                            wp_send_json([ 'onBoarding' => true ]);
 						}
 					}
 				}
 			}else{
                 add_option( 'nxt_onboarding_done' , true );
-                echo wp_send_json([ 'onBoarding' => true ]);
+                wp_send_json([ 'onBoarding' => true ]);
             }
 		}
 		exit;
 	}
 
-}
+    /*
+    * Template Get ajax call
+    * @since 4.6.0
+    */
+    public function nexter_temp_api_call() {
 
+        check_ajax_referer( 'nexter_admin_nonce', 'nexter_nonce' );
+
+        if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'the-plus-addons-for-block-editor' ) ) );
+            wp_die();
+        }
+
+        $method  = isset( $_POST['method'] ) ? sanitize_text_field( wp_unslash( $_POST['method'] ) ) : 'POST';
+        $api_url = isset( $_POST['api_url'] ) ? esc_url_raw( wp_unslash( $_POST['api_url'] ) ) : '';
+        $body    = isset( $_POST['url_body'] ) ? json_decode( wp_unslash( $_POST['url_body'] ), true ) : array();
+
+        $args = array(
+            'method'  => $method,
+            'timeout' => 30,
+            'headers' => array(
+                'Content-Type' => 'application/json',
+            ),
+        );
+
+        if ( ! empty( $body ) ) {
+            $args['body'] = wp_json_encode( $body );
+        }
+
+        // Make the request based on method
+        if ( 'POST' === $method ) {
+            $response = wp_remote_post( $api_url, $args );
+        } elseif ( 'GET' === $method ) {
+            $response = wp_remote_get( $api_url, $args );
+        } else {
+            wp_send_json_error( array(
+                'HTTP_CODE' => 400,
+                'error' => 'Invalid HTTP method'
+            ) );
+            wp_die();
+        }
+
+        $statuscode = wp_remote_retrieve_response_code( $response );
+        $getdataone = wp_remote_retrieve_body( $response );
+        
+        $response_data = json_decode( $getdataone, true );
+
+        $statuscode_array = array( 'HTTP_CODE' => $statuscode );
+
+        // Merge status code with response data
+        if ( is_array( $response_data ) ) {
+            $final = array_merge( $statuscode_array, $response_data );
+        } else {
+            $final = array_merge( $statuscode_array, array( 'data' => $response_data ) );
+        }
+
+        wp_send_json( $final );
+        wp_die();
+    }
+}
 // Get it started
 $Tpgb_Gutenberg_Settings_Options = new Tpgb_Gutenberg_Settings_Options();
 $Tpgb_Gutenberg_Settings_Options->hooks();

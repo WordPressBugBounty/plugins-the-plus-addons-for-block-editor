@@ -2,21 +2,22 @@
 /*
 * Plugin Name: Nexter Blocks
 * Plugin URI: https://nexterwp.com/nexter-blocks/
-* Description: Highly customizable WordPress Gutenberg blocks to build professional websites with top-notch performance and sleek design. Includes 40+ FREE WordPress Blocks.
-* Version: 4.5.9
+* Description: Highly custozizable WordPress Gutenberg blocks to build professional websites with top-notch performance and sleek design. Includes 40+ FREE WordPress Blocks.
+* Version: 4.7.0
 * Author: POSIMYTH
 * Author URI: https://posimyth.com
-* Tested up to: 6.8
+* Tested up to: 6.9
 * Text Domain: the-plus-addons-for-block-editor
 * Domain Path: /languages
 * License: GPLv3
 * License URI: https://opensource.org/licenses/GPL-3.0
 */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.5.9' );
+defined( 'TPGB_VERSION' ) or define( 'TPGB_VERSION', '4.7.0' );
 define( 'TPGB_FILE__', __FILE__ );
 
 define( 'TPGB_PATH', plugin_dir_path( __FILE__ ) );
@@ -96,10 +97,8 @@ function tpgb_free_check_tpag_version() {
 add_action('in_plugin_update_message-the-plus-addons-for-block-editor/the-plus-addons-for-block-editor.php','tpgb_plugin_update_message',10,2);
 function tpgb_plugin_update_message( $data, $response ){			
 	if( isset( $data['upgrade_notice'] ) && !empty($data['upgrade_notice']) ) {
-		printf(
-			'<div class="update-message">%s</div>',
-			wpautop( $data['upgrade_notice'] )
-		);
+		$message      = sprintf( '<div class="update-message">%s</div>', wpautop( $data['upgrade_notice'] ) );
+		echo wp_kses_post( $message );
 	}
 }
 ?>

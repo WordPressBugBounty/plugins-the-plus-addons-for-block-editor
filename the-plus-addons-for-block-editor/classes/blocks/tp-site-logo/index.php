@@ -8,18 +8,18 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
     $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
 	$logoNmlDbl = (!empty($attributes['logoNmlDbl'])) ? $attributes['logoNmlDbl'] : 'normal';
 	$logoType = (!empty($attributes['logoType'])) ? $attributes['logoType'] : 'img';
-	$imageStore = (!empty($attributes['imageStore']['url'])) ? $attributes['imageStore'] : '';
+	$imageStore = (!empty($attributes['imageStore']['url'])) ? $attributes['imageStore'] : [ 'url' => TPGB_ASSETS_URL.'assets/images/tpgb-placeholder.jpg' ];
 	$imageSize = (!empty($attributes['imageSize'])) ? $attributes['imageSize'] : 'thumbnail' ;
-	$svgStore = (!empty($attributes['svgStore']['url'])) ? $attributes['svgStore'] : '';
+	$svgStore = (!empty($attributes['svgStore']['url'])) ? $attributes['svgStore'] : [ 'url' => '' ];
 	
-	$hvrImageStore = (!empty($attributes['hvrImageStore']['url'])) ? $attributes['hvrImageStore'] : '';
+	$hvrImageStore = (!empty($attributes['hvrImageStore']['url'])) ? $attributes['hvrImageStore'] : [ 'url' => TPGB_ASSETS_URL.'assets/images/tpgb-placeholder.jpg' ];
 	$hvrImageSize = (!empty($attributes['hvrImageSize'])) ? $attributes['hvrImageSize'] : 'thumbnail' ;
-	$hvrSvgStore = (!empty($attributes['hvrSvgStore']['url'])) ? $attributes['hvrSvgStore'] : '';
+	$hvrSvgStore = (!empty($attributes['hvrSvgStore']['url'])) ? $attributes['hvrSvgStore'] : [ 'url' => '' ];
 	
 	$urlType = (!empty($attributes['urlType'])) ? $attributes['urlType'] : 'home';
-	
+    
 	$stickyLogo = (!empty($attributes['stickyLogo'])) ? $attributes['stickyLogo'] : false;
-	$stickyImg = (!empty($attributes['stickyImg']['url'])) ? $attributes['stickyImg'] : '';
+	$stickyImg = (!empty($attributes['stickyImg']['url'])) ? $attributes['stickyImg'] : [ 'url' => TPGB_ASSETS_URL.'assets/images/tpgb-placeholder.jpg' ];
 	$sImgSize = (!empty($attributes['sImgSize'])) ? $attributes['sImgSize'] : 'thumbnail' ;
 	$stickySvg = (!empty($attributes['stickySvg']['url'])) ? $attributes['stickySvg'] : '';
 	$markupSch = (!empty($attributes['markupSch'])) ? $attributes['markupSch'] : false;
@@ -151,166 +151,10 @@ function tpgb_tp_site_logo_render_callback( $attributes, $content) {
  * Render for the server-side
  */
 function tpgb_site_logo() {
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
-    $globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
-    $globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
-  
-	$attributesOptions = array(
-		'block_id' => [
-			'type' => 'string',
-			'default' => '',
-		],
-		'logoNmlDbl' => [
-			'type' => 'string',
-			'default' => 'normal',	
-		],
-		'logoType' => [
-			'type' => 'string',
-			'default' => 'img',	
-		],
-		'imageStore' => [
-			'type' => 'object',
-			'default' => [
-				'url' => TPGB_ASSETS_URL.'assets/images/tpgb-placeholder.jpg',
-			],
-		],
-		'imageSize' => [
-			'type' => 'string',
-			'default' => 'thumbnail',	
-		],
-		'svgStore' => [
-			'type' => 'object',
-			'default' => [
-				'url' => '',
-			],
-		],
-		'logoWidth' => [
-			'type' => 'object',
-			'default' => (object) [ 
-				'md' => '100',
-				"unit" => 'px',
-			],
-			'style' => [
-				(object) [
-					'selector' => '{{PLUS_WRAP}} .site-normal-logo img.image-logo-wrap{ max-width: {{logoWidth}}; }',
-				],
-			],
-			'scopy' => true,
-		],
-		
-		'hvrImageStore' => [
-			'type' => 'object',
-			'default' => [
-				'url' => TPGB_ASSETS_URL.'assets/images/tpgb-placeholder.jpg',
-			],
-		],
-		'hvrImageSize' => [
-			'type' => 'string',
-			'default' => 'thumbnail',	
-		],
-		'hvrSvgStore' => [
-			'type' => 'object',
-			'default' => [
-				'url' => '',
-			],
-		],
-		'hvrLogoWidth' => [
-			'type' => 'object',
-			'default' => (object) [ 
-				'md' => '100',
-				"unit" => 'px',
-			],
-			'style' => [
-				(object) [
-					'condition' => [(object) ['key' => 'logoNmlDbl', 'relation' => '==', 'value' => 'double' ]],
-					'selector' => '{{PLUS_WRAP}} .site-normal-logo.hover-logo img.image-logo-wrap{ max-width: {{hvrLogoWidth}}; width: {{hvrLogoWidth}}; }',
-				],
-			],
-			'scopy' => true,
-		],
-		'urlType' => [
-			'type' => 'string',
-			'default' => 'home',	
-		],
-		'customURL' => [
-			'type'=> 'object',
-			'default'=> [
-				'url' => '#',
-				'target' => '',
-				'nofollow' => ''
-			],
-		],
-		'Alignment' => [
-			'type' => 'object',
-			'default' => [ 'md' => 'left', 'sm' => '', 'xs' => '' ],
-			'style' => [
-				(object) [
-					'selector' => '{{PLUS_WRAP}} { text-align: {{Alignment}}; }',
-				],
-			],
-			'scopy' => true,
-		],
-		'stickyLogo' => [
-			'type' => 'boolean',
-			'default' => false,	
-		],
-		'stickyImg' => [
-			'type' => 'object',
-			'default' => [
-				'url' => TPGB_ASSETS_URL.'assets/images/tpgb-placeholder.jpg',
-			],
-		],
-		'sImgSize' => [
-			'type' => 'string',
-			'default' => 'thumbnail',	
-		],
-		'stickySvg' => [
-			'type' => 'object',
-			'default' => [
-				'url' => '',
-			],
-		],
-		'stickyWidth' => [
-			'type' => 'object',
-			'default' => (object) [ 
-				'md' => '',
-				"unit" => 'px',
-			],
-			'style' => [
-				(object) [
-					'condition' => [(object) ['key' => 'logoNmlDbl', 'relation' => '==', 'value' => 'normal' ] , ['key' => 'stickyLogo', 'relation' => '==', 'value' => true ]],
-					'selector' => '{{PLUS_WRAP}} .site-normal-logo img.image-logo-wrap.sticky-image{ max-width: {{stickyWidth}}; }',
-				],
-			],
-			'scopy' => true,
-		],
-		'logoSpeed' => [
-			'type' => 'string',
-			'default' => '',
-			'style' => [
-				(object) [
-					'condition' => [(object) ['key' => 'logoNmlDbl', 'relation' => '==', 'value' => 'double' ] ],
-					'selector' => '{{PLUS_WRAP}} .site-normal-logo,{{PLUS_WRAP}} .site-normal-logo.hover-logo,{{PLUS_WRAP}} .site-logo-wrap.logo-hover-normal:hover .site-normal-logo.hover-logo{ transition-duration : {{logoSpeed}}s; }',
-				],
-			],
-			'scopy' => true,
-		],
-		'markupSch' => [
-			'type' => 'boolean',
-			'default' => false,	
-		],
-		'ariaLabel' => [
-			'type' => 'string',
-			'default' => '',	
-		],
-	);
-	$attributesOptions = array_merge($attributesOptions	, $globalBgOption, $globalpositioningOption, $globalPlusExtrasOption);
-	
-	register_block_type( 'tpgb/tp-site-logo', array(
-		'attributes' => $attributesOptions,
-		'editor_script' => 'tpgb-block-editor-js',
-		'editor_style'  => 'tpgb-block-editor-css',
-        'render_callback' => 'tpgb_tp_site_logo_render_callback'
-    ) );
+
+    if(method_exists('Tpgb_Blocks_Global_Options', 'merge_options_json')){
+		$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_site_logo_render_callback');
+		register_block_type( $block_data['name'], $block_data );
+	}
 }
 add_action( 'init', 'tpgb_site_logo' );

@@ -11,4 +11,6 @@ Front End + Back End CSS
 .tpgb-draw-svg .svg-inner-block object{
 	width: 100%;
 	opacity:0;
+    pointer-events: none;
+
 }

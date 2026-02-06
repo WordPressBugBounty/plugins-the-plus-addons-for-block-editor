@@ -1,5 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
 	"name": "tpgb/tp-infobox",
 	"version": "0.1.0",
 	"title": "Infobox",
@@ -2230,6 +2231,16 @@
         "scopy": true
       },
       "svgfillColor": {
+        "type": "string",
+        "default": "",
+        "scopy": true
+      },
+      "svgstroHoverColor": {
+        "type": "string",
+        "default": "",
+        "scopy": true
+      },
+      "svgfillHoverColor": {
         "type": "string",
         "default": "",
         "scopy": true

@@ -28,7 +28,12 @@ function tpgb_button_render_callback( $attributes, $content ) {
 	$btnHvrCnt = (!empty($attributes['btnHvrCnt'])) ? $attributes['btnHvrCnt'] : false;
 	$selectHvrCnt = (!empty($attributes['selectHvrCnt'])) ? $attributes['selectHvrCnt'] : '';
 	$fancyBox = (!empty($attributes['fancyBox'])) ? $attributes['fancyBox'] : '';
-	
+    $svgIcon = (!empty($attributes['svgIcon'])) ? $attributes['svgIcon'] : '';
+
+    $headSvgColor = (!empty($attributes['headSvgColor'])) ? $attributes['headSvgColor'] : '';
+    $headSvgfill = (!empty($attributes['headSvgfill'])) ? $attributes['headSvgfill'] : '';
+    $headSvgHoverColor = (!empty($attributes['SvgStrHover'])) ? $attributes['SvgStrHover'] : '';
+    $headSvgHoverFill = (!empty($attributes['SvgFillHover'])) ? $attributes['SvgFillHover'] : '';
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 	
 	if(class_exists('Tpgbp_Pro_Blocks_Helper')){
@@ -81,6 +86,80 @@ function tpgb_button_render_callback( $attributes, $content ) {
 	}else if(!empty($imageName['url'])){
 		$imgSrc = '<img src="'.esc_url($imageName['url']).'" class="btn-icon '.esc_attr($translin).' '.esc_attr($imgBfAf).'" alt="'.$altText.'"/>';
 	}
+
+    
+    $svgSrc  = '';
+    $svgBfAf = '';
+
+    $svgaltText = ( isset( $svgIcon['alt'] ) && ! empty( $svgIcon['alt'] ) )
+        ? esc_attr( $svgIcon['alt'] )
+        : ( ! empty( $svgIcon['title'] )
+            ? esc_attr( $svgIcon['title'] )
+            : esc_attr__( 'Button', 'the-plus-addons-for-block-editor' )
+        );
+
+    /* Icon position class */
+    if ( ! empty( $svgIcon ) ) {
+        if ( $styleType !== 'style-17' ) {
+            if ( $iconPosition === 'iconBefore' ) {
+                $svgBfAf = 'button-before';
+            } elseif ( $iconPosition === 'iconAfter' ) {
+                $svgBfAf = 'button-after';
+            }
+        } else {
+            $svgBfAf = 'tpgb-rel-flex';
+        }
+    }
+
+    /* ALWAYS render SVG using <object> */
+    if ( ! empty( $svgIcon['id'] ) ) {
+
+        $svg_url = wp_get_attachment_url( $svgIcon['id'] );
+
+        if ( $svg_url ) {
+            $svgSrc  = '<div class="tpgb-draw-svg btn-icon ' . esc_attr( $translin ) . ' ' . esc_attr( $svgBfAf ) . '"
+            data-id="service-svg-' . esc_attr( $block_id ) . '"
+            data-type="delayed"
+            data-duration="1"
+            data-stroke="' . esc_attr( $headSvgColor ) . '"
+            data-fillColor="' . esc_attr( $headSvgfill ) . '"
+            data-strokeColorHover="' . esc_attr( $headSvgHoverColor ) . '"                              
+            data-fillColorHover="' . esc_attr( $headSvgHoverFill ) . '"
+            data-fillEnable="yes">';
+        
+            $svgSrc .= '<object
+                id="service-svg-' . esc_attr( $block_id ) . '"
+                type="image/svg+xml"
+                data="' . esc_url( $svg_url ) . '"
+                aria-label="' . esc_attr( $svgaltText ) . '">
+            </object>';
+        
+        $svgSrc .= '</div>';
+        
+        }
+
+    } elseif ( ! empty( $svgIcon['url'] ) ) {
+
+        $svgSrc = '<div class="tpgb-draw-svg btn-icon ' . esc_attr( $translin ) . ' ' . esc_attr( $svgBfAf ) . '"
+            data-id="service-svg-' . esc_attr( $block_id ) . '"
+            data-type="delayed"
+            data-duration="1"
+            data-stroke="' . esc_attr( $headSvgColor ) . '"
+            data-fillColor="' . esc_attr( $headSvgfill ) . '"   
+            data-strokeColorHover="' . esc_attr( $headSvgHoverColor ) . '"                              
+            data-fillColorHover="' . esc_attr( $headSvgHoverFill ) . '"
+            data-fillEnable="yes">';
+        
+        $svgSrc .= '<object
+            id="service-svg-' . esc_attr( $block_id ) . '"
+            type="image/svg+xml"
+            data="' . esc_url( $svgIcon['url'] ) . '"
+            aria-label="' . esc_attr( $svgaltText ) . '">
+        </object>'; 
+        
+        $svgSrc .= '</div>';
+        
+    }
 	
 	$getButtonSource='';
 	
@@ -89,6 +168,8 @@ function tpgb_button_render_callback( $attributes, $content ) {
 			$getButtonSource .= $getBfrIcon;
 		}else if($iconType=='image'){
 			$getButtonSource .= $imgSrc;
+		}else if($iconType=='svg'){
+			$getButtonSource .= $svgSrc;
 		}
 	}
 	if($styleType=='style-6'){
@@ -108,7 +189,9 @@ function tpgb_button_render_callback( $attributes, $content ) {
 						$getButtonSource .= $getBfrIcon;
 					}else if($iconType=='image'){
 						$getButtonSource .= $imgSrc;
-					}
+					}else if($iconType=='svg'){
+						$getButtonSource .= $svgSrc;
+					}   
 				}
 					$getButtonSource .= wp_kses_post($btnTagText);
 				if($iconPosition=='iconAfter'){
@@ -116,6 +199,8 @@ function tpgb_button_render_callback( $attributes, $content ) {
 						$getButtonSource .= $getAftrIcon;
 					}else if($iconType=='image'){
 						$getButtonSource .= $imgSrc;
+					}else if($iconType=='svg'){
+						$getButtonSource .= $svgSrc;
 					}
 				}
 			$getButtonSource .= '</span>';
@@ -127,6 +212,8 @@ function tpgb_button_render_callback( $attributes, $content ) {
 					$getButtonSource .= $getBfrIcon;
 				}else if($iconType=='image'){
 					$getButtonSource .= $imgSrc;
+				}else if($iconType=='svg'){
+					$getButtonSource .= $svgSrc;
 				}
 			}
 			$getButtonSource .='<span>';	
@@ -138,6 +225,8 @@ function tpgb_button_render_callback( $attributes, $content ) {
 					$getButtonSource .= $getAftrIcon;
 				}else if($iconType=='image'){
 					$getButtonSource .= $imgSrc;
+				}else if($iconType=='svg'){
+					$getButtonSource .= $svgSrc;
 				}
 			}
 		}
@@ -151,6 +240,8 @@ function tpgb_button_render_callback( $attributes, $content ) {
 					$getButtonSource .= $getBfrIcon;
 				}else if($iconType=='image'){
 					$getButtonSource .= $imgSrc;
+				}else if($iconType=='svg'){
+					$getButtonSource .= $svgSrc;
 				}
 			}
 			$getButtonSource .= wp_kses_post($btnText);
@@ -159,6 +250,8 @@ function tpgb_button_render_callback( $attributes, $content ) {
 					$getButtonSource .= $getAftrIcon;
 				}else if($iconType=='image'){
 					$getButtonSource .= $imgSrc;
+				}else if($iconType=='svg'){
+					$getButtonSource .= $svgSrc;
 				}
 			}
 			$getButtonSource .='</span>';
@@ -177,6 +270,8 @@ function tpgb_button_render_callback( $attributes, $content ) {
 			$getButtonSource .= $getAftrIcon;
 		}else if($iconType=='image'){
 			$getButtonSource .= $imgSrc;
+		}else if($iconType=='svg'){
+			$getButtonSource .= $svgSrc;
 		}
 	}
 	if($styleType=='style-7'){
@@ -199,12 +294,10 @@ function tpgb_button_render_callback( $attributes, $content ) {
 
 	$extrAttr = ''; 
 	$fancyData = [];
-	
+	 
 	global $post;
 	$post_id = isset($post->ID) ? $post->ID : 0;
-	
 	if(!empty($fancyBox)){
-		
 		$extrAttr .= 'data-src="#tpgb-query-'.esc_attr($block_id).'-'.esc_attr($post_id).'" data-touch="false" href="javascript:;" ';
 		
 		$autoDimen = (!empty($attributes['autoDimen'])) ? $attributes['autoDimen'] : false ;
@@ -254,998 +347,6 @@ function tpgb_button_render_callback( $attributes, $content ) {
  * Render for the server-side
  */
 function tpgb_tp_button() {
-	/* $globalPlusExtrasOption = Tpgb_Blocks_Global_Options::load_plusextras_options();
-	$globalBgOption = Tpgb_Blocks_Global_Options::load_bg_options();
-	$globalpositioningOption = Tpgb_Blocks_Global_Options::load_positioning_options();
-  
-	$attributesOptions = array(
-			'block_id' => array(
-                'type' => 'string',
-				'default' => '',
-			),
-			'styleType' => [
-				'type' => 'string',
-				'default' => 'style-1',	
-			],
-			'btnText' => [
-				'type' => 'string',
-				'default' => 'Buy Now',	
-			],
-			'hoverText' => [
-				'type' => 'string',
-				'default' => 'Click Here',
-			],
-			'btnTagText' => [
-				'type' => 'string',
-				'default' => 'Click Here',	
-			],
-			'fancyBox' => [
-				'type' => 'boolean',
-				'default' => false,	
-			],
-			'backendVisi' => [
-				'type' => 'boolean',
-				'default' => false,	
-			],
-			'templates' => [
-				'type' => 'string',
-           		'default' => '',	
-			],
-			'btnLink' => [
-				'type'=> 'object',
-				'default'=> [
-					'url' => '',	
-					'target' => '',	
-					'nofollow' => ''
-				],
-			],
-			'Alignment' => [
-				'type' => 'object',
-				'default' => 'left',
-				'style' => [
-					(object) [
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button{ text-align: {{Alignment}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'btnHvrType' => [
-				'type' => 'string',
-				'default' => 'hover-left',	
-			],
-			'iconHvrType' => [
-				'type' => 'string',
-				'default' => 'hover-top',	
-			],
-			'iconType' => [
-				'type' => 'string',
-				'default' => 'fontAwesome',	
-			],
-			'fontAwesomeIcon' => [
-				'type'=> 'string',
-				'default'=> 'fa fa-chevron-right',
-			],
-			'imageName' => [
-				'type' => 'object',
-				'default' => [],
-			],
-			'imageSize' => [
-				'type' => 'string',
-				'default' => 'full',	
-			],
-			'ariaLabel' => [
-				'type' => 'string',
-				'default' => '',	
-			],
-			'iconPosition' => [
-				'type' => 'string',
-				'default' => 'iconAfter',
-				'scopy' => true,
-			],
-			'icnVrtcal' => [
-				'type' => 'string',
-				'default' => 'icon-top',	
-				'scopy' => true,
-			],
-			'iconSpace' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => '',
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-3', 'style-6', 'style-7', 'style-9'] ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .button-before { margin-right: {{iconSpace}}; } {{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .button-after { margin-left: {{iconSpace}}; } {{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap .button-before{ padding-left: {{iconSpace}}; } {{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap .button-after{ padding-left: {{iconSpace}}; } ',
-					],
-				],
-				'scopy' => true,
-			],
-			'iconSize' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => '',
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-3','style-6','style-7','style-9'] ], ['key' => 'iconType', 'relation' => '==', 'value' => 'fontAwesome']],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .btn-icon { font-size: {{iconSize}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-6' ], ['key' => 'iconType', 'relation' => '==', 'value' => 'fontAwesome']],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-6 .button-link-wrap .btn-left-arrow { font-size: {{iconSize}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-3','style-6','style-7','style-9'] ], ['key' => 'iconType', 'relation' => '==', 'value' => 'image']],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .btn-icon { width: {{iconSize}}; height: {{iconSize}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-6' ], ['key' => 'iconType', 'relation' => '==', 'value' => 'image']],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-6 .button-link-wrap .btn-left-arrow { width: {{iconSize}}; height: {{iconSize}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'innerPadding' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => [
-						"top" => '',
-						"right" => '',
-						"bottom" => '',
-						"left" => '',
-					],
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button:not(.button-style-11):not(.button-style-17) .button-link-wrap , {{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap > span , {{PLUS_WRAP}}.tpgb-plus-button.button-style-17 .button-link-wrap>span:not(.btn-icon){padding: {{innerPadding}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-3 .button-link-wrap{padding: {{innerPadding}};}',
-					],
-				],
-				'scopy' => true,
-			],
-			'texTyp' => [
-				'type'=> 'object',
-				'default'=> (object) [
-					'openTypography' => 0,
-					'size' => [ 'md' => '', 'unit' => 'px' ],
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'btnText', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap',
-					],
-				],
-				'scopy' => true,
-			],
-			'tagTyp' => [
-				'type'=> 'object',
-				'default'=> (object) [
-					'openTypography' => 0,
-					'size' => [ 'md' => '', 'unit' => 'px' ],
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ],['key' => 'btnTagText', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .button-tag-hint',
-					],
-				],
-				'scopy' => true,
-			],
-			'btnTextNmlColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'btnText', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap{ color: {{btnTextNmlColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-3','style-6','style-7','style-9'] ],['key' => 'iconType', 'relation' => '==', 'value' => 'fontAwesome' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .btn-icon{ color: {{btnTextNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-3 .button-link-wrap .arrow *{ fill: {{btnTextNmlColor}}; stroke: {{btnTextNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-6' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-6 .button-link-wrap .btn-left-arrow{ color: {{btnTextNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-7' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-7 .button-link-wrap .btn-arrow{ color: {{btnTextNmlColor}}; }{{PLUS_WRAP}}.tpgb-plus-button.button-style-7 .button-link-wrap:after{ border-color: {{btnTextNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-9 .button-link-wrap .btn-arrow{ color: {{btnTextNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap{ color: {{btnTextNmlColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'iconNmlColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-3','style-6','style-7','style-9'] ],['key' => 'iconType', 'relation' => '==', 'value' => 'fontAwesome' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .btn-icon{ color: {{iconNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-3 .button-link-wrap .arrow *{ fill: {{iconNmlColor}}; stroke: {{iconNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-6' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-6 .button-link-wrap .btn-left-arrow{ color: {{iconNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-7' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-7 .button-link-wrap .btn-arrow{ color: {{iconNmlColor}}; }{{PLUS_WRAP}}.tpgb-plus-button.button-style-7 .button-link-wrap:after{ border-color: {{iconNmlColor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-9 .button-link-wrap .btn-arrow{ color: {{iconNmlColor}};}',
-					],
-				],
-				'scopy' => true,
-			],
-			'BNmlColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => ['style-12','style-18'] ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .button_line{ background: {{BNmlColor}}; } {{PLUS_WRAP}}.tpgb-plus-button.button-style-18 .button-link-wrap{ background: {{BNmlColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'normalBG' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openBg'=> 0,
-					'bgType' => 'color',
-					'bgDefaultColor' => '',
-					'bgGradient' => (object) [ 'color1' => '#16d03e', 'color2' => '#1f91f3', 'type' => 'linear', 'direction' => '90', 'start' => 5, 'stop' => 80, 'radial' => 'center', 'clip' => false ],
-					'overlayBg' => '',
-					'overlayBgOpacity' => '',
-					'bgGradientOpacity' => ''
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-1' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-1 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-2' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-2 .button-link-wrap .btn-icon',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-3 a.button-link-wrap:before',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-4 a.button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-8 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-10' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-10 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-11' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-13' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-13 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-14' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-14 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-15' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-15 .button-link-wrap::before , {{PLUS_WRAP}}.tpgb-plus-button.button-style-15 .button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-16' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-16 .button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-17' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-17 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-18' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-18 .button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-19' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-19 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-20' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-20 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-21' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-21 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-22' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap',
-					],
-				],
-				'scopy' => true,
-			],
-			'bgNormalB' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openBorder' => 0,
-					'type' => '',
-						'color' => '',
-					'width' => (object) [
-						'md' => (object)[
-							'top' => '1',
-							'left' => '1',
-							'bottom' => '1',
-							'right' => '1',
-						],
-						"unit" => "px",
-					],			
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-1' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-1 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-4 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-8 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-10' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-10 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-11' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-13' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-13 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-14' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-14 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-16' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-16 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-17' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-17 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-19' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-19 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-20' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-20 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-21' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-21 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-22' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap',
-					],
-				],
-				'scopy' => true,
-			],
-			'normalBRadius' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => [
-						"top" => '',
-						"right" => '',
-						"bottom" => '',
-						"left" => '',
-					],
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-12', 'style-2', 'style-3', 'style-5', 'style-6', 'style-7', 'style-9', 'style-18'] ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap{border-radius: {{normalBRadius}};}',
-					],
-				],
-				'scopy' => true,
-			],
-			'nmlboxShadow' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openShadow' => 0,
-					'inset' => 0,
-					'horizontal' => 0,
-					'vertical' => 4,
-					'blur' => 8,
-					'spread' => 0,
-					'color' => "rgba(0,0,0,0.40)",
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-1' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-1 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-2' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-2 .button-link-wrap .btn-icon',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-4 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-8 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-10' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-10 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-11' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-13' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-13 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-14' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-14 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-15' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-15 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-16' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-16 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-17' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-17 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-18' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-18 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-19' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-19 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-20' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-20 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-21' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-21 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-22' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap',
-					],
-				],
-				'scopy' => true,
-			],
-			'borderHeight' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => '',
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-12' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap .button_line{ height: {{borderHeight}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'btnTextHvrColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'btnText', 'relation' => '!=', 'value' => '' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap:hover{ color: {{btnTextHvrColor}}; }{{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap::before{ color: {{btnTextHvrColor}}; }{{PLUS_WRAP}}.tpgb-plus-button.button-style-14 .button-link-wrap::after{ color: {{btnTextHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-3','style-6','style-7','style-9'] ],['key' => 'iconType', 'relation' => '==', 'value' => 'fontAwesome' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap:hover .btn-icon{ color: {{btnTextHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-3 a.button-link-wrap:hover .arrow-1 *{ fill: {{btnTextHvrColor}}; stroke: {{btnTextHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-6' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-6 .button-link-wrap:hover .btn-left-arrow{ color: {{btnTextHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-7' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-7 .button-link-wrap:hover .btn-arrow{ color: {{btnTextHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-9 .button-link-wrap:hover .btn-arrow{ color: {{btnTextHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap:hover{ color: {{btnTextHvrColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'iconHvrColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-3','style-6','style-7','style-9'] ],['key' => 'iconType', 'relation' => '==', 'value' => 'fontAwesome' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap:hover .btn-icon{ color: {{iconHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-3 a.button-link-wrap:hover .arrow-1 *{ fill: {{iconHvrColor}}; stroke: {{iconHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-6' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-6 .button-link-wrap:hover .btn-left-arrow{ color: {{iconHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-7' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-7 .button-link-wrap:hover .btn-arrow{ color: {{iconHvrColor}}; }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-9' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-9 .button-link-wrap:hover .btn-arrow{ color: {{iconHvrColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'BHoverColor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => ['style-12','style-18'] ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap:hover .button_line{ background: {{BHoverColor}}; }{{PLUS_WRAP}}.tpgb-plus-button.button-style-18 .button-link-wrap::before{ background: {{BHoverColor}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'hoverBG' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openBg'=> 0,
-					'bgType' => 'color',
-					'bgDefaultColor' => '',
-					'bgGradient' => (object) [ 'color1' => '#16d03e', 'color2' => '#1f91f3', 'type' => 'linear', 'direction' => '90', 'start' => 5, 'stop' => 80, 'radial' => 'center', 'clip' => false ],
-					'overlayBg' => '',
-					'overlayBgOpacity' => '',
-					'bgGradientOpacity' => ''
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-1' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-1 .button-link-wrap::before',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-2' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-2 .button-link-wrap:hover .btn-icon',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-3' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-3 a.button-link-wrap:hover:before',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-4 a.button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap:hover,{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap:before,{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap:after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-8 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-10' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-10 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-11' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap::before',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-13' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-13 .button-link-wrap::before ,{{PLUS_WRAP}}.tpgb-plus-button.button-style-13 .button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-14' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-14 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-15' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-15 .button-link-wrap:hover::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-16' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-16 .button-link-wrap::before',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-17' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-17 .button-link-wrap::before',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-18' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-18 .button-link-wrap:hover::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-19' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-19 .button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-20' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-20 .button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-21' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-21 .button-link-wrap::after',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-22' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap:hover',
-					],
-				],
-				'scopy' => true,
-			],
-			'bgHoverB' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openBorder' => 0,
-					'type' => '',
-						'color' => '',
-					'width' => (object) [
-						'md' => (object)[
-							'top' => '1',
-							'left' => '1',
-							'bottom' => '1',
-							'right' => '1',
-						],
-						"unit" => "px",
-					],			
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-1' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-1 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-4 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-8 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-10' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-10 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-11' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-13' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-13 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-14' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-14 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-16' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-16 .button-link-wrap:hover, {{PLUS_WRAP}}.tpgb-plus-button.button-style-16 .button-link-wrap::before',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-17' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-17 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-19' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-19 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-20' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-20 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-21' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-21 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-22' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap:hover',
-					],
-				],
-				'scopy' => true,
-			],
-			'hoverBRadius' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => [
-						"top" => '',
-						"right" => '',
-						"bottom" => '',
-						"left" => '',
-					],
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => ['style-12','style-2','style-3','style-5', 'style-6','style-7','style-9','style-18'] ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap:hover{border-radius: {{hoverBRadius}};} ',
-					],
-				],
-				'scopy' => true,
-			],
-			'hvrboxShadow' => [
-				'type' => 'object',
-				'default' => (object) [
-					'openShadow' => 0,
-					'inset' => 0,
-					'horizontal' => 0,
-					'vertical' => 4,
-					'blur' => 8,
-					'spread' => 0,
-					'color' => "rgba(0,0,0,0.40)",
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-1' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-1 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-2' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-2 .button-link-wrap:hover .btn-icon',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-4' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-4 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-5' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-5 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-8' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-8 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-10' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-10 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-11' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-11 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-13' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-13 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-14' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-14 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-15' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-15 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-16' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-16 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-17' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-17 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-18' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-18 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-19' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-19 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-20' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-20 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-21' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-21 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-22' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-22 .button-link-wrap:hover',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '==', 'value' => 'style-23' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button.button-style-23 .button-link-wrap:hover',
-					],
-				],
-				'scopy' => true,
-			],
-			'btnWidth' => [
-				'type' => 'object',
-				'default' => (object) [ 
-					'md' => '',
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'styleType', 'relation' => '!=', 'value' => 'style-3' ],['key' => 'styleType', 'relation' => '!=', 'value' => 'style-6' ],['key' => 'styleType', 'relation' => '!=', 'value' => 'style-7' ],['key' => 'styleType', 'relation' => '!=', 'value' => 'style-12' ],['key' => 'styleType', 'relation' => '!=', 'value' => 'style-17' ],['key' => 'styleType', 'relation' => '!=', 'value' => 'style-22' ]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .animted-content-inner { width: 100%; max-width: {{btnWidth}}; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'shakeAnimate' => [
-				'type' => 'boolean',
-				'default' => false,	
-				'scopy' => true,
-			],
-			'shakeDuration' => [
-				'type' => 'string',
-				'default' => '5',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'shakeAnimate', 'relation' => '==', 'value' => true]],
-						'selector' => '{{PLUS_WRAP}}.tpgb-plus-button .button-link-wrap.shake_animate { animation-duration: {{shakeDuration}}s; -o-animation-duration: {{shakeDuration}}s; -ms-animation-duration: {{shakeDuration}}s; -moz-animation-duration: {{shakeDuration}}s; -webkit-animation-duration: {{shakeDuration}}s; }',
-					],
-				],
-				'scopy' => true,
-			],
-			'btnHvrCnt' => [
-				'type' => 'boolean',
-				'default' => false,	
-				'scopy' => true,
-			],
-			'selectHvrCnt' => [
-				'type' => 'string',
-				'default' => '',	
-				'scopy' => true,
-			],
-			'cntHvrcolor' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'btnHvrCnt', 'relation' => '==', 'value' => true ],
-							['key' => 'selectHvrCnt', 'relation' => '==', 'value' => 'float_shadow' ]],
-						'selector' => '{{PLUS_WRAP}} .tpgb_cnt_hvr_effect.cnt_hvr_float_shadow:before{background: -webkit-radial-gradient(center, ellipse, {{cntHvrcolor}} 0%, rgba(60, 60, 60, 0) 70%);background: radial-gradient(ellipse at 50% 150%,{{cntHvrcolor}} 0%, rgba(60, 60, 60, 0) 70%); }',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'btnHvrCnt', 'relation' => '==', 'value' => true ],
-							['key' => 'selectHvrCnt', 'relation' => '==', 'value' => 'grow_shadow' ]],
-						'selector' => '{{PLUS_WRAP}} .tpgb_cnt_hvr_effect.cnt_hvr_grow_shadow:hover {-webkit-box-shadow: 0 10px 10px -10px {{cntHvrcolor}};-moz-box-shadow: 0 10px 10px -10px {{cntHvrcolor}};box-shadow: 0 10px 10px -10px {{cntHvrcolor}};}',
-					],
-					(object) [
-						'condition' => [(object) ['key' => 'btnHvrCnt', 'relation' => '==', 'value' => true ],
-							['key' => 'selectHvrCnt', 'relation' => '==', 'value' => 'shadow_radial' ]],
-						'selector' => '{{PLUS_WRAP}} .tpgb_cnt_hvr_effect.cnt_hvr_shadow_radial:before{background: -webkit-radial-gradient(center, ellipse at 50% 150%, {{cntHvrcolor}} 0%, rgba(60, 60, 60, 0) 70%);background: radial-gradient(ellipse at 50% 150%,{{cntHvrcolor}} 0%, rgba(60, 60, 60, 0) 70%); }{{PLUS_WRAP}} .tpgb_cnt_hvr_effect.cnt_hvr_shadow_radial:after {background: -webkit-radial-gradient(50% -50%, ellipse, {{cntHvrcolor}} 0%, rgba(0, 0, 0, 0) 80%);background: radial-gradient(ellipse at 50% -50%, {{cntHvrcolor}} 0%, rgba(0, 0, 0, 0) 80%);}',
-					],
-				],
-				'scopy' => true,
-			],
-			'fancWidth' => [
-				'type' => 'object',
-				'default' => [ 
-					'md' => '',
-					"unit" => 'px',
-				],
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'fancyBox', 'relation' => '==', 'value' => true]],
-						'selector' => '.tpgb-button-fancy .tpgb-btn-fpopup { width: 100%; max-width : {{fancWidth}} }',
-					],
-				],
-			],
-			'fanoverlay' => [
-				'type' => 'string',
-				'default' => '',
-				'style' => [
-					(object) [
-						'condition' => [(object) ['key' => 'fancyBox', 'relation' => '==', 'value' => true]],
-						'selector' => '.tpgb-button-fancy .fancybox__backdrop { background : {{fanoverlay}} }',
-					],
-				],
-			],
-		);
-	$attributesOptions = array_merge($attributesOptions,$globalPlusExtrasOption,$globalBgOption,$globalpositioningOption);
-	
-	register_block_type( 'tpgb/tp-button', array(
-		'attributes' => $attributesOptions,
-		'editor_script' => 'tpgb-block-editor-js',
-		'editor_style'  => 'tpgb-block-editor-css',
-        'render_callback' => 'tpgb_button_render_callback'
-    ) ); */
 	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_button_render_callback');
 	register_block_type( $block_data['name'], $block_data );
 }

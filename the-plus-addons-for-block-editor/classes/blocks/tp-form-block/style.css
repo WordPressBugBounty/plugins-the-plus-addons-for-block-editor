@@ -99,6 +99,7 @@
 }
 
 .nxt-submit-button.nxt-btn-inline .nxt-submit {
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -441,6 +442,12 @@
 .nxt-button-svg {
 	display: flex;
 	align-items: center;
+}
+
+.nxt-submit .nxt-button-svg svg ,.nxt-submit .tpgb-draw-svg {
+    width: 20px;
+    height: 20px;
+    display: flex
 }
 
 .nxt-submit-button .nxt-submit {

@@ -33,7 +33,7 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 		 *  Constructor
 		 */
 		public function __construct() {
-            
+        
             add_action( 'current_screen', function () {
                 if ( ! in_array( get_current_screen()->id, [ 'plugins', 'plugins-network' ] ) ) {
                     return;
@@ -131,7 +131,11 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
                                         <div class="nxt-reason-item" tabindex="0" >
                                             <label class="tpgb-relist">
                                                 <span class="nxt-reason-svg">
-                                                    <?php if( !empty($value['svg']) ){ echo $value['svg']; } ?>
+                                                    <?php
+                                                        if( !empty($value['svg']) ){ 
+                                                            echo $value['svg'];  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                                        } 
+                                                    ?>
                                                 </span>
                                                 <div class="tpgb-reason-text"><?php echo esc_html($value['reason']); ?></div>
                                                 
@@ -595,7 +599,6 @@ if ( ! class_exists( 'Tpgb_Deactive' ) ) {
 			$deactreson = ! empty( $_POST['deactreson'] ) ? sanitize_text_field( wp_unslash( $_POST['deactreson'] ) ) : '';
 			$tprestxt =  isset( $_POST['tprestxt'] ) && !empty( $_POST['tprestxt'] ) ? sanitize_text_field( wp_unslash( $_POST['tprestxt'] ) ) : '';
             $ncc =  $_POST['nxt-contact-consent'];
-            error_log("ncc = ".$ncc);
             
             // Get User Email
             $admin_user = wp_get_current_user();

@@ -403,6 +403,10 @@ Class Tpgb_Get_Blocks {
             if(!empty($options) && !empty($options['tpgbEqualHeight'])){
                 $this->transient_blocks[] = 'equal-height';
             }
+
+            if(!empty($options) && !empty($options['ShowButton'])){
+                $this->transient_blocks[] = 'tpgb-group-button';
+            }
 		}
 		
 		//External-Form-Styler
@@ -465,7 +469,8 @@ Class Tpgb_Get_Blocks {
 		}
 
 		//Svg Icon Load 
-		if( ($blockname=='tpgb/tp-flipbox' && !empty($options) && !empty($options['layoutType']) && $options['layoutType']=='carousel') || ($blockname=='tpgb/tp-infobox' && !empty($options) && !empty($options['layoutType']) && $options['layoutType']=='carousel') || ($blockname=='tpgb/tp-flipbox' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') || ($blockname=='tpgb/tp-infobox' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') || ($blockname=='tpgb/tp-number-counter' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') || ($blockname=='tpgb/tp-pricing-table' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') ){
+        if( ($blockname=='tpgb/tp-flipbox' && !empty($options) && !empty($options['layoutType']) && $options['layoutType']=='carousel') || ($blockname=='tpgb/tp-infobox' && !empty($options) && !empty($options['layoutType']) && $options['layoutType']=='carousel') || ($blockname=='tpgb/tp-flipbox' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') || ($blockname=='tpgb/tp-infobox' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') || ($blockname=='tpgb/tp-number-counter' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') || ($blockname=='tpgb/tp-pricing-table' && !empty($options) && !empty($options['iconType']) && $options['iconType'] == 'svg') || ($blockname=='tpgb/tp-button' && !empty($options) && !empty($options['svgIcon']) && !empty($options['svgIcon']['url']))||
+        ($blockname=='tpgb/tp-form-submit-button' && !empty($options) && !empty($options['ButtonType']) && $options['ButtonType'] == 'svg') ){
 			$this->transient_blocks[] = 'tpgb-draw-svg';
 		}
 		
@@ -592,6 +597,10 @@ Class Tpgb_Get_Blocks {
             }
             if( !empty($options['hoverInverseEffect']) ){
                 $this->transient_blocks[] = 'tpx-stylist-list-hover-inverse';
+            }
+
+            if( !empty($options['listsRepeater']) && in_array('svg', array_column($options['listsRepeater'], 'selectIcon'), true) ){
+                $this->transient_blocks[] = 'tpgb-draw-svg';
             }
         }
 		

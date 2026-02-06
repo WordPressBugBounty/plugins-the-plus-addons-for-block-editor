@@ -1,10 +1,11 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
 	"name": "tpgb/tp-form-submit-button",
 	"version": "0.1.0",
 	"title": "Submit",
 	"category": "tpgb",
-    "description": "Add a Submit Button into your form.",
+	"description": "Add a Submit Button into your form.",
 	"example": { "attributes": {} },
 	"supports": { "anchor": true, "align": ["wide", "full"] },
 	"textdomain": "tpgb",
@@ -75,9 +76,19 @@
 			"type": "object",
 			"default": { "md": "25", "unit": "px" },
 			"style": [
-				{
+				{   
+                    "condition": [
+                        {
+                            "key": "ButtonType",
+                            "relation": "!=",
+                            "value": "svg"
+                        }
+                    ],
 					"selector": "{{PLUS_WRAP}} .nxt-button-svg, {{PLUS_WRAP}} .nxt-button-svg .nxt-btn-symbol {height: {{iconSz}}; font-size:{{iconSz}};}"
-				}
+				},
+                {
+                    "selector": "{{PLUS_WRAP}} .nxt-button-svg svg  ,{{PLUS_WRAP}} .tpgb-draw-svg { width: {{iconSz}}; height: {{iconSz}}; }"
+                }
 			],
 			"scopy": true
 		},
@@ -108,6 +119,30 @@
         "parentFormId": {
             "type": "string", 
             "default": "" 
+        },
+        "svgIcon": {
+            "type": "object",
+            "default": []
+        },
+        "headSvgColor": {
+            "type": "string",
+            "default": "#000000",
+            "scopy": true
+        },
+        "headSvgfill": {
+            "type": "string",
+            "default": "#000000",
+            "scopy": true
+        },
+        "svgstroHov": {
+            "type": "string",
+            "default": "",
+            "scopy": true
+        },
+        "svgfillHov": {
+            "type": "string",
+            "default": "",
+            "scopy": true
         }
 	}
 }

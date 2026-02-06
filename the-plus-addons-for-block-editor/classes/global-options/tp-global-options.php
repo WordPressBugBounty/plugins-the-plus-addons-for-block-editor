@@ -1549,7 +1549,7 @@ class Tpgb_Blocks_Global_Options {
 	 * Merge Attributes Options Block JSON
 	 * @since V4.0.0
 	 * */
-	public static function merge_options_json($block_path= '', $render_callback = '', $adv_opt = true, $carousel_opt = false, $plus_button = false){
+	public static function merge_options_json($block_path= '', $render_callback = '', $adv_opt = true, $carousel_opt = false, $plus_button = false , $equalHight = false){
 
 		if(empty($block_path)){
 			return;
@@ -1612,6 +1612,24 @@ class Tpgb_Blocks_Global_Options {
 					}
 				}
 			}
+
+            // Equal Height Option
+            if(!empty( $equalHight ) && $equalHight===true){
+                if(!empty(self::$merge_options) && isset(self::$merge_options['global-equal-height']) && !empty(self::$merge_options['global-equal-height'])){
+                    $metadata['attributes'] = array_merge( $metadata['attributes'],self::$merge_options['global-equal-height'] );
+                }else{
+                    $option_path = __DIR__ . '/global-equal-height-option.json';
+                    if (is_string($option_path) && file_exists($option_path)) {
+                        $option_data = wp_json_file_decode($option_path, ['associative' => true]);
+                        if(!empty($option_data)){
+                            self::$merge_options['global-equal-height'] = $option_data;
+                        }
+                        if(!empty($option_data) && !empty($metadata) && isset($metadata['attributes'])){
+                            $metadata['attributes'] = array_merge($metadata['attributes'], $option_data);
+                        }
+                    }
+                }
+            }
 
 			//advanced tab options
 			if(!empty($adv_opt) && $adv_opt===true){

@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 $bg_attr = '';
 if (!empty($layout) && $layout == 'metro') {
     $thumbnail_id = get_post_thumbnail_id(get_the_ID()); 
@@ -15,7 +17,7 @@ if (!empty($layout) && $layout == 'metro') {
     <?php if ($layout == 'metro') { ?>
         <div class="tpgb-post-featured-img tpgb-dynamic-tran <?php echo esc_attr($imageHoverStyle); ?>">
             <a href="<?php echo esc_url(get_the_permalink()); ?>" aria-label="<?php echo esc_attr(get_the_title()); ?>">
-                <?php echo '<div class="tpgb-blog-image-metro" '. $bg_attr .' ></div>'; ?>
+                <?php echo '<div class="tpgb-blog-image-metro" '. $bg_attr .' ></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $bg_attr. ?>
             </a>
         </div>
     <?php } ?>

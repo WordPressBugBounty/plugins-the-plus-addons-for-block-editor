@@ -3,8 +3,8 @@ Contributors: posimyththemes, nirmalkavaiya, sagarpatel124, jigar9998
 Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
-Tested up to: 6.8
-Stable tag: 4.5.9
+Tested up to: 6.9
+Stable tag: 4.7.0
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -31,6 +31,7 @@ All in One WordPress Page Builder Plugin packed with <strong>[Blog Website Build
 * <strong>Optimized Code Delivery</strong> with <strong>Ultra Light Modular</strong> backend architecture
 * <strong>Presets</strong> to instantly import professionally designed templates with ease, saving time and effort in building from scratch.
 * <strong>SEO Friendly, A/B Tested Designs</strong> and <strong>Mobile Friendly</strong>
+* <strong> [AI Integration](https://nexterwp.com/nexter-blocks/extras/nexter-ai/)</strong>: Generate AI-powered content, repeater data, and images directly inside the WordPress block editor. Create post and page content, auto-fill repeater fields for dynamic sections like testimonials and team listings, and generate high-quality AI images from prompts with personalized output based on your input and layout. Built for modern Gutenberg workflows, this AI generator helps you build pages faster with less manual effort.
 * Plugin Regularly Audited by <strong>Top Security Experts </strong> 🔐
 * <strong>Supports RTL | WPML</strong> or any Translation | <strong>Multisite Networks</strong>
 * Integrated with <strong>ACF, Toolset, Pods, WooCommerce, Mailchimp </strong> and more
@@ -514,6 +515,75 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 == Changelog ==
 
+= 4.7.0 = 23 Jan 2026
+- Introduced AI-powered text generation for all blocks with OpenAI and Gemini integration.
+- Converted All blocks to ApiVersion 3, ensuring better performance, stability, and alignment with the latest WordPress standards. 
+- Added : Extra Option : Transform & Transition Normal / Hover Option Added.
+- Added : Advance Button : SVG Icon Upload Option added.
+- Added : Advance Heading : Wrap Link Option added.
+- Added : Draw SVG : Wrap Link Option added.
+- Added : Stylish List  : SVG Icon Upload Option added.
+- Added : Spacer Block : Width & Background Option Added.
+- Added : Form : Button Icon SVG Option Added.
+- Added : Testimonial : Hover Border Option Added.
+- Improvement : Accordion : Add labels for the options.
+- Improvement : Data Table : Add labels for the options.
+- Improvement : Post Listing: Add labels for the options.
+- Improvement : Social embed: Add labels for the options.
+- Improvement : Social Feed : Add labels for the options.
+- Improvement : Social Reviews : Add labels for the options.
+- Improvement : Tab Tours : Add labels for the options.
+- Improvement : Team Member : Add labels for the options.
+- Improvement : Testimonial : Add labels for the options.
+
+= 4.6.4 = 09 Jan 2026
+- Fix: Security : Improved code security and resolved a vulnerability.
+
+= 4.6.3 = 15 Dec 2025
+- Fixed : Dashboard : Asset Delivery Clear cache Bug Fix.
+- Update : Admin Banner remove.
+
+= 4.6.2 = 04 Dec 2025
+- Fixed : Extra : Equal Column Height Bug Fix.
+- Fixed : Minor Bugs and Improvements.
+
+= 4.6.1 = 02 Dec 2025
+- Fixed : Dashboard : Translation Issue Fix.
+- Fixed : Minor Bugs and Improvements.
+
+= 4.6.0 = 24 Nov 2025
+- Important Release:  Introduced a unified Nexter Settings Panel that combines all options from Nexter Theme, Nexter Blocks, and Nexter Extension into one centralized dashboard.
+- Improvement : Social Reviews :  All Block Attributes Converted to JSON
+- Improvement : Social Feed  :  All Block Attributes Converted to JSON
+- Improvement : Social Embed  :  All Block Attributes Converted to JSON
+- Improvement : Site Logo : All Block Attributes Converted to JSON
+- Improvement : Search Bar : All Block Attributes Converted to JSON
+- Improvement : Post Title : All Block Attributes Converted to JSON
+- Improvement : Post Meta : All Block Attributes Converted to JSON
+- Improvement : Post Image : All Block Attributes Converted to JSON
+- Improvement : Post Content : All Block Attributes Converted to JSON
+- Improvement : Post Comment : All Block Attributes Converted to JSON
+- Improvement : Post Author : All Block Attributes Converted to JSON
+- Improvement : Post Listing : All Block Attributes Converted to JSON
+- Improvement : Navigation Builder : All Block Attributes Converted to JSON
+- Improvement : Hover Card : All Block Attributes Converted to JSON
+- Improvement : External Form Styler : All Block Attributes Converted to JSON
+- Improvement : Data Table : All Block Attributes Converted to JSON
+- Fixed : Minor Bugs and Improvements.
+
+= 4.5.12 = 18 Nov 2025
+- Fix : Dashboard template loading issue
+- Minor bug fixes and performance improvements
+
+= 4.5.11 = 03 Nov 2025
+- Added : Form Block : support for multiple email addresses in the “To” field of the Email.
+- Improvement: Improved the Dynamic Assets loading functionality.
+- Minor bug Fixes & Improvements.
+
+= 4.5.10 = 15 Oct 2025
+- Fix : External Form Style : Enhanced button styling for improved accuracy
+- Minor bug Fixes & Improvements.
+
 = 4.5.9 = 01 Oct 2025
 - Added : Quick Action Bar on editor.
 - Added : Data Table : Button Icon Option added.
@@ -644,106 +714,5 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 - Fix : Tab Tours : issue with the default active tab not appearing correctly in the editor.
 - Fix : Post Meta :  Fixed bug where the category was not displayed on archive pages.
 - Fix : Form Block :  Fixed bug with the submit button width.
-
-= 4.2.3 = 29 April 2025
-- Fix : Background Components Button Design Issue.
-- Fix : Paragraph: Minor design bug.
-- Fix : Blockquote : Minor Design Bug Fix.
-- Fix : Heading Block : Default Anchor Tag Bug Fix.
-- Fix : Form Block : Minor Design Bug Fix.
-- Minor Bugs and Improvements.
-
-= 4.2.2 = 23 April 2025
-- Update : Language : Update the POT file for Internationalization. 
-- Minor Bugs and Improvements.
-
-= 4.2.1 = 21 April 2025
-- Fix : Navigation Builder : LinkFilter Components Bug Fix.
-- Improvement: Added compatibility with WordPress v6.8.
-- Minor Bugs and Improvements.
-
-= 4.2.0 = 16 April 2025
-- Added : Global Block Style : All Blocks 
-- Added : Form Block 
-- Improvement : Tab Tours : Enhance inline editing for the Tab Heading.
-- Improvement : Switcher  : Enhance inline editing for the Heading.
-- Improvement : Team Listing : Enhance inline editing for the Title.
-- Improvement : Site Logo : Allow users to upload a logo directly from the editor.
-- Compatibility : WPML : Button Core Translate Block
-- Compatibility : WPML : Flip Box Translate Block
-- Compatibility : WPML : Heading Translate Block
-- Compatibility : WPML : Image Core Translate Block
-- Compatibility : WPML : Pro Paragraph Translate Block
-- Minor Bugs and Improvements.
-
-= 4.1.8 = 31 March 2025
-- Added : Added : Tab Tours : Tab Column & Tab Column Padding Option Added.
-- Added : Video Block :  Add the playinline attribute to enable autoplay for video on iOS devices.
-- Improvement: Blockquote: Enhance inline editing for the Author Name field.
-- Improvement :  Dashboard :  Enhance Block List Search by Block Keywords .
-- Compatibility :  WPML : Ensured blockquote string translation support.
-- Compatibility :  Theme.JSON : Synced typography Font-Family Nexter Blocks Components.
-- Compatibility :  Site Editor – Synced custom typography Font-Family Nexter Blocks Components.
-- Update :  Language : Standardized string translation text to match the plugin slug. 
-- Minor Bugs and Improvements.
-
-= 4.1.7 = 24 March 2025
-- Added : Dashboard : WDesignkit Widgets added to the Nexter Block List. 
-- Fixed : External Form Styler : Responsive Bug Fix.
-- Fixed : Social Icon : Icon Gradient Color Bug Fix.
-- Minor Bugs and Improvements.
-
-= 4.1.6 = 10 March 2025
-- Added : Typography Component : Text Decoration Blink Option.
-- Improvement : Social Feed – Enhanced Facebook Feed API.
-- Improvement : Social Feed – Enhanced Instagram Feed API.
-- Improvement : Social Review – Enhanced Facebook Review API.
-- Fixed : Advanced Button – Resolved Dynamic Modal Popup Bug.
-- Minor Bugs and Improvements.
-
-= 4.1.5 = 27 February 2025
-- Improvement : Optimize Code to Reduce Memory Usage in Blocks.
-- Fixed : Repeater Components Drag Drop Bug Fix.
-- Minor Bugs and Improvements.
-
-= 4.1.4 = 19 February 2025
-- Added : Pricing Table : Text Hover Colour Added in Content area text.
-- Added : Pricing Table : Content Area Stylish List with Border & Padding Options in Stylish List Style-1. 
-- Fixed : Container Full-Width Bug in Editor.
-- Fixed : Info Box : Template Kit import From WDesignkit Bug Fix.
-– Minor Bugs and Improvements.
-
-= 4.1.3 = 13 February 2025
-- Compatibility : Rank Math Plugin.
-- Improvement : Optimize Code to Reduce Memory Usage in Blocks.
-- Fixed : Container : Grid Layout Auto Column CSS bug Fix.
-- Minor Bugs and Improvements.
-
-= 4.1.2 = 11 February 2025
-- Added : Container Grid CSS option added.
-- Compatibility : BerqWP Cache Plugin.
-- Fixed : Advanced Button : Multiple popup same content display bug fixed.
-- Fixed : Navigation Builder : Sub-menu open bug fixed in editor side & responsive bug fixed.
-- Fixed : Breadcrumb : SVG bug fixed.
-- Fixed : Social Embed : YouTube link bug fixed.
-- Fixed : Navigation Builder : Live copy-paste menu text removal bug fixed.
-- Minor bugs and improvements. 
-
-= 4.1.1 = 28 January 2025
-- Compatibility: Cartify Theme Compatibility with Nexter Block
-- Added : Plugin Page Settings Link Added.
-- Fixed : Minor Bugs and Improvements.
-
-= 4.1.0 = 22 January 2025
-- Added : Dash Icon Disabled : Global Option add for Improved Performance 
-- Improvement : Global Position : Merge all inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
-- Improvement : Advance Image : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
-- Improvement : Advance Heading : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
-- Improvement : Info Box : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
-- Improvement : Pricing List : inline CSS styles into a dynamic CSS file, replacing inline <style> tags.
-- Fixed : Site Logo : Sticky Logo Compatibility Bug Fix.
-- Fixed : Image : Image Alt Text Bug Fix.
-- Fixed : Post Meta : Sorting Meta Field Bug Fix.
-- Fixed : Minor Bugs and Improvements.
 
 == Upgrade Notice ==

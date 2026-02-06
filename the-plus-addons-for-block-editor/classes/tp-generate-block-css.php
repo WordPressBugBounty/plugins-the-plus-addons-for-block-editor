@@ -832,6 +832,60 @@ class Tpgb_Generate_Blocks_Css {
 							
 						}
 
+                        // Transform & Transition
+                        if ((!empty($block_value['gRotte']['tpgbReset'])) || (!empty($block_value['gOfset']['tpgbReset'])) || (!empty($block_value['gScle']['tpgbReset'])) || (!empty($block_value['gSkew']['tpgbReset'])) || (!empty($block_value['gRotteHov']['tpgbReset'])) || (!empty($block_value['gOfsetHov']['tpgbReset'])) || (!empty($block_value['gScleHov']['tpgbReset'])) || (!empty($block_value['gSkewHov']['tpgbReset'])) || (!empty($block_value['gFHori'])) || (!empty($block_value['gFVert'])) || (!empty($block_value['gFHoriHov'])) || (!empty($block_value['gFVertHov']))) {
+
+                            $target = '.tpgb-block-'.esc_attr($block_value['block_id']['value']);
+                            
+                            // Generate CSS for each breakpoint
+                            $breakpoints = array('md', 'sm', 'xs');
+                            
+                            foreach ($breakpoints as $breakpoint) {
+                                // Normal state
+                                $transform = $this->tpgb_buildTransformString($block_value, $breakpoint);
+                                if (!empty($transform)) {
+                                    $css = $target.'{ transform: '.$transform.'; }';
+                                    
+                                    if ($breakpoint === 'md') {
+                                        array_push($md, $css);
+                                    } else if ($breakpoint === 'sm') {
+                                        $tabCss .= '@media (max-width:1024px) and (min-width:767px) { '.$css.' } ';
+                                    } else if ($breakpoint === 'xs') {
+                                        array_push($sm, $css);
+                                    }
+                                }
+                                
+                                // Hover state
+                                $transformHov = $this->tpgb_buildTransformString($block_value, $breakpoint, true);
+                                if (!empty($transformHov)) {
+                                    $css = $target.':hover{ transform: '.$transformHov.'; }';
+                                    
+                                    if ($breakpoint === 'md') {
+                                        array_push($md, $css);
+                                    } else if ($breakpoint === 'sm') {
+                                        $tabCss .= '@media (max-width:1024px) and (min-width:767px) { '.$css.' } ';
+                                    } else if ($breakpoint === 'xs') {
+                                        array_push($sm, $css);
+                                    }
+                                }
+                            }
+                            
+                            // Transition Duration (only for md)
+                            if (isset($block_value['gTraDur']['value']) && !empty($block_value['gTraDur']['value'])) {
+                                array_push($md, $target.'{ transition: all '.$block_value['gTraDur']['value'].'ms; }');
+                            }
+                            
+                            // Transition Timing Function (only for md)
+                            if (isset($block_value['gTraFunc']['value']) && !empty($block_value['gTraFunc']['value'])) {
+                                array_push($md, $target.'{ transition-timing-function: '.$block_value['gTraFunc']['value'].'; }');
+                            }
+                            
+                            // Transform Origin (only for md)
+                            if (isset($block_value['gTraOrigin']['value']) && !empty($block_value['gTraOrigin']['value'])) {
+                                array_push($md, $target.'{ transform-origin: '.$block_value['gTraOrigin']['value'].'; }');
+                            }
+                        }
+
 						// Pro All Inline Css
 						if( has_filter('tpgb_generate_inline_css') && self::$all_dynamicattr == false ) {
 							$adborCss = apply_filters('tpgb_generate_inline_css', $block_value , $block_key );
@@ -985,6 +1039,11 @@ class Tpgb_Generate_Blocks_Css {
 							}
 						}
 
+                        if( $block_key === 'tpgb/tp-testimonials' ){
+                            if( isset($block_value['imageBorderRadius']['value']['md']) && empty($block_value['imageBorderRadius']['value']['md']['top']) && empty($block_value['imageBorderRadius']['value']['md']['right']) && empty($block_value['imageBorderRadius']['value']['md']['bottom']) && empty($block_value['imageBorderRadius']['value']['md']['left']) ){
+                               array_push( $md, '.tpgb-block-'.esc_attr($block_value['block_id']['value']).'.tpgb-testimonials .post-content-image .author-thumb{ -webkit-mask-image: url('.esc_url(TPGB_URL . 'assets/images/testimonial-mask.svg').');mask-image: url('.esc_url(TPGB_URL . 'assets/images/testimonial-mask.svg').');display:inline-block;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;mask-size:contain;width:75px;height:75px;}');
+                            }
+                        }
 					}
 				}
 			}
@@ -1027,7 +1086,108 @@ class Tpgb_Generate_Blocks_Css {
 			return $Make_CSS;
 		}
 	}
-	
+    
+    /**
+     * Helper function to build transform string for a specific breakpoint
+     */
+    public function tpgb_buildTransformString($blockValue, $breakpoint, $isHover = false) {
+        $transforms = array();
+        $suffix = $isHover ? 'Hov' : '';
+
+        // Add perspective as first transform function
+        if (isset($blockValue['gRotte'.$suffix]) && isset($blockValue['gRotte'.$suffix]['tpgbReset']) && !empty($blockValue['gRotte'.$suffix]['tpgbReset'] == true)) {
+            $rotate = $blockValue['gRotte'.$suffix];
+            $toggleKey = $isHover ? 'rToggleHov' : 'rotateToogle';
+            
+            if (isset($rotate[$toggleKey]) && $rotate[$toggleKey]) {
+                $perspectiveKey = $isHover ? 'gPersHov' : 'globalPerspective';
+                if (isset($rotate[$perspectiveKey][$breakpoint]) && !empty($rotate[$perspectiveKey][$breakpoint])) {
+                    $unit = isset($rotate[$perspectiveKey]['unit']) ? $rotate[$perspectiveKey]['unit'] : 'px';
+                    $transforms[] = 'perspective('.$rotate[$perspectiveKey][$breakpoint].$unit.')';
+                }
+            }
+        }
+
+        // Rotate
+        if (isset($blockValue['gRotte'.$suffix]) && isset($blockValue['gRotte'.$suffix]['tpgbReset']) && !empty($blockValue['gRotte'.$suffix]['tpgbReset'] == true)) {
+            
+            $rotate = $blockValue['gRotte'.$suffix];
+            if (isset($rotate['gRotteDeg'.$suffix][$breakpoint]) && !empty($rotate['gRotteDeg'.$suffix][$breakpoint])) {
+                $transforms[] = 'rotate('.$rotate['gRotteDeg'.$suffix][$breakpoint].'deg)';
+            }
+            
+            $toggleKey = $isHover ? 'rToggleHov' : 'rotateToogle';
+            if (isset($rotate[$toggleKey]) && $rotate[$toggleKey]) {
+                if (isset($rotate['gRotteX'.$suffix][$breakpoint]) && !empty($rotate['gRotteX'.$suffix][$breakpoint])) {
+                    $transforms[] = 'rotateX('.$rotate['gRotteX'.$suffix][$breakpoint].'deg)';
+                }
+                if (isset($rotate['gRotteY'.$suffix][$breakpoint]) && !empty($rotate['gRotteY'.$suffix][$breakpoint])) {
+                    $transforms[] = 'rotateY('.$rotate['gRotteY'.$suffix][$breakpoint].'deg)';
+                }
+            }
+        }
+        
+        // Offset/Translate
+        if (isset($blockValue['gOfset'.$suffix]) && isset($blockValue['gOfset'.$suffix]['tpgbReset']) && !empty($blockValue['gOfset'.$suffix]['tpgbReset'] == true)) {
+            $offset = $blockValue['gOfset'.$suffix];
+            
+            if (isset($offset['gOfsetX'.$suffix][$breakpoint]) && !empty($offset['gOfsetX'.$suffix][$breakpoint])) {
+                $unit = isset($offset['gOfsetX'.$suffix]['unit']) ? $offset['gOfsetX'.$suffix]['unit'] : 'px';
+                $transforms[] = 'translateX('.$offset['gOfsetX'.$suffix][$breakpoint].$unit.')';
+            }
+            if (isset($offset['gOfsetY'.$suffix][$breakpoint]) && !empty($offset['gOfsetY'.$suffix][$breakpoint])) {
+                $unit = isset($offset['gOfsetY'.$suffix]['unit']) ? $offset['gOfsetY'.$suffix]['unit'] : 'px';
+                $transforms[] = 'translateY('.$offset['gOfsetY'.$suffix][$breakpoint].$unit.')';
+            }
+            if (isset($offset['gOfsetZ'.$suffix][$breakpoint]) && !empty($offset['gOfsetZ'.$suffix][$breakpoint])) {
+                $unit = isset($offset['gOfsetZ'.$suffix]['unit']) ? $offset['gOfsetZ'.$suffix]['unit'] : 'px';
+                $transforms[] = 'translateZ('.$offset['gOfsetZ'.$suffix][$breakpoint].$unit.')';
+            }
+        }
+        
+        // Scale
+        if (isset($blockValue['gScle'.$suffix]) && isset($blockValue['gScle'.$suffix]['tpgbReset']) && !empty($blockValue['gScle'.$suffix]['tpgbReset'] == true)) {
+            $scale = $blockValue['gScle'.$suffix];
+            $keepPropKey = $isHover ? 'keepPropHov' : 'keepProportions';
+            
+            if (isset($scale[$keepPropKey]) && $scale[$keepPropKey] && 
+                isset($scale['gScleValue'.$suffix][$breakpoint]) && !empty($scale['gScleValue'.$suffix][$breakpoint])) {
+                $transforms[] = 'scale('.$scale['gScleValue'.$suffix][$breakpoint].')';
+            } else if (isset($scale[$keepPropKey]) && !$scale[$keepPropKey]) {
+                if (isset($scale['gScleX'.$suffix][$breakpoint]) && !empty($scale['gScleX'.$suffix][$breakpoint])) {
+                    $transforms[] = 'scaleX('.$scale['gScleX'.$suffix][$breakpoint].')';
+                }
+                if (isset($scale['gScleY'.$suffix][$breakpoint]) && !empty($scale['gScleY'.$suffix][$breakpoint])) {
+                    $transforms[] = 'scaleY('.$scale['gScleY'.$suffix][$breakpoint].')';
+                }
+            }
+        }
+        
+        // Skew
+        if (isset($blockValue['gSkew'.$suffix]) && isset($blockValue['gSkew'.$suffix]['tpgbReset']) && !empty($blockValue['gSkew'.$suffix]['tpgbReset'] == true)) {
+            $skew = $blockValue['gSkew'.$suffix];
+            
+            if (isset($skew['gSkewX'.$suffix][$breakpoint]) && !empty($skew['gSkewX'.$suffix][$breakpoint])) {
+                $transforms[] = 'skewX('.$skew['gSkewX'.$suffix][$breakpoint].'deg)';
+            }
+            if (isset($skew['gSkewY'.$suffix][$breakpoint]) && !empty($skew['gSkewY'.$suffix][$breakpoint])) {
+                $transforms[] = 'skewY('.$skew['gSkewY'.$suffix][$breakpoint].'deg)';
+            }
+        }
+        
+        // Flip Horizontal
+        if (isset($blockValue['gFHori'.$suffix]['value']) && $blockValue['gFHori'.$suffix]['value']) {
+            $transforms[] = 'scaleX(-1)';
+        }
+        
+        // Flip Vertical
+        if (isset($blockValue['gFVert'.$suffix]['value']) && $blockValue['gFVert'.$suffix]['value']) {
+            $transforms[] = 'scaleY(-1)';
+        }
+        
+        return !empty($transforms) ? implode(' ', $transforms) : '';
+    }
+
 	/*
 	 * Container Grid Style CSS Generate
 	 */
@@ -1325,7 +1485,7 @@ class Tpgb_Generate_Blocks_Css {
 		$unit = (isset($val['unit']) && !empty($val['unit'])) ? $val['unit'] : 'px';
 		$output ='';
 		if( (isset($val['top']) && $val['top']!='') || (isset($val['right']) && $val['right']!='') || (isset($val['bottom']) && $val['bottom']!='') || (isset($val['left'])  && $val['left']!='') ){
-			$output .= (!empty($val['top']) ? $val['top'].$unit : 0) . ' ' . (!empty($val['right']) ? $val['right'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) ) . ' ' . (!empty($val['bottom']) ? $val['bottom'] . $unit : 0) .' ' . (!empty($val['left']) ? $val['left'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) );
+			$output .= (!empty($val['top']) ? $val['top'].$unit : 0) . ' ' . (isset($val['right']) ? $val['right'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) ) . ' ' . (!empty($val['bottom']) ? $val['bottom'] . $unit : 0) .' ' . (isset($val['left']) ? $val['left'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) );
 		}
 		return $output;
 	}

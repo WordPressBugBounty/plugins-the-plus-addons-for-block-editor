@@ -1684,6 +1684,16 @@ class Tp_Blocks_Helper {
                         wp_send_json_error($content);
                         return;
                     }
+				
+					if ( $content_post->post_status !== 'publish' && ! current_user_can( 'edit_posts' ) ) {
+						wp_send_json_error( 'Block not available.' );
+						return;
+					}
+				
+					if ( ! current_user_can( 'read_post', $post_id ) && $content_post->post_status !== 'publish' ) {
+						wp_send_json_error( 'Block not available.' );
+						return;
+					}
 
 					$content = $content_post->post_content;
 					$content = apply_filters('the_content', $content);

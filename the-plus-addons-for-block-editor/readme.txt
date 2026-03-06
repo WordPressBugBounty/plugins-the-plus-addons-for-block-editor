@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: blocks, block editor, gutenberg, gutenberg blocks, wordpress blocks, page builder
 Requires at least: 4.0
 Tested up to: 6.9
-Stable tag: 4.7.0
+Stable tag: 4.7.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -514,6 +514,9 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.7.1 = 06 Mar 2026
+- Fix: Security : Improved code security and resolved a vulnerability.
 
 = 4.7.0 = 23 Jan 2026
 - Introduced AI-powered text generation for all blocks with OpenAI and Gemini integration.

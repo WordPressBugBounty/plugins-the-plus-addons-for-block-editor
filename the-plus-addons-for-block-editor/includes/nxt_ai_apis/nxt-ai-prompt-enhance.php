@@ -101,16 +101,16 @@ Begin.";
             $settings = [];
         }
 
-        $chatgpt_key = $settings["chatgptApiKey"];
-        $chatgpt_txt = $settings["chatgptEnableText"];
-        $chatgpt_tokens = $settings["chatgptTextMaxTokens"];
+        $chatgpt_key = $settings["chatgptApiKey"] ?? "";
+        $chatgpt_txt = $settings["chatgptEnableText"] ?? false;
+        $chatgpt_tokens = absint($settings["chatgptTextMaxTokens"] ?? 0);
 
-        $gemini_key = $settings["geminiApiKey"];
-        $gemini_txt = $settings["geminiEnableText"];
-        $gemini_tokens = $settings["geminiTextMaxTokens"];
+        $gemini_key = $settings["geminiApiKey"] ?? "";
+        $gemini_txt = $settings["geminiEnableText"] ?? false;
+        $gemini_tokens = absint($settings["geminiTextMaxTokens"] ?? 0);
 
-        $biz_ctx = $settings["businessContext"];
-        $audience = $settings["targetedAudience"];
+        $biz_ctx = sanitize_text_field($settings["businessContext"] ?? "");
+        $audience = sanitize_text_field($settings["targetedAudience"] ?? "");
 
         $use_gemini = false;
         $use_chatgpt = false;

@@ -1193,7 +1193,6 @@ Class Tpgb_Library {
 			return $this->tpgb_cache;
 		}
 		$caching_opt = get_option( 'tpgb_performance_cache' );
-		
 		if( !empty($caching_opt) && $caching_opt=='separate' ){
 			$this->tpgb_cache = 'separate';
 			return 'separate';
@@ -2525,10 +2524,11 @@ Class Tpgb_Library {
 		if( empty(self::$tpgb_post_type) ){
 			$this->get_post_type_post_id();
 		}
-		
 		if (file_exists(TPGB_ASSET_PATH . '/theplus-' . self::$tpgb_post_type . '-' . self::$tpgb_post_id . '.min.css') || file_exists(TPGB_ASSET_PATH . '/theplus-' . self::$tpgb_post_type . '-' . self::$tpgb_post_id . '.min.js')) {
+			
 			$show_perf_bar = get_option( 'tpgb_connection_data' );
 			if(!empty($show_perf_bar) && isset($show_perf_bar['assets_performance']) && $show_perf_bar['assets_performance']==='enable'){
+
 				//Parent
 				$wp_admin_bar->add_node( [
 					'id'	=> 'tpda-purge-clear',

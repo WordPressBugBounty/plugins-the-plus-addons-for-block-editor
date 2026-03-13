@@ -46,8 +46,9 @@ class Nxt_AI_Image_Editor
             $settings = [];
         }
 
-        $api_key = $settings["chatgptApiKey"];
-        $img_enabled = $settings["chatgptEnableImage"];
+        $api_key = $settings["chatgptApiKey"] ?? "";
+        $img_enabled = $settings["chatgptEnableImage"] ?? false;
+
         $is_enabled = $img_enabled === true || $img_enabled === 1;
 
         if (empty($prompt) || empty($original_image)) {

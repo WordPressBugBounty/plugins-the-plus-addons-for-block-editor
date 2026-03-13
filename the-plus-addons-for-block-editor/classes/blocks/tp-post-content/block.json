@@ -233,6 +233,48 @@
                 }
             ],
             "scopy": true
+        },
+        "headingTypo": {
+            "type": "object",
+            "default": {
+                "openTypography": 0
+            },
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}}.tpgb-post-content .tpgb-pro-paragraph .pro-heading-inner"
+                }
+            ],
+            "scopy": true
+        },
+        "headingColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}}.tpgb-post-content .tpgb-pro-paragraph .pro-heading-inner{ color : {{headingColor}}; }"
+                }
+            ],
+            "scopy": true
+        },
+        "headingHvrColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}}.tpgb-post-content .tpgb-pro-paragraph .pro-heading-inner:hover { color : {{headingHvrColor}}; }"
+                }
+            ],
+            "scopy": true
+        },
+        "iconColor": {
+            "type": "string",
+            "default": "",
+            "style": [
+                {
+                    "selector": "{{PLUS_WRAP}}.tpgb-post-content .tpgb-stylist-list .tpgb-icon-list-items.d-flex-center .tpgb-icon-list-icon .list-icon{ color : {{iconColor}}; }"
+                }
+            ],
+            "scopy": true
         }
     }
 }

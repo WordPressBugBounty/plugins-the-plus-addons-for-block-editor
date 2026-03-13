@@ -835,7 +835,7 @@ class Tpgb_Generate_Blocks_Css {
                         // Transform & Transition
                         if ((!empty($block_value['gRotte']['tpgbReset'])) || (!empty($block_value['gOfset']['tpgbReset'])) || (!empty($block_value['gScle']['tpgbReset'])) || (!empty($block_value['gSkew']['tpgbReset'])) || (!empty($block_value['gRotteHov']['tpgbReset'])) || (!empty($block_value['gOfsetHov']['tpgbReset'])) || (!empty($block_value['gScleHov']['tpgbReset'])) || (!empty($block_value['gSkewHov']['tpgbReset'])) || (!empty($block_value['gFHori'])) || (!empty($block_value['gFVert'])) || (!empty($block_value['gFHoriHov'])) || (!empty($block_value['gFVertHov']))) {
 
-                            $target = '.tpgb-block-'.esc_attr($block_value['block_id']['value']);
+                            $target = isset($block_value['block_id']['value']) && !empty($block_value['block_id']['value']) ? '.tpgb-block-'.esc_attr($block_value['block_id']['value']) : '';
                             
                             // Generate CSS for each breakpoint
                             $breakpoints = array('md', 'sm', 'xs');
@@ -1478,6 +1478,14 @@ class Tpgb_Generate_Blocks_Css {
 		return $warp . '{' . $output . '}';
 	}
 	
+    /*
+	 * Replace Unit Without Digits
+	 */
+    public function replaceUnitWithoutDigits($value) {
+		$output = preg_replace('/(?<!\d)(px|%|em)/', '0', $value);
+		return $output;
+	}
+
 	/*
 	 * css Dimension Style
 	 */
@@ -1487,7 +1495,7 @@ class Tpgb_Generate_Blocks_Css {
 		if( (isset($val['top']) && $val['top']!='') || (isset($val['right']) && $val['right']!='') || (isset($val['bottom']) && $val['bottom']!='') || (isset($val['left'])  && $val['left']!='') ){
 			$output .= (!empty($val['top']) ? $val['top'].$unit : 0) . ' ' . (isset($val['right']) ? $val['right'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) ) . ' ' . (!empty($val['bottom']) ? $val['bottom'] . $unit : 0) .' ' . (isset($val['left']) ? $val['left'] . $unit : ( ( isset( $val['autoset'] ) && $val['autoset'] === true ) ? 'auto' : 0 ) );
 		}
-		return $output;
+		return $this->replaceUnitWithoutDigits($output);
 	}
 	
 	/*
@@ -1585,7 +1593,11 @@ class Tpgb_Generate_Blocks_Css {
 			$bgimgRepeatMobile = isset($val['bgimgRepeatMobile']) ? $val['bgimgRepeatMobile'] : '';
 			$bgimgSizeTablet = isset($val['bgimgSizeTablet']) ? $val['bgimgSizeTablet'] : '';
 			$bgimgSizeMobile = isset($val['bgimgSizeMobile']) ? $val['bgimgSizeMobile'] : '';
-			$background = $this->split_bg( $bgType, $bgImage, $bgimgPosition, $bgimgAttachment, $bgimgRepeat, $bgimgSize, $bgDefaultColor, $bgGradient, $bgimgPositionTablet, $bgimgPositionMobile, $bgimgRepeatTablet, $bgimgRepeatMobile, $bgimgSizeTablet, $bgimgSizeMobile);
+			$positionX = isset($val["positionX"]) ? $val["positionX"] : 0;
+            $positionY = isset($val["positionY"]) ? $val["positionY"] : 0;
+            $isCustom = isset($val["isCustom"]) ? $val["isCustom"] : "fpp";
+            $focalPoint = isset($val["focalPoint"]) ? $val["focalPoint"] : [];
+			$background = $this->split_bg( $bgType, $bgImage, $bgimgPosition, $bgimgAttachment, $bgimgRepeat, $bgimgSize, $bgDefaultColor, $bgGradient, $bgimgPositionTablet, $bgimgPositionMobile, $bgimgRepeatTablet, $bgimgRepeatMobile, $bgimgSizeTablet, $bgimgSizeMobile,$isCustom,[ "x" => $isCustom === "fpp" && isset($focalPoint["x"]) ? $focalPoint["x"] : ($isCustom === "range" ? $positionX : ""),"y" => $isCustom === "fpp" && isset($focalPoint["y"]) ? $focalPoint["y"] : ($isCustom === "range" ? $positionY : "") ] );
 
 			if (!empty($background) ) {
 				return $background;
@@ -1599,7 +1611,7 @@ class Tpgb_Generate_Blocks_Css {
 	/*
 	 * Css Background Style
 	 */
-	public function split_bg($type, $image = [], $imgPosition= '', $imgAttachment ='', $imgRepeat='', $imgSize='', $DefaultColor='', $bgGradient='', $bgimgPositionTablet='', $bgimgPositionMobile='', $bgimgRepeatTablet='', $bgimgRepeatMobile='', $bgimgSizeTablet='', $bgimgSizeMobile='') {
+	public function split_bg($type, $image = [], $imgPosition= '', $imgAttachment ='', $imgRepeat='', $imgSize='', $DefaultColor='', $bgGradient='', $bgimgPositionTablet='', $bgimgPositionMobile='', $bgimgRepeatTablet='', $bgimgRepeatMobile='', $bgimgSizeTablet='', $bgimgSizeMobile='', $isCustom = "", $positions = []) {
 
 		$dk_selectors = $DefaultColor ? 'background-color:' . $DefaultColor . ';' : '';
 		
@@ -1609,9 +1621,11 @@ class Tpgb_Generate_Blocks_Css {
 		if ($type == 'image') {
 			$dk_selectors .= ((!empty($image) && isset($image['url'])) ? 'background-image: url(' . $image['url'] . ');' : '');
 
-			$dk_selectors .= (!empty($imgPosition) ? 'background-position: '. $imgPosition .';' : '');
-			$tb_selectors .= (!empty($bgimgPositionTablet) ? 'background-position: '. $bgimgPositionTablet .';' : '');
-			$mb_selectors .= (!empty($bgimgPositionMobile) ? 'background-position: '. $bgimgPositionMobile .';' : '');
+            $dk_selectors .=  is_array($positions) && ($isCustom === "fpp" ? isset($positions["x"], $positions["y"]) && $positions["x"] !== "" && $positions["y"] !== "" : ($imgPosition === "custom" || empty($imgPosition)) && $isCustom === "range" && isset($positions["x"]["md"], $positions["y"]["md"]) && $positions["x"]["md"] !== "" && $positions["y"]["md"] !== "") ? "background-position: " .($isCustom === "fpp" ? $positions["x"] * 100 . "% " .$positions["y"] * 100 : $positions["x"]["md"] ."% " .$positions["y"]["md"]) ."%;": (!empty($imgPosition) ? "background-position: " . $imgPosition . ";" : "");
+
+            $tb_selectors . is_array($positions) && ($isCustom === "range" && isset($positions["x"]["sm"], $positions["y"]["sm"]) && $positions["x"]["sm"] !== "" && $positions["y"]["sm"] !== "") ? "background-position: " .$positions["x"]["sm"] ."% " .$positions["y"]["sm"] ."%;" : (!empty($bgimgPositionTablet) ? "background-position: " . $bgimgPositionTablet . ";": "");
+
+            $mb_selectors .= is_array($positions) && ($isCustom === "range" && isset($positions["x"]["xs"], $positions["y"]["xs"]) && $positions["x"]["xs"] !== "" && $positions["y"]["xs"] !== "") ? "background-position: " .$positions["x"]["xs"] ."% " .$positions["y"]["xs"] ."%;" : (!empty($bgimgPositionMobile) ? "background-position: " . $bgimgPositionMobile . ";": "");
 
 			$dk_selectors .= (!empty($imgAttachment) ? 'background-attachment: '. $imgAttachment .';' : '');
 			$dk_selectors .= (!empty($imgRepeat) ? 'background-repeat: '. $imgRepeat . ';' : '');

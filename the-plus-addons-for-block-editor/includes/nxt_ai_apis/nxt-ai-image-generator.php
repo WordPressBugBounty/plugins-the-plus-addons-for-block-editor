@@ -114,152 +114,102 @@ class Nxt_AI_Image_Generator {
     private $size_map = [
         "dall-e-3" => ["1:1" => "1024x1024", "16:9" => "1792x1024", "9:16" => "1024x1792"],
         "gpt-image-1" => ["1:1" => "1024x1024", "3:2" => "1536x1024", "2:3" => "1024x1536"],
-        "gpt-image-1-mini" => ["1:1" => "1024x1024", "3:2" => "1536x1024", "2:3" => "1024x1536"],
-        "imagen-3.0-generate-001" => ["1:1" => "1024x1024", "3:4" => "768x1024", "4:3" => "1024x768", "9:16" => "576x1024", "16:9" => "1024x576"]
+        "gpt-image-1-mini" => ["1:1" => "1024x1024", "3:2" => "1536x1024", "2:3" => "1024x1536"]
     ];
     
     public function generate_image($args = []) {
         $args = wp_parse_args($args, [
-            "prompt" => "",
-            "model" => "dall-e-2",
-            "n" => 1,
-            "aspect_ratio" => "1:1",
-            "image_type" => "",
-            "image_style" => "",
-            "original_image" => "",
-            "mask_image" => "",
-            "image_quality" => ""
+            "prompt" => "", "model" => "dall-e-2", "n" => 1, "aspect_ratio" => "1:1",
+            "image_type" => "", "image_style" => "", "image_quality" => ""
         ]);
         
         $prompt = sanitize_text_field($args["prompt"]);
-        $model = !empty($args["model"]) ? sanitize_text_field($args["model"]) : "dall-e-2";
-        $n = absint($args["n"]);
-        $aspect_ratio = sanitize_text_field($args["aspect_ratio"]);
-        $image_type = sanitize_text_field($args["image_type"]);
-        $image_style = sanitize_text_field($args["image_style"]);
-        $image_quality = sanitize_text_field($args["image_quality"]);
+        if (empty($prompt)) return ["success" => false, "message" => "Prompt is required"];
         
-        if (empty($prompt)) {
-            return ["success" => false, "message" => "Prompt is required"];
-        }
+        $settings = $this->get_settings();
+        if (!$settings) return ["success" => false, "message" => "Settings not found"];
         
-        $settings_raw = Tp_Blocks_Helper::get_extra_option("nxtAiSettings");
-        $encrypted = "";
+        $is_enable = ($settings["geminiEnableImage"] || $settings["chatgptEnableImage"]) ? "1" : "0";
+        if ($is_enable !== "1") return ["success" => false, "message" => "AI Image Generation is not enabled"];
         
-        if (is_string($settings_raw)) {
-            $encrypted = $settings_raw;
-        } elseif (is_array($settings_raw)) {
-            if (isset($settings_raw[0]) && is_string($settings_raw[0])) {
-                $encrypted = $settings_raw[0];
-            } elseif (count($settings_raw) === 1) {
-                $encrypted = reset($settings_raw);
-            }
-        }
-        
-        if (is_string($encrypted) && !empty($encrypted)) {
-            $decrypted = Tp_Blocks_Helper::tpgb_simple_decrypt($encrypted, "dy");
-            $settings = json_decode($decrypted, true);
-        } else {
-            $settings = [];
-        }
-        
-        $chatgpt_key = $settings["chatgptApiKey"];
-        $chatgpt_img = $settings["chatgptEnableImage"];
-        $chatgpt_tokens = $settings["chatgptImageMaxTokens"];
-        
-        $gemini_key = $settings["geminiApiKey"];
-        $gemini_img = $settings["geminiEnableImage"];
-        $gemini_tokens = $settings["geminiImageMaxTokens"];
-        
-        $biz_context = $settings["businessContext"];
-        $audience = $settings["targetedAudience"];
-        
-        $is_enable = $gemini_img === true || $chatgpt_img === true ? "1" : "0";
-        
-        if ($is_enable !== "1") {
-            return ["success" => false, "message" => "AI Image Generation is not enabled"];
-        }
-        
-        $use_gemini = false;
-        $use_chatgpt = false;
-        $api_key = "";
-        $max_tokens = 0;
-        
-        if ($gemini_img === true && !empty($gemini_key)) {
-            $use_gemini = true;
-            $api_key = $gemini_key;
-            $max_tokens = absint($gemini_tokens);
-        } elseif ($chatgpt_img === true && !empty($chatgpt_key)) {
-            $use_chatgpt = true;
-            $api_key = $chatgpt_key;
-            $max_tokens = absint($chatgpt_tokens);
-        }
+        $use_gemini = !empty($settings['geminiEnableImage'])
+	&& !empty($settings['geminiApiKey']);
+
+    $use_chatgpt = !empty($settings['chatgptEnableImage'])
+	&& !empty($settings['chatgptApiKey']);
+
         
         if (!$use_gemini && !$use_chatgpt) {
-            return ["success" => false, "message" => "No AI image service is enabled or API key is missing"];
+            return ["success" => false, "message" => "No AI service enabled or API key missing"];
         }
         
-        if (empty($api_key)) {
-            return ["success" => false, "message" => "API Key is empty"];
-        }
-        
-        $enhanced = $this->enhance_prompt($prompt, $image_type, $image_style, $biz_context, $audience);
-        $size = $this->get_size($model, $aspect_ratio);
+        $enhanced = $this->enhance_prompt(
+            $prompt,
+            sanitize_text_field($args["image_type"]),
+            sanitize_text_field($args["image_style"]),
+            $settings["businessContext"] ?? "",
+            $settings["targetedAudience"] ?? ""
+        );
         
         if ($use_gemini) {
-            return $this->call_gemini_api($api_key, $enhanced, $model, $n, $aspect_ratio, $max_tokens);
-        } elseif ($use_chatgpt) {
-            return $this->call_openai_api($api_key, $enhanced, $model, $n, $size, $image_quality, $max_tokens);
+            return $this->call_gemini_api(
+                $settings['geminiApiKey'] ?? '',
+                $enhanced,
+                sanitize_text_field($args['model'] ?? ''),
+                absint($args['n'] ?? 0),
+                sanitize_text_field($args['aspect_ratio'] ?? ''),
+                absint($settings['geminiImageMaxTokens'] ?? 0),
+                sanitize_text_field($args['image_quality'] ?? '')
+            );
         }
+
         
-        return ["success" => false, "message" => "Unsupported model"];
+       return $this->call_openai_api(
+            $settings['chatgptApiKey'] ?? '',
+            $enhanced,
+            sanitize_text_field($args['model'] ?? ''),
+            absint($args['n'] ?? 0),
+            $this->get_size(
+                sanitize_text_field($args['model'] ?? ''),
+                sanitize_text_field($args['aspect_ratio'] ?? '')
+            ),
+            sanitize_text_field($args['image_quality'] ?? ''),
+            absint($settings['chatgptImageMaxTokens'] ?? 0)
+        );
+
     }
     
-    private function enhance_prompt($prompt, $type, $style, $biz_ctx = "", $audience = "") {
-        $type_mod = isset($this->type_modifiers[$type]) ? $this->type_modifiers[$type] : "";
-        $style_mod = isset($this->style_modifiers[$style]) ? $this->style_modifiers[$style] : "";
+    private function get_settings() {
+        $raw = Tp_Blocks_Helper::get_extra_option("nxtAiSettings");
+        $encrypted = is_string($raw) ? $raw : (is_array($raw) ? reset($raw) : "");
         
-        $ctx_mods = [];
-        if (!empty($biz_ctx)) {
-            $ctx_mods[] = "Context: " . sanitize_text_field($biz_ctx);
-        }
-        if (!empty($audience)) {
-            $ctx_mods[] = "For audience: " . sanitize_text_field($audience);
-        }
+        if (empty($encrypted)) return false;
         
-        $all_mods = array_filter([
+        $decrypted = Tp_Blocks_Helper::tpgb_simple_decrypt($encrypted, "dy");
+        return json_decode($decrypted, true) ?: false;
+    }
+    
+    private function enhance_prompt($prompt, $type, $style, $biz = "", $aud = "") {
+        $mods = array_filter([
             $prompt,
-            $type_mod,
-            $style_mod,
-            !empty($ctx_mods) ? implode(", ", $ctx_mods) : ""
+            $this->type_modifiers[$type] ?? "",
+            $this->style_modifiers[$style] ?? "",
+            $biz ? "Context: $biz" : "",
+            $aud ? "For audience: $aud" : ""
         ]);
-        
-        return implode(", ", $all_mods);
+        return implode(", ", $mods);
     }
     
     private function get_size($model, $aspect) {
         return $this->size_map[$model][$aspect] ?? "1024x1024";
     }
     
-    private function call_openai_api($key, $prompt, $model, $n, $size, $quality, $tokens = 0) {
-        $url = "https://api.openai.com/v1/images/generations";
+    private function call_openai_api($key, $prompt, $model, $n, $size, $quality, $tokens) {
+        $body = ["model" => $model ?: "dall-e-2", "prompt" => $prompt, "n" => $n, "size" => $size];
+        if ($quality) $body["quality"] = $quality;
         
-        $body = [
-            "model" => $model ?? "dall-e-2",
-            "prompt" => $prompt,
-            "n" => $n,
-            "size" => $size
-        ];
-        
-        if (!empty($quality)) {
-            $body["quality"] = $quality;
-        }
-        
-        $response = wp_remote_post($url, [
-            "headers" => [
-                "Content-Type" => "application/json",
-                "Authorization" => "Bearer " . $key
-            ],
+        $response = wp_remote_post("https://api.openai.com/v1/images/generations", [
+            "headers" => ["Content-Type" => "application/json", "Authorization" => "Bearer $key"],
             "body" => wp_json_encode($body),
             "timeout" => 60
         ]);
@@ -269,84 +219,41 @@ class Nxt_AI_Image_Generator {
         }
         
         $code = wp_remote_retrieve_response_code($response);
-        
         if ($code !== 200) {
-            $content = wp_remote_retrieve_body($response);
-            return ["success" => false, "message" => "API Error: {$code} - {$content}"];
+            return ["success" => false, "message" => "API Error: $code"];
         }
         
         $data = json_decode(wp_remote_retrieve_body($response), true);
-        
         if (empty($data["data"])) {
-            return ["success" => false, "message" => "No image data in response"];
+            return ["success" => false, "message" => "No image data"];
         }
         
-        $images = [];
-        foreach ($data["data"] as $img) {
-            if (isset($img["url"])) {
-                $images[] = $img["url"];
-            } elseif (isset($img["b64_json"])) {
-                $images[] = "data:image/png;base64," . $img["b64_json"];
-            }
-        }
+        $images = array_map(function($img) {
+            return $img["url"] ?? "data:image/png;base64," . ($img["b64_json"] ?? "");
+        }, $data["data"]);
         
-        return [
-            "success" => true,
-            "message" => "OpenAI Image response fetched",
-            "data" => $images,
-            "total_tokens" => "undefined",
-            "max_tokens" => $tokens > 0 ? $tokens : null,
-            "note" => $tokens > 0 ? "DALL-E does not support token limits" : null
-        ];
+        return ["success" => true, "message" => "OpenAI response fetched", "data" => $images];
     }
     
-    private function call_gemini_api($key, $prompt, $model, $n, $aspect, $tokens = 0) {
-        $gemini_model = "gemini-2.5-flash-image";
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/{$gemini_model}:generateContent?key={$key}";
+    private function call_gemini_api($key, $prompt, $model, $n, $aspect, $tokens, $size) {
+       
+        $model = $model ?: "gemini-2.5-flash-image";
+         error_log("model = ".$model);
+        $is_imagen = strpos($model, 'imagen-') === 0;
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:" . 
+               ($is_imagen ? "predict" : "generateContent") . "?key={$key}";
         
-        $names = [];
-        $base = $prompt;
-        
-        if (preg_match("/user's text:\s*(.+?)(?:\.|$)/i", $prompt, $matches)) {
-            $names_str = trim($matches[1]);
-            $names = array_map("trim", explode(",", $names_str));
-            $base = preg_replace("/user's text:\s*[^.]+/i", "", $prompt);
-            $base = trim($base);
+        if ($is_imagen && $n <= 4) {
+            return $this->call_imagen_batch($url, $prompt, $n, $aspect, $size);
         }
         
         $all_imgs = [];
         $errors = [];
-        $total_tkns = 0;
         
         for ($i = 0; $i < $n; $i++) {
-            $iter_prompt = $base;
-            
-            if (!empty($names) && isset($names[$i])) {
-                $iter_prompt .= " user's text: " . $names[$i];
-            } elseif (!empty($names)) {
-                $idx = $i % count($names);
-                $iter_prompt .= " user's text: " . $names[$idx];
-            } else {
-                $iter_prompt = $prompt;
-            }
-            
-            $body = [
-                "contents" => [["parts" => [["text" => $iter_prompt]]]],
-                "generationConfig" => [
-                    "responseModalities" => ["IMAGE"],
-                    "temperature" => 0.4,
-                    "topK" => 32,
-                    "topP" => 1
-                ]
-            ];
-            
-            if ($tokens > 0) {
-                $body["generationConfig"]["maxOutputTokens"] = $tokens;
-            }
-            
-            if (!empty($aspect) && $aspect !== "1:1") {
-                $body["generationConfig"]["imageConfig"] = ["aspectRatio" => $aspect];
-            }
+            $body = $is_imagen ? 
+                $this->build_imagen_request($prompt, $aspect, $size) :
+                $this->build_gemini_request($prompt, $aspect, $tokens, $size);
             
             $response = wp_remote_post($url, [
                 "headers" => ["Content-Type" => "application/json"],
@@ -360,71 +267,127 @@ class Nxt_AI_Image_Generator {
             }
             
             $code = wp_remote_retrieve_response_code($response);
-            
             if ($code !== 200) {
                 $content = wp_remote_retrieve_body($response);
-                $err_data = json_decode($content, true);
-                $err_msg = isset($err_data["error"]["message"]) ? $err_data["error"]["message"] : "API Error: {$code}";
-                $errors[] = "Request " . ($i + 1) . ": " . $err_msg;
+                $err = json_decode($content, true);
+                
+                if ($code === 404 && strpos($content, 'not found') !== false) {
+                    $msg = "Model '$model' not found. Try 'gemini-2.5-flash-image' or 'imagen-4.0-fast-generate-001'";
+                } else {
+                    $msg = $err["error"]["message"] ?? "API Error: $code";
+                }
+                
+                $errors[] = "Request " . ($i + 1) . ": $msg";
                 continue;
             }
             
             $data = json_decode(wp_remote_retrieve_body($response), true);
+            $imgs = $is_imagen ? $this->extract_imagen_images($data) : $this->extract_gemini_images($data);
             
-            if (isset($data["usageMetadata"]["totalTokenCount"])) {
-                $total_tkns += $data["usageMetadata"]["totalTokenCount"];
-            }
-            
-            if (!empty($data["candidates"]) && !empty($data["candidates"][0]["content"]["parts"])) {
-                foreach ($data["candidates"] as $candidate) {
-                    if (!empty($candidate["content"]["parts"])) {
-                        foreach ($candidate["content"]["parts"] as $part) {
-                            if (isset($part["inlineData"]["data"])) {
-                                $mime = $part["inlineData"]["mimeType"] ?? "image/png";
-                                $all_imgs[] = "data:{$mime};base64," . $part["inlineData"]["data"];
-                            }
-                        }
-                    }
-                }
+            if ($imgs) {
+                $all_imgs = array_merge($all_imgs, $imgs);
             } else {
-                $errors[] = "Request " . ($i + 1) . ": No image data in response";
+                $errors[] = "Request " . ($i + 1) . ": No image data";
             }
             
-            if ($i < $n - 1) {
-                usleep(500000);
-            }
+            if ($i < $n - 1) usleep(500000);
         }
         
         if (empty($all_imgs)) {
-            $err_msg = !empty($errors) ? implode("; ", $errors) : "No images generated. Please try again with a different prompt.";
-            return ["success" => false, "message" => $err_msg];
+            return ["success" => false, "message" => implode("; ", $errors) ?: "No images generated"];
         }
         
         return [
             "success" => true,
-            "message" => "Gemini Image response fetched (" . count($all_imgs) . " of " . $n . " images generated)",
+            "message" => count($all_imgs) . " of $n images generated",
             "data" => $all_imgs,
-            "total_tokens" => $total_tkns > 0 ? $total_tkns : "undefined",
-            "max_tokens" => $tokens > 0 ? $tokens : null
+            "model_type" => $is_imagen ? "imagen" : "gemini"
         ];
     }
     
-    public function get_available_types() {
-        return array_keys($this->type_modifiers);
+    private function build_gemini_request($prompt, $aspect, $tokens, $size) {
+        $body = [
+            "contents" => [["parts" => [["text" => $prompt]]]],
+            "generationConfig" => ["responseModalities" => ["IMAGE"]]
+        ];
+        
+        if ($tokens > 0) $body["generationConfig"]["maxOutputTokens"] = $tokens;
+        
+        $imgCfg = [];
+        if ($aspect && $aspect !== "1:1") $imgCfg["aspectRatio"] = $aspect;
+        if ($size && in_array($size, ["1K", "2K", "4K"])) $imgCfg["imageSize"] = $size;
+        if ($imgCfg) $body["generationConfig"]["imageConfig"] = $imgCfg;
+        
+        return $body;
     }
     
-    public function get_available_styles() {
-        return array_keys($this->style_modifiers);
+    private function build_imagen_request($prompt, $aspect, $size) {
+        $body = ["instances" => [["prompt" => $prompt]], "parameters" => ["sampleCount" => 1]];
+        
+        if ($aspect && $aspect !== "1:1") $body["parameters"]["aspectRatio"] = $aspect;
+        if ($size && in_array($size, ["1K", "2K"])) $body["parameters"]["imageSize"] = $size;
+        
+        return $body;
     }
     
-    public function get_available_aspect_ratios($model) {
-        return isset($this->size_map[$model]) ? array_keys($this->size_map[$model]) : ["1:1"];
+    private function call_imagen_batch($url, $prompt, $n, $aspect, $size) {
+        $instances = array_fill(0, $n, ["prompt" => $prompt]);
+        $body = ["instances" => $instances, "parameters" => ["sampleCount" => $n]];
+        
+        if ($aspect && $aspect !== "1:1") $body["parameters"]["aspectRatio"] = $aspect;
+        if ($size && in_array($size, ["1K", "2K"])) $body["parameters"]["imageSize"] = $size;
+        
+        $response = wp_remote_post($url, [
+            "headers" => ["Content-Type" => "application/json"],
+            "body" => wp_json_encode($body),
+            "timeout" => 90
+        ]);
+        
+        if (is_wp_error($response)) {
+            return ["success" => false, "message" => $response->get_error_message()];
+        }
+        
+        $code = wp_remote_retrieve_response_code($response);
+        if ($code !== 200) {
+            $err = json_decode(wp_remote_retrieve_body($response), true);
+            return ["success" => false, "message" => $err["error"]["message"] ?? "API Error: $code"];
+        }
+        
+        $imgs = $this->extract_imagen_images(json_decode(wp_remote_retrieve_body($response), true));
+        
+        if (empty($imgs)) return ["success" => false, "message" => "No images generated"];
+        
+        return ["success" => true, "message" => count($imgs) . " images generated", "data" => $imgs];
+    }
+    
+    private function extract_gemini_images($data) {
+        $imgs = [];
+        if (!empty($data["candidates"][0]["content"]["parts"])) {
+            foreach ($data["candidates"][0]["content"]["parts"] as $part) {
+                if (isset($part["inlineData"]["data"])) {
+                    $mime = $part["inlineData"]["mimeType"] ?? "image/png";
+                    $imgs[] = "data:$mime;base64," . $part["inlineData"]["data"];
+                }
+            }
+        }
+        return $imgs;
+    }
+    
+    private function extract_imagen_images($data) {
+        $imgs = [];
+        if (!empty($data["predictions"])) {
+            foreach ($data["predictions"] as $pred) {
+                if (isset($pred["bytesBase64Encoded"])) {
+                    $mime = $pred["mimeType"] ?? "image/png";
+                    $imgs[] = "data:$mime;base64," . $pred["bytesBase64Encoded"];
+                }
+            }
+        }
+        return $imgs;
     }
     
     public function nxt_ai_image_gen($params) {
-        $ai = Nxt_AI_Image_Generator::get_instance();
-        
-        $args = [
+        $result = $this->generate_image([
             "prompt" => $params->get_param("prompt"),
             "model" => $params->get_param("model"),
             "n" => $params->get_param("n"),
@@ -432,22 +395,13 @@ class Nxt_AI_Image_Generator {
             "image_type" => $params->get_param("image_type"),
             "image_style" => $params->get_param("image_style"),
             "image_quality" => $params->get_param("image_quality")
-        ];
+        ]);
         
-        $result = $ai->generate_image($args);
-        
-        if ($result["success"]) {
-            return new WP_REST_Response($result, 200);
-        } else {
-            return new WP_REST_Response($result, 400);
-        }
+        return new WP_REST_Response($result, $result["success"] ? 200 : 400);
     }
     
     public static function get_instance() {
         static $instance = null;
-        if (null === $instance) {
-            $instance = new self();
-        }
-        return $instance;
+        return $instance ?: ($instance = new self());
     }
 }

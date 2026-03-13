@@ -1633,9 +1633,10 @@ class Tp_Blocks_Helper {
 	* @since 1.2.1
 	*/
 	public static function tpgb_simple_decrypt($string, $action = 'dy'){
-		// you may change these values to your own
-		$tppk=get_option( 'tpgb_activate' );
-		$secret_key = ( isset($tppk['tpgb_activate_key']) && !empty($tppk['tpgb_activate_key']) ) ? $tppk['tpgb_activate_key'] : 'PO$_key';
+		$tppk = get_option( 'tpgb_activate' );
+		$pro_key = ( isset( $tppk['tpgb_activate_key'] ) && ! empty( $tppk['tpgb_activate_key'] ) ) ? $tppk['tpgb_activate_key'] : null;
+		$fallback_key = 'PO$_key';
+		$secret_key = $pro_key !== null ? $pro_key : $fallback_key;
 		$secret_iv = 'PO$_iv';
 
 		$output = false;
@@ -1643,11 +1644,17 @@ class Tp_Blocks_Helper {
 		$key = hash( 'sha256', $secret_key );
 		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
 
-		if( $action == 'ey' ) {
+		if ( $action == 'ey' ) {
 			$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
-		}
-		else if( $action == 'dy' ){
+		} else if ( $action == 'dy' ) {
 			$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+
+			// If decryption failed and we used the Pro key, retry with the fallback.
+			// This handles data that was encrypted before the Pro key was activated.
+			if ( ( $output === false || $output === '' ) && $pro_key !== null ) {
+				$fallback_hash = hash( 'sha256', $fallback_key );
+				$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $fallback_hash, 0, $iv );
+			}
 		}
 
 		return $output;

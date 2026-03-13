@@ -39,9 +39,8 @@ class Nxt_AI_Image_Expand {
         } else {
             $settings = [];
         }
-        
-        $api_key = $settings["chatgptApiKey"];
-        $img_enabled = $settings["chatgptEnableImage"];
+        $api_key     = $settings['chatgptApiKey'] ?? '';
+$img_enabled = $settings['chatgptEnableImage'] ?? false;
         $is_enabled = ($img_enabled === true || $img_enabled === 1);
         
         if (empty($image_url)) {

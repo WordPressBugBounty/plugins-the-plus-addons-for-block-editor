@@ -197,16 +197,17 @@ li.wp-not-current-submenu:hover .wp-menu-image.dashicons-nxt-builder-groups{
 
 .nxt-nobtn-secondary, .nxt-nobtn-secondary:hover, .nxt-nobtn-secondary:focus {
     background-color: #fff;
-    color: #1717CC;
+    color: #1717CC !important;
     border: 1px solid #1717CC;
     box-shadow: none;
     margin-left: 8px;
 }
 .nxt-nobtn-primary,.nxt-nobtn-primary:hover, .nxt-nobtn-primary:focus {
-	background-color: #1717CC;
-	color: #fff;
+	background-color: #1717CC !important;
+	color: #fff !important;
 	border: none;
 	box-shadow: none;
+    text-decoration: none !important;
 }
 
 .nxt-nobtn-primary:focus, .nxt-nobtn-secondary:focus {

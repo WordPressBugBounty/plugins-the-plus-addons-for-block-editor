@@ -318,6 +318,18 @@ class Tpgb_Gutenberg_Settings_Options {
         
         add_submenu_page( 'nexter_welcome', esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), esc_html__( 'Patterns', 'the-plus-addons-for-block-editor' ), 'manage_options', esc_url( admin_url('edit.php?post_type=wp_block') ));
 
+		$isSub = get_option('tpgb_connection_data');
+		if ( defined('TPGBP_VERSION') && defined('TPGBP_PATH') && ( empty($isSub) || ( !empty($isSub) && !isset($isSub['nxt_form_submission_Disable'])) || ( isset($isSub['nxt_form_submission_Disable']) && $isSub['nxt_form_submission_Disable'] == 'enable' ) )) {
+			add_submenu_page(
+				"nexter_welcome",
+				"Form Submissions",
+				"Form Submissions",
+				"manage_options",
+				"nxt-form-submissions",
+				[$this, "nxt_load_submissions_handler"]
+			);
+		}
+
 		if( !defined('TPGBP_VERSION') ){
 			add_submenu_page( 
 				'nexter_welcome', 
@@ -1272,15 +1284,6 @@ class Tpgb_Gutenberg_Settings_Options {
 				'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
 				'keyword' => ['dark mode toggle', 'dark mode button', 'night mode switcher', 'dark theme', 'night theme', 'night mode']
 			],
-			// 'tp-design-tool' => [
-			// 	'label' => esc_html__('Design Tool','the-plus-addons-for-block-editor'),
-			// 	'demoUrl' => 'https://nexterwp.com/nexter-blocks/extras/wordpress-design-grid-tool/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
-			// 	'docUrl' => '',
-			// 	'videoUrl' => '',
-			// 	'tag' => 'pro',
-			// 	'block_cate' => esc_html__('Creative', 'the-plus-addons-for-block-editor'),
-			// 	'keyword' => ['design','tool']
-			// ],
 			'tp-draw-svg' => [
 				'label' => esc_html__('Draw SVG','the-plus-addons-for-block-editor'),
 				'demoUrl' => 'https://nexterwp.com/nexter-blocks/blocks/wordpress-draw-animated-svg-icon/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
@@ -2433,6 +2436,25 @@ class Tpgb_Gutenberg_Settings_Options {
 
         wp_send_json( $final );
         wp_die();
+    }
+
+	/**
+     * Load submissions handler when URL contains 'nxt-form-submissions'
+     */
+    public function nxt_load_submissions_handler(){
+        if ( isset($_GET["page"]) && $_GET["page"] === "nxt-form-submissions" && file_exists(TPGBP_PATH . 'classes/extras/nxt-form-submissions.php' ) ) {
+
+            require_once TPGBP_PATH . 'classes/extras/nxt-form-submissions.php';
+
+            if (class_exists("Tpgb_Submissions_Table")) { 
+				$submissions_table = new Tpgb_Submissions_Table();
+				$submissions_table->nxt_submission_table();
+            } else {
+                echo '<div class="wrap">';
+                echo "<h1>Error: Submission table not found</h1>";
+                echo "</div>";
+            }
+        }
     }
 }
 // Get it started

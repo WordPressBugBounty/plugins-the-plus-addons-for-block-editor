@@ -769,7 +769,7 @@ body.mobile-menu-open {
 .menu-item-has-children{
     cursor: pointer;
 }
-.dropdown-submenu.menu-item-has-children > a {
+.menu-click .dropdown-submenu.menu-item-has-children > a {
     pointer-events: none;
 }
 /* Main Menu & Sub Menu Icon Css */

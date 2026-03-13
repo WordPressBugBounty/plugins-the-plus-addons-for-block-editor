@@ -39,8 +39,9 @@ class Nxt_AI_Image_Variations {
             $settings = [];
         }
         
-        $api_key = $settings["chatgptApiKey"];
-        $img_enabled = $settings["chatgptEnableImage"];
+        $api_key     = $settings['chatgptApiKey'] ?? '';
+$img_enabled = $settings['chatgptEnableImage'] ?? false;
+
         
         if ($img_enabled !== true) {
             return ["success" => false, "message" => "AI Image Generation is not enabled"];

@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 4.0
 Tested up to: 6.9
-Stable tag: 4.7.2
+Stable tag: 4.7.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -319,6 +319,9 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.7.3 = 13 April 2026
+- Update : languages Pot File Updated.
 
 = 4.7.2 = 13 Mar 2026
 - Added : AI Integration support for multiple text models in the AI Settings Dashboard.

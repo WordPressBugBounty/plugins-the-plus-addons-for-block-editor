@@ -41,13 +41,19 @@ function tpgb_breadcrumbs_callback( $attributes, $content) {
             $sepIcons= (!empty($attributes["sepIconFawesome"])) ? $attributes["sepIconFawesome"] : '';
             $sepIconType='sep_icon';
         } else if(!empty($attributes["sepIconFontStyle"]) && $attributes["sepIconFontStyle"]=='sep_icon_image') {
-            $sepIconImg = (!empty($attributes['sepIconImg']['id'])) ? $attributes['sepIconImg']['id'] : '';
-            if(!empty($sepIconImg)){
-                $img = wp_get_attachment_image_src($sepIconImg);
-                $sepIcons = $img[0];
-                $sepIconType = 'sep_image';
-            }else if(!empty($attributes['sepIconImg']['url'])){
-                $sepIcons = $attributes['sepIconImg']['url'];
+            $sepIconImgId  = ! empty( $attributes['sepIconImg']['id'] ) ? absint( $attributes['sepIconImg']['id'] ) : 0;
+            $sepIconImgUrl = ! empty( $attributes['sepIconImg']['url'] ) ? esc_url_raw( $attributes['sepIconImg']['url'] ) : '';
+            if ( $sepIconImgId > 0 ) {
+                $img = wp_get_attachment_image_src( $sepIconImgId, 'full' );
+                if ( ! empty( $img[0] ) ) {
+                    $sepIcons    = $img[0];
+                    $sepIconType = 'sep_image';
+                } elseif ( $sepIconImgUrl ) {
+                    $sepIcons    = $sepIconImgUrl;
+                    $sepIconType = 'sep_image';
+                }
+            } elseif ( $sepIconImgUrl ) {
+                $sepIcons    = $sepIconImgUrl;
                 $sepIconType = 'sep_image';
             }
         }

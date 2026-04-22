@@ -1,15 +1,23 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
-	"name": "tpgb/tp-container",
-	"version": "0.1.0",
-	"title": "Container",
-	"category": "tpgb",
-	"description": "Segment your full width page into horizontal rows.",
-	"example": {
-		"attributes": {}
-	},
-	"textdomain": "the-plus-addons-for-block-editor",
+    "name": "tpgb/tp-container",
+    "version": "0.1.0",
+    "title": "Container",
+    "category": "tpgb",
+    "description": "Segment your full width page into horizontal rows.",
+    "example": {
+        "attributes": {}
+    },
+    "supports": {
+        "anchor": true,
+        "html": false,
+        "align": [
+            "wide",
+            "full"
+        ]
+    },
+    "textdomain": "the-plus-addons-for-block-editor",
     "attributes": {
         "block_id": {
             "type": "string",
@@ -196,7 +204,7 @@
                             "value": "wide"
                         }
                     ],
-                   "selector": "{{PLUS_WRAP}} > .tpgb-cont-in > .block-editor-block-list__layout> .components-resizable-box__container > [data-type=\"tpgb/tp-container-inner\"].tpgb-container-col-editor{ padding: {{gutterSpace}}; }",
+                    "selector": "{{PLUS_WRAP}} > .tpgb-cont-in > .block-editor-block-list__layout> .components-resizable-box__container > [data-type=\"tpgb/tp-container-inner\"].tpgb-container-col-editor{ padding: {{gutterSpace}}; }",
                     "backend": true
                 },
                 {
@@ -375,7 +383,7 @@
             },
             "style": [
                 {
-                     "selector": "{{PLUS_WRAP}}:hover , {{PLUS_WRAP}}:hover > .tpgb-top-layer { border-radius: {{HoverBradius}}; }"
+                    "selector": "{{PLUS_WRAP}}:hover , {{PLUS_WRAP}}:hover > .tpgb-top-layer { border-radius: {{HoverBradius}}; }"
                 }
             ],
             "scopy": true
@@ -1355,7 +1363,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conhorizoOri",
@@ -1371,7 +1382,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conhorizoOri",
@@ -1387,7 +1401,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conhorizoOri",
@@ -1403,7 +1420,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conhorizoOri",
@@ -1436,7 +1456,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conabverticalOri",
@@ -1452,7 +1475,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conabverticalOri",
@@ -1468,7 +1494,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conabverticalOri",
@@ -1484,7 +1513,10 @@
                         {
                             "key": "conPosi",
                             "relation": "==",
-                            "value": ["absolute", "fixed"]
+                            "value": [
+                                "absolute",
+                                "fixed"
+                            ]
                         },
                         {
                             "key": "conabverticalOri",
@@ -2107,5 +2139,6 @@
             "type": "boolean",
             "default": false
         }
-    }
+    },
+    "render": "file:./render.php"
 }

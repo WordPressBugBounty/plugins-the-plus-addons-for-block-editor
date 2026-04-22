@@ -784,5 +784,6 @@
                 }
             ]
         }
-    }
+    },
+    "render": "file:./render.php"
 }

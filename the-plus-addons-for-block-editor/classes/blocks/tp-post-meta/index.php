@@ -86,7 +86,7 @@ function tpgb_tp_post_meta_render_callback( $attr, $content) {
 	
 	$outputComment='';
 	if($showComment){
-		$commentIcon =(!empty($attr['commentIcon'])) ? '<i class="meta-comment-icon '.wp_kses_post($attr['commentIcon']).'"></i>' : '';
+		$commentIcon =(!empty($attr['commentIcon'])) ? '<i class="meta-comment-icon '.esc_attr($attr['commentIcon']).'"></i>' : '';
 		$comments_count = wp_count_comments($post_id);
 		$count=0;
 		if(!empty($comments_count)){

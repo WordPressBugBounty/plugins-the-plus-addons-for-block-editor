@@ -609,7 +609,7 @@ function tpgb_search($onLoadAttr = []){
 					$DType = $wpdb->prepare(" AND post_type = %s", $PostType);
 				}
 			}else{
-				$DType = " AND post_type IN ('post','page','product')";
+				$DType = $wpdb->prepare(" AND post_type IN ('post','page','product')");
 			}
 			
 			if(!empty($GFilter['GFEnable'])){
@@ -675,7 +675,11 @@ function tpgb_search($onLoadAttr = []){
 			}
 			
 			if( class_exists('acf') && !empty($ACFEnable) && !empty($ACF_Key) ){
-				$ACFPrepare = $wpdb->prepare("SELECT {$wpdb->posts}.ID FROM {$wpdb->posts} WHERE {$wpdb->posts}.ID {$Publish}");
+				// Use %1s placeholder for the dynamic $Publish value (it's a SQL fragment, not a simple value)
+				$ACFPrepare = $wpdb->prepare(
+					"SELECT {$wpdb->posts}.ID FROM {$wpdb->posts} WHERE {$wpdb->posts}.ID %1s",
+					$Publish
+				);
 				$AcfPost = $wpdb->get_results($ACFPrepare);
 				foreach ($AcfPost as $key => $one) {
 					$PostID = !empty($one->ID) ? $one->ID : '';

@@ -321,7 +321,12 @@ class Tpgb_Generate_Blocks_Css {
 											if (isset($values['md']) && (!isset($selectData['media']) || (isset($selectData['media']) && $selectData['media']==='md') )) {
 												$device = true;
 												
-												if(gettype($values['md']) == 'object' || gettype($values['md']) == 'array'){
+												$_gbr = isset($values['globalBorderRadius']) ? $values['globalBorderRadius'] : null;
+												$_gbrIdx = is_array($_gbr) ? (isset($_gbr['md']) ? $_gbr['md'] : '') : $_gbr;
+												if (!empty($_gbrIdx) && is_numeric($_gbrIdx)) {
+													$_gbrFb = is_array($_gbrf) ? (isset($_gbrf['md']) ? $_gbrf['md'] : '') : (is_string($_gbrf) ? $_gbrf : '');
+													$dimension = 'var(--tpgb-RAD' . intval($_gbrIdx) . (!empty($_gbrFb) && is_string($_gbrFb) ? ', ' . $_gbrFb : '') . ')';
+												} elseif(gettype($values['md']) == 'object' || gettype($values['md']) == 'array'){
 													$dimension = $this->tp_objectField($values['md'])['data'];
 												}else{
 													$dimension = (!empty($values['md']) || $values['md']==='0') ? $values['md'] . (isset($values['unit']) ? $values['unit'] : '') : '';
@@ -351,11 +356,16 @@ class Tpgb_Generate_Blocks_Css {
 													$md = array_merge($md,$SelectorData);
 												}
 											}
+
 											// Tablet
 											if (isset($values['sm']) && (!isset($selectData['media']) || (isset($selectData['media']) && $selectData['media']==='sm') )) {
 												$device = true;
-												
-												if(gettype($values['sm']) == 'object' || gettype($values['sm']) == 'array'){
+
+												$_gbrIdx = is_array($_gbr) ? (isset($_gbr['sm']) ? $_gbr['sm'] : '') : $_gbr;
+												if (!empty($_gbrIdx) && is_numeric($_gbrIdx)) {
+													$_gbrFb = is_array($_gbrf) ? (isset($_gbrf['sm']) ? $_gbrf['sm'] : '') : (is_string($_gbrf) ? $_gbrf : '');
+													$dimension = 'var(--tpgb-RAD' . intval($_gbrIdx) . (!empty($_gbrFb) && is_string($_gbrFb) ? ', ' . $_gbrFb : '') . ')';
+												} elseif(gettype($values['sm']) == 'object' || gettype($values['sm']) == 'array'){
 													$dimension = $this->tp_objectField($values['sm'])['data'];
 												}else{
 													$dimension = (!empty($values['sm']) || $values['sm']==='0') ? $values['sm'] . (isset($values['unitsm']) ? $values['unitsm'] : (isset($values['unit']) ? $values['unit'] : '')) : '';
@@ -391,11 +401,16 @@ class Tpgb_Generate_Blocks_Css {
 													}
 												}
 											}
+											
 											// Mobile
 											if ( isset($values['xs']) && (!isset($selectData['media']) || (isset($selectData['media']) && $selectData['media']==='xs') ) ) {
 												$device = true;
-												
-												if(gettype($values['xs']) == 'object' || gettype($values['xs']) == 'array'){
+
+												$_gbrIdx = is_array($_gbr) ? (isset($_gbr['xs']) ? $_gbr['xs'] : '') : $_gbr;
+												if (!empty($_gbrIdx) && is_numeric($_gbrIdx)) {
+													$_gbrFb = is_array($_gbrf) ? (isset($_gbrf['xs']) ? $_gbrf['xs'] : '') : (is_string($_gbrf) ? $_gbrf : '');
+													$dimension = 'var(--tpgb-RAD' . intval($_gbrIdx) . (!empty($_gbrFb) && is_string($_gbrFb) ? ', ' . $_gbrFb : '') . ')';
+												} elseif(gettype($values['xs']) == 'object' || gettype($values['xs']) == 'array'){
 													$dimension = $this->tp_objectField($values['xs'])['data'];
 												}else{
 													$dimension = (!empty($values['xs']) || $values['xs']==='0') ? $values['xs'] . (isset($values['unitxs']) ? $values['unitxs'] : (isset($values['unit']) ? $values['unit'] : '')) : '';
@@ -1037,6 +1052,35 @@ class Tpgb_Generate_Blocks_Css {
 								
 								array_push( $xs, $this->generate_grid_styles($block_value['rowsRepeater'], $block_value['contentWidth']['value'], $block_value['block_id']['value'], 'row','xs'));
 							}
+
+							// Flex Child CSS
+                            $flexChild = (!empty($block_value['flexChild'])) ? $block_value['flexChild'] : [];
+                            if (!empty($flexChild) && !empty($block_value['showchild'])) {
+                                $block_id = $block_value['block_id']['value'];
+                                $isFullWidth = empty($block_value['contentWidth']['value']) || $block_value['contentWidth']['value'] === 'full';
+                                $flex_props = ['flexShrink' => 'flex-shrink', 'flexGrow' => 'flex-grow', 'flexOrder' => 'order'];
+
+                                foreach ($flexChild as $index => $item) {
+                                    $nth = (int)$index + 1;
+                                    $childSele = $isFullWidth
+                                        ? '.tpgb-block-' . $block_id . '.tpgb-container-row > *:nth-child(' . $nth . ')'
+                                        : '.tpgb-block-' . $block_id . '.tpgb-container-row > .tpgb-cont-in > *:nth-child(' . $nth . ')';
+
+                                    foreach (['md', 'sm', 'xs'] as $bp) {
+                                        foreach ($flex_props as $attr => $css) {
+                                            if (isset($item[$attr][$bp]) && $item[$attr][$bp] !== '') {
+                                                array_push($$bp, $childSele . '{ ' . $css . ': ' . $item[$attr][$bp] . '; }');
+                                            }
+                                        }
+                                        if (isset($item['flexBasis'][$bp]) && $item['flexBasis'][$bp] !== '' && isset($item['flexBasis']['unit'])) {
+                                            array_push($$bp, $childSele . '{ flex-basis: ' . $item['flexBasis'][$bp] . $item['flexBasis']['unit'] . '; }');
+                                        }
+                                        if (!empty($item['flexselfAlign'][$bp])) {
+                                            array_push($$bp, $childSele . '{ align-self: ' . $item['flexselfAlign'][$bp] . '; }');
+                                        }
+                                    }
+                                }
+                            }
 						}
 
                         if( $block_key === 'tpgb/tp-testimonials' ){
@@ -1503,22 +1547,41 @@ class Tpgb_Generate_Blocks_Css {
 	 */
 	public function cssBorder( $val ){
 		if( !empty($val) ){
-			$val['type'] = (isset($val['type']) && !empty($val['type'])) ? $val['type'] : "solid";
-			$val['width'] = (isset($val['width']) && !empty($val['width'])) ? $val['width'] : [];
-			$val['color'] = (isset($val['color']) && !empty($val['color'])) ? $val['color'] : '#000';
-		
-			$defaultCss = 'border-style: ' . ($val['type'] ? $val['type'] : 'solid'). ';';
-			if(isset($val['disableWidthColor']) && !empty($val['disableWidthColor'])){
-				
-			}else{
-				$defaultCss .= 'border-color: ' . ($val['color'] ? $val['color'] : '#000') . ';';
+			if( !empty($val['openBorder']) && isset($val['globalBorder']) && !empty($val['globalBorder']) ){
+				$gBorder = $val['globalBorder'];
+				$globalCss = 'border-style:var(--tpgb-BRT' . $gBorder . ');border-width:var(--tpgb-BRW' . $gBorder . ');';
+				if(isset($val['disableWidthColor']) && !empty($val['disableWidthColor'])){
+				}else if(isset($val['color']) && !empty($val['color'])){
+					$globalCss .= 'border-color: ' . ($val['color'] ? $val['color'] : '#000') . ';';
+				}else{
+					$globalCss .= 'border-color:var(--tpgb-BRC' . $gBorder . ');';
+				}
+				return [ 'md' => $globalCss, 'sm' => [], 'xs' => [] ];
 			}
-			if (gettype($val['width']) === 'array') {
+
+			$val['type']  = (isset($val['type'])  && !empty($val['type']))  ? $val['type']  : 'solid';
+			$val['color'] = (isset($val['color']) && !empty($val['color'])) ? $val['color'] : '#000';
+			$val['width'] = (isset($val['width']) && !empty($val['width'])) ? $val['width'] : [];
+
+			// FIX: json_decode produces stdClass objects; normalise to array before the type check.
+			if( is_object($val['width']) ){
+				$val['width'] = json_decode( json_encode($val['width']), true );
+			}
+
+			$defaultCss = 'border-style: ' . $val['type'] . ';';
+			if( !isset($val['disableWidthColor']) || empty($val['disableWidthColor']) ){
+				$defaultCss .= 'border-color: ' . $val['color'] . ';';
+			}
+
+			if( gettype($val['width']) === 'array' ){
 				$data = [ 'md' => [], 'sm' => [], 'xs' => [] ];
 				$data = $this->_push($this->_customDevice($val['width'], 'border-width:{{key}};'), $data);
 				array_push($data['md'], $defaultCss);
 				return [ 'md' => $data['md'], 'sm' => $data['sm'], 'xs' => $data['xs'] ];
 			}
+
+			// Fallback: width was empty or a scalar — output just style + color.
+			return [ 'md' => $defaultCss, 'sm' => [], 'xs' => [] ];
 		}
 	}
 	

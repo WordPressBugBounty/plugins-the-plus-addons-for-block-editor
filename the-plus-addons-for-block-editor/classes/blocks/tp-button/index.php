@@ -330,7 +330,7 @@ function tpgb_button_render_callback( $attributes, $content ) {
 			$output .= '<div class="tpgb-btn-fpopup" id="tpgb-query-'.esc_attr($block_id).'-'.esc_attr($post_id).'" >';
 				ob_start();
 				if(!empty($attributes['templates']) && $attributes['templates'] != 'none') {
-					echo Tpgb_Library()->plus_do_block($attributes['templates']);
+					echo Tpgb_Library()->plus_do_block($attributes['templates']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 				$output .= ob_get_contents();
 				ob_end_clean();

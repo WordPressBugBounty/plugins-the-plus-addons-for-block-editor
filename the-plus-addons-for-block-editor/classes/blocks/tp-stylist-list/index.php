@@ -95,6 +95,11 @@ function tpgb_tp_stylist_list_render_callback( $attributes, $content) {
 									$imgSrc = wp_get_attachment_image($item['iconImg']['id'] , 'full', false, ['alt'=> $altText]);
 								}else if( !empty($item['iconImg']['url']) ){
 									$imgurl = ( class_exists('Tpgbp_Pro_Blocks_Helper') ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($item['iconImg']) : '';
+									
+									if(empty($imgurl)){
+										$imgurl = $item['iconImg']['url'];
+									}
+
 									$imgSrc = '<img src="'.esc_url($imgurl).'"  alt="'.$altText.'" />';
 								}
 								$icons .= $imgSrc;

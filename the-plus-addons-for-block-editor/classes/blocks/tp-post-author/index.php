@@ -17,7 +17,7 @@ function tpgb_tp_post_author_render_callback( $attr, $content) {
     $ShowSocial = (!empty($attr['ShowSocial'])) ? $attr['ShowSocial'] : false;
     $ShowRole = (!empty($attr['ShowRole'])) ? $attr['ShowRole'] : false;
 	$roleLabel = (!empty($attr['roleLabel'])) ? $attr['roleLabel'] : 'Role : ';
-    $titleLabel = (!empty($attr['titleLabel'])) ? $attr['titleLabel'] : 'Author : ';
+    $titleLabel = (!empty($attr['titleLabel'])) ? $attr['titleLabel'] : '';
 	
 	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attr );
 	

@@ -322,8 +322,8 @@ class Tpgb_Gutenberg_Settings_Options {
 		if ( defined('TPGBP_VERSION') && defined('TPGBP_PATH') && ( empty($isSub) || ( !empty($isSub) && !isset($isSub['nxt_form_submission_Disable'])) || ( isset($isSub['nxt_form_submission_Disable']) && $isSub['nxt_form_submission_Disable'] == 'enable' ) )) {
 			add_submenu_page(
 				"nexter_welcome",
-				"Form Submissions",
-				"Form Submissions",
+				__( 'Form Submissions', 'the-plus-addons-for-block-editor' ),
+				__( 'Form Submissions', 'the-plus-addons-for-block-editor' ),
 				"manage_options",
 				"nxt-form-submissions",
 				[$this, "nxt_load_submissions_handler"]

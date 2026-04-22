@@ -191,7 +191,7 @@ li.wp-not-current-submenu:hover .wp-menu-image.dashicons-nxt-builder-groups{
     font-weight: 600;
     font-size: 12px;
     line-height: 18px;
-    text-decoration: none;
+    text-decoration: none !important;
     display: inline-flex
 }
 

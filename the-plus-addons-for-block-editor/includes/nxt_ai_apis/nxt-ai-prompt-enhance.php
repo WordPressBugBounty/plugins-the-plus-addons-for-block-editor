@@ -1,11 +1,29 @@
 <?php
-if (!defined("ABSPATH")) {
-    exit();
+/**
+ * Nxt Ai Prompt Enhance.
+ *
+ * @package ThePluginAddonsForBlockEditor
+ */
+
+// phpcs:disable WordPress.Files.FileName
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
 }
 
-class Nxt_AI_Prompt_Enhance
-{
-    private $default_system_message = "You are an advanced AI prompt-engineering assistant. Your job is to enhance and refine the user's prompt while preserving its original purpose, format, and output type.
+/**
+ * Nxt_ A I_ Prompt_ Enhance.
+ *
+ * @since 1.0.0
+ */
+class Nxt_AI_Prompt_Enhance {
+
+	/**
+	 * Property.
+	 *
+	 * @var mixed
+	 */
+	private $default_system_message = "You are an advanced AI prompt-engineering assistant. Your job is to enhance and refine the user's prompt while preserving its original purpose, format, and output type. // phpcs:ignore Squiz.Commenting.VariableComment.MissingVar,Squiz.Commenting.VariableComment.Missing, Squiz.Commenting.VariableComment.Missing,Squiz.Commenting.VariableComment.MissingVar
 
 CRITICAL RULE:
 Enhance with visual or artistic details ONLY when the user clearly requests an IMAGE, such as 'generate an image,' 'create a picture,' 'visualize,' 'draw,' or similar phrasing.
@@ -62,264 +80,315 @@ Do NOT include explanations, commentary, or steps.
 
 Begin.";
 
-    public function enhance_prompt($args = [])
-    {
-        $args = wp_parse_args($args, [
-            "prompt" => "",
-            "system_message" => $this->default_system_message,
-            "model" => "gpt-4o-mini",
-            "temperature" => 0.7,
-            "max_tokens" => 500,
-        ]);
+	/**
+	 * Enhance prompt.
+	 *
+	 * @param array $args The args.
+	 * @return mixed The result.
+	 */
+	public function enhance_prompt( $args = array() ) {
+		$args = wp_parse_args(
+			$args,
+			array(
+				'prompt'         => '',
+				'system_message' => $this->default_system_message,
+				'model'          => 'gpt-4o-mini',
+				'temperature'    => 0.7,
+				'max_tokens'     => 500,
+			)
+		);
 
-        $prompt = sanitize_text_field($args["prompt"]);
+		$prompt = sanitize_text_field( $args['prompt'] );
 
-        if (empty($prompt)) {
-            return ["success" => false, "message" => "Prompt is required"];
-        }
+		if ( empty( $prompt ) ) {
+			return array(
+				'success' => false,
+				'message' => 'Prompt is required',
+			);
+		}
 
-        $settings_raw = Tp_Blocks_Helper::get_extra_option("nxtAiSettings");
-        $encrypted = "";
+		$settings_raw = Tp_Blocks_Helper::get_extra_option( 'nxtAiSettings' );
+		$encrypted    = '';
 
-        if (is_string($settings_raw)) {
-            $encrypted = $settings_raw;
-        } elseif (is_array($settings_raw)) {
-            if (isset($settings_raw[0]) && is_string($settings_raw[0])) {
-                $encrypted = $settings_raw[0];
-            } elseif (count($settings_raw) === 1) {
-                $encrypted = reset($settings_raw);
-            }
-        }
+		if ( is_string( $settings_raw ) ) {
+			$encrypted = $settings_raw;
+		} elseif ( is_array( $settings_raw ) ) {
+			if ( isset( $settings_raw[0] ) && is_string( $settings_raw[0] ) ) {
+				$encrypted = $settings_raw[0];
+			} elseif ( count( $settings_raw ) === 1 ) {
+				$encrypted = reset( $settings_raw );
+			}
+		}
 
-        if (is_string($encrypted) && !empty($encrypted)) {
-            $decrypted = Tp_Blocks_Helper::tpgb_simple_decrypt(
-                $encrypted,
-                "dy"
-            );
-            $settings = json_decode($decrypted, true);
-        } else {
-            $settings = [];
-        }
+		if ( is_string( $encrypted ) && ! empty( $encrypted ) ) {
+			$decrypted = Tp_Blocks_Helper::tpgb_simple_decrypt(
+				$encrypted,
+				'dy'
+			);
+			$settings  = json_decode( $decrypted, true );
+		} else {
+			$settings = array();
+		}
 
-        $chatgpt_key = $settings["chatgptApiKey"] ?? "";
-        $chatgpt_txt = $settings["chatgptEnableText"] ?? false;
-        $chatgpt_tokens = absint($settings["chatgptTextMaxTokens"] ?? 0);
+		$chatgpt_key    = $settings['chatgptApiKey'] ?? '';
+		$chatgpt_txt    = $settings['chatgptEnableText'] ?? false;
+		$chatgpt_tokens = absint( $settings['chatgptTextMaxTokens'] ?? 0 );
 
-        $gemini_key = $settings["geminiApiKey"] ?? "";
-        $gemini_txt = $settings["geminiEnableText"] ?? false;
-        $gemini_tokens = absint($settings["geminiTextMaxTokens"] ?? 0);
+		$gemini_key    = $settings['geminiApiKey'] ?? '';
+		$gemini_txt    = $settings['geminiEnableText'] ?? false;
+		$gemini_tokens = absint( $settings['geminiTextMaxTokens'] ?? 0 );
 
-        $biz_ctx = sanitize_text_field($settings["businessContext"] ?? "");
-        $audience = sanitize_text_field($settings["targetedAudience"] ?? "");
+		$biz_ctx  = sanitize_text_field( $settings['businessContext'] ?? '' );
+		$audience = sanitize_text_field( $settings['targetedAudience'] ?? '' );
 
-        $use_gemini = false;
-        $use_chatgpt = false;
-        $api_key = "";
-        $max_tokens = intval($args["max_tokens"]);
+		$use_gemini  = false;
+		$use_chatgpt = false;
+		$api_key     = '';
+		$max_tokens  = intval( $args['max_tokens'] );
 
-        if ($gemini_txt === true && !empty($gemini_key)) {
-            $use_gemini = true;
-            $api_key = $gemini_key;
-            if (!empty($gemini_tokens)) {
-                $max_tokens = intval($gemini_tokens);
-            }
-        } elseif ($chatgpt_txt === true && !empty($chatgpt_key)) {
-            $use_chatgpt = true;
-            $api_key = $chatgpt_key;
-            if (!empty($chatgpt_tokens)) {
-                $max_tokens = intval($chatgpt_tokens);
-            }
-        }
+		if ( true === $gemini_txt && ! empty( $gemini_key ) ) {
+			$use_gemini = true;
+			$api_key    = $gemini_key;
+			if ( ! empty( $gemini_tokens ) ) {
+				$max_tokens = intval( $gemini_tokens );
+			}
+		} elseif ( true === $chatgpt_txt && ! empty( $chatgpt_key ) ) {
+			$use_chatgpt = true;
+			$api_key     = $chatgpt_key;
+			if ( ! empty( $chatgpt_tokens ) ) {
+				$max_tokens = intval( $chatgpt_tokens );
+			}
+		}
 
-        if (!$use_gemini && !$use_chatgpt) {
-            return [
-                "success" => false,
-                "message" => "No AI service is enabled or API key is missing",
-            ];
-        }
+		if ( ! $use_gemini && ! $use_chatgpt ) {
+			return array(
+				'success' => false,
+				'message' => 'No AI service is enabled or API key is missing',
+			);
+		}
 
-        if (empty($api_key)) {
-            return ["success" => false, "message" => "API Key is empty"];
-        }
+		if ( empty( $api_key ) ) {
+			return array(
+				'success' => false,
+				'message' => 'API Key is empty',
+			);
+		}
 
-        $sys_msg = $this->build_system_msg(
-            $args["system_message"],
-            $biz_ctx,
-            $audience
-        );
+		$sys_msg = $this->build_system_msg(
+			$args['system_message'],
+			$biz_ctx,
+			$audience
+		);
 
-        if ($use_gemini) {
-            $result = $this->send_gemini(
-                $api_key,
-                $prompt,
-                $sys_msg,
-                floatval($args["temperature"]),
-                $max_tokens
-            );
-        } elseif ($use_chatgpt) {
-            $result = $this->send_chatgpt(
-                $api_key,
-                $prompt,
-                $sys_msg,
-                $args["model"],
-                floatval($args["temperature"]),
-                $max_tokens
-            );
-        }
+		if ( $use_gemini ) {
+			$result = $this->send_gemini(
+				$api_key,
+				$prompt,
+				$sys_msg,
+				floatval( $args['temperature'] ),
+				$max_tokens
+			);
+		} elseif ( $use_chatgpt ) {
+			$result = $this->send_chatgpt(
+				$api_key,
+				$prompt,
+				$sys_msg,
+				$args['model'],
+				floatval( $args['temperature'] ),
+				$max_tokens
+			);
+		}
 
-        if (is_wp_error($result)) {
-            return [
-                "success" => false,
-                "message" => $result->get_error_message(),
-            ];
-        }
+		if ( is_wp_error( $result ) ) {
+			return array(
+				'success' => false,
+				'message' => $result->get_error_message(),
+			);
+		}
 
-        return ["success" => true, "data" => $result];
-    }
+		return array(
+			'success' => true,
+			'data'    => $result,
+		);
+	}
 
-    private function build_system_msg($base_msg, $biz_ctx = "", $audience = "")
-    {
-        $ctx_adds = [];
+	/**
+	 * Build system msg.
+	 *
+	 * @param mixed  $base_msg The base msg.
+	 * @param string $biz_ctx The biz ctx.
+	 * @param string $audience The audience.
+	 * @return mixed The result.
+	 */
+	private function build_system_msg( $base_msg, $biz_ctx = '', $audience = '' ) {
+		$ctx_adds = array();
 
-        if (!empty($biz_ctx)) {
-            $ctx_adds[] = "Business Context: " . sanitize_text_field($biz_ctx);
-        }
+		if ( ! empty( $biz_ctx ) ) {
+			$ctx_adds[] = 'Business Context: ' . sanitize_text_field( $biz_ctx );
+		}
 
-        if (!empty($audience)) {
-            $ctx_adds[] = "Target Audience: " . sanitize_text_field($audience);
-        }
+		if ( ! empty( $audience ) ) {
+			$ctx_adds[] = 'Target Audience: ' . sanitize_text_field( $audience );
+		}
 
-        if (!empty($ctx_adds)) {
-            return $base_msg .
-                "\n\nAdditional Context (use as background information, prioritize the user's prompt):\n" .
-                implode("\n", $ctx_adds);
-        }
+		if ( ! empty( $ctx_adds ) ) {
+			return $base_msg .
+				"\n\nAdditional Context (use as background information, prioritize the user's prompt):\n" .
+				implode( "\n", $ctx_adds );
+		}
 
-        return $base_msg;
-    }
+		return $base_msg;
+	}
 
-    private function send_chatgpt(
-        $key,
-        $prompt,
-        $sys_msg,
-        $model,
-        $temp,
-        $tokens
-    ) {
-        $url = "https://api.openai.com/v1/chat/completions";
+	private function send_chatgpt( // phpcs:ignore Squiz.Commenting.FunctionComment
+		$key,
+		$prompt,
+		$sys_msg,
+		$model,
+		$temp,
+		$tokens
+	) {
+		$url = 'https://api.openai.com/v1/chat/completions';
 
-        $body = [
-            "model" => $model,
-            "messages" => [
-                ["role" => "system", "content" => $sys_msg],
-                [
-                    "role" => "user",
-                    "content" => "Enhance this prompt: " . $prompt,
-                ],
-            ],
-            "temperature" => $temp,
-            "max_tokens" => $tokens,
-        ];
+		$body = array(
+			'model'       => $model,
+			'messages'    => array(
+				array(
+					'role'    => 'system',
+					'content' => $sys_msg,
+				),
+				array(
+					'role'    => 'user',
+					'content' => 'Enhance this prompt: ' . $prompt,
+				),
+			),
+			'temperature' => $temp,
+			'max_tokens'  => $tokens,
+		);
 
-        $response = wp_remote_post($url, [
-            "headers" => [
-                "Content-Type" => "application/json",
-                "Authorization" => "Bearer " . $key,
-            ],
-            "body" => wp_json_encode($body),
-            "timeout" => 60,
-        ]);
+		$response = wp_remote_post(
+			$url,
+			array(
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bearer ' . $key,
+				),
+				'body'    => wp_json_encode( $body ),
+				'timeout' => 60,
+			)
+		);
 
-        if (is_wp_error($response)) {
-            return $response;
-        }
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
 
-        $code = wp_remote_retrieve_response_code($response);
-        $body = wp_remote_retrieve_body($response);
-        $data = json_decode($body, true);
+		$code = wp_remote_retrieve_response_code( $response );
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
 
-        if ($code !== 200) {
-            $err_msg = isset($data["error"]["message"])
-                ? $data["error"]["message"]
-                : "Unknown error occurred";
-            return new WP_Error("api_error", $err_msg);
-        }
+		if ( 200 !== $code ) {
+			$err_msg = isset( $data['error']['message'] )
+				? $data['error']['message']
+				: 'Unknown error occurred';
+			return new WP_Error( 'api_error', $err_msg );
+		}
 
-        if (isset($data["choices"][0]["message"]["content"])) {
-            return trim($data["choices"][0]["message"]["content"]);
-        }
+		if ( isset( $data['choices'][0]['message']['content'] ) ) {
+			return trim( $data['choices'][0]['message']['content'] );
+		}
 
-        return new WP_Error("invalid_response", "Failed to enhance prompt");
-    }
+		return new WP_Error( 'invalid_response', 'Failed to enhance prompt' );
+	}
 
-    private function send_gemini($key, $prompt, $sys_msg, $temp, $tokens)
-    {
-        $model = "gemini-2.0-flash-exp";
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$key}";
+	/**
+	 * Send gemini.
+	 *
+	 * @param mixed $key The key.
+	 * @param mixed $prompt The prompt.
+	 * @param mixed $sys_msg The sys msg.
+	 * @param mixed $temp The temp.
+	 * @param mixed $tokens The tokens.
+	 * @return mixed The result.
+	 */
+	private function send_gemini( $key, $prompt, $sys_msg, $temp, $tokens ) {
+		$model = 'gemini-2.0-flash-exp';
+		$url   = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$key}";
 
-        $combined = $sys_msg . "\n\nNow, enhance this prompt: " . $prompt;
+		$combined = $sys_msg . "\n\nNow, enhance this prompt: " . $prompt;
 
-        $body = [
-            "contents" => [["parts" => [["text" => $combined]]]],
-            "generationConfig" => [
-                "temperature" => $temp,
-                "maxOutputTokens" => $tokens,
-            ],
-        ];
+		$body = array(
+			'contents'         => array( array( 'parts' => array( array( 'text' => $combined ) ) ) ),
+			'generationConfig' => array(
+				'temperature'     => $temp,
+				'maxOutputTokens' => $tokens,
+			),
+		);
 
-        $response = wp_remote_post($url, [
-            "headers" => ["Content-Type" => "application/json"],
-            "body" => wp_json_encode($body),
-            "timeout" => 60,
-        ]);
+		$response = wp_remote_post(
+			$url,
+			array(
+				'headers' => array( 'Content-Type' => 'application/json' ),
+				'body'    => wp_json_encode( $body ),
+				'timeout' => 60,
+			)
+		);
 
-        if (is_wp_error($response)) {
-            return $response;
-        }
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
 
-        $code = wp_remote_retrieve_response_code($response);
-        $body = wp_remote_retrieve_body($response);
-        $data = json_decode($body, true);
+		$code = wp_remote_retrieve_response_code( $response );
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body, true );
 
-        if ($code !== 200) {
-            $err_msg = isset($data["error"]["message"])
-                ? $data["error"]["message"]
-                : "Unknown error occurred";
-            return new WP_Error("api_error", $err_msg);
-        }
+		if ( 200 !== $code ) {
+			$err_msg = isset( $data['error']['message'] )
+				? $data['error']['message']
+				: 'Unknown error occurred';
+			return new WP_Error( 'api_error', $err_msg );
+		}
 
-        if (isset($data["candidates"][0]["content"]["parts"][0]["text"])) {
-            return trim($data["candidates"][0]["content"]["parts"][0]["text"]);
-        }
+		if ( isset( $data['candidates'][0]['content']['parts'][0]['text'] ) ) {
+			return trim( $data['candidates'][0]['content']['parts'][0]['text'] );
+		}
 
-        return new WP_Error("invalid_response", "Failed to enhance prompt");
-    }
+		return new WP_Error( 'invalid_response', 'Failed to enhance prompt' );
+	}
 
-    public function nxt_ai_enhance($params)
-    {
-        $enhancer = Nxt_AI_Prompt_Enhance::get_instance();
+	/**
+	 * Nxt ai enhance.
+	 *
+	 * @param array $params The params.
+	 * @return mixed The result.
+	 */
+	public function nxt_ai_enhance( $params ) {
+		$enhancer = self::get_instance();
 
-        $args = [
-            "prompt" => $params->get_param("prompt"),
-            "system_message" => $params->get_param("system_message") ?: "",
-            "model" => $params->get_param("model") ?: "gpt-4o-mini",
-            "temperature" => floatval($params->get_param("temperature")) ?: 0.7,
-            "max_tokens" => intval($params->get_param("max_tokens")) ?: 500,
-        ];
+		$args = array(
+			'prompt'         => $params->get_param( 'prompt' ),
+			'system_message' => ( $params->get_param( 'system_message' ) ) ? $params->get_param( 'system_message' ) : '',
+			'model'          => ( $params->get_param( 'model' ) ) ? $params->get_param( 'model' ) : 'gpt-4o-mini',
+			'temperature'    => ( floatval( $params->get_param( 'temperature' ) ) ) ? floatval( $params->get_param( 'temperature' ) ) : 0.7,
+			'max_tokens'     => ( intval( $params->get_param( 'max_tokens' ) ) ) ? intval( $params->get_param( 'max_tokens' ) ) : 500,
+		);
 
-        if (empty($args["system_message"])) {
-            unset($args["system_message"]);
-        }
+		if ( empty( $args['system_message'] ) ) {
+			unset( $args['system_message'] );
+		}
 
-        return $enhancer->enhance_prompt($args);
-    }
+		return $enhancer->enhance_prompt( $args );
+	}
 
-    public static function get_instance()
-    {
-        static $instance = null;
-        if (null === $instance) {
-            $instance = new self();
-        }
-        return $instance;
-    }
+	/**
+	 * Get instance.
+	 *
+	 * @return mixed The result.
+	 */
+	public static function get_instance() {
+		static $instance = null;
+		if ( null === $instance ) {
+			$instance = new self();
+		}
+		return $instance;
+	}
 }

@@ -1,42 +1,42 @@
 <?php
-/* Block : TP Column
- * @since : 1.3.0
+/**
+ * TP Column.
  *
- * WordPress includes this file lazily — only when tpgb/tp-container-inner is present
- * on the page being rendered. Variables in scope: $attributes (array), $content (string).
+ * @package ThePluginAddonsForBlockEditor
  */
+
 defined( 'ABSPATH' ) || exit;
 
-$output = '';
-$block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
-$customClasses = (!empty($attributes['customClasses'])) ? $attributes['customClasses'] : '';
-$wrapLink = (!empty($attributes['wrapLink'])) ? $attributes['wrapLink'] : false;
-$showchild = (!empty($attributes['showchild'])) ? $attributes['showchild'] : false;
-$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
+$output         = '';
+$block_id       = ( ! empty( $attributes['block_id'] ) ) ? $attributes['block_id'] : uniqid( 'title' );
+$custom_classes = ( ! empty( $attributes['customClasses'] ) ) ? $attributes['customClasses'] : '';
+$wrap_link      = ( ! empty( $attributes['wrapLink'] ) ) ? $attributes['wrapLink'] : false;
+$showchild      = ( ! empty( $attributes['showchild'] ) ) ? $attributes['showchild'] : false;
+$block_class    = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
 
-if(!empty($customClasses)){
-	$blockClass .= ' '.esc_attr($customClasses);
+if ( ! empty( $custom_classes ) ) {
+	$block_class .= ' ' . esc_attr( $custom_classes );
 }
 
-// Set Link Data
-$colLink = '';
-if(!empty($wrapLink)){
-	$colUrl = (!empty($attributes['colUrl'])) ? $attributes['colUrl'] : '';
-	$blockClass .= ' tpgb-col-link';
+// Set Link Data.
+$col_link = '';
+if ( ! empty( $wrap_link ) ) {
+	$col_url      = ( ! empty( $attributes['colUrl'] ) ) ? $attributes['colUrl'] : '';
+	$block_class .= ' tpgb-col-link';
 
-	if( !empty($colUrl) && isset($colUrl['url']) && !empty($colUrl['url']) ){
-		$colLink .= ' data-tpgb-col-link= "'.esc_url($colUrl['url']).'" ';
+	if ( ! empty( $col_url ) && isset( $col_url['url'] ) && ! empty( $col_url['url'] ) ) {
+		$col_link .= ' data-tpgb-col-link= "' . esc_url( $col_url['url'] ) . '" ';
 	}
-	if(!empty($colUrl) && isset($colUrl['target']) && !empty($colUrl['target'])){
-		$colLink .= ' data-target="_blank"';
-	}else{
-		$colLink .= ' data-target="_self"';
+	if ( ! empty( $col_url ) && isset( $col_url['target'] ) && ! empty( $col_url['target'] ) ) {
+		$col_link .= ' data-target="_blank"';
+	} else {
+		$col_link .= ' data-target="_self"';
 	}
-	$colLink .= Tp_Blocks_Helper::add_link_attributes($attributes['colUrl']);
+	$col_link .= Tp_Blocks_Helper::add_link_attributes( $attributes['colUrl'] );
 }
 
-$output .= '<div class="tpgb-container-col tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).'" data-id="'.esc_attr($block_id).'" '.$colLink.' >';
+$output     .= '<div class="tpgb-container-col tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . '" data-id="' . esc_attr( $block_id ) . '" ' . $col_link . ' >';
 	$output .= $content;
-$output .= '</div>';
+$output     .= '</div>';
 
 echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from individually escaped parts above.

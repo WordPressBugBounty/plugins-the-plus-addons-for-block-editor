@@ -1,182 +1,206 @@
 <?php
-/* Block : Interactive Circle Info
- * @since : 1.3.2
+/**
+ * Interactive Circle Info.
+ *
+ * @package ThePluginAddonsForBlockEditor
  */
+
 defined( 'ABSPATH' ) || exit;
 
-function tpgb_tp_interactive_circle_info_render_callback( $attributes, $content) {
-    $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
-	$styleType = (!empty($attributes['styleType'])) ? $attributes['styleType'] : 'style-1';
-	$intCircle = (!empty($attributes['intCircle'])) ? $attributes['intCircle'] : [];
-	$mouseTrigger = (!empty($attributes['mouseTrigger'])) ? $attributes['mouseTrigger'] : 'hover';
-	$autoTime = (!empty($attributes['autoTime'])) ? $attributes['autoTime'] : 1000;
-	$defaultActive = (!empty($attributes['defaultActive'])) ? $attributes['defaultActive'] : 1;
-	$outAnimation = (!empty($attributes['outAnimation'])) ? $attributes['outAnimation'] : false;
-	$selAnimation = (!empty($attributes['selAnimation'])) ? $attributes['selAnimation'] : 'bounce';
-	$carouselToggle = (!empty($attributes['carouselToggle'])) ? $attributes['carouselToggle'] : false;
-	$extIndicator = (!empty($attributes['extIndicator'])) ? $attributes['extIndicator'] : [];
-	$contiRotate = (!empty($attributes['contiRotate'])) ? $attributes['contiRotate'] : [];
-	$carouselID = (!empty($attributes['carouselID'])) ? $attributes['carouselID'] : '';
+/**
+ * Tpgb tp interactive circle info render callback.
+ *
+ * @param mixed $attributes The attributes.
+ * @param mixed $content The content.
+ * @return mixed The result.
+ */
+function tpgb_tp_interactive_circle_info_render_callback( $attributes, $content ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+	$block_id        = ( ! empty( $attributes['block_id'] ) ) ? $attributes['block_id'] : uniqid( 'title' );
+	$style_type      = ( ! empty( $attributes['styleType'] ) ) ? $attributes['styleType'] : 'style-1';
+	$int_circle      = ( ! empty( $attributes['intCircle'] ) ) ? $attributes['intCircle'] : array();
+	$mouse_trigger   = ( ! empty( $attributes['mouseTrigger'] ) ) ? $attributes['mouseTrigger'] : 'hover';
+	$auto_time       = ( ! empty( $attributes['autoTime'] ) ) ? $attributes['autoTime'] : 1000;
+	$default_active  = ( ! empty( $attributes['defaultActive'] ) ) ? $attributes['defaultActive'] : 1;
+	$out_animation   = ( ! empty( $attributes['outAnimation'] ) ) ? $attributes['outAnimation'] : false;
+	$sel_animation   = ( ! empty( $attributes['selAnimation'] ) ) ? $attributes['selAnimation'] : 'bounce';
+	$carousel_toggle = ( ! empty( $attributes['carouselToggle'] ) ) ? $attributes['carouselToggle'] : false;
+	$ext_indicator   = ( ! empty( $attributes['extIndicator'] ) ) ? $attributes['extIndicator'] : array();
+	$conti_rotate    = ( ! empty( $attributes['contiRotate'] ) ) ? $attributes['contiRotate'] : array();
+	$carousel_id     = ( ! empty( $attributes['carouselID'] ) ) ? $attributes['carouselID'] : '';
 
-	$disBtn = (!empty($attributes['disBtn'])) ? $attributes['disBtn'] : false;
-	$btnStyle = (!empty($attributes['btnStyle'])) ? $attributes['btnStyle'] : 'style-7';
-	$btnIconType = (!empty($attributes['btnIconType'])) ? $attributes['btnIconType'] : 'none';
-	$btnIconPosition = (!empty($attributes['btnIconPosition'])) ? $attributes['btnIconPosition'] : 'after';
-	$btnIconStore = (!empty($attributes['btnIconStore'])) ? $attributes['btnIconStore'] : '';
-	
-	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
+	$dis_btn           = ( ! empty( $attributes['disBtn'] ) ) ? $attributes['disBtn'] : false;
+	$btn_style         = ( ! empty( $attributes['btnStyle'] ) ) ? $attributes['btnStyle'] : 'style-7';
+	$btn_icon_type     = ( ! empty( $attributes['btnIconType'] ) ) ? $attributes['btnIconType'] : 'none';
+	$btn_icon_position = ( ! empty( $attributes['btnIconPosition'] ) ) ? $attributes['btnIconPosition'] : 'after';
+	$btn_icon_store    = ( ! empty( $attributes['btnIconStore'] ) ) ? $attributes['btnIconStore'] : '';
 
-	$totalItems = $animationClass = $indicatClass = $contiRotateClass = '';
-	foreach ( $intCircle as $index => $item ):
-		$totalItems = 1+(int)$index; 
+	$block_class = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
+
+	$total_items        = '';
+	$animation_class    = '';
+	$indicat_class      = '';
+	$conti_rotate_class = '';
+	foreach ( $int_circle as $index => $item ) :
+		$total_items = 1 + (int) $index;
 	endforeach;
 
-	if(!empty($outAnimation)){
-		$animationClass = 'ia-circle-animation-'.$selAnimation;
+	if ( ! empty( $out_animation ) ) {
+		$animation_class = 'ia-circle-animation-' . $sel_animation;
 	}
-	if(!empty($extIndicator) && !empty($extIndicator['tpgbReset'])){
-		$indicatClass = 'indicator-'.$extIndicator['indiStyle'];
+	if ( ! empty( $ext_indicator ) && ! empty( $ext_indicator['tpgbReset'] ) ) {
+		$indicat_class = 'indicator-' . $ext_indicator['indiStyle'];
 	}
-	if(!empty($contiRotate) && !empty($contiRotate['tpgbReset']) && $selAnimation == 'bounce'){
-		if($contiRotate['animDirection']=='clock-wise'){
-			$contiRotateClass = 'circle-continue-rotate';
-		}else{
-			$contiRotateClass = 'circle-continue-rotate direction-reverse';
+	if ( ! empty( $conti_rotate ) && ! empty( $conti_rotate['tpgbReset'] ) && 'bounce' === $sel_animation ) {
+		if ( 'clock-wise' === $conti_rotate['animDirection'] ) {
+			$conti_rotate_class = 'circle-continue-rotate';
+		} else {
+			$conti_rotate_class = 'circle-continue-rotate direction-reverse';
 		}
 	}
-	$dAutoTimeAttr = '';
-	if($mouseTrigger=='auto'){
-		$dAutoTimeAttr = 'data-auto-time="'.esc_attr($autoTime).'"';
+	$d_auto_time_attr = '';
+	if ( 'auto' === $mouse_trigger ) {
+		$d_auto_time_attr = 'data-auto-time="' . esc_attr( $auto_time ) . '"';
 	}
-	$connect_carousel = $connection_hover_click = $connect_id = '';
-	if(!empty($carouselToggle) && !empty($carouselID) && $mouseTrigger!='auto'){
-		$connect_carousel = 'tpca-'.$carouselID ;
-		$connect_id = 'tptab_'.$carouselID ;
-		$connection_hover_click = $mouseTrigger ;
+	$connect_carousel       = '';
+	$connection_hover_click = '';
+	$connect_id             = '';
+	if ( ! empty( $carousel_toggle ) && ! empty( $carousel_id ) && 'auto' !== $mouse_trigger ) {
+		$connect_carousel       = 'tpca-' . $carousel_id;
+		$connect_id             = 'tptab_' . $carousel_id;
+		$connection_hover_click = $mouse_trigger;
 	}
-	
-	$output = '';
-    $output .= '<div class="tpgb-ia-circle-info tpgb-relative-block circle-'.esc_attr($styleType).' '.esc_attr($animationClass).' '.esc_attr($indicatClass).' '.esc_attr($contiRotateClass).' tpgb-block-'.esc_attr($block_id).' '.esc_attr($blockClass).'" data-trigger="'.esc_attr($mouseTrigger).'" '.$dAutoTimeAttr.' id="'.esc_attr($connect_id).'" data-connection="'.esc_attr($connect_carousel).'" data-eventtype="'.esc_attr($connection_hover_click).'">';
-		$output .= '<div class="ia-circle-wrap tpgb-rel-flex">';
-			$output .= '<div class="ia-circle-inner-wrap" data-total="'.esc_attr($totalItems).'">';
+
+	$output              = '';
+	$output             .= '<div class="tpgb-ia-circle-info tpgb-relative-block circle-' . esc_attr( $style_type ) . ' ' . esc_attr( $animation_class ) . ' ' . esc_attr( $indicat_class ) . ' ' . esc_attr( $conti_rotate_class ) . ' tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . '" data-trigger="' . esc_attr( $mouse_trigger ) . '" ' . $d_auto_time_attr . ' id="' . esc_attr( $connect_id ) . '" data-connection="' . esc_attr( $connect_carousel ) . '" data-eventtype="' . esc_attr( $connection_hover_click ) . '">';
+		$output         .= '<div class="ia-circle-wrap tpgb-rel-flex">';
+			$output     .= '<div class="ia-circle-inner-wrap" data-total="' . esc_attr( $total_items ) . '">';
 				$output .= '<div class="ia-circle-inner tpgb-trans-linear">';
-					foreach ( $intCircle as $index => $item ):
-						$itemCount = $defActive = '';
-						if(1+(int)$index==$defaultActive){
-							$defActive = 'active';
-						}
-						$imgSrc ='';
-						$itemCount = 1+(int)$index;
+	foreach ( $int_circle as $index => $item ) :
+		$item_count = '';
+		$def_active = '';
+		if ( 1 + (int) $index === $default_active ) {
+			$def_active = 'active';
+		}
+		$img_src    = '';
+		$item_count = 1 + (int) $index;
 
-						$getbutton = '';
-						$btnUrl = (isset($item['btnUrl']) && !empty($item['btnUrl']['url'])) ? $item['btnUrl']['url'] : '';
-						if(class_exists('Tpgbp_Pro_Blocks_Helper') && isset($item['btnUrl'])){
-							$btnUrl = (isset($item['btnUrl']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($item['btnUrl']) : (!empty($item['btnUrl']['url']) ? $item['btnUrl']['url'] : '');
-						}
-						$link_attr = '';
-						if(isset($item['btnUrl'])){
-							$link_attr = Tp_Blocks_Helper::add_link_attributes($item['btnUrl']);
-						}
-						$target = (!empty($item['btnUrl']['target'])) ? 'target="_blank"' : '';
-						$nofollow = (!empty($item['btnUrl']['nofollow'])) ? 'rel="nofollow"' : '';
-						$ariaLabelT = (!empty($item['btnText'])) ? esc_attr($item['btnText']) : esc_attr__("Button", 'the-plus-addons-for-block-editor');
-						if(!empty($item['btnText'])){
-							$getbutton .= '<div class="tpgb-adv-button button-'.esc_attr($btnStyle).'">';
-								$getbutton .= '<a href="'.esc_url($btnUrl).'" class="button-link-wrap" role="button" '.$target.' '.$nofollow.' '.$link_attr.' aria-label="'.$ariaLabelT.'">';
-								if($btnStyle == 'style-8'){
-									if($btnIconPosition == 'before'){
-										if($btnIconType == 'icon'){
-											$getbutton .= '<span class="btn-icon button-'.esc_attr($btnIconPosition).'">';
-												$getbutton .= '<i class="'.esc_attr($btnIconStore).'"></i>';
-											$getbutton .= '</span>';
-										}
-										$getbutton .= wp_kses_post($item['btnText']);
-									} 
-									if($btnIconPosition == 'after'){
-										$getbutton .= wp_kses_post($item['btnText']);
-										if($btnIconType == 'icon'){
-											$getbutton .= '<span class="btn-icon button-'.esc_attr($btnIconPosition).'">';
-												$getbutton .= '<i class="'.esc_attr($btnIconStore).'"></i>';
-											$getbutton .= '</span>';
-										}
-									}
-								}
-								if($btnStyle == 'style-7' || $btnStyle == 'style-9' ){
-									$getbutton .= wp_kses_post($item['btnText']);
-									$getbutton .= '<span class="button-arrow">';
-									if($btnStyle == 'style-7'){
-										$getbutton .= '<span class="btn-right-arrow"><i class="fas fa-chevron-right"></i></span>';
-									}
-									if($btnStyle == 'style-9'){
-										$getbutton .= '<i class="btn-show fas fa-chevron-right"></i>';
-										$getbutton .= '<i class="btn-hide fas fa-chevron-right"></i>';
-									}
-									$getbutton .= '</span>';
-								}
-								$getbutton .= '</a>';
-							$getbutton .= '</div>';
-						}
+		$getbutton = '';
+		$btn_url   = ( isset( $item['btnUrl'] ) && ! empty( $item['btnUrl']['url'] ) ) ? $item['btnUrl']['url'] : '';
+		if ( class_exists( 'Tpgbp_Pro_Blocks_Helper' ) && isset( $item['btnUrl'] ) ) {
+			$btn_url = ( isset( $item['btnUrl']['dynamic'] ) ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url( $item['btnUrl'] ) : ( ! empty( $item['btnUrl']['url'] ) ? $item['btnUrl']['url'] : '' );
+		}
+		$link_attr = '';
+		if ( isset( $item['btnUrl'] ) ) {
+			$link_attr = Tp_Blocks_Helper::add_link_attributes( $item['btnUrl'] );
+		}
+		$target       = ( ! empty( $item['btnUrl']['target'] ) ) ? 'target="_blank"' : '';
+		$nofollow     = ( ! empty( $item['btnUrl']['nofollow'] ) ) ? 'rel="nofollow"' : '';
+		$aria_label_t = ( ! empty( $item['btnText'] ) ) ? esc_attr( $item['btnText'] ) : esc_attr__( 'Button', 'the-plus-addons-for-block-editor' );
+		if ( ! empty( $item['btnText'] ) ) {
+			$getbutton     .= '<div class="tpgb-adv-button button-' . esc_attr( $btn_style ) . '">';
+				$getbutton .= '<a href="' . esc_url( $btn_url ) . '" class="button-link-wrap" role="button" ' . $target . ' ' . $nofollow . ' ' . $link_attr . ' aria-label="' . $aria_label_t . '">';
+			if ( 'style-8' === $btn_style ) {
+				if ( 'before' === $btn_icon_position ) {
+					if ( 'icon' === $btn_icon_type ) {
+										$getbutton     .= '<span class="btn-icon button-' . esc_attr( $btn_icon_position ) . '">';
+											$getbutton .= '<i class="' . esc_attr( $btn_icon_store ) . '"></i>';
+										$getbutton     .= '</span>';
+					}
+					$getbutton .= wp_kses_post( $item['btnText'] );
+				}
+				if ( 'after' === $btn_icon_position ) {
+					$getbutton .= wp_kses_post( $item['btnText'] );
+					if ( 'icon' === $btn_icon_type ) {
+										$getbutton     .= '<span class="btn-icon button-' . esc_attr( $btn_icon_position ) . '">';
+											$getbutton .= '<i class="' . esc_attr( $btn_icon_store ) . '"></i>';
+										$getbutton     .= '</span>';
+					}
+				}
+			}
+			if ( 'style-7' === $btn_style || 'style-9' === $btn_style ) {
+								$getbutton .= wp_kses_post( $item['btnText'] );
+								$getbutton .= '<span class="button-arrow">';
+				if ( 'style-7' === $btn_style ) {
+					$getbutton .= '<span class="btn-right-arrow"><i class="fas fa-chevron-right"></i></span>';
+				}
+				if ( 'style-9' === $btn_style ) {
+					$getbutton .= '<i class="btn-show fas fa-chevron-right"></i>';
+					$getbutton .= '<i class="btn-hide fas fa-chevron-right"></i>';
+				}
+								$getbutton .= '</span>';
+			}
+											$getbutton .= '</a>';
+											$getbutton .= '</div>';
+		}
 
-						$output .= '<div class="tpgb-ia-circle-item tpgb-circle-item-'.esc_attr($itemCount).' tp-repeater-item-'.esc_attr($item['_key']).' '.esc_attr($defActive).'" data-index="'.esc_attr($itemCount).'">';
-							$output .= '<div class="tpgb-circle-icon-wrap tpgb-trans-linear">';
-								$output .= '<div class="circle-icon-inner tpgb-rel-flex tpgb-trans-linear">';
-									if($item['iconType']=='icon' && !empty($item['iconStore'])){
-										$output .= '<i class="'.esc_attr($item['iconStore']).' tpgb-in-circle-icon" aria-hidden="true"></i>';
-									}else if($item['iconType']=='image' && !empty($item['imageName'])){
-										$imageSize = (!empty($item['imageSize'])) ? $item['imageSize'] : 'full';
-										$altText = (isset($item['imageName']['alt']) && !empty($item['imageName']['alt'])) ? esc_attr($item['imageName']['alt']) : ((!empty($item['imageName']['title'])) ? esc_attr($item['imageName']['title']) : esc_attr__('Circle Info','the-plus-addons-for-block-editor'));
+		$output         .= '<div class="tpgb-ia-circle-item tpgb-circle-item-' . esc_attr( $item_count ) . ' tp-repeater-item-' . esc_attr( $item['_key'] ) . ' ' . esc_attr( $def_active ) . '" data-index="' . esc_attr( $item_count ) . '">';
+			$output     .= '<div class="tpgb-circle-icon-wrap tpgb-trans-linear">';
+				$output .= '<div class="circle-icon-inner tpgb-rel-flex tpgb-trans-linear">';
+		if ( 'icon' === $item['iconType'] && ! empty( $item['iconStore'] ) ) {
+				$output .= '<i class="' . esc_attr( $item['iconStore'] ) . ' tpgb-in-circle-icon" aria-hidden="true"></i>';
+		} elseif ( 'image' === $item['iconType'] && ! empty( $item['imageName'] ) ) {
+							$image_size = ( ! empty( $item['imageSize'] ) ) ? $item['imageSize'] : 'full';
+							$alt_text   = ( isset( $item['imageName']['alt'] ) && ! empty( $item['imageName']['alt'] ) ) ? esc_attr( $item['imageName']['alt'] ) : ( ( ! empty( $item['imageName']['title'] ) ) ? esc_attr( $item['imageName']['title'] ) : esc_attr__( 'Circle Info', 'the-plus-addons-for-block-editor' ) );
 
-										if(!empty($item['imageName']) && !empty($item['imageName']['id'])){
-											$imgSrc = wp_get_attachment_image($item['imageName']['id'] , $imageSize, false, ['class' => 'tpgb-in-circle-image', 'alt'=> $altText]);
-										}else if(!empty($item['imageName']['url'])){
-											$imgSrc = '<img src="'.esc_url($item['imageName']['url']).'" class="tpgb-in-circle-image " alt="'.$altText.'"/>';
-										}
-										$output .= $imgSrc;
-									}
-									if(!empty($item['iconTitle'])){
-										$output .= '<div class="circle-icon-title">'.wp_kses_post($item['iconTitle']).'</div>';
-									}
-								$output .= '</div>';
+			if ( ! empty( $item['imageName'] ) && ! empty( $item['imageName']['id'] ) ) {
+						$img_src = wp_get_attachment_image(
+							$item['imageName']['id'],
+							$image_size,
+							false,
+							array(
+								'class' => 'tpgb-in-circle-image',
+								'alt'   => $alt_text,
+							)
+						);
+			} elseif ( ! empty( $item['imageName']['url'] ) ) {
+							$img_src = '<img src="' . esc_url( $item['imageName']['url'] ) . '" class="tpgb-in-circle-image " alt="' . $alt_text . '"/>';
+			}
+							$output .= $img_src;
+		}
+		if ( ! empty( $item['iconTitle'] ) ) {
+			$output .= '<div class="circle-icon-title">' . wp_kses_post( $item['iconTitle'] ) . '</div>';
+		}
+										$output .= '</div>';
 
-								if(!empty($extIndicator) && !empty($extIndicator['tpgbReset'])){
-									$output .= '<div class="tpgb-circle-ext-indicator">';
-										$output .= '<div class="tpgb-circle-shape-wrap"><div class="tpgb-circle-shape-inner"></div></div>';
-									$output .= '</div>';
-								}
-								
-							$output .= '</div>';
-							$output .= '<div class="tpgb-circle-content-wrap tpgb-abs-flex">';
-								$output .= '<div class="circle-content-inner tpgb-rel-flex">';
-									if(!empty($item['conTitle'])){
-										$output .= '<div class="circle-content-title">'.wp_kses_post($item['conTitle']).'</div>';
-									}
-									if(!empty($item['conDesc'])){
-										$output .= '<div class="circle-content-desc">'.wp_kses_post($item['conDesc']).'</div>';
-									}
-									if(!empty($disBtn)){
-										$output .= $getbutton;
-									}
-								$output .= '</div>';
-							$output .= '</div>';
-						$output .= '</div>';
+		if ( ! empty( $ext_indicator ) && ! empty( $ext_indicator['tpgbReset'] ) ) {
+			$output     .= '<div class="tpgb-circle-ext-indicator">';
+				$output .= '<div class="tpgb-circle-shape-wrap"><div class="tpgb-circle-shape-inner"></div></div>';
+			$output     .= '</div>';
+		}
+
+										$output .= '</div>';
+										$output .= '<div class="tpgb-circle-content-wrap tpgb-abs-flex">';
+										$output .= '<div class="circle-content-inner tpgb-rel-flex">';
+		if ( ! empty( $item['conTitle'] ) ) {
+			$output .= '<div class="circle-content-title">' . wp_kses_post( $item['conTitle'] ) . '</div>';
+		}
+		if ( ! empty( $item['conDesc'] ) ) {
+			$output .= '<div class="circle-content-desc">' . wp_kses_post( $item['conDesc'] ) . '</div>';
+		}
+		if ( ! empty( $dis_btn ) ) {
+			$output .= $getbutton;
+		}
+										$output .= '</div>';
+										$output .= '</div>';
+										$output .= '</div>';
 
 					endforeach;
 				$output .= '</div>';
-			$output .= '</div>';
-		$output .= '</div>';
-    $output .= '</div>';
-	
-	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);
-	
-    return $output;
+			$output     .= '</div>';
+		$output         .= '</div>';
+	$output             .= '</div>';
+
+	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render( $attributes, $output );
+
+	return $output;
 }
 /**
  * Render for the server-side
  */
 function tpgb_tp_interactive_circle_info() {
-    
-    if(method_exists('Tpgb_Blocks_Global_Options', 'merge_options_json')){
-		$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_interactive_circle_info_render_callback');
+
+	if ( method_exists( 'Tpgb_Blocks_Global_Options', 'merge_options_json' ) ) {
+		$block_data = Tpgb_Blocks_Global_Options::merge_options_json( __DIR__, 'tpgb_tp_interactive_circle_info_render_callback' );
 		register_block_type( $block_data['name'], $block_data );
 	}
 }

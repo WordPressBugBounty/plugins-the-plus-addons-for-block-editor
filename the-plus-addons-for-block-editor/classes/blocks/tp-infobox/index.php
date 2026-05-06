@@ -1,662 +1,695 @@
 <?php
-/* Block : Info Box
- * @since : 1.3.0
+/**
+ * Info Box.
+ *
+ * @package ThePluginAddonsForBlockEditor
  */
+
+// phpcs:disable Squiz.PHP.CommentedOutCode.Found
 defined( 'ABSPATH' ) || exit;
 
-function tpgb_tp_infobox_render_callback( $attributes, $content) {
-	$output = '';
-    $block_id = (!empty($attributes['block_id'])) ? $attributes['block_id'] : uniqid("title");
-	
-	// $pattern = '/\btpgb-block-'.esc_attr($block_id).'/';
+/**
+ * Tpgb tp infobox render callback.
+ *
+ * @param mixed $attributes The attributes.
+ * @param mixed $content The content.
+ * @return mixed The result.
+ */
+function tpgb_tp_infobox_render_callback( $attributes, $content ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+	$output   = '';
+	$block_id = ( ! empty( $attributes['block_id'] ) ) ? $attributes['block_id'] : uniqid( 'title' );
+
+	// $pattern = '/\btpgb-block-'.esc_attr($block_id).'/'; // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 	// if (preg_match($pattern, $content)) {
-	// 	if( class_exists('Tpgb_Blocks_Global_Options') ){
-    //         $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
-    //         $content = $global_blocks::block_row_conditional_render($attributes,$content);
-    //     }
-	// 	return $content;
+	// if( class_exists('Tpgb_Blocks_Global_Options') ){
+	// $global_blocks = Tpgb_Blocks_Global_Options::get_instance();
+	// $content = $global_blocks::block_row_conditional_render($attributes,$content);
+	// }
+	// return $content;
 	// }
 
-	$layoutType = (!empty($attributes['layoutType'])) ? $attributes['layoutType'] : 'listing';
-	$styleType = (!empty($attributes['styleType'])) ? $attributes['styleType'] : 'style-1';
-	$extBtnshow = (!empty($attributes['extBtnshow'])) ? $attributes['extBtnshow'] : false ;
-	$verticalCenter = (!empty($attributes['verticalCenter'])) ? $attributes['verticalCenter'] : false;
-	$sideImgBorder = (!empty($attributes['sideImgBorder'])) ? $attributes['sideImgBorder'] : false;
-	$displayBorder = (!empty($attributes['displayBorder'])) ? $attributes['displayBorder'] : false;
-	$dispPinText = (!empty($attributes['dispPinText'])) ? $attributes['dispPinText'] : false;
-	$pinText = (!empty($attributes['pinText'])) ? $attributes['pinText'] : 'New';
-	$IBoxLinkTgl = (!empty($attributes['IBoxLinkTgl'])) ? $attributes['IBoxLinkTgl'] : false;
-	$IBoxLink = (!empty($attributes['IBoxLink']['url'])) ? $attributes['IBoxLink']['url'] : '';
-	$target = (!empty($attributes['IBoxLink']['target'])) ? ' target="_blank" ' : '';
-	$nofollow = (!empty($attributes['IBoxLink']['nofollow'])) ? ' rel="nofollow" ' : '';
-	$iconType = (!empty($attributes['iconType'])) ? $attributes['iconType'] : 'icon';
-	$iconOverlay = (!empty($attributes['iconOverlay'])) ? $attributes['iconOverlay'] : false;
-	$imgOverlay = (!empty($attributes['imgOverlay'])) ? $attributes['imgOverlay'] : false;
-	$iconShine = (!empty($attributes['iconShine'])) ? $attributes['iconShine'] : false;
-	$IconName = (!empty($attributes['IconName'])) ? $attributes['IconName'] : '';
-    $TextIcon = (!empty($attributes['textIcon'])) ? $attributes['textIcon'] : '';
-	$imageName = (!empty($attributes['imageName']['url'])) ? $attributes['imageName'] : '';
-	$imageSize = (!empty($attributes['imageSize'])) ? $attributes['imageSize'] : 'full';
-	$Title = (!empty($attributes['Title'])) ? $attributes['Title'] : '';
-	$Description = (!empty($attributes['Description'])) ? $attributes['Description'] : '';
-	$iconstyleType = (!empty($attributes['iconstyleType'])) ? $attributes['iconstyleType'] : 'none';
-	$contenthoverEffect = (!empty($attributes['contenthoverEffect'])) ? $attributes['contenthoverEffect'] : '';
-	$carouselId = (!empty($attributes['carouselId'])) ? $attributes['carouselId'] : '';
-	
-	$svgIcon = (!empty($attributes['svgIcon'])) ? $attributes['svgIcon'] : '';
-	$svgDraw = (!empty($attributes['svgDraw'])) ? $attributes['svgDraw'] : 'delayed';
-	$svgstroColor = (!empty($attributes['svgstroColor'])) ? $attributes['svgstroColor'] : '';
-	$svgfillColor = (!empty($attributes['svgfillColor'])) ? $attributes['svgfillColor'] : 'none';
-	$svgstroHoverColor = (!empty($attributes['svgstroHoverColor'])) ? $attributes['svgstroHoverColor'] : '';
-	$svgfillHoverColor = (!empty($attributes['svgfillHoverColor'])) ? $attributes['svgfillHoverColor'] : 'none';
-	$svgDura = (!empty($attributes['svgDura'])) ? $attributes['svgDura'] : 90;
+	$layout_type         = ( ! empty( $attributes['layoutType'] ) ) ? $attributes['layoutType'] : 'listing';
+	$style_type          = ( ! empty( $attributes['styleType'] ) ) ? $attributes['styleType'] : 'style-1';
+	$ext_btnshow         = ( ! empty( $attributes['extBtnshow'] ) ) ? $attributes['extBtnshow'] : false;
+	$vertical_center     = ( ! empty( $attributes['verticalCenter'] ) ) ? $attributes['verticalCenter'] : false;
+	$side_img_border     = ( ! empty( $attributes['sideImgBorder'] ) ) ? $attributes['sideImgBorder'] : false;
+	$display_border      = ( ! empty( $attributes['displayBorder'] ) ) ? $attributes['displayBorder'] : false;
+	$disp_pin_text       = ( ! empty( $attributes['dispPinText'] ) ) ? $attributes['dispPinText'] : false;
+	$pin_text            = ( ! empty( $attributes['pinText'] ) ) ? $attributes['pinText'] : 'New';
+	$i_box_link_tgl      = ( ! empty( $attributes['IBoxLinkTgl'] ) ) ? $attributes['IBoxLinkTgl'] : false;
+	$i_box_link          = ( ! empty( $attributes['IBoxLink']['url'] ) ) ? $attributes['IBoxLink']['url'] : '';
+	$target              = ( ! empty( $attributes['IBoxLink']['target'] ) ) ? ' target="_blank" ' : '';
+	$nofollow            = ( ! empty( $attributes['IBoxLink']['nofollow'] ) ) ? ' rel="nofollow" ' : '';
+	$icon_type           = ( ! empty( $attributes['iconType'] ) ) ? $attributes['iconType'] : 'icon';
+	$icon_overlay        = ( ! empty( $attributes['iconOverlay'] ) ) ? $attributes['iconOverlay'] : false;
+	$img_overlay         = ( ! empty( $attributes['imgOverlay'] ) ) ? $attributes['imgOverlay'] : false;
+	$icon_shine          = ( ! empty( $attributes['iconShine'] ) ) ? $attributes['iconShine'] : false;
+	$icon_name           = ( ! empty( $attributes['IconName'] ) ) ? $attributes['IconName'] : '';
+	$text_icon           = ( ! empty( $attributes['textIcon'] ) ) ? $attributes['textIcon'] : '';
+	$image_name          = ( ! empty( $attributes['imageName']['url'] ) ) ? $attributes['imageName'] : '';
+	$image_size          = ( ! empty( $attributes['imageSize'] ) ) ? $attributes['imageSize'] : 'full';
+	$title               = ( ! empty( $attributes['Title'] ) ) ? $attributes['Title'] : '';
+	$description         = ( ! empty( $attributes['Description'] ) ) ? $attributes['Description'] : '';
+	$iconstyle_type      = ( ! empty( $attributes['iconstyleType'] ) ) ? $attributes['iconstyleType'] : 'none';
+	$contenthover_effect = ( ! empty( $attributes['contenthoverEffect'] ) ) ? $attributes['contenthoverEffect'] : '';
+	$carousel_id         = ( ! empty( $attributes['carouselId'] ) ) ? $attributes['carouselId'] : '';
 
-	$titleType = (!empty($attributes['titleType'])) ? $attributes['titleType'] : 'div';
-	$descType = (!empty($attributes['descType'])) ? $attributes['descType'] : 'div';
+	$svg_icon            = ( ! empty( $attributes['svgIcon'] ) ) ? $attributes['svgIcon'] : '';
+	$svg_draw            = ( ! empty( $attributes['svgDraw'] ) ) ? $attributes['svgDraw'] : 'delayed';
+	$svgstro_color       = ( ! empty( $attributes['svgstroColor'] ) ) ? $attributes['svgstroColor'] : '';
+	$svgfill_color       = ( ! empty( $attributes['svgfillColor'] ) ) ? $attributes['svgfillColor'] : 'none';
+	$svgstro_hover_color = ( ! empty( $attributes['svgstroHoverColor'] ) ) ? $attributes['svgstroHoverColor'] : '';
+	$svgfill_hover_color = ( ! empty( $attributes['svgfillHoverColor'] ) ) ? $attributes['svgfillHoverColor'] : 'none';
+	$svg_dura            = ( ! empty( $attributes['svgDura'] ) ) ? $attributes['svgDura'] : 90;
 
-	$showArrows = (!empty($attributes['showArrows'])) ? $attributes['showArrows'] : [ 'md' => false ];
-	$arrowsStyle = (!empty($attributes['arrowsStyle'])) ? $attributes['arrowsStyle'] : 'style-1';
-	$arrowsPosition = (!empty($attributes['arrowsPosition'])) ? $attributes['arrowsPosition'] : 'top-right';
-	
-	$blockClass = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
+	$title_type = ( ! empty( $attributes['titleType'] ) ) ? $attributes['titleType'] : 'div';
+	$desc_type  = ( ! empty( $attributes['descType'] ) ) ? $attributes['descType'] : 'div';
 
-	$count = 0;
-	$Sliderclass = $arrowCss = '';
+	$show_arrows     = ( ! empty( $attributes['showArrows'] ) ) ? $attributes['showArrows'] : array( 'md' => false );
+	$arrows_style    = ( ! empty( $attributes['arrowsStyle'] ) ) ? $attributes['arrowsStyle'] : 'style-1';
+	$arrows_position = ( ! empty( $attributes['arrowsPosition'] ) ) ? $attributes['arrowsPosition'] : 'top-right';
+
+	$block_class = Tp_Blocks_Helper::block_wrapper_classes( $attributes );
+
+	$count             = 0;
+	$sliderclass       = '';
+	$arrow_css         = '';
 	$carousel_settings = '';
-	if($layoutType=='carousel'){
+	if ( 'carousel' === $layout_type ) {
 		$carousel_settings = Tp_Blocks_Helper::carousel_settings( $attributes );
-		$carousel_settings = 'data-splide=\'' . json_encode($carousel_settings) . '\'';
-				
-		$Sliderclass .= 'tpgb-carousel splide';
-		$Sliderclass .= Tp_Blocks_Helper::tpgb_carousel_arrowdot_class($attributes);
-		$arrowCss = Tp_Blocks_Helper::tpgb_carousel_arrow_css( $showArrows , $block_id );
+		$carousel_settings = 'data-splide=\'' . wp_json_encode( $carousel_settings ) . '\'';
 
-		if(!empty($carouselId)){
-			$carousel_settings .=' id="tpca-'.esc_attr($carouselId).'"';
-			$carousel_settings .=' data-id="tpca-'.esc_attr($carouselId).'"';
-			$carousel_settings .=' data-connection="tptab_'.esc_attr($carouselId).'"';
+		$sliderclass .= 'tpgb-carousel splide';
+		$sliderclass .= Tp_Blocks_Helper::tpgb_carousel_arrowdot_class( $attributes );
+		$arrow_css    = Tp_Blocks_Helper::tpgb_carousel_arrow_css( $show_arrows, $block_id );
+
+		if ( ! empty( $carousel_id ) ) {
+			$carousel_settings .= ' id="tpca-' . esc_attr( $carousel_id ) . '"';
+			$carousel_settings .= ' data-id="tpca-' . esc_attr( $carousel_id ) . '"';
+			$carousel_settings .= ' data-connection="tptab_' . esc_attr( $carousel_id ) . '"';
 		}
 	}
-	
-	$imgSrc ='';
-	$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Info Box','the-plus-addons-for-block-editor'));
-	if(!empty($imageName) && !empty($imageName['id'])){
-		$imgSrc = wp_get_attachment_image($imageName['id'] , $imageSize, false, ['class' => 'service-icon tpgb-trans-linear', 'alt'=> $altText]);
-	}else if(!empty($imageName['url'])){
-		$imgSrc = '<img src="'.esc_url($imageName['url']).'" class="service-icon tpgb-trans-linear" alt='.$altText.' />';
+
+	$img_src  = '';
+	$alt_text = ( isset( $image_name['alt'] ) && ! empty( $image_name['alt'] ) ) ? esc_attr( $image_name['alt'] ) : ( ( ! empty( $image_name['title'] ) ) ? esc_attr( $image_name['title'] ) : esc_attr__( 'Info Box', 'the-plus-addons-for-block-editor' ) );
+	if ( ! empty( $image_name ) && ! empty( $image_name['id'] ) ) {
+		$img_src = wp_get_attachment_image(
+			$image_name['id'],
+			$image_size,
+			false,
+			array(
+				'class' => 'service-icon tpgb-trans-linear',
+				'alt'   => $alt_text,
+			)
+		);
+	} elseif ( ! empty( $image_name['url'] ) ) {
+		$img_src = '<img src="' . esc_url( $image_name['url'] ) . '" class="service-icon tpgb-trans-linear" alt=' . $alt_text . ' />';
 	}
-	if(class_exists('Tpgbp_Pro_Blocks_Helper')){
-		$IBoxLink = (isset($attributes['IBoxLink']['dynamic'])) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url($attributes['IBoxLink']) : (!empty($attributes['IBoxLink']['url']) ? $attributes['IBoxLink']['url'] : '');
+	if ( class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) {
+		$i_box_link = ( isset( $attributes['IBoxLink']['dynamic'] ) ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url( $attributes['IBoxLink'] ) : ( ! empty( $attributes['IBoxLink']['url'] ) ? $attributes['IBoxLink']['url'] : '' );
 	}
-	
-	$vcenter='';
-	if(!empty($verticalCenter)){
+
+	$vcenter = '';
+	if ( ! empty( $vertical_center ) ) {
 		$vcenter = 'vertical-center';
 	}
-	
-	$sib='';
-	if($styleType=='style-1' || $styleType=='style-2'){
-		if($iconType!='none' && !empty($sideImgBorder)){
+
+	$sib = '';
+	if ( 'style-1' === $style_type || 'style-2' === $style_type ) {
+		if ( 'none' !== $icon_type && ! empty( $side_img_border ) ) {
 			$sib = 'service-img-border';
 		}
 	}
-	
-	$icnOvrlay='';
-	if(($styleType=='style-1' || $styleType=='style-2' || $styleType=='style-3') && (!empty($iconOverlay) || !empty($imgOverlay))){
-		$icnOvrlay='icon-overlay';
+
+	$icn_ovrlay = '';
+	if ( ( 'style-1' === $style_type || 'style-2' === $style_type || 'style-3' === $style_type ) && ( ! empty( $icon_overlay ) || ! empty( $img_overlay ) ) ) {
+		$icn_ovrlay = 'icon-overlay';
 	}
-	
-	$iconShineShow='';
-	if(!empty($iconShine)){
-		$iconShineShow='icon-shine-show';
+
+	$icon_shine_show = '';
+	if ( ! empty( $icon_shine ) ) {
+		$icon_shine_show = 'icon-shine-show';
 	}
-	
-	$mlr16='';
-	if($styleType=='style-1' && $iconType!='none'){ 
-			$mlr16 = 'm-r-16 style-1 '; 
-	}else if($styleType=='style-2' && $iconType!='none'){ 
+
+	$mlr16 = '';
+	if ( 'style-1' === $style_type && 'none' !== $icon_type ) {
+			$mlr16 = 'm-r-16 style-1 ';
+	} elseif ( 'style-2' === $style_type && 'none' !== $icon_type ) {
 			$mlr16 = 'm-l-16 style-2 ';
-	}else if($styleType=='style-4' && $iconType!='none'){ 
+	} elseif ( 'style-4' === $style_type && 'none' !== $icon_type ) {
 			$mlr16 = 'm-r-16';
-	}else if($styleType=='style-5' && $iconType!='none'){ 
+	} elseif ( 'style-5' === $style_type && 'none' !== $icon_type ) {
 			$mlr16 = 'service-bg-5';
-	}else if($styleType=='style-6' && $iconType!='none'){ 
+	} elseif ( 'style-6' === $style_type && 'none' !== $icon_type ) {
 			$mlr16 = '';
 	}
-	
-	$getIcon = '';
-	if(!empty($iconType)){
-			$getIcon .='<div class="info-icon-content">';
-				if($iconType!='none' && !empty($dispPinText)){
-					$getIcon .='<div class="info-pin-text tpgb-trans-easeinout">'.wp_kses_post($pinText).'</div>';
-				}
-				$getIcon .='<div class="service-icon-wrap tpgb-trans-linear">';
-				if($iconType=='icon'){
-					$getIcon .='<span class="service-icon tpgb-trans-linear '.esc_attr($iconShineShow).' icon-'.esc_attr($iconstyleType).'">';
-					$getIcon .='<i class="'.esc_attr($IconName).'"></i>';
-					$getIcon .='</span>';
-				}else if($iconType=='image'){
-					$getIcon .= $imgSrc;
-				}else if($iconType=='svg' && !empty($svgIcon) && !empty($svgIcon['url'])){
-					$getIcon .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-'.esc_attr($block_id).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-strokeColorHover="'.esc_attr($svgstroHoverColor).'" data-fillColorHover="'.esc_attr($svgfillHoverColor).'" data-fillEnable="yes">';
-						$getIcon .= '<object class="info-box-svg" id="service-svg-'.esc_attr($block_id).'" type="image/svg+xml" data="'.esc_url($svgIcon['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
-					$getIcon .= '</div>';
-				}else if($iconType=='text' && !empty($TextIcon)){
-					$getIcon .='<span class="tpgb-icon-wrap-text">'.esc_attr($TextIcon).'</span>';
-				}
-				$getIcon .='</div>';
-			$getIcon .='</div>';
+
+	$get_icon = '';
+	if ( ! empty( $icon_type ) ) {
+			$get_icon .= '<div class="info-icon-content">';
+		if ( 'none' !== $icon_type && ! empty( $disp_pin_text ) ) {
+			$get_icon .= '<div class="info-pin-text tpgb-trans-easeinout">' . wp_kses_post( $pin_text ) . '</div>';
+		}
+				$get_icon .= '<div class="service-icon-wrap tpgb-trans-linear">';
+		if ( 'icon' === $icon_type ) {
+			$get_icon .= '<span class="service-icon tpgb-trans-linear ' . esc_attr( $icon_shine_show ) . ' icon-' . esc_attr( $iconstyle_type ) . '">';
+			$get_icon .= '<i class="' . esc_attr( $icon_name ) . '"></i>';
+			$get_icon .= '</span>';
+		} elseif ( 'image' === $icon_type ) {
+			$get_icon .= $img_src;
+		} elseif ( 'svg' === $icon_type && ! empty( $svg_icon ) && ! empty( $svg_icon['url'] ) ) {
+			$get_icon     .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-' . esc_attr( $block_id ) . '" data-type="' . esc_attr( $svg_draw ) . '" data-duration="' . esc_attr( $svg_dura ) . '" data-stroke="' . esc_attr( $svgstro_color ) . '" data-fillColor="' . esc_attr( $svgfill_color ) . '" data-strokeColorHover="' . esc_attr( $svgstro_hover_color ) . '" data-fillColorHover="' . esc_attr( $svgfill_hover_color ) . '" data-fillEnable="yes">';
+				$get_icon .= '<object class="info-box-svg" id="service-svg-' . esc_attr( $block_id ) . '" type="image/svg+xml" data="' . esc_url( $svg_icon['url'] ) . '" aria-label="' . esc_attr__( 'icon', 'the-plus-addons-for-block-editor' ) . '"></object>';
+			$get_icon     .= '</div>';
+		} elseif ( 'text' === $icon_type && ! empty( $text_icon ) ) {
+			$get_icon .= '<span class="tpgb-icon-wrap-text">' . esc_attr( $text_icon ) . '</span>';
+		}
+				$get_icon .= '</div>';
+			$get_icon     .= '</div>';
 	}
-	
-	$getTitle = '';
-	if(!empty($Title)){
-		if(!$IBoxLinkTgl && !empty($IBoxLink)){
-			$link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['IBoxLink']);
-			$getTitle .='<a href="'.esc_url($IBoxLink).'" class="service-title tpgb-trans-linear" '.$target.' '.$nofollow.' '.$link_attr.'>'.wp_kses_post($Title).'</a>';
-		}else{
-			$getTitle .='<'.Tp_Blocks_Helper::validate_html_tag($titleType).' class="service-title tpgb-trans-linear">';
-				$getTitle .= wp_kses_post($Title);
-			$getTitle .='</'.Tp_Blocks_Helper::validate_html_tag($titleType).'>';
+
+	$get_title = '';
+	if ( ! empty( $title ) ) {
+		if ( ! $i_box_link_tgl && ! empty( $i_box_link ) ) {
+			$link_attr  = Tp_Blocks_Helper::add_link_attributes( $attributes['IBoxLink'] );
+			$get_title .= '<a href="' . esc_url( $i_box_link ) . '" class="service-title tpgb-trans-linear" ' . $target . ' ' . $nofollow . ' ' . $link_attr . '>' . wp_kses_post( $title ) . '</a>';
+		} else {
+			$get_title     .= '<' . Tp_Blocks_Helper::validate_html_tag( $title_type ) . ' class="service-title tpgb-trans-linear">';
+				$get_title .= wp_kses_post( $title );
+			$get_title     .= '</' . Tp_Blocks_Helper::validate_html_tag( $title_type ) . '>';
 		}
 	}
-	
-	$getDesc = '';
-	$getDesc .='<'.Tp_Blocks_Helper::validate_html_tag($descType).' class="service-desc tpgb-trans-linear">';
-		$getDesc .= wp_kses_post($Description);
-	$getDesc .='</'.Tp_Blocks_Helper::validate_html_tag($descType).'>';
-	
-	$getBorder='';
-	$getBorder .='<div class="service-border"></div>';
-	
-	$getbutton = '';
-	$getbutton .= Tpgb_Blocks_Global_Options::load_plusButton_saves($attributes);
 
-	$cnt_hvr_class = $contenthoverEffect;
-		
-	if($contenthoverEffect == 'bounce_in'){
+	$get_desc      = '';
+	$get_desc     .= '<' . Tp_Blocks_Helper::validate_html_tag( $desc_type ) . ' class="service-desc tpgb-trans-linear">';
+		$get_desc .= wp_kses_post( $description );
+	$get_desc     .= '</' . Tp_Blocks_Helper::validate_html_tag( $desc_type ) . '>';
+
+	$get_border  = '';
+	$get_border .= '<div class="service-border"></div>';
+
+	$getbutton  = '';
+	$getbutton .= Tpgb_Blocks_Global_Options::load_plusButton_saves( $attributes );
+
+	$cnt_hvr_class = $contenthover_effect;
+
+	if ( 'bounce_in' === $contenthover_effect ) {
 		$cnt_hvr_class = 'bounce-in';
 	}
-	if($contenthoverEffect == 'radial'){
+	if ( 'radial' === $contenthover_effect ) {
 		$cnt_hvr_class = 'shadow_radial';
 	}
-	
-	$getInfoBox='';
-	$getInfoBox .='<div class="info-box-inner tpgb-trans-linear tpgb_cnt_hvr_effect tpgb-relative-block tp-info-nc cnt_hvr_'.esc_attr($cnt_hvr_class).'">';
-				if(!empty($IBoxLinkTgl) && !empty($IBoxLink)){
-					$link_attr = Tp_Blocks_Helper::add_link_attributes($attributes['IBoxLink']);
-					$getInfoBox .='<a href="'.esc_url($IBoxLink).'" class="info-box-bg-box tpgb-trans-linear '.esc_attr($icnOvrlay).'" '.$target.' '.$nofollow.' '.$link_attr.'>';
-				}else{
-					$getInfoBox .='<div class="info-box-bg-box tpgb-trans-linear '.esc_attr($icnOvrlay).'">';
-				}
-					if($styleType=='style-1'){
-						$getInfoBox .='<div class="service-media text-left '.esc_attr($vcenter).'">';
-							if($iconType!='none'){
-								$getInfoBox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getInfoBox .=$getIcon;
-								$getInfoBox .='</div>';
-									
-							}
-							$getInfoBox .='<div class="service-content">';
-								$getInfoBox .=$getTitle;
-									if(!empty($displayBorder)){
-										$getInfoBox .=$getBorder;
-									}
-								$getInfoBox .=$getDesc;
-									if(!empty($extBtnshow)){
-										$getInfoBox .='<div class="infobox-btn-block ">'.$getbutton.'</div>';
-									}
-							$getInfoBox .= '</div>';
-						$getInfoBox .= '</div>';
-					}
-					if($styleType=='style-2'){
-						$getInfoBox .='<div class="service-media text-right '.esc_attr($vcenter).'">';
-							$getInfoBox .='<div class="service-content">';
-								$getInfoBox .=$getTitle;
-									if(!empty($displayBorder)){
-										$getInfoBox .=$getBorder;
-									}
-								$getInfoBox .=$getDesc;
-									if(!empty($extBtnshow)){
-										$getInfoBox .='<div class="infobox-btn-block ">'.$getbutton.'</div>';
-									}
-							$getInfoBox .= '</div>';
-							if($iconType!='none'){
-								$getInfoBox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getInfoBox .=$getIcon;
-								$getInfoBox .='</div>';
-							}
-						$getInfoBox .= '</div>';
-					}
-					if($styleType=='style-3'){
-						$getInfoBox .='<div class="text-alignment">';
-							$getInfoBox .='<div class="style-3">';
-								if($iconType!='none'){
-									$getInfoBox .=$getIcon;
-								}
-								$getInfoBox .=$getTitle;
-								if(!empty($displayBorder)){
-									$getInfoBox .=$getBorder;
-								}
-								$getInfoBox .=$getDesc;
-								if(!empty($extBtnshow)){
-									$getInfoBox .='<div class="infobox-btn-block ">'.$getbutton.'</div>';
-								}
-							$getInfoBox .= '</div>';
-						$getInfoBox .= '</div>';
-					}
-					if($styleType=='style-4'){
-						$getInfoBox .='<div class="service-media text-left '.esc_attr($vcenter).'">';
-							if($iconType!='none'){
-								$getInfoBox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getInfoBox .=$getIcon;
-								$getInfoBox .='</div>';
-							}
-							$getInfoBox .='<div class="service-content">'.$getTitle.'</div>';
-						$getInfoBox .= '</div>';
-							if(!empty($displayBorder)){
-								$getInfoBox .=$getBorder;
-							}
-							$getInfoBox .=$getDesc;
-							if(!empty($extBtnshow)){
-								$getInfoBox .='<div class="infobox-btn-block ">'.$getbutton.'</div>';
-							}
-					}
-					if($styleType=='style-5'){
-						$getInfoBox .='<div class="service-media  text-left">';
-							if($iconType!='none'){
-								$getInfoBox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getInfoBox .=$getIcon;
-								$getInfoBox .='</div>';
-							}
-							$getInfoBox .='<div class="style-5-service-content">';
-								$getInfoBox .=$getTitle;
-								if(!empty($displayBorder)){
-									$getInfoBox .=$getBorder;
-								}
-								$getInfoBox .=$getDesc;
-								if(!empty($extBtnshow)){
-									$getInfoBox .='<div class="infobox-btn-block ">'.$getbutton.'</div>';
-								}
-							$getInfoBox .= '</div>';
-						$getInfoBox .= '</div>';
-					}
-					if($styleType=='style-6'){
-						$getInfoBox .='<div class="style-6 text-center">';
-							$getInfoBox .='<div class="info-box-all">';
-								$getInfoBox .='<div class="info-box-wrapper">';
-									$getInfoBox .='<div class="info-box-content">';
-										$getInfoBox .='<div class="info-box-icon-img">';
-										if($iconType!='none'){
-											$getInfoBox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-												$getInfoBox .=$getIcon;
-											$getInfoBox .='</div>';
-										}
-										$getInfoBox .='</div>';
-										$getInfoBox .=$getTitle;
-										$getInfoBox .='<div class="info-box-title-hide">'.wp_kses_post($Title).'</div>';
-											if(!empty($displayBorder)){
-												$getInfoBox .=$getBorder;
-											}
-											$getInfoBox .=$getDesc;
-											if(!empty($extBtnshow)){
-												$getInfoBox .='<div class="infobox-btn-block ">'.$getbutton.'</div>';
-											}
-									$getInfoBox .= '</div>';
-								$getInfoBox .= '</div>';
-							$getInfoBox .= '</div>';
-						$getInfoBox .= '</div>';
-					}
-				
-				if(!empty($IBoxLinkTgl) && !empty($IBoxLink)){
-					$getInfoBox .= '</a>';
-				}else{
-					$getInfoBox .= '</div>';
-				}
-				
-				$getInfoBox .= '<div class="infobox-overlay-color tpgb-trans-linear"></div>';
-				
-			$getInfoBox .= '</div>';
-	
-    $output .= '<div class="tpgb-infobox tpgb-relative-block tpgb-trans-linear tpgb-block-'.esc_attr($block_id).' '.esc_attr($Sliderclass).' info-box-'.esc_attr($styleType).' '.esc_attr($blockClass).'" '.$carousel_settings.'>';
-		if($layoutType == 'carousel'){
-			if( ( isset($showArrows['md']) && !empty($showArrows['md']) ) || ( isset($showArrows['sm']) && !empty($showArrows['sm']) ) || ( isset($showArrows['xs']) && !empty($showArrows['xs']) ) ){
-				$output .= Tp_Blocks_Helper::tpgb_carousel_arrow($arrowsStyle, $arrowsPosition);
-			}
-			$output .= '<div class="post-loop-inner splide__track">';
-				$output .= '<div class="splide__list">';
-					$output .= tpgb_getCInfobox($attributes);
-				$output .= '</div>';
-			$output .= '</div>';
-		}else{
-			$output .='<div class="post-inner-loop ">';
-				$output .=$getInfoBox;
-			$output .= '</div>';
-		}
-    $output .= '</div>';
-	$output = Tpgb_Blocks_Global_Options::block_Wrap_Render($attributes, $output);
-	if($layoutType=='carousel' && !empty($arrowCss)){
-		$output .= $arrowCss;
+
+	$get_info_box  = '';
+	$get_info_box .= '<div class="info-box-inner tpgb-trans-linear tpgb_cnt_hvr_effect tpgb-relative-block tp-info-nc cnt_hvr_' . esc_attr( $cnt_hvr_class ) . '">';
+	if ( ! empty( $i_box_link_tgl ) && ! empty( $i_box_link ) ) {
+		$link_attr     = Tp_Blocks_Helper::add_link_attributes( $attributes['IBoxLink'] );
+		$get_info_box .= '<a href="' . esc_url( $i_box_link ) . '" class="info-box-bg-box tpgb-trans-linear ' . esc_attr( $icn_ovrlay ) . '" ' . $target . ' ' . $nofollow . ' ' . $link_attr . '>';
+	} else {
+		$get_info_box .= '<div class="info-box-bg-box tpgb-trans-linear ' . esc_attr( $icn_ovrlay ) . '">';
 	}
-    return $output;
+	if ( 'style-1' === $style_type ) {
+		$get_info_box .= '<div class="service-media text-left ' . esc_attr( $vcenter ) . '">';
+		if ( 'none' !== $icon_type ) {
+						$get_info_box     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+							$get_info_box .= $get_icon;
+						$get_info_box     .= '</div>';
+
+		}
+			$get_info_box     .= '<div class="service-content">';
+				$get_info_box .= $get_title;
+		if ( ! empty( $display_border ) ) {
+							$get_info_box .= $get_border;
+		}
+										$get_info_box .= $get_desc;
+		if ( ! empty( $ext_btnshow ) ) {
+			$get_info_box .= '<div class="infobox-btn-block ">' . $getbutton . '</div>';
+		}
+										$get_info_box .= '</div>';
+										$get_info_box .= '</div>';
+	}
+	if ( 'style-2' === $style_type ) {
+		$get_info_box         .= '<div class="service-media text-right ' . esc_attr( $vcenter ) . '">';
+			$get_info_box     .= '<div class="service-content">';
+				$get_info_box .= $get_title;
+		if ( ! empty( $display_border ) ) {
+				$get_info_box .= $get_border;
+		}
+				$get_info_box .= $get_desc;
+		if ( ! empty( $ext_btnshow ) ) {
+							$get_info_box .= '<div class="infobox-btn-block ">' . $getbutton . '</div>';
+		}
+										$get_info_box .= '</div>';
+		if ( 'none' !== $icon_type ) {
+			$get_info_box     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+				$get_info_box .= $get_icon;
+			$get_info_box     .= '</div>';
+		}
+										$get_info_box .= '</div>';
+	}
+	if ( 'style-3' === $style_type ) {
+		$get_info_box     .= '<div class="text-alignment">';
+			$get_info_box .= '<div class="style-3">';
+		if ( 'none' !== $icon_type ) {
+					$get_info_box .= $get_icon;
+		}
+				$get_info_box .= $get_title;
+		if ( ! empty( $display_border ) ) {
+							$get_info_box .= $get_border;
+		}
+										$get_info_box .= $get_desc;
+		if ( ! empty( $ext_btnshow ) ) {
+			$get_info_box .= '<div class="infobox-btn-block ">' . $getbutton . '</div>';
+		}
+										$get_info_box .= '</div>';
+										$get_info_box .= '</div>';
+	}
+	if ( 'style-4' === $style_type ) {
+		$get_info_box .= '<div class="service-media text-left ' . esc_attr( $vcenter ) . '">';
+		if ( 'none' !== $icon_type ) {
+						$get_info_box     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+							$get_info_box .= $get_icon;
+						$get_info_box     .= '</div>';
+		}
+			$get_info_box             .= '<div class="service-content">' . $get_title . '</div>';
+						$get_info_box .= '</div>';
+		if ( ! empty( $display_border ) ) {
+							$get_info_box .= $get_border;
+		}
+										$get_info_box .= $get_desc;
+		if ( ! empty( $ext_btnshow ) ) {
+			$get_info_box .= '<div class="infobox-btn-block ">' . $getbutton . '</div>';
+		}
+	}
+	if ( 'style-5' === $style_type ) {
+		$get_info_box .= '<div class="service-media  text-left">';
+		if ( 'none' !== $icon_type ) {
+						$get_info_box     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+							$get_info_box .= $get_icon;
+						$get_info_box     .= '</div>';
+		}
+			$get_info_box     .= '<div class="style-5-service-content">';
+				$get_info_box .= $get_title;
+		if ( ! empty( $display_border ) ) {
+							$get_info_box .= $get_border;
+		}
+										$get_info_box .= $get_desc;
+		if ( ! empty( $ext_btnshow ) ) {
+			$get_info_box .= '<div class="infobox-btn-block ">' . $getbutton . '</div>';
+		}
+										$get_info_box .= '</div>';
+										$get_info_box .= '</div>';
+	}
+	if ( 'style-6' === $style_type ) {
+		$get_info_box                 .= '<div class="style-6 text-center">';
+			$get_info_box             .= '<div class="info-box-all">';
+				$get_info_box         .= '<div class="info-box-wrapper">';
+					$get_info_box     .= '<div class="info-box-content">';
+						$get_info_box .= '<div class="info-box-icon-img">';
+		if ( 'none' !== $icon_type ) {
+			$get_info_box     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+				$get_info_box .= $get_icon;
+			$get_info_box     .= '</div>';
+		}
+						$get_info_box .= '</div>';
+						$get_info_box .= $get_title;
+						$get_info_box .= '<div class="info-box-title-hide">' . wp_kses_post( $title ) . '</div>';
+		if ( ! empty( $display_border ) ) {
+						$get_info_box .= $get_border;
+		}
+							$get_info_box .= $get_desc;
+		if ( ! empty( $ext_btnshow ) ) {
+							$get_info_box .= '<div class="infobox-btn-block ">' . $getbutton . '</div>';
+		}
+														$get_info_box .= '</div>';
+														$get_info_box .= '</div>';
+														$get_info_box .= '</div>';
+														$get_info_box .= '</div>';
+	}
+
+	if ( ! empty( $i_box_link_tgl ) && ! empty( $i_box_link ) ) {
+		$get_info_box .= '</a>';
+	} else {
+		$get_info_box .= '</div>';
+	}
+
+				$get_info_box .= '<div class="infobox-overlay-color tpgb-trans-linear"></div>';
+
+			$get_info_box .= '</div>';
+
+	$output .= '<div class="tpgb-infobox tpgb-relative-block tpgb-trans-linear tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $sliderclass ) . ' info-box-' . esc_attr( $style_type ) . ' ' . esc_attr( $block_class ) . '" ' . $carousel_settings . '>';
+	if ( 'carousel' === $layout_type ) {
+		if ( ( isset( $show_arrows['md'] ) && ! empty( $show_arrows['md'] ) ) || ( isset( $show_arrows['sm'] ) && ! empty( $show_arrows['sm'] ) ) || ( isset( $show_arrows['xs'] ) && ! empty( $show_arrows['xs'] ) ) ) {
+			$output .= Tp_Blocks_Helper::tpgb_carousel_arrow( $arrows_style, $arrows_position );
+		}
+		$output         .= '<div class="post-loop-inner splide__track">';
+			$output     .= '<div class="splide__list">';
+				$output .= tpgb_getCInfobox( $attributes );
+			$output     .= '</div>';
+		$output         .= '</div>';
+	} else {
+		$output     .= '<div class="post-inner-loop ">';
+			$output .= $get_info_box;
+		$output     .= '</div>';
+	}
+	$output .= '</div>';
+	$output  = Tpgb_Blocks_Global_Options::block_Wrap_Render( $attributes, $output );
+	if ( 'carousel' === $layout_type && ! empty( $arrow_css ) ) {
+		$output .= $arrow_css;
+	}
+	return $output;
 }
 
-function tpgb_getCInfobox($attributes){
-	$styleType = (!empty($attributes['styleType'])) ? $attributes['styleType'] : 'style-1';
-	$iboxcarousel = (!empty($attributes['iboxcarousel'])) ? $attributes['iboxcarousel'] : [];
-	$carouselBtn = (!empty($attributes['carouselBtn'])) ? $attributes['carouselBtn'] : false;
-	$carBtnStyle = (!empty($attributes['carBtnStyle'])) ? $attributes['carBtnStyle'] : 'style-7';
-	$carBtnIconType = (!empty($attributes['carBtnIconType'])) ? $attributes['carBtnIconType'] : 'none';
-	$carBtnIconName = (!empty($attributes['carBtnIconName'])) ? $attributes['carBtnIconName'] : '';
-	$carBtnIconPosition = (!empty($attributes['carBtnIconPosition'])) ? $attributes['carBtnIconPosition'] : 'after';
+/**
+ * Tpgb get cinfobox.
+ *
+ * @param mixed $attributes The attributes.
+ */
+function tpgb_getCInfobox( $attributes ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid,WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+	$style_type            = ( ! empty( $attributes['styleType'] ) ) ? $attributes['styleType'] : 'style-1';
+	$iboxcarousel          = ( ! empty( $attributes['iboxcarousel'] ) ) ? $attributes['iboxcarousel'] : array();
+	$carousel_btn          = ( ! empty( $attributes['carouselBtn'] ) ) ? $attributes['carouselBtn'] : false;
+	$car_btn_style         = ( ! empty( $attributes['carBtnStyle'] ) ) ? $attributes['carBtnStyle'] : 'style-7';
+	$car_btn_icon_type     = ( ! empty( $attributes['carBtnIconType'] ) ) ? $attributes['carBtnIconType'] : 'none';
+	$car_btn_icon_name     = ( ! empty( $attributes['carBtnIconName'] ) ) ? $attributes['carBtnIconName'] : '';
+	$car_btn_icon_position = ( ! empty( $attributes['carBtnIconPosition'] ) ) ? $attributes['carBtnIconPosition'] : 'after';
 
-	$verticalCenter = (!empty($attributes['verticalCenter'])) ? $attributes['verticalCenter'] : false;
-	$sideImgBorder = (!empty($attributes['sideImgBorder'])) ? $attributes['sideImgBorder'] : false;
-	$displayBorder = (!empty($attributes['displayBorder'])) ? $attributes['displayBorder'] : false;
+	$vertical_center = ( ! empty( $attributes['verticalCenter'] ) ) ? $attributes['verticalCenter'] : false;
+	$side_img_border = ( ! empty( $attributes['sideImgBorder'] ) ) ? $attributes['sideImgBorder'] : false;
+	$display_border  = ( ! empty( $attributes['displayBorder'] ) ) ? $attributes['displayBorder'] : false;
 
-	$iconOverlay = (!empty($attributes['iconOverlay'])) ? $attributes['iconOverlay'] : false;
-	$imgOverlay = (!empty($attributes['imgOverlay'])) ? $attributes['imgOverlay'] : false;
-	$iconShine = (!empty($attributes['iconShine'])) ? $attributes['iconShine'] : false;
+	$icon_overlay = ( ! empty( $attributes['iconOverlay'] ) ) ? $attributes['iconOverlay'] : false;
+	$img_overlay  = ( ! empty( $attributes['imgOverlay'] ) ) ? $attributes['imgOverlay'] : false;
+	$icon_shine   = ( ! empty( $attributes['iconShine'] ) ) ? $attributes['iconShine'] : false;
 
-	$svgDraw = (!empty($attributes['svgDraw'])) ? $attributes['svgDraw'] : 'delayed';
-	$svgstroColor = (!empty($attributes['svgstroColor'])) ? $attributes['svgstroColor'] : '';
-	$svgfillColor = (!empty($attributes['svgfillColor'])) ? $attributes['svgfillColor'] : 'none';
-	$svgDura = (!empty($attributes['svgDura'])) ? $attributes['svgDura'] : 90;
+	$svg_draw      = ( ! empty( $attributes['svgDraw'] ) ) ? $attributes['svgDraw'] : 'delayed';
+	$svgstro_color = ( ! empty( $attributes['svgstroColor'] ) ) ? $attributes['svgstroColor'] : '';
+	$svgfill_color = ( ! empty( $attributes['svgfillColor'] ) ) ? $attributes['svgfillColor'] : 'none';
+	$svg_dura      = ( ! empty( $attributes['svgDura'] ) ) ? $attributes['svgDura'] : 90;
 
-	$titleType = (!empty($attributes['titleType'])) ? $attributes['titleType'] : 'div';
-	$descType = (!empty($attributes['descType'])) ? $attributes['descType'] : 'div';
+	$title_type = ( ! empty( $attributes['titleType'] ) ) ? $attributes['titleType'] : 'div';
+	$desc_type  = ( ! empty( $attributes['descType'] ) ) ? $attributes['descType'] : 'div';
 
-	$iconstyleType = (!empty($attributes['iconstyleType'])) ? $attributes['iconstyleType'] : 'none';
-	$contenthoverEffect = (!empty($attributes['contenthoverEffect'])) ? $attributes['contenthoverEffect'] : '';
+	$iconstyle_type      = ( ! empty( $attributes['iconstyleType'] ) ) ? $attributes['iconstyleType'] : 'none';
+	$contenthover_effect = ( ! empty( $attributes['contenthoverEffect'] ) ) ? $attributes['contenthoverEffect'] : '';
 
-	$vcenter='';
-	if(!empty($verticalCenter)){
+	$vcenter = '';
+	if ( ! empty( $vertical_center ) ) {
 		$vcenter = 'vertical-center';
 	}
-	
-	$icnOvrlay='';
-	if(($styleType=='style-1' || $styleType=='style-2' || $styleType=='style-3') && (!empty($iconOverlay) || !empty($imgOverlay))){
-		$icnOvrlay='icon-overlay';
-	}
-	
-	$iconShineShow='';
-	if(!empty($iconShine)){
-		$iconShineShow='icon-shine-show';
+
+	$icn_ovrlay = '';
+	if ( ( 'style-1' === $style_type || 'style-2' === $style_type || 'style-3' === $style_type ) && ( ! empty( $icon_overlay ) || ! empty( $img_overlay ) ) ) {
+		$icn_ovrlay = 'icon-overlay';
 	}
 
-	$cnt_hvr_class = $contenthoverEffect;
-		
-	if($contenthoverEffect == 'bounce_in'){
+	$icon_shine_show = '';
+	if ( ! empty( $icon_shine ) ) {
+		$icon_shine_show = 'icon-shine-show';
+	}
+
+	$cnt_hvr_class = $contenthover_effect;
+
+	if ( 'bounce_in' === $contenthover_effect ) {
 		$cnt_hvr_class = 'bounce-in';
 	}
-	if($contenthoverEffect == 'radial'){
+	if ( 'radial' === $contenthover_effect ) {
 		$cnt_hvr_class = 'shadow_radial';
 	}
 	$count = 0;
 
-	$getCInfobox = '';
-	if(!empty($iboxcarousel)){
+	$get_c_infobox = '';
+	if ( ! empty( $iboxcarousel ) ) {
 		foreach ( $iboxcarousel as $index => $item ) :
 
-			$count++;
+			++$count;
 
-			$mlr16='';
-			if($styleType=='style-1' && $item['iconType']!='none'){ 
-				$mlr16 = 'm-r-16 style-1 '; 
-			}else if($styleType=='style-2' && $item['iconType']!='none'){ 
+			$mlr16 = '';
+			if ( 'style-1' === $style_type && 'none' !== $item['iconType'] ) {
+				$mlr16 = 'm-r-16 style-1 ';
+			} elseif ( 'style-2' === $style_type && 'none' !== $item['iconType'] ) {
 				$mlr16 = 'm-l-16 style-2 ';
-			}else if($styleType=='style-4' && $item['iconType']!='none'){ 
+			} elseif ( 'style-4' === $style_type && 'none' !== $item['iconType'] ) {
 				$mlr16 = 'm-r-16';
-			}else if($styleType=='style-5' && $item['iconType']!='none'){ 
+			} elseif ( 'style-5' === $style_type && 'none' !== $item['iconType'] ) {
 				$mlr16 = 'service-bg-5';
-			}else if($styleType=='style-6' && $item['iconType']!='none'){ 
+			} elseif ( 'style-6' === $style_type && 'none' !== $item['iconType'] ) {
 				$mlr16 = '';
 			}
 
-			$sib='';
-			if($styleType=='style-1' || $styleType=='style-2'){
-				if($item['iconType']!='none' && !empty($sideImgBorder)){
+			$sib = '';
+			if ( 'style-1' === $style_type || 'style-2' === $style_type ) {
+				if ( 'none' !== $item['iconType'] && ! empty( $side_img_border ) ) {
 					$sib = 'service-img-border';
 				}
 			}
 
-			$getCTitle = '';
-			$gttTitle = (!empty($item['Title'])) ? $item['Title'] : '';
-			if(!empty($item['Title'])){
-				$getCTitle .='<'.Tp_Blocks_Helper::validate_html_tag($titleType).' class="service-title tpgb-trans-linear">';
-					$getCTitle .= wp_kses_post($item['Title']);
-				$getCTitle .='</'.Tp_Blocks_Helper::validate_html_tag($titleType).'>';
-			}
-			
-			$getCDesc = '';
-			if(!empty($item['Description'])){
-				$getCDesc .='<'.Tp_Blocks_Helper::validate_html_tag($descType).' class="service-desc tpgb-trans-linear">';
-					$getCDesc .= wp_kses_post($item['Description']);
-				$getCDesc .='</'.Tp_Blocks_Helper::validate_html_tag($descType).'>';
+			$get_c_title = '';
+			$gtt_title   = ( ! empty( $item['Title'] ) ) ? $item['Title'] : '';
+			if ( ! empty( $item['Title'] ) ) {
+				$get_c_title     .= '<' . Tp_Blocks_Helper::validate_html_tag( $title_type ) . ' class="service-title tpgb-trans-linear">';
+					$get_c_title .= wp_kses_post( $item['Title'] );
+				$get_c_title     .= '</' . Tp_Blocks_Helper::validate_html_tag( $title_type ) . '>';
 			}
 
-			$getCBorder='';
-			$getCBorder .='<div class="service-border"></div>';
-
-			$imgCSrc ='';
-			$imageName = (!empty($item['imageName']['url'])) ? $item['imageName'] : '';
-			$imageSize = (!empty($item['imageSize'])) ? $item['imageSize'] : 'full';
-			$altText = (isset($imageName['alt']) && !empty($imageName['alt'])) ? esc_attr($imageName['alt']) : ((!empty($imageName['title'])) ? esc_attr($imageName['title']) : esc_attr__('Info Box','the-plus-addons-for-block-editor'));
-			if(!empty($imageName) && !empty($imageName['id'])){
-				$imgCSrc = wp_get_attachment_image($imageName['id'] , $imageSize, false, ['class' => 'service-icon tpgb-trans-linear', 'alt'=> $altText]);
-			}else if(!empty($imageName['url'])){
-				$imgCSrc = '<img src="'.esc_url($imageName['url']).'" class="service-icon tpgb-trans-linear" alt="'.$altText.'"/>';
-			}
-			$getCIcon = '';
-			if(!empty($item['iconType'])){
-				$getCIcon .='<div class="info-icon-content">';
-					if($item['iconType']!='none' && !empty($item['dispPinText'])){
-						$getCIcon .='<div class="info-pin-text tpgb-trans-easeinout">'.wp_kses_post($item['pinText']).'</div>';
-					}
-					$getCIcon .='<div class="service-icon-wrap tpgb-trans-linear">';
-						if($item['iconType']=='icon'){
-							$getCIcon .='<span class="service-icon tpgb-trans-linear '.esc_attr($iconShineShow).' icon-'.esc_attr($iconstyleType).'">';
-							$getCIcon .='<i class="'.esc_attr($item['IconName']).'"></i>';
-							$getCIcon .='</span>';
-						}else if($item['iconType']=='image'){
-							$getCIcon .= $imgCSrc;
-						}else if($item['iconType']=='svg' && !empty($item['svgIcon']) && !empty($item['svgIcon']['url'])){
-							$getCIcon .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-'.esc_attr($item['_key']).'" data-type="'.esc_attr($svgDraw).'" data-duration="'.esc_attr($svgDura).'" data-stroke="'.esc_attr($svgstroColor).'" data-fillColor="'.esc_attr($svgfillColor).'" data-strokeColorHover="'.esc_attr($svgstroHoverColor).'" data-fillColorHover="'.esc_attr($svgfillHoverColor).'" data-fillEnable="yes">';      
-								$getCIcon .= '<object id="service-svg-'.esc_attr($item['_key']).'" class="info-box-svg" type="image/svg+xml" data="'.esc_url($item['svgIcon']['url']).'" aria-label="'.esc_attr__('icon','the-plus-addons-for-block-editor').'"></object>';
-							$getCIcon .= '</div>';
-						}else if($item['iconType']=='text' && !empty($item['textIcon'])){
-                            $getCIcon .='<span class="tpgb-icon-wrap-text">'.esc_attr($item['textIcon']).'</span>';    
-                        }
-					$getCIcon .='</div>';
-				$getCIcon .='</div>';
+			$get_c_desc = '';
+			if ( ! empty( $item['Description'] ) ) {
+				$get_c_desc     .= '<' . Tp_Blocks_Helper::validate_html_tag( $desc_type ) . ' class="service-desc tpgb-trans-linear">';
+					$get_c_desc .= wp_kses_post( $item['Description'] );
+				$get_c_desc     .= '</' . Tp_Blocks_Helper::validate_html_tag( $desc_type ) . '>';
 			}
 
-			$getCbutton = '';
-			if(!empty($carouselBtn)){
-				$btn_attr = Tp_Blocks_Helper::add_link_attributes($item['btnUrl']);
-				$btnText = (!empty($item['btnText'])) ? $item['btnText'] : '';
+			$get_c_border  = '';
+			$get_c_border .= '<div class="service-border"></div>';
 
-				$btnUrl = (!empty($item['btnUrl'])) ? $item['btnUrl'] : '';
-				$target = (!empty($btnUrl['target'])) ? ' target="_blank" ' : '';
-				$nofollow = (!empty($btnUrl['nofollow'])) ? ' rel="nofollow" ' : '';
+			$img_c_src  = '';
+			$image_name = ( ! empty( $item['imageName']['url'] ) ) ? $item['imageName'] : '';
+			$image_size = ( ! empty( $item['imageSize'] ) ) ? $item['imageSize'] : 'full';
+			$alt_text   = ( isset( $image_name['alt'] ) && ! empty( $image_name['alt'] ) ) ? esc_attr( $image_name['alt'] ) : ( ( ! empty( $image_name['title'] ) ) ? esc_attr( $image_name['title'] ) : esc_attr__( 'Info Box', 'the-plus-addons-for-block-editor' ) );
+			if ( ! empty( $image_name ) && ! empty( $image_name['id'] ) ) {
+				$img_c_src = wp_get_attachment_image(
+					$image_name['id'],
+					$image_size,
+					false,
+					array(
+						'class' => 'service-icon tpgb-trans-linear',
+						'alt'   => $alt_text,
+					)
+				);
+			} elseif ( ! empty( $image_name['url'] ) ) {
+				$img_c_src = '<img src="' . esc_url( $image_name['url'] ) . '" class="service-icon tpgb-trans-linear" alt="' . $alt_text . '"/>';
+			}
+			$get_c_icon = '';
+			if ( ! empty( $item['iconType'] ) ) {
+				$get_c_icon .= '<div class="info-icon-content">';
+				if ( 'none' !== $item['iconType'] && ! empty( $item['dispPinText'] ) ) {
+					$get_c_icon .= '<div class="info-pin-text tpgb-trans-easeinout">' . wp_kses_post( $item['pinText'] ) . '</div>';
+				}
+					$get_c_icon .= '<div class="service-icon-wrap tpgb-trans-linear">';
+				if ( 'icon' === $item['iconType'] ) {
+					$get_c_icon .= '<span class="service-icon tpgb-trans-linear ' . esc_attr( $icon_shine_show ) . ' icon-' . esc_attr( $iconstyle_type ) . '">';
+					$get_c_icon .= '<i class="' . esc_attr( $item['IconName'] ) . '"></i>';
+					$get_c_icon .= '</span>';
+				} elseif ( 'image' === $item['iconType'] ) {
+					$get_c_icon .= $img_c_src;
+				} elseif ( 'svg' === $item['iconType'] && ! empty( $item['svgIcon'] ) && ! empty( $item['svgIcon']['url'] ) ) {
+					$get_c_icon     .= '<div class="tpgb-draw-svg tpgb-trans-linear" data-id="service-svg-' . esc_attr( $item['_key'] ) . '" data-type="' . esc_attr( $svg_draw ) . '" data-duration="' . esc_attr( $svg_dura ) . '" data-stroke="' . esc_attr( $svgstro_color ) . '" data-fillColor="' . esc_attr( $svgfill_color ) . '" data-strokeColorHover="' . esc_attr( $svgstro_hover_color ) . '" data-fillColorHover="' . esc_attr( $svgfill_hover_color ) . '" data-fillEnable="yes">';
+						$get_c_icon .= '<object id="service-svg-' . esc_attr( $item['_key'] ) . '" class="info-box-svg" type="image/svg+xml" data="' . esc_url( $item['svgIcon']['url'] ) . '" aria-label="' . esc_attr__( 'icon', 'the-plus-addons-for-block-editor' ) . '"></object>';
+					$get_c_icon     .= '</div>';
+				} elseif ( 'text' === $item['iconType'] && ! empty( $item['textIcon'] ) ) {
+					$get_c_icon .= '<span class="tpgb-icon-wrap-text">' . esc_attr( $item['textIcon'] ) . '</span>';
+				}
+					$get_c_icon .= '</div>';
+				$get_c_icon     .= '</div>';
+			}
 
-				$getBtnText = '<div class="btn-text">'.wp_kses_post($btnText).'</div>';
-				
-				$getCbutton .= '<div class="tpgb-adv-button button-'.esc_attr($carBtnStyle).'">';
-					$getCbutton .= '<a href="'.esc_url($btnUrl['url']).'" class="button-link-wrap" role="button" '.$target.' '.$nofollow.' '.$btn_attr.'>';
-					if($carBtnStyle == 'style-8'){
-						if($carBtnIconPosition == 'before'){
-							if($carBtnIconType == 'icon'){
-								$getCbutton .= '<span class="btn-icon  button-'.esc_attr($carBtnIconPosition).'">';
-									$getCbutton .= '<i class="'.esc_attr($carBtnIconName).'"></i>';
-								$getCbutton .= '</span>';
-							}
-							$getCbutton .= $getBtnText;
+			$get_cbutton = '';
+			if ( ! empty( $carousel_btn ) ) {
+				$btn_attr = Tp_Blocks_Helper::add_link_attributes( $item['btnUrl'] );
+				$btn_text = ( ! empty( $item['btnText'] ) ) ? $item['btnText'] : '';
+
+				$btn_url  = ( ! empty( $item['btnUrl'] ) ) ? $item['btnUrl'] : '';
+				$target   = ( ! empty( $btn_url['target'] ) ) ? ' target="_blank" ' : '';
+				$nofollow = ( ! empty( $btn_url['nofollow'] ) ) ? ' rel="nofollow" ' : '';
+
+				$get_btn_text = '<div class="btn-text">' . wp_kses_post( $btn_text ) . '</div>';
+
+				$get_cbutton     .= '<div class="tpgb-adv-button button-' . esc_attr( $car_btn_style ) . '">';
+					$get_cbutton .= '<a href="' . esc_url( $btn_url['url'] ) . '" class="button-link-wrap" role="button" ' . $target . ' ' . $nofollow . ' ' . $btn_attr . '>';
+				if ( 'style-8' === $car_btn_style ) {
+					if ( 'before' === $car_btn_icon_position ) {
+						if ( 'icon' === $car_btn_icon_type ) {
+							$get_cbutton     .= '<span class="btn-icon  button-' . esc_attr( $car_btn_icon_position ) . '">';
+								$get_cbutton .= '<i class="' . esc_attr( $car_btn_icon_name ) . '"></i>';
+							$get_cbutton     .= '</span>';
 						}
-						if($carBtnIconPosition == 'after'){
-							$getCbutton .= $getBtnText;
-							if($carBtnIconType == 'icon'){
-								$getCbutton .= '<span class="btn-icon  button-'.esc_attr($carBtnIconPosition).'">';
-									$getCbutton .= '<i class="'.esc_attr($carBtnIconName).'"></i>';
-								$getCbutton .= '</span>';
-							}
+						$get_cbutton .= $get_btn_text;
+					}
+					if ( 'after' === $car_btn_icon_position ) {
+						$get_cbutton .= $get_btn_text;
+						if ( 'icon' === $car_btn_icon_type ) {
+							$get_cbutton     .= '<span class="btn-icon  button-' . esc_attr( $car_btn_icon_position ) . '">';
+								$get_cbutton .= '<i class="' . esc_attr( $car_btn_icon_name ) . '"></i>';
+							$get_cbutton     .= '</span>';
 						}
 					}
-					if($carBtnStyle == 'style-7' || $carBtnStyle == 'style-9' ){
-						$getCbutton .= $getBtnText;
-						
-						$getCbutton .= '<span class="button-arrow">';
-						if($carBtnStyle == 'style-7'){
-							$getCbutton .= '<span class="btn-right-arrow"><i class="fas fa-chevron-right"></i></span>';
-						}
-						if($carBtnStyle == 'style-9'){
-							$getCbutton .= '<i class="btn-show fas fa-chevron-right"></i>';
-							$getCbutton .= '<i class="btn-hide fas fa-chevron-right"></i>';
-						}
-						$getCbutton .= '</span>';
+				}
+				if ( 'style-7' === $car_btn_style || 'style-9' === $car_btn_style ) {
+					$get_cbutton .= $get_btn_text;
+
+					$get_cbutton .= '<span class="button-arrow">';
+					if ( 'style-7' === $car_btn_style ) {
+						$get_cbutton .= '<span class="btn-right-arrow"><i class="fas fa-chevron-right"></i></span>';
 					}
-					$getCbutton .= '</a>';
-				$getCbutton .= '</div>';
+					if ( 'style-9' === $car_btn_style ) {
+						$get_cbutton .= '<i class="btn-show fas fa-chevron-right"></i>';
+						$get_cbutton .= '<i class="btn-hide fas fa-chevron-right"></i>';
+					}
+					$get_cbutton .= '</span>';
+				}
+					$get_cbutton .= '</a>';
+				$get_cbutton     .= '</div>';
 			}
 
-			$getCInfobox .='<div class="splide__slide info-box-inner tpgb-trans-linear tpgb_cnt_hvr_effect tpgb-relative-block tp-info-nc cnt_hvr_'.esc_attr($cnt_hvr_class).' tp-repeater-item-'.esc_attr($item['_key']).'" data-index="'.esc_attr($count).'">';
-				
-				$getCInfobox .='<div class="info-box-bg-box tpgb-trans-linear '.esc_attr($icnOvrlay).'">';
-					if($styleType=='style-1'){
-						$getCInfobox .='<div class="service-media text-left '.esc_attr($vcenter).'">';
-							if($item['iconType']!='none'){
-								$getCInfobox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getCInfobox .=$getCIcon;
-								$getCInfobox .='</div>';
-									
-							}
-							$getCInfobox .='<div class="service-content">';
-								$getCInfobox .=$getCTitle;
-									if(!empty($displayBorder)){
-										$getCInfobox .=$getCBorder;
-									}
-								$getCInfobox .=$getCDesc;
-									if(!empty($carouselBtn)){
-										$getCInfobox .='<div class="infobox-btn-block ">'.$getCbutton.'</div>';
-									}
-							$getCInfobox .= '</div>';
-						$getCInfobox .= '</div>';
-					}
-					if($styleType=='style-2'){
-						$getCInfobox .='<div class="service-media text-right '.esc_attr($vcenter).'">';
-							$getCInfobox .='<div class="service-content">';
-								$getCInfobox .=$getCTitle;
-									if(!empty($displayBorder)){
-										$getCInfobox .=$getCBorder;
-									}
-								$getCInfobox .=$getCDesc;
-									if(!empty($carouselBtn)){
-										$getCInfobox .='<div class="infobox-btn-block ">'.$getCbutton.'</div>';
-									}
-							$getCInfobox .= '</div>';
-							if($item['iconType']!='none'){
-								$getCInfobox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getCInfobox .=$getCIcon;
-								$getCInfobox .='</div>';
-							}
-						$getCInfobox .= '</div>';
-					}
-					if($styleType=='style-3'){
-						$getCInfobox .='<div class="text-alignment">';
-							$getCInfobox .='<div class="style-3">';
-								if($item['iconType']!='none'){
-									$getCInfobox .=$getCIcon;
-								}
-								$getCInfobox .=$getCTitle;
-								if(!empty($displayBorder)){
-									$getCInfobox .=$getCBorder;
-								}
-								$getCInfobox .=$getCDesc;
-								if(!empty($carouselBtn)){
-									$getCInfobox .='<div class="infobox-btn-block ">'.$getCbutton.'</div>';
-								}
-							$getCInfobox .= '</div>';
-						$getCInfobox .= '</div>';
-					}
-					if($styleType=='style-4'){
-						$getCInfobox .='<div class="service-media text-left '.esc_attr($vcenter).'">';
-							if($item['iconType']!='none'){
-								$getCInfobox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getCInfobox .=$getCIcon;
-								$getCInfobox .='</div>';
-							}
-							$getCInfobox .='<div class="service-content">'.$getCTitle.'</div>';
-						$getCInfobox .= '</div>';
-							if(!empty($displayBorder)){
-								$getCInfobox .=$getCBorder;
-							}
-							$getCInfobox .=$getCDesc;
-							if(!empty($carouselBtn)){
-								$getCInfobox .='<div class="infobox-btn-block ">'.$getCbutton.'</div>';
-							}
-					}
-					if($styleType=='style-5'){
-						$getCInfobox .='<div class="service-media  text-left">';
-							if($item['iconType']!='none'){
-								$getCInfobox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-									$getCInfobox .=$getCIcon;
-								$getCInfobox .='</div>';
-							}
-							$getCInfobox .='<div class="style-5-service-content">';
-								$getCInfobox .=$getCTitle;
-								if(!empty($displayBorder)){
-									$getCInfobox .=$getCBorder;
-								}
-								$getCInfobox .=$getCDesc;
-								if(!empty($carouselBtn)){
-									$getCInfobox .='<div class="infobox-btn-block ">'.$getCbutton.'</div>';
-								}
-							$getCInfobox .= '</div>';
-						$getCInfobox .= '</div>';
-					}
-					if($styleType=='style-6'){
-						$getCInfobox .='<div class="style-6 text-center">';
-							$getCInfobox .='<div class="info-box-all">';
-								$getCInfobox .='<div class="info-box-wrapper">';
-									$getCInfobox .='<div class="info-box-content">';
-										$getCInfobox .='<div class="info-box-icon-img">';
-										if($item['iconType']!='none'){
-											$getCInfobox .='<div class="'.esc_attr($mlr16).' '.esc_attr($sib).'">';
-												$getCInfobox .=$getCIcon;
-											$getCInfobox .='</div>';
-										}
-										$getCInfobox .='</div>';
-										$getCInfobox .=$getCTitle;
-										$getCInfobox .='<div class="info-box-title-hide">'.wp_kses_post($gttTitle).'</div>';
-											if(!empty($displayBorder)){
-												$getCInfobox .=$getCBorder;
-											}
-											$getCInfobox .=$getCDesc;
-											if(!empty($carouselBtn)){
-												$getCInfobox .='<div class="infobox-btn-block ">'.$getCbutton.'</div>';
-											}
-									$getCInfobox .= '</div>';
-								$getCInfobox .= '</div>';
-							$getCInfobox .= '</div>';
-						$getCInfobox .= '</div>';
-					}
-				
-				$getCInfobox .= '</div>';
-				
-				$getCInfobox .= '<div class="infobox-overlay-color tpgb-trans-linear"></div>';
-				
-			$getCInfobox .= '</div>';
+			$get_c_infobox .= '<div class="splide__slide info-box-inner tpgb-trans-linear tpgb_cnt_hvr_effect tpgb-relative-block tp-info-nc cnt_hvr_' . esc_attr( $cnt_hvr_class ) . ' tp-repeater-item-' . esc_attr( $item['_key'] ) . '" data-index="' . esc_attr( $count ) . '">';
+
+				$get_c_infobox .= '<div class="info-box-bg-box tpgb-trans-linear ' . esc_attr( $icn_ovrlay ) . '">';
+			if ( 'style-1' === $style_type ) {
+				$get_c_infobox .= '<div class="service-media text-left ' . esc_attr( $vcenter ) . '">';
+				if ( 'none' !== $item['iconType'] ) {
+						$get_c_infobox     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+							$get_c_infobox .= $get_c_icon;
+						$get_c_infobox     .= '</div>';
+
+				}
+					$get_c_infobox     .= '<div class="service-content">';
+						$get_c_infobox .= $get_c_title;
+				if ( ! empty( $display_border ) ) {
+						$get_c_infobox .= $get_c_border;
+				}
+								$get_c_infobox .= $get_c_desc;
+				if ( ! empty( $carousel_btn ) ) {
+							$get_c_infobox .= '<div class="infobox-btn-block ">' . $get_cbutton . '</div>';
+				}
+										$get_c_infobox .= '</div>';
+										$get_c_infobox .= '</div>';
+			}
+			if ( 'style-2' === $style_type ) {
+				$get_c_infobox         .= '<div class="service-media text-right ' . esc_attr( $vcenter ) . '">';
+					$get_c_infobox     .= '<div class="service-content">';
+						$get_c_infobox .= $get_c_title;
+				if ( ! empty( $display_border ) ) {
+					$get_c_infobox .= $get_c_border;
+				}
+						$get_c_infobox .= $get_c_desc;
+				if ( ! empty( $carousel_btn ) ) {
+						$get_c_infobox .= '<div class="infobox-btn-block ">' . $get_cbutton . '</div>';
+				}
+								$get_c_infobox .= '</div>';
+				if ( 'none' !== $item['iconType'] ) {
+					$get_c_infobox .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+					$get_c_infobox .= $get_c_icon;
+					$get_c_infobox .= '</div>';
+				}
+								$get_c_infobox .= '</div>';
+			}
+			if ( 'style-3' === $style_type ) {
+				$get_c_infobox     .= '<div class="text-alignment">';
+					$get_c_infobox .= '<div class="style-3">';
+				if ( 'none' !== $item['iconType'] ) {
+					$get_c_infobox .= $get_c_icon;
+				}
+						$get_c_infobox .= $get_c_title;
+				if ( ! empty( $display_border ) ) {
+					$get_c_infobox .= $get_c_border;
+				}
+						$get_c_infobox .= $get_c_desc;
+				if ( ! empty( $carousel_btn ) ) {
+					$get_c_infobox .= '<div class="infobox-btn-block ">' . $get_cbutton . '</div>';
+				}
+					$get_c_infobox     .= '</div>';
+						$get_c_infobox .= '</div>';
+			}
+			if ( 'style-4' === $style_type ) {
+				$get_c_infobox .= '<div class="service-media text-left ' . esc_attr( $vcenter ) . '">';
+				if ( 'none' !== $item['iconType'] ) {
+						$get_c_infobox     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+							$get_c_infobox .= $get_c_icon;
+						$get_c_infobox     .= '</div>';
+				}
+					$get_c_infobox     .= '<div class="service-content">' . $get_c_title . '</div>';
+						$get_c_infobox .= '</div>';
+				if ( ! empty( $display_border ) ) {
+							$get_c_infobox .= $get_c_border;
+				}
+								$get_c_infobox .= $get_c_desc;
+				if ( ! empty( $carousel_btn ) ) {
+					$get_c_infobox .= '<div class="infobox-btn-block ">' . $get_cbutton . '</div>';
+				}
+			}
+			if ( 'style-5' === $style_type ) {
+				$get_c_infobox .= '<div class="service-media  text-left">';
+				if ( 'none' !== $item['iconType'] ) {
+						$get_c_infobox     .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+							$get_c_infobox .= $get_c_icon;
+						$get_c_infobox     .= '</div>';
+				}
+					$get_c_infobox     .= '<div class="style-5-service-content">';
+						$get_c_infobox .= $get_c_title;
+				if ( ! empty( $display_border ) ) {
+					$get_c_infobox .= $get_c_border;
+				}
+						$get_c_infobox .= $get_c_desc;
+				if ( ! empty( $carousel_btn ) ) {
+					$get_c_infobox .= '<div class="infobox-btn-block ">' . $get_cbutton . '</div>';
+				}
+					$get_c_infobox     .= '</div>';
+						$get_c_infobox .= '</div>';
+			}
+			if ( 'style-6' === $style_type ) {
+				$get_c_infobox                 .= '<div class="style-6 text-center">';
+					$get_c_infobox             .= '<div class="info-box-all">';
+						$get_c_infobox         .= '<div class="info-box-wrapper">';
+							$get_c_infobox     .= '<div class="info-box-content">';
+								$get_c_infobox .= '<div class="info-box-icon-img">';
+				if ( 'none' !== $item['iconType'] ) {
+					$get_c_infobox .= '<div class="' . esc_attr( $mlr16 ) . ' ' . esc_attr( $sib ) . '">';
+					$get_c_infobox .= $get_c_icon;
+					$get_c_infobox .= '</div>';
+				}
+								$get_c_infobox .= '</div>';
+								$get_c_infobox .= $get_c_title;
+								$get_c_infobox .= '<div class="info-box-title-hide">' . wp_kses_post( $gtt_title ) . '</div>';
+				if ( ! empty( $display_border ) ) {
+					$get_c_infobox .= $get_c_border;
+				}
+									$get_c_infobox .= $get_c_desc;
+				if ( ! empty( $carousel_btn ) ) {
+						$get_c_infobox .= '<div class="infobox-btn-block ">' . $get_cbutton . '</div>';
+				}
+										$get_c_infobox .= '</div>';
+										$get_c_infobox .= '</div>';
+										$get_c_infobox .= '</div>';
+										$get_c_infobox .= '</div>';
+			}
+
+				$get_c_infobox .= '</div>';
+
+				$get_c_infobox .= '<div class="infobox-overlay-color tpgb-trans-linear"></div>';
+
+			$get_c_infobox .= '</div>';
 
 		endforeach;
 	}
 
-	return $getCInfobox;
+	return $get_c_infobox;
 }
 
 /**
  * Render for the server-side
  */
 function tpgb_tp_infobox() {
-	$block_data = Tpgb_Blocks_Global_Options::merge_options_json(__DIR__, 'tpgb_tp_infobox_render_callback', true, true, true);
+	$block_data = Tpgb_Blocks_Global_Options::merge_options_json( __DIR__, 'tpgb_tp_infobox_render_callback', true, true, true );
 	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_infobox' );

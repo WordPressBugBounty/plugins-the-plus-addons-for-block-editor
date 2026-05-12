@@ -39,8 +39,9 @@ class Tpgb_MCP_Abilities {
 	 */
 	public function __construct() {
 		// Only register if the toggle is ON.
-		$ext_option = get_option( 'tpgb_connection_data' );
-		if ( ! is_array( $ext_option ) || ( $ext_option['nxt_enable_mcp_abilities'] ?? '' ) !== 'enable' ) {
+		$mcp_option        = get_option( 'tpgb_connection_data', array() );
+		$mcp_ability_value = isset( $mcp_option['nxt_enable_mcp_abilities'] ) ? $mcp_option['nxt_enable_mcp_abilities'] : 'enable';
+		if ( 'enable' !== $mcp_ability_value ) {
 			return;
 		}
 

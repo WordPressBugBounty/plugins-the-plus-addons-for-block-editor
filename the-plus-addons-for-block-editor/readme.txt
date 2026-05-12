@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 4.0
 Tested up to: 6.9
-Stable tag: 4.7.8
+Stable tag: 4.7.9
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -319,6 +319,9 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.7.9 = 12 May 2026
+- Fix : Wp Abilities Minor Bug Fix.
 
 = 4.7.8 = 11 May 2026
 - Added   : 58 Wp Abilities Added for upcoming AI features.

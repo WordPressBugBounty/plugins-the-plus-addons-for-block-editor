@@ -16,7 +16,7 @@ wp_register_ability(
 	'nexter-blocks/add-tpgb-button',
 	array(
 		'label'               => __( 'Add Nexter Blocks Button', 'the-plus-addons-for-block-editor' ),
-		'description'         => __( 'Adds the Nexter Blocks Button block (tpgb/tp-button) with 23 style presets, icon support, hover effects, typography, colours, backgrounds, borders, shadows, shake animation, content hover effects, modal popup, animations, transforms, and advanced settings. This is a dynamic block — HTML is rendered server-side.', 'the-plus-addons-for-block-editor' ),
+		'description'         => __( 'Adds the Nexter Blocks Button block (tpgb/tp-button) with 23 style presets, icon support, hover effects, typography, colours, backgrounds, borders, shadows, shake animation, content hover effects, modal popup, animations, transforms, and advanced settings. Typography is set via top-level params (enableTypography, fontFamily, fontType, fontWeight, textDecoration, typoSize) — pass them directly here, do not route them through settings.texTyp. This is a dynamic block — HTML is rendered server-side.', 'the-plus-addons-for-block-editor' ),
 		'category'            => 'nexter-blocks',
 
 		'input_schema'        => array(
@@ -589,6 +589,17 @@ wp_register_ability(
 					'description' => 'Custom (non-Google) font name. Overrides fontFamily.',
 					'default'     => '',
 				),
+				'fontWeight'          => array(
+					'type'        => 'string',
+					'description' => 'Font weight as a string: "100" Thin, "200" Extra Light, "300" Light, "400" Regular (default), "500" Medium, "600" Semi Bold, "700" Bold, "800" Extra Bold, "900" Black. Embedded inside texTyp.fontFamily.fontWeight. Requires enableTypography=true and no preset.',
+					'default'     => '',
+				),
+				'textDecoration'      => array(
+					'type'        => 'string',
+					'enum'        => array( '', 'none', 'underline', 'overline', 'line-through' ),
+					'description' => 'Text decoration applied to the button label. Stored as texTyp.textDecoration. Requires enableTypography=true and no preset.',
+					'default'     => '',
+				),
 			),
 			'required'             => array( 'post_id' ),
 			'additionalProperties' => false,
@@ -931,6 +942,7 @@ function tpgb_mcp_add_button_ability( array $input ) {
 		if ( ! empty( $input['typoGlobalPreset'] ) ) {
 			$tex_typ['globalTypo'] = sanitize_text_field( $input['typoGlobalPreset'] );
 		}
+		$tex_typ         = tpgb_mcp_apply_typo_extras( $tex_typ, $input );
 		$attrs['texTyp'] = $tex_typ;
 	}
 

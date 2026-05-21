@@ -110,14 +110,19 @@ function tpgb_mcp_font_family_attr( array $input ) {
 	$family   = isset( $input['fontFamily'] ) ? sanitize_text_field( (string) $input['fontFamily'] ) : '';
 	$type     = isset( $input['fontType'] ) ? sanitize_text_field( (string) $input['fontType'] ) : '';
 	$custom_f = isset( $input['customFont'] ) ? sanitize_text_field( (string) $input['customFont'] ) : '';
-	if ( '' === $family && '' === $custom_f ) {
+	$weight   = isset( $input['fontWeight'] ) ? sanitize_text_field( (string) $input['fontWeight'] ) : '';
+	if ( '' === $family && '' === $custom_f && '' === $weight ) {
 		return (object) array();
 	}
-	return array(
+	$attr = array(
 		'family'     => $family,
 		'type'       => $type,
 		'customFont' => $custom_f,
 	);
+	if ( '' !== $weight ) {
+		$attr['fontWeight'] = $weight;
+	}
+	return $attr;
 }
 
 /**
@@ -125,23 +130,117 @@ function tpgb_mcp_font_family_attr( array $input ) {
  * ability should expose. Spread into a schema's `properties` map with the
  * spread operator: `'properties' => [ ...tpgb_mcp_font_family_schema(), ... ]`.
  *
- * @return array Schema properties for fontFamily, fontType, customFont.
+ * @return array Schema properties for fontFamily, fontType, customFont, fontWeight, textDecoration.
  */
 function tpgb_mcp_font_family_schema(): array {
 	return array(
-		'fontFamily' => array(
+		'fontFamily'     => array(
 			'type'        => 'string',
 			'description' => 'Font family name (e.g. "Inter", "Roboto", "Playfair Display"). Used as a Google Font when available. When inspecting a URL with nexter-blocks/inspect-page, pass the returned fonts[].family value verbatim.',
 			'default'     => '',
 		),
-		'fontType'   => array(
+		'fontType'       => array(
 			'type'        => 'string',
 			'description' => 'Font category — "sans-serif", "serif", "display", "handwriting", or "monospace". Optional but improves Google-Fonts URL accuracy.',
 			'default'     => '',
 		),
-		'customFont' => array(
+		'customFont'     => array(
 			'type'        => 'string',
 			'description' => 'Custom (non-Google) font name. When set, this overrides fontFamily.',
+			'default'     => '',
+		),
+		'fontWeight'     => array(
+			'type'        => 'string',
+			'description' => 'Font weight as a string: "100" Thin, "200" Extra Light, "300" Light, "400" Regular (default), "500" Medium, "600" Semi Bold, "700" Bold, "800" Extra Bold, "900" Black. Pass alongside fontFamily — it is embedded inside the tTypo.fontFamily.fontWeight slot.',
+			'default'     => '',
+		),
+		'textDecoration' => array(
+			'type'        => 'string',
+			'enum'        => array( '', 'none', 'underline', 'overline', 'line-through' ),
+			'description' => 'Text decoration applied to the block typography. Stored as tTypo.textDecoration (sibling of fontFamily). Leave empty to inherit.',
+			'default'     => '',
+		),
+	);
+}
+
+/**
+ * Apply optional typography extras (textDecoration) onto a built typo array.
+ *
+ * Each ability builds its own typo attribute (tTypo / titleTypo / texTyp / …)
+ * with fontFamily already resolved via tpgb_mcp_font_family_attr(). Call this
+ * right after assembling that array to attach textDecoration when the caller
+ * provided it. Sibling of fontFamily — not nested inside it.
+ *
+ * @param array $typo  Built typo attribute array (modified in place).
+ * @param array $input Ability input arguments — only textDecoration is read.
+ * @return array The typo array (returned for chained assignment convenience).
+ */
+function tpgb_mcp_apply_typo_extras( array $typo, array $input ): array {
+	$decoration = isset( $input['textDecoration'] ) ? sanitize_text_field( (string) $input['textDecoration'] ) : '';
+	if ( '' !== $decoration ) {
+		$typo['textDecoration'] = $decoration;
+	}
+	return $typo;
+}
+
+/**
+ * Apply textDecoration to every typo-shaped attribute already in $attrs.
+ *
+ * Multi-typo-group abilities (infobox, pricing-table, accordion, …) build
+ * several typo arrays from the same shared $input. Rather than wrap each
+ * assignment with tpgb_mcp_apply_typo_extras() one by one, the ability
+ * builds all its typos first and then calls this helper once before
+ * merging the raw-settings override. Auto-detection: anything in $attrs
+ * that looks like a typo array (has both openTypography and fontFamily
+ * keys) gets textDecoration attached. Top-level shared input — for
+ * per-group control, callers must use the settings raw override or
+ * sprout/update-element.
+ *
+ * No-op when the caller did not pass textDecoration.
+ *
+ * @param array $attrs Block attributes built so far (passed by reference).
+ * @param array $input Ability input arguments — only textDecoration is read.
+ * @return void
+ */
+function tpgb_mcp_apply_typo_decoration( array &$attrs, array $input ): void {
+	$decoration = isset( $input['textDecoration'] ) ? sanitize_text_field( (string) $input['textDecoration'] ) : '';
+	if ( '' === $decoration ) {
+		return;
+	}
+	foreach ( $attrs as &$value ) {
+		if ( is_array( $value ) && array_key_exists( 'openTypography', $value ) && array_key_exists( 'fontFamily', $value ) ) {
+			$value['textDecoration'] = $decoration;
+		}
+	}
+	unset( $value );
+}
+
+/**
+ * Schema fragment for the two shared typography extras (fontWeight,
+ * textDecoration) that every multi-typo-group block should expose at the
+ * top level. Spread into a schema's `properties` map alongside the existing
+ * fontFamily/fontType/customFont entries:
+ *
+ *   'properties' => array_merge( $schema, tpgb_mcp_typo_extras_schema() ).
+ *
+ * fontWeight is read by tpgb_mcp_font_family_attr() and embedded inside
+ * fontFamily.fontWeight. textDecoration is read by
+ * tpgb_mcp_apply_typo_decoration() and stamped as a sibling of fontFamily
+ * onto every typo array in the block.
+ *
+ * @return array Schema properties for fontWeight + textDecoration.
+ */
+function tpgb_mcp_typo_extras_schema(): array {
+	return array(
+		'fontWeight'     => array(
+			'type'        => 'string',
+			'description' => 'Font weight applied to every typography group on this block (e.g. "300", "400", "700", "900"). Embedded inside each typo group\'s fontFamily.fontWeight. For per-group control use the settings raw override or sprout/update-element.',
+			'default'     => '',
+		),
+		'textDecoration' => array(
+			'type'        => 'string',
+			'enum'        => array( '', 'none', 'underline', 'overline', 'line-through' ),
+			'description' => 'Text decoration applied to every typography group on this block. Stamped as a sibling of fontFamily inside each typo array. For per-group control use the settings raw override or sprout/update-element.',
 			'default'     => '',
 		),
 	);

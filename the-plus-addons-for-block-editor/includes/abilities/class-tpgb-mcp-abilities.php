@@ -18,12 +18,12 @@ class Tpgb_MCP_Abilities {
 	/**
 	 * Singleton instance.
 	 *
-	 * @var Tpgb_MCP_Abilities|null
+	 * @var ?Tpgb_MCP_Abilities
 	 */
 	private static $instance;
 
 	/**
-	 * Retrieve the singleton instance.
+	 * Gets the singleton instance of the class.
 	 *
 	 * @return Tpgb_MCP_Abilities
 	 */
@@ -35,10 +35,12 @@ class Tpgb_MCP_Abilities {
 	}
 
 	/**
-	 * Hook ability registration onto the WP Abilities API actions.
+	 * Constructor.
+	 *
+	 * Initializes MCP abilities if enabled in the plugin options and hooks
+	 * registration callbacks into the abilities API.
 	 */
 	public function __construct() {
-		// Only register if the toggle is ON.
 		$mcp_option        = get_option( 'tpgb_connection_data', array() );
 		$mcp_ability_value = isset( $mcp_option['nxt_enable_mcp_abilities'] ) ? $mcp_option['nxt_enable_mcp_abilities'] : 'enable';
 		if ( 'enable' !== $mcp_ability_value ) {
@@ -50,7 +52,9 @@ class Tpgb_MCP_Abilities {
 	}
 
 	/**
-	 * Register the "nexter-blocks" ability category.
+	 * Registers ability categories for Nexter Blocks and Nexter Blocks Pro.
+	 *
+	 * @return void
 	 */
 	public function register_categories(): void {
 		wp_register_ability_category(
@@ -60,76 +64,157 @@ class Tpgb_MCP_Abilities {
 				'description' => __( 'Nexter Blocks Gutenberg abilities.', 'the-plus-addons-for-block-editor' ),
 			)
 		);
+
+		if ( defined( 'TPGBP_VERSION' ) && defined( 'TPGBP_PATH' ) ) {
+			wp_register_ability_category(
+				'nexter-blocks-pro',
+				array(
+					'label'       => __( 'Nexter Blocks Pro', 'the-plus-addons-for-block-editor' ),
+					'description' => __( 'Nexter Blocks Pro procedural skill guides for orchestrating builds when the pro plugin is active.', 'the-plus-addons-for-block-editor' ),
+				)
+			);
+		}
 	}
 
 	/**
-	 * Load every ability file so each can call wp_register_ability().
+	 * Registers MCP abilities by loading ability files for both free and pro versions.
+	 *
+	 * @return void
 	 */
 	public function register_abilities(): void {
-		// Load helpers.
-		require_once TPGB_PATH . 'includes/abilities/helpers.php';
+		$base = TPGB_PATH . 'includes/abilities/';
 
-		// Skill / guide abilities (procedural workflows for MCP clients).
-		// get-performance-skill is loaded FIRST so its ability is registered
-		// before everything else and clients are nudged to call it first —
-		// nexter-blocks/get-image-to-page-skill's description explicitly tells
-		// clients the performance skill must already have run for the session.
-		require_once TPGB_PATH . 'includes/abilities/get-performance-skill.php';
-		require_once TPGB_PATH . 'includes/abilities/get-image-to-page-skill.php';
-		require_once TPGB_PATH . 'includes/abilities/get-doc-creator-skill.php';
-		require_once TPGB_PATH . 'includes/abilities/inspect-page.php';
+		require_once $base . 'helpers.php';
 
-		// Load individual abilities.
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-accordion.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-blockquote.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-heading.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-breadcrumbs.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-button.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-button-core.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-button-preset-crud.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-code-highlighter.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-container.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-container-inner.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-countdown.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-creative-image.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-dark-mode.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-data-table.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-draw-svg.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-flipbox.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-form-block.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-form-fields.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-google-map.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-heading-title.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-hovercard.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-icon-box.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-image.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-infobox.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-interactive-circle-info.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-messagebox.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-navigation-builder.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-number-counter.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-pricing-list.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-pricing-table.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-pro-paragraph.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-progress-bar.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-post-author.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-post-comment.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-post-content.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-post-image.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-post-listing.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-post-meta.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-post-title.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-progress-tracker.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-search-bar.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-site-logo.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-smooth-scroll.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-social-embed.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-social-icons.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-stylist-list.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-switcher.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-tabs-tours.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-team-listing.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-testimonials.php';
-		require_once TPGB_PATH . 'includes/abilities/add-tpgb-video.php';
+		// Skills loaded first — performance skill must run before others, typography skill must run right after performance.
+		foreach ( array( 'get-performance-skill', 'get-typography-skill', 'get-image-to-page-skill', 'get-doc-creator-skill', 'inspect-page' ) as $f ) {
+			require_once $base . $f . '.php';
+		}
+
+		foreach ( array(
+			'add-tpgb-accordion',
+			'add-tpgb-blockquote',
+			'add-tpgb-heading',
+			'add-tpgb-breadcrumbs',
+			'add-tpgb-button',
+			'add-tpgb-button-core',
+			'add-tpgb-button-preset-crud',
+			'add-tpgb-code-highlighter',
+			'add-tpgb-container',
+			'add-tpgb-container-inner',
+			'add-tpgb-countdown',
+			'add-tpgb-creative-image',
+			'add-tpgb-dark-mode',
+			'add-tpgb-data-table',
+			'add-tpgb-draw-svg',
+			'add-tpgb-flipbox',
+			'add-tpgb-form-block',
+			'add-tpgb-form-fields',
+			'add-tpgb-google-map',
+			'add-tpgb-heading-title',
+			'add-tpgb-hovercard',
+			'add-tpgb-icon-box',
+			'add-tpgb-image',
+			'add-tpgb-infobox',
+			'add-tpgb-interactive-circle-info',
+			'add-tpgb-messagebox',
+			'add-tpgb-navigation-builder',
+			'add-tpgb-number-counter',
+			'add-tpgb-pricing-list',
+			'add-tpgb-pricing-table',
+			'add-tpgb-pro-paragraph',
+			'add-tpgb-progress-bar',
+			'add-tpgb-post-author',
+			'add-tpgb-post-comment',
+			'add-tpgb-post-content',
+			'add-tpgb-post-image',
+			'add-tpgb-post-listing',
+			'add-tpgb-post-meta',
+			'add-tpgb-post-title',
+			'add-tpgb-progress-tracker',
+			'add-tpgb-search-bar',
+			'add-tpgb-site-logo',
+			'add-tpgb-smooth-scroll',
+			'add-tpgb-social-embed',
+			'add-tpgb-social-icons',
+			'add-tpgb-stylist-list',
+			'add-tpgb-switcher',
+			'add-tpgb-tabs-tours',
+			'add-tpgb-team-listing',
+			'add-tpgb-testimonials',
+			'add-tpgb-video',
+		) as $f ) {
+			require_once $base . $f . '.php';
+		}
+
+		if ( ! defined( 'TPGBP_VERSION' ) || ! defined( 'TPGBP_PATH' ) ) {
+			return;
+		}
+
+		$pro = TPGBP_PATH . 'includes/abilities/';
+
+		$pro_helpers = $pro . 'helpers.php';
+		if ( file_exists( $pro_helpers ) ) {
+			require_once $pro_helpers;
+		}
+
+		foreach ( array( 'get-performance-skill', 'get-typography-skill', 'get-image-to-page-skill', 'get-doc-creator-skill' ) as $f ) {
+			$path = $pro . $f . '.php';
+			if ( file_exists( $path ) ) {
+				require_once $path;
+			}
+		}
+
+		foreach ( array(
+			'add-tpgb-accordion-inner',
+			'add-tpgb-advanced-buttons',
+			'add-tpgb-advanced-chart',
+			'add-tpgb-adv-typo',
+			'add-tpgb-animated-service-boxes',
+			'add-tpgb-anything-carousel',
+			'add-tpgb-anything-slide',
+			'add-tpgb-audio-player',
+			'add-tpgb-before-after',
+			'add-tpgb-carousel-remote',
+			'add-tpgb-circle-menu',
+			'add-tpgb-column',
+			'add-tpgb-coupon-code',
+			'add-tpgb-cta-banner',
+			'add-tpgb-design-tool',
+			'add-tpgb-dynamic-category',
+			'add-tpgb-dynamic-device',
+			'add-tpgb-expand',
+			'add-tpgb-free-shipping-progress-bar',
+			'add-tpgb-heading-animation',
+			'add-tpgb-hotspot',
+			'add-tpgb-login-register',
+			'add-tpgb-lottiefiles',
+			'add-tpgb-mailchimp',
+			'add-tpgb-media-listing',
+			'add-tpgb-mobile-menu',
+			'add-tpgb-mouse-cursor',
+			'add-tpgb-popup-builder',
+			'add-tpgb-post-navigation',
+			'add-tpgb-preloader',
+			'add-tpgb-process-steps',
+			'add-tpgb-product-listing',
+			'add-tpgb-repeater-block',
+			'add-tpgb-scroll-navigation',
+			'add-tpgb-scroll-sequence',
+			'add-tpgb-social-feed',
+			'add-tpgb-social-reviews',
+			'add-tpgb-social-sharing',
+			'add-tpgb-spline-3d-viewer',
+			'add-tpgb-switch-inner',
+			'add-tpgb-tab-item',
+			'add-tpgb-table-content',
+			'add-tpgb-timeline',
+			'add-tpgb-timeline-inner',
+		) as $f ) {
+			$path = $pro . $f . '.php';
+			if ( file_exists( $path ) ) {
+				require_once $path;
+			}
+		}
 	}
 }

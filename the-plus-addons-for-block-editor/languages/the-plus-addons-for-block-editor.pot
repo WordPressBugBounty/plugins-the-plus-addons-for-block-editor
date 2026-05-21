@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.7.9\n"
+"Project-Id-Version: Nexter Blocks 4.7.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-12T10:10:18+00:00\n"
+"POT-Creation-Date: 2026-05-21T03:57:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -17,7 +17,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: the-plus-addons-for-block-editor.php
 #: classes/tp-core-init-blocks.php:170
-#: includes/abilities/class-tpgb-mcp-abilities.php:59
+#: includes/abilities/class-tpgb-mcp-abilities.php:63
 #: dashboard/build/index.js:2
 msgid "Nexter Blocks"
 msgstr ""
@@ -849,83 +849,26 @@ msgstr ""
 msgid "Adds the Nexter Blocks Accordion block (tpgb/tp-accordion) with full support for all style, layout, animation, transform, and advanced settings."
 msgstr ""
 
-#: includes/abilities/add-tpgb-accordion.php:888
-#: includes/abilities/add-tpgb-blockquote.php:797
-#: includes/abilities/add-tpgb-breadcrumbs.php:877
-#: includes/abilities/add-tpgb-button-core.php:698
-#: includes/abilities/add-tpgb-button.php:807
+#: includes/abilities/add-tpgb-accordion.php:911
+#: includes/abilities/add-tpgb-blockquote.php:808
+#: includes/abilities/add-tpgb-breadcrumbs.php:888
+#: includes/abilities/add-tpgb-button-core.php:709
+#: includes/abilities/add-tpgb-button.php:818
 #: includes/abilities/add-tpgb-code-highlighter.php:691
 #: includes/abilities/add-tpgb-container-inner.php:400
 #: includes/abilities/add-tpgb-container.php:441
-#: includes/abilities/add-tpgb-countdown.php:744
-#: includes/abilities/add-tpgb-creative-image.php:620
-#: includes/abilities/add-tpgb-dark-mode.php:654
-#: includes/abilities/add-tpgb-data-table.php:798
-#: includes/abilities/add-tpgb-draw-svg.php:546
-#: includes/abilities/add-tpgb-flipbox.php:844
-#: includes/abilities/add-tpgb-form-block.php:862
-#: includes/abilities/add-tpgb-google-map.php:573
-#: includes/abilities/add-tpgb-heading-title.php:795
-#: includes/abilities/add-tpgb-heading.php:735
-#: includes/abilities/add-tpgb-hovercard.php:618
-#: includes/abilities/add-tpgb-icon-box.php:559
-#: includes/abilities/add-tpgb-image.php:654
-#: includes/abilities/add-tpgb-infobox.php:962
-#: includes/abilities/add-tpgb-interactive-circle-info.php:823
-#: includes/abilities/add-tpgb-messagebox.php:749
-#: includes/abilities/add-tpgb-navigation-builder.php:747
-#: includes/abilities/add-tpgb-number-counter.php:792
-#: includes/abilities/add-tpgb-post-author.php:675
-#: includes/abilities/add-tpgb-post-comment.php:778
-#: includes/abilities/add-tpgb-post-content.php:591
-#: includes/abilities/add-tpgb-post-image.php:577
-#: includes/abilities/add-tpgb-post-listing.php:708
-#: includes/abilities/add-tpgb-post-meta.php:578
-#: includes/abilities/add-tpgb-post-title.php:433
-#: includes/abilities/add-tpgb-pricing-list.php:740
-#: includes/abilities/add-tpgb-pricing-table.php:963
-#: includes/abilities/add-tpgb-pro-paragraph.php:792
-#: includes/abilities/add-tpgb-progress-bar.php:694
-#: includes/abilities/add-tpgb-progress-tracker.php:550
-#: includes/abilities/add-tpgb-search-bar.php:827
-#: includes/abilities/add-tpgb-site-logo.php:470
-#: includes/abilities/add-tpgb-smooth-scroll.php:175
-#: includes/abilities/add-tpgb-social-embed.php:769
-#: includes/abilities/add-tpgb-social-icons.php:505
-#: includes/abilities/add-tpgb-stylist-list.php:645
-#: includes/abilities/add-tpgb-switcher.php:490
-#: includes/abilities/add-tpgb-tabs-tours.php:600
-#: includes/abilities/add-tpgb-team-listing.php:550
-#: includes/abilities/add-tpgb-testimonials.php:566
-#: includes/abilities/add-tpgb-video.php:589
-msgid "Nexter Blocks must be active."
-msgstr ""
-
-#: includes/abilities/add-tpgb-accordion.php:894
-msgid "tpgb/tp-accordion is not registered."
-msgstr ""
-
-#: includes/abilities/add-tpgb-accordion.php:901
-#: includes/abilities/add-tpgb-blockquote.php:810
-#: includes/abilities/add-tpgb-breadcrumbs.php:890
-#: includes/abilities/add-tpgb-button-core.php:711
-#: includes/abilities/add-tpgb-button.php:820
-#: includes/abilities/add-tpgb-code-highlighter.php:704
-#: includes/abilities/add-tpgb-container-inner.php:413
-#: includes/abilities/add-tpgb-container.php:454
 #: includes/abilities/add-tpgb-countdown.php:755
-#: includes/abilities/add-tpgb-creative-image.php:631
+#: includes/abilities/add-tpgb-creative-image.php:620
 #: includes/abilities/add-tpgb-dark-mode.php:665
 #: includes/abilities/add-tpgb-data-table.php:809
-#: includes/abilities/add-tpgb-draw-svg.php:557
+#: includes/abilities/add-tpgb-draw-svg.php:546
 #: includes/abilities/add-tpgb-flipbox.php:855
 #: includes/abilities/add-tpgb-form-block.php:873
-#: includes/abilities/add-tpgb-form-fields.php:59
-#: includes/abilities/add-tpgb-google-map.php:584
+#: includes/abilities/add-tpgb-google-map.php:573
 #: includes/abilities/add-tpgb-heading-title.php:806
-#: includes/abilities/add-tpgb-heading.php:748
-#: includes/abilities/add-tpgb-hovercard.php:629
-#: includes/abilities/add-tpgb-icon-box.php:570
+#: includes/abilities/add-tpgb-heading.php:746
+#: includes/abilities/add-tpgb-hovercard.php:618
+#: includes/abilities/add-tpgb-icon-box.php:559
 #: includes/abilities/add-tpgb-image.php:665
 #: includes/abilities/add-tpgb-infobox.php:973
 #: includes/abilities/add-tpgb-interactive-circle-info.php:834
@@ -935,7 +878,7 @@ msgstr ""
 #: includes/abilities/add-tpgb-post-author.php:686
 #: includes/abilities/add-tpgb-post-comment.php:789
 #: includes/abilities/add-tpgb-post-content.php:602
-#: includes/abilities/add-tpgb-post-image.php:588
+#: includes/abilities/add-tpgb-post-image.php:577
 #: includes/abilities/add-tpgb-post-listing.php:719
 #: includes/abilities/add-tpgb-post-meta.php:589
 #: includes/abilities/add-tpgb-post-title.php:444
@@ -945,9 +888,9 @@ msgstr ""
 #: includes/abilities/add-tpgb-progress-bar.php:705
 #: includes/abilities/add-tpgb-progress-tracker.php:561
 #: includes/abilities/add-tpgb-search-bar.php:838
-#: includes/abilities/add-tpgb-site-logo.php:481
-#: includes/abilities/add-tpgb-smooth-scroll.php:186
-#: includes/abilities/add-tpgb-social-embed.php:780
+#: includes/abilities/add-tpgb-site-logo.php:470
+#: includes/abilities/add-tpgb-smooth-scroll.php:175
+#: includes/abilities/add-tpgb-social-embed.php:769
 #: includes/abilities/add-tpgb-social-icons.php:516
 #: includes/abilities/add-tpgb-stylist-list.php:656
 #: includes/abilities/add-tpgb-switcher.php:501
@@ -955,112 +898,169 @@ msgstr ""
 #: includes/abilities/add-tpgb-team-listing.php:561
 #: includes/abilities/add-tpgb-testimonials.php:577
 #: includes/abilities/add-tpgb-video.php:600
+msgid "Nexter Blocks must be active."
+msgstr ""
+
+#: includes/abilities/add-tpgb-accordion.php:917
+msgid "tpgb/tp-accordion is not registered."
+msgstr ""
+
+#: includes/abilities/add-tpgb-accordion.php:924
+#: includes/abilities/add-tpgb-blockquote.php:821
+#: includes/abilities/add-tpgb-breadcrumbs.php:901
+#: includes/abilities/add-tpgb-button-core.php:722
+#: includes/abilities/add-tpgb-button.php:831
+#: includes/abilities/add-tpgb-code-highlighter.php:704
+#: includes/abilities/add-tpgb-container-inner.php:413
+#: includes/abilities/add-tpgb-container.php:454
+#: includes/abilities/add-tpgb-countdown.php:766
+#: includes/abilities/add-tpgb-creative-image.php:631
+#: includes/abilities/add-tpgb-dark-mode.php:676
+#: includes/abilities/add-tpgb-data-table.php:820
+#: includes/abilities/add-tpgb-draw-svg.php:557
+#: includes/abilities/add-tpgb-flipbox.php:866
+#: includes/abilities/add-tpgb-form-block.php:884
+#: includes/abilities/add-tpgb-form-fields.php:59
+#: includes/abilities/add-tpgb-google-map.php:584
+#: includes/abilities/add-tpgb-heading-title.php:817
+#: includes/abilities/add-tpgb-heading.php:759
+#: includes/abilities/add-tpgb-hovercard.php:629
+#: includes/abilities/add-tpgb-icon-box.php:570
+#: includes/abilities/add-tpgb-image.php:676
+#: includes/abilities/add-tpgb-infobox.php:984
+#: includes/abilities/add-tpgb-interactive-circle-info.php:845
+#: includes/abilities/add-tpgb-messagebox.php:771
+#: includes/abilities/add-tpgb-navigation-builder.php:769
+#: includes/abilities/add-tpgb-number-counter.php:814
+#: includes/abilities/add-tpgb-post-author.php:697
+#: includes/abilities/add-tpgb-post-comment.php:800
+#: includes/abilities/add-tpgb-post-content.php:613
+#: includes/abilities/add-tpgb-post-image.php:588
+#: includes/abilities/add-tpgb-post-listing.php:730
+#: includes/abilities/add-tpgb-post-meta.php:600
+#: includes/abilities/add-tpgb-post-title.php:455
+#: includes/abilities/add-tpgb-pricing-list.php:762
+#: includes/abilities/add-tpgb-pricing-table.php:985
+#: includes/abilities/add-tpgb-pro-paragraph.php:814
+#: includes/abilities/add-tpgb-progress-bar.php:716
+#: includes/abilities/add-tpgb-progress-tracker.php:572
+#: includes/abilities/add-tpgb-search-bar.php:849
+#: includes/abilities/add-tpgb-site-logo.php:481
+#: includes/abilities/add-tpgb-smooth-scroll.php:186
+#: includes/abilities/add-tpgb-social-embed.php:780
+#: includes/abilities/add-tpgb-social-icons.php:527
+#: includes/abilities/add-tpgb-stylist-list.php:667
+#: includes/abilities/add-tpgb-switcher.php:512
+#: includes/abilities/add-tpgb-tabs-tours.php:622
+#: includes/abilities/add-tpgb-team-listing.php:572
+#: includes/abilities/add-tpgb-testimonials.php:588
+#: includes/abilities/add-tpgb-video.php:611
 msgid "post_id is required."
 msgstr ""
 
-#: includes/abilities/add-tpgb-accordion.php:906
-#: includes/abilities/add-tpgb-blockquote.php:815
-#: includes/abilities/add-tpgb-breadcrumbs.php:895
-#: includes/abilities/add-tpgb-button-core.php:716
-#: includes/abilities/add-tpgb-button.php:825
+#: includes/abilities/add-tpgb-accordion.php:929
+#: includes/abilities/add-tpgb-blockquote.php:826
+#: includes/abilities/add-tpgb-breadcrumbs.php:906
+#: includes/abilities/add-tpgb-button-core.php:727
+#: includes/abilities/add-tpgb-button.php:836
 #: includes/abilities/add-tpgb-code-highlighter.php:708
 #: includes/abilities/add-tpgb-container-inner.php:418
 #: includes/abilities/add-tpgb-container.php:458
-#: includes/abilities/add-tpgb-countdown.php:759
+#: includes/abilities/add-tpgb-countdown.php:770
 #: includes/abilities/add-tpgb-creative-image.php:635
-#: includes/abilities/add-tpgb-dark-mode.php:669
-#: includes/abilities/add-tpgb-data-table.php:813
+#: includes/abilities/add-tpgb-dark-mode.php:680
+#: includes/abilities/add-tpgb-data-table.php:824
 #: includes/abilities/add-tpgb-draw-svg.php:561
-#: includes/abilities/add-tpgb-flipbox.php:859
-#: includes/abilities/add-tpgb-form-block.php:877
+#: includes/abilities/add-tpgb-flipbox.php:870
+#: includes/abilities/add-tpgb-form-block.php:888
 #: includes/abilities/add-tpgb-form-fields.php:64
 #: includes/abilities/add-tpgb-google-map.php:588
-#: includes/abilities/add-tpgb-heading-title.php:810
-#: includes/abilities/add-tpgb-heading.php:753
+#: includes/abilities/add-tpgb-heading-title.php:821
+#: includes/abilities/add-tpgb-heading.php:764
 #: includes/abilities/add-tpgb-hovercard.php:633
 #: includes/abilities/add-tpgb-icon-box.php:574
-#: includes/abilities/add-tpgb-image.php:669
-#: includes/abilities/add-tpgb-infobox.php:977
-#: includes/abilities/add-tpgb-interactive-circle-info.php:838
-#: includes/abilities/add-tpgb-messagebox.php:764
-#: includes/abilities/add-tpgb-navigation-builder.php:762
-#: includes/abilities/add-tpgb-number-counter.php:807
-#: includes/abilities/add-tpgb-post-author.php:690
-#: includes/abilities/add-tpgb-post-comment.php:793
-#: includes/abilities/add-tpgb-post-content.php:606
+#: includes/abilities/add-tpgb-image.php:680
+#: includes/abilities/add-tpgb-infobox.php:988
+#: includes/abilities/add-tpgb-interactive-circle-info.php:849
+#: includes/abilities/add-tpgb-messagebox.php:775
+#: includes/abilities/add-tpgb-navigation-builder.php:773
+#: includes/abilities/add-tpgb-number-counter.php:818
+#: includes/abilities/add-tpgb-post-author.php:701
+#: includes/abilities/add-tpgb-post-comment.php:804
+#: includes/abilities/add-tpgb-post-content.php:617
 #: includes/abilities/add-tpgb-post-image.php:592
-#: includes/abilities/add-tpgb-post-listing.php:723
-#: includes/abilities/add-tpgb-post-meta.php:593
-#: includes/abilities/add-tpgb-post-title.php:448
-#: includes/abilities/add-tpgb-pricing-list.php:755
-#: includes/abilities/add-tpgb-pricing-table.php:978
-#: includes/abilities/add-tpgb-pro-paragraph.php:807
-#: includes/abilities/add-tpgb-progress-bar.php:709
-#: includes/abilities/add-tpgb-progress-tracker.php:565
-#: includes/abilities/add-tpgb-search-bar.php:842
+#: includes/abilities/add-tpgb-post-listing.php:734
+#: includes/abilities/add-tpgb-post-meta.php:604
+#: includes/abilities/add-tpgb-post-title.php:459
+#: includes/abilities/add-tpgb-pricing-list.php:766
+#: includes/abilities/add-tpgb-pricing-table.php:989
+#: includes/abilities/add-tpgb-pro-paragraph.php:818
+#: includes/abilities/add-tpgb-progress-bar.php:720
+#: includes/abilities/add-tpgb-progress-tracker.php:576
+#: includes/abilities/add-tpgb-search-bar.php:853
 #: includes/abilities/add-tpgb-site-logo.php:485
 #: includes/abilities/add-tpgb-smooth-scroll.php:190
 #: includes/abilities/add-tpgb-social-embed.php:784
-#: includes/abilities/add-tpgb-social-icons.php:520
-#: includes/abilities/add-tpgb-stylist-list.php:660
-#: includes/abilities/add-tpgb-switcher.php:505
-#: includes/abilities/add-tpgb-tabs-tours.php:615
-#: includes/abilities/add-tpgb-team-listing.php:565
-#: includes/abilities/add-tpgb-testimonials.php:581
-#: includes/abilities/add-tpgb-video.php:604
+#: includes/abilities/add-tpgb-social-icons.php:531
+#: includes/abilities/add-tpgb-stylist-list.php:671
+#: includes/abilities/add-tpgb-switcher.php:516
+#: includes/abilities/add-tpgb-tabs-tours.php:626
+#: includes/abilities/add-tpgb-team-listing.php:576
+#: includes/abilities/add-tpgb-testimonials.php:592
+#: includes/abilities/add-tpgb-video.php:615
 msgid "Target post not found."
 msgstr ""
 
-#: includes/abilities/add-tpgb-accordion.php:1277
-#: includes/abilities/add-tpgb-blockquote.php:1173
-#: includes/abilities/add-tpgb-breadcrumbs.php:1306
-#: includes/abilities/add-tpgb-button-core.php:1069
-#: includes/abilities/add-tpgb-button.php:1220
+#: includes/abilities/add-tpgb-accordion.php:1301
+#: includes/abilities/add-tpgb-blockquote.php:1185
+#: includes/abilities/add-tpgb-breadcrumbs.php:1318
+#: includes/abilities/add-tpgb-button-core.php:1081
+#: includes/abilities/add-tpgb-button.php:1232
 #: includes/abilities/add-tpgb-code-highlighter.php:1018
 #: includes/abilities/add-tpgb-container-inner.php:592
 #: includes/abilities/add-tpgb-container.php:842
-#: includes/abilities/add-tpgb-countdown.php:1103
+#: includes/abilities/add-tpgb-countdown.php:1115
 #: includes/abilities/add-tpgb-creative-image.php:925
-#: includes/abilities/add-tpgb-dark-mode.php:992
-#: includes/abilities/add-tpgb-data-table.php:1190
+#: includes/abilities/add-tpgb-dark-mode.php:1004
+#: includes/abilities/add-tpgb-data-table.php:1202
 #: includes/abilities/add-tpgb-draw-svg.php:815
-#: includes/abilities/add-tpgb-flipbox.php:1309
-#: includes/abilities/add-tpgb-form-block.php:1338
+#: includes/abilities/add-tpgb-flipbox.php:1321
+#: includes/abilities/add-tpgb-form-block.php:1350
 #: includes/abilities/add-tpgb-form-fields.php:89
 #: includes/abilities/add-tpgb-google-map.php:844
-#: includes/abilities/add-tpgb-heading-title.php:1211
-#: includes/abilities/add-tpgb-heading.php:1164
+#: includes/abilities/add-tpgb-heading-title.php:1223
+#: includes/abilities/add-tpgb-heading.php:1166
 #: includes/abilities/add-tpgb-hovercard.php:832
 #: includes/abilities/add-tpgb-icon-box.php:840
-#: includes/abilities/add-tpgb-image.php:1005
-#: includes/abilities/add-tpgb-infobox.php:1625
-#: includes/abilities/add-tpgb-interactive-circle-info.php:1319
-#: includes/abilities/add-tpgb-messagebox.php:1136
-#: includes/abilities/add-tpgb-navigation-builder.php:1139
-#: includes/abilities/add-tpgb-number-counter.php:1236
-#: includes/abilities/add-tpgb-post-author.php:1025
-#: includes/abilities/add-tpgb-post-comment.php:1209
-#: includes/abilities/add-tpgb-post-content.php:874
+#: includes/abilities/add-tpgb-image.php:1017
+#: includes/abilities/add-tpgb-infobox.php:1637
+#: includes/abilities/add-tpgb-interactive-circle-info.php:1331
+#: includes/abilities/add-tpgb-messagebox.php:1148
+#: includes/abilities/add-tpgb-navigation-builder.php:1151
+#: includes/abilities/add-tpgb-number-counter.php:1248
+#: includes/abilities/add-tpgb-post-author.php:1037
+#: includes/abilities/add-tpgb-post-comment.php:1221
+#: includes/abilities/add-tpgb-post-content.php:886
 #: includes/abilities/add-tpgb-post-image.php:853
-#: includes/abilities/add-tpgb-post-listing.php:1081
-#: includes/abilities/add-tpgb-post-meta.php:849
-#: includes/abilities/add-tpgb-post-title.php:631
-#: includes/abilities/add-tpgb-pricing-list.php:1170
-#: includes/abilities/add-tpgb-pricing-table.php:1549
-#: includes/abilities/add-tpgb-pro-paragraph.php:1158
-#: includes/abilities/add-tpgb-progress-bar.php:1070
-#: includes/abilities/add-tpgb-progress-tracker.php:835
-#: includes/abilities/add-tpgb-search-bar.php:1341
+#: includes/abilities/add-tpgb-post-listing.php:1093
+#: includes/abilities/add-tpgb-post-meta.php:861
+#: includes/abilities/add-tpgb-post-title.php:643
+#: includes/abilities/add-tpgb-pricing-list.php:1182
+#: includes/abilities/add-tpgb-pricing-table.php:1561
+#: includes/abilities/add-tpgb-pro-paragraph.php:1170
+#: includes/abilities/add-tpgb-progress-bar.php:1082
+#: includes/abilities/add-tpgb-progress-tracker.php:847
+#: includes/abilities/add-tpgb-search-bar.php:1353
 #: includes/abilities/add-tpgb-site-logo.php:678
 #: includes/abilities/add-tpgb-smooth-scroll.php:230
 #: includes/abilities/add-tpgb-social-embed.php:1114
-#: includes/abilities/add-tpgb-social-icons.php:738
-#: includes/abilities/add-tpgb-stylist-list.php:980
-#: includes/abilities/add-tpgb-switcher.php:665
-#: includes/abilities/add-tpgb-tabs-tours.php:890
-#: includes/abilities/add-tpgb-team-listing.php:800
-#: includes/abilities/add-tpgb-testimonials.php:819
-#: includes/abilities/add-tpgb-video.php:826
+#: includes/abilities/add-tpgb-social-icons.php:750
+#: includes/abilities/add-tpgb-stylist-list.php:992
+#: includes/abilities/add-tpgb-switcher.php:677
+#: includes/abilities/add-tpgb-tabs-tours.php:902
+#: includes/abilities/add-tpgb-team-listing.php:812
+#: includes/abilities/add-tpgb-testimonials.php:831
+#: includes/abilities/add-tpgb-video.php:838
 msgid "Parent block not found."
 msgstr ""
 
@@ -1083,7 +1083,7 @@ msgid ""
 "    - Always populate: textNormalColor, textHoverColor, authorNormalColor, authorHoverColor, quoteColor, quoteIcon, style, contentAlignment, enableTypography, catBgColor, catBgHoverColor, enableCatShadow, enableCatShadowHover, borderNormal, borderHover, borderRadius, HvrborderRadius, boxPadding, boxMargin, scrollAnimation, animDuration, animDelay, animEasing, globalBgColor, globalBgHoverColor, globalBorder, globalBorderHover, globalBRadius, globalBRadiusHover, globalBShadow, globalBShadowHover, globalMargin, globalPadding, globalPosition, globalClasses, globalId, globalZindex, transitionDuration, transitionFunction, transitionOrigin, rotateDeg, rotateDegHover, offsetX, offsetXHover, scaleValue, scaleValueHover, skewX, skewXHover, flipHorizontal, flipVertical, flipHorizontalHover, flipVerticalHover"
 msgstr ""
 
-#: includes/abilities/add-tpgb-blockquote.php:803
+#: includes/abilities/add-tpgb-blockquote.php:814
 msgid "tpgb/tp-blockquote is not registered."
 msgstr ""
 
@@ -1095,7 +1095,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Breadcrumbs block (tpgb/tp-breadcrumbs) with full support for style presets, home icon, separator icon, visibility toggles, taxonomy terms, text styling, spacing, backgrounds, borders, shadows, schema markup, animations, transforms, and advanced settings. This is a dynamic block — breadcrumb links are generated automatically based on the current page context."
 msgstr ""
 
-#: includes/abilities/add-tpgb-breadcrumbs.php:883
+#: includes/abilities/add-tpgb-breadcrumbs.php:894
 msgid "tpgb/tp-breadcrumbs is not registered."
 msgstr ""
 
@@ -1107,7 +1107,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Core Button block (tpgb/tp-button-core). A streamlined, modern button block with icon support (Font Awesome or image), typography, text shadow, colour, background (solid/gradient), border, border radius, box shadow, padding, alignment, animations, transforms, and advanced settings. This is the simplified counterpart to tpgb/tp-button — use this for clean, modern buttons."
 msgstr ""
 
-#: includes/abilities/add-tpgb-button-core.php:704
+#: includes/abilities/add-tpgb-button-core.php:715
 msgid "tpgb/tp-button-core is not registered."
 msgstr ""
 
@@ -1177,7 +1177,7 @@ msgstr ""
 #: includes/abilities/add-tpgb-button-preset-crud.php:840
 #: includes/abilities/add-tpgb-button-preset-crud.php:913
 #: includes/abilities/add-tpgb-button-preset-crud.php:971
-#: includes/abilities/add-tpgb-infobox.php:1004
+#: includes/abilities/add-tpgb-infobox.php:1015
 #, php-format
 msgid "Button preset \"%s\" was not found."
 msgstr ""
@@ -1187,10 +1187,10 @@ msgid "Add Nexter Blocks Button"
 msgstr ""
 
 #: includes/abilities/add-tpgb-button.php:19
-msgid "Adds the Nexter Blocks Button block (tpgb/tp-button) with 23 style presets, icon support, hover effects, typography, colours, backgrounds, borders, shadows, shake animation, content hover effects, modal popup, animations, transforms, and advanced settings. This is a dynamic block — HTML is rendered server-side."
+msgid "Adds the Nexter Blocks Button block (tpgb/tp-button) with 23 style presets, icon support, hover effects, typography, colours, backgrounds, borders, shadows, shake animation, content hover effects, modal popup, animations, transforms, and advanced settings. Typography is set via top-level params (enableTypography, fontFamily, fontType, fontWeight, textDecoration, typoSize) — pass them directly here, do not route them through settings.texTyp. This is a dynamic block — HTML is rendered server-side."
 msgstr ""
 
-#: includes/abilities/add-tpgb-button.php:813
+#: includes/abilities/add-tpgb-button.php:824
 msgid "tpgb/tp-button is not registered."
 msgstr ""
 
@@ -1238,7 +1238,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Countdown block (tpgb/tp-countdown) with 3 style presets (Simple, Flipdown, Progressbar), target date/time, expiry actions, custom labels, per-unit colours/backgrounds/borders, counter/label typography, progress bar stroke/trail settings, and full animation/transform/advanced controls. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-countdown.php:749
+#: includes/abilities/add-tpgb-countdown.php:760
 msgid "tpgb/tp-countdown is not registered."
 msgstr ""
 
@@ -1262,7 +1262,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Dark Mode block (tpgb/tp-dark-mode) — a light/dark theme toggle switcher with 3 style presets, icon customisation (light/dark icons), cookie persistence, OS theme matching, position control (relative/absolute/fixed), and full styling controls for switch track, dot, and before/after text labels. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-dark-mode.php:659
+#: includes/abilities/add-tpgb-dark-mode.php:670
 msgid "tpgb/tp-dark-mode is not registered."
 msgstr ""
 
@@ -1277,7 +1277,7 @@ msgid ""
 "    IMPORTANT: Pass `headers` as a simple array of column header strings and `rows` as a 2D array where each inner array is a row of cell values. The ability will automatically build the required internal structure with row/cell markers."
 msgstr ""
 
-#: includes/abilities/add-tpgb-data-table.php:803
+#: includes/abilities/add-tpgb-data-table.php:814
 msgid "tpgb/tp-data-table is not registered."
 msgstr ""
 
@@ -1301,7 +1301,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Flipbox block (tpgb/tp-flipbox) — a card that flips horizontally or vertically on hover to reveal back content. Supports icon/image/SVG front display, title with custom tag, description, back-side button with link, carousel back content, comprehensive styling for front/back states (typography, colours, backgrounds, borders, shadows, overlays), icon styling (size, colours, shadows), and full animation/transform/advanced controls. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-flipbox.php:849
+#: includes/abilities/add-tpgb-flipbox.php:860
 msgid "tpgb/tp-flipbox is not registered."
 msgstr ""
 
@@ -1313,7 +1313,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Form Block (tpgb/tp-form-block) — a contact/lead form container. Supports layout styles, email actions (To/CC/BCC/Subject), auto-response message, redirect on submit, meta data collection, comprehensive styling for labels, inputs, placeholders, buttons, checkboxes/radios, select dropdowns, success/error messages, loader, form alignment, row/column gaps, and full animation/transform/advanced controls. This is a dynamic block that accepts form field inner blocks (name, email, textarea, checkbox, radio, select, submit button, etc.)."
 msgstr ""
 
-#: includes/abilities/add-tpgb-form-block.php:867
+#: includes/abilities/add-tpgb-form-block.php:878
 msgid "tpgb/tp-form-block is not registered."
 msgstr ""
 
@@ -1421,7 +1421,7 @@ msgid ""
 "Supports 15+ style variants, character/word limits with ellipsis, split-text animations (words/chars/lines), separator customisation (line/icon/image), per-element typography & colours (title/subTitle/extraTitle), gradient text, text stroke, backgrounds, borders, shadows, and full animation/transform/advanced controls. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-heading-title.php:800
+#: includes/abilities/add-tpgb-heading-title.php:811
 msgid "tpgb/tp-heading-title is not registered."
 msgstr ""
 
@@ -1430,10 +1430,10 @@ msgid "Add Nexter Blocks Heading"
 msgstr ""
 
 #: includes/abilities/add-tpgb-heading.php:19
-msgid "Adds a NEXTER BLOCKS Heading block (tpgb/tp-heading). Use this — NOT the WordPress core heading block — whenever the user asks to add a heading on a Nexter Blocks site. Supports all block settings including typography, colours, stroke, shadow, blend mode, animations, transforms, spacing, background, border, and advanced position/visibility controls."
+msgid "Adds a NEXTER BLOCKS Heading block (tpgb/tp-heading). Use this — NOT the WordPress core heading block — whenever the user asks to add a heading on a Nexter Blocks site. Typography is set via top-level params (enableTypography, fontFamily, fontType, fontWeight, textDecoration, lineHeight, letterSpacing, typoSize) — pass them directly here, do not route them through settings.tTypo. Also supports colours, stroke, shadow, blend mode, animations, transforms, spacing, background, border, and advanced position/visibility controls."
 msgstr ""
 
-#: includes/abilities/add-tpgb-heading.php:741
+#: includes/abilities/add-tpgb-heading.php:752
 msgid "tpgb/tp-heading is not registered."
 msgstr ""
 
@@ -1480,7 +1480,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Image block (tpgb/tp-image) — a standard image display block with caption support (default or custom), link wrapper, size/width/height control, object-fit, opacity, CSS filters (normal + hover), border, border radius, box shadow, caption typography/colour/background/alignment, lazy-load toggle, and position controls. Lighter and simpler than tpgb/tp-creative-image — use this for straightforward image placements. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-image.php:659
+#: includes/abilities/add-tpgb-image.php:670
 msgid "tpgb/tp-image is not registered."
 msgstr ""
 
@@ -1492,7 +1492,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Info Box block (tpgb/tp-infobox) — a versatile feature/service card with icon/image/SVG/text icon, title, description, pin badge, optional CTA button, link wrapper, and extensive styling. Supports 10+ style variants (style-1 through style-10+), listing/carousel layouts, icon display styles (none/stacked/framed), gradient text/icons, overlays, separator lines, full colour/typography/spacing/border/shadow control for all elements, and full animation/transform/advanced settings. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-infobox.php:967
+#: includes/abilities/add-tpgb-infobox.php:978
 msgid "tpgb/tp-infobox is not registered."
 msgstr ""
 
@@ -1504,7 +1504,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Interactive Circle Info block (tpgb/tp-interactive-circle-info) — an interactive circular display where items arranged around a circle reveal associated content on hover/click. Supports 5+ style presets, multiple items with icon/image, title, description, CTA button, auto-rotation, continuous rotation, entry/exit animations, full styling for normal/hover/active states for circles, icons, content panel, button, and indicator line. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-interactive-circle-info.php:828
+#: includes/abilities/add-tpgb-interactive-circle-info.php:839
 msgid "tpgb/tp-interactive-circle-info is not registered."
 msgstr ""
 
@@ -1516,7 +1516,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Message Box block (tpgb/tp-messagebox) — an alert/notification/callout box with title, optional description, optional icon (prefix/suffix), dismiss button, arrow pointer, and comprehensive styling for icon, dismiss button, title/description, and box. Use for alerts, warnings, success messages, info callouts, or announcements. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-messagebox.php:754
+#: includes/abilities/add-tpgb-messagebox.php:765
 msgid "tpgb/tp-messagebox is not registered."
 msgstr ""
 
@@ -1528,7 +1528,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Navigation Builder block (tpgb/tp-navigation-builder) — a complete menu builder with horizontal/vertical/side layouts, multi-level menu items (with submenu depth), icons per item, hover/click activation, sticky menu, responsive hamburger/dropdown, custom toggle styles, and comprehensive styling for menu items (normal/hover/active), submenus, and responsive views. Can pull from existing WordPress menu by name or build a custom menu via items array. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-navigation-builder.php:752
+#: includes/abilities/add-tpgb-navigation-builder.php:763
 msgid "tpgb/tp-navigation-builder is not registered."
 msgstr ""
 
@@ -1540,7 +1540,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Number Counter block (tpgb/tp-number-counter) — an animated counter that counts up from a start value to a target value when scrolled into view. Perfect for showcasing statistics, achievements, or metrics. Supports 2 style presets (icon+counter side-by-side), numeration format, pre/post symbols (like $ or %), icon/image/SVG, link wrapper, and comprehensive styling. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-number-counter.php:797
+#: includes/abilities/add-tpgb-number-counter.php:808
 msgid "tpgb/tp-number-counter is not registered."
 msgstr ""
 
@@ -1552,7 +1552,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Post Author block (tpgb/tp-post-author) — automatically displays the current post's author details including name, role, bio, avatar, and social links. Ideal for blog post bylines or author bio sections at the end of articles. Supports 3+ style presets, show/hide each element, and comprehensive styling. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-post-author.php:680
+#: includes/abilities/add-tpgb-post-author.php:691
 msgid "tpgb/tp-post-author is not registered."
 msgstr ""
 
@@ -1564,7 +1564,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Post Comment block (tpgb/tp-post-comment) — displays the WordPress comments list with nested replies AND a comment submission form. Automatically pulls comments for the current post. Supports custom labels, comprehensive styling for user avatars, names, metadata (date), reply buttons, input fields, and submit button. Use at the bottom of blog posts. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-post-comment.php:783
+#: includes/abilities/add-tpgb-post-comment.php:794
 msgid "tpgb/tp-post-comment is not registered."
 msgstr ""
 
@@ -1576,7 +1576,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Post Content block (tpgb/tp-post-content) — displays the current post's content, excerpt, or archive term description. Supports character/word limits with ellipsis, comprehensive text/container styling. Ideal for dynamic post templates where the content area auto-populates based on the current post. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-post-content.php:596
+#: includes/abilities/add-tpgb-post-content.php:607
 msgid "tpgb/tp-post-content is not registered."
 msgstr ""
 
@@ -1600,7 +1600,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Post Listing block (tpgb/tp-post-listing) — a powerful post grid/list/metro with filters, pagination, excerpt, meta info (author/date/category), featured image with hover effects, and read more button. Supports multiple layouts (grid/list/metro), custom post types, taxonomy filters, order/offset, category filter UI, and extensive styling for every element. Use for blog listings, portfolios, product grids. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-post-listing.php:713
+#: includes/abilities/add-tpgb-post-listing.php:724
 msgid "tpgb/tp-post-listing is not registered."
 msgstr ""
 
@@ -1612,7 +1612,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Post Meta block (tpgb/tp-post-meta) — displays post metadata: date, category, author, comments count, and reading time. Each element can be individually toggled, styled (colours, icons, prefixes), and customised with separators. Ideal for blog post info bars below titles. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-post-meta.php:583
+#: includes/abilities/add-tpgb-post-meta.php:594
 msgid "tpgb/tp-post-meta is not registered."
 msgstr ""
 
@@ -1624,7 +1624,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Post Title block (tpgb/tp-post-title) — displays the current post title with optional prefix/suffix, link wrapper, custom HTML tag, character/word limit, and comprehensive styling for title and prefix/suffix text. Use in post templates or at the top of articles. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-post-title.php:438
+#: includes/abilities/add-tpgb-post-title.php:449
 msgid "tpgb/tp-post-title is not registered."
 msgstr ""
 
@@ -1636,7 +1636,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Pricing List block (tpgb/tp-pricing-list) — a single pricing row/menu item with title, description, price tag, feature tags (size/options), and optional image. Ideal for menus (food/drink), service lists, product catalogs. Supports 3 style presets, dotted line between title and price, multiple hover effects, image shapes/masks, and comprehensive styling. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-pricing-list.php:745
+#: includes/abilities/add-tpgb-pricing-list.php:756
 msgid "tpgb/tp-pricing-list is not registered."
 msgstr ""
 
@@ -1648,7 +1648,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Pricing Table block (tpgb/tp-pricing-table) — a full pricing plan card with title/subtitle, icon, price with pre/post text, strike-through previous price, features list (WYSIWYG content or stylish list), CTA button, ribbon/badge, and extensive styling for each element. Use for SaaS pricing, membership plans, service packages. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-pricing-table.php:968
+#: includes/abilities/add-tpgb-pricing-table.php:979
 msgid "tpgb/tp-pricing-table is not registered."
 msgstr ""
 
@@ -1660,7 +1660,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Pro Paragraph block (tpgb/tp-pro-paragraph) — an advanced text/paragraph block with optional title, multi-column text, drop cap styling (letter-style or boxed), link colours, text shadows, typography controls, and custom HTML tags. Use for magazine-style articles, blog intros, or rich text sections. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-pro-paragraph.php:797
+#: includes/abilities/add-tpgb-pro-paragraph.php:808
 msgid "tpgb/tp-pro-paragraph is not registered."
 msgstr ""
 
@@ -1672,7 +1672,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Progress Bar block (tpgb/tp-progress-bar) — an animated skill/progress indicator with 3 layout types: horizontal progress bar, circle/pie chart, and radial progress. Supports title, subtitle, number display, icon/image, customizable colours (fill/empty/separator), height variants, and full animation/transform/advanced settings. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-progress-bar.php:699
+#: includes/abilities/add-tpgb-progress-bar.php:710
 msgid "tpgb/tp-progress-bar is not registered."
 msgstr ""
 
@@ -1684,7 +1684,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Progress Tracker block (tpgb/tp-progress-tracker) — a scroll-based progress indicator showing how much of the page/content has been viewed. Supports 3 display types (horizontal bar at top/bottom, vertical bar on left/right, circular indicator in corner), optional pin points for chapter/section markers, percentage text, and comprehensive styling. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-progress-tracker.php:555
+#: includes/abilities/add-tpgb-progress-tracker.php:566
 msgid "tpgb/tp-progress-tracker is not registered."
 msgstr ""
 
@@ -1696,7 +1696,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Search Bar block (tpgb/tp-search-bar) — a powerful AJAX-powered search form with live suggestions, filters, result preview cards, taxonomy filters, pagination/load-more, custom post types, and extensive styling for input field, select dropdowns, submit button, and results area. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-search-bar.php:832
+#: includes/abilities/add-tpgb-search-bar.php:843
 msgid "tpgb/tp-search-bar is not registered."
 msgstr ""
 
@@ -1744,7 +1744,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Social Icons block (tpgb/tp-social-icons) — a list of social-media icons with 16 visual styles, per-icon network/icon/image/URL/title/colors/tooltip, hover-style presets (faded/etc), alignment, gap, padding, sizing, border, radius, shadow, title typography, and Tippy tooltip controls. Provide an array of `socialIcons` to fully control each item; otherwise the default Facebook/YouTube/Twitter set is used. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-social-icons.php:510
+#: includes/abilities/add-tpgb-social-icons.php:521
 msgid "tpgb/tp-social-icons is not registered."
 msgstr ""
 
@@ -1756,7 +1756,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Stylish List block (tpgb/tp-stylist-list) — bullet/icon list with per-item icon (FA, image, SVG), URL, hint/pin badge, and tooltip; supports vertical/horizontal layout, read-more toggle (collapse N items + show-all/less), separator, advanced icon styling (size/border/radius/bg/shadow normal+hover), text styling (typo, padding, border/radius/bg/shadow normal+hover), pin/hint badge styling (placement, typo, bg, padding, dimensions), Tippy tooltip controls, hover-inverse fade effect. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-stylist-list.php:650
+#: includes/abilities/add-tpgb-stylist-list.php:661
 msgid "tpgb/tp-stylist-list is not registered."
 msgstr ""
 
@@ -1768,7 +1768,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Switcher block (tpgb/tp-switcher) — a 2-state toggle that swaps between two content panels. Each panel can be plain text/HTML (`source = content`) or a saved Gutenberg template (`source = editor`). Comes with 2 visual styles, optional FA icons on each label, alignment, label spacing, toggle size, switch-track and indicator colours (active/inactive), label typography & colours per state, description typography & colours per state, and shadow on the indicator. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-switcher.php:495
+#: includes/abilities/add-tpgb-switcher.php:506
 msgid "tpgb/tp-switcher is not registered."
 msgstr ""
 
@@ -1780,7 +1780,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Tabs Tours block (tpgb/tp-tabs-tours) — multi-tab/tour navigation panel where each tab has a title, optional inline content or saved Gutenberg template, optional inner & outer FA icon (or image). Supports horizontal/vertical layout, nav position (top/bottom/left/right), swiper effect, equal-width navs, columned vertical nav, mobile-accordion fallback, active-tab default, full styling for nav buttons (normal+active), nav bar wrapper (normal+hover), tab content area, underline indicator, and per-icon controls. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-tabs-tours.php:605
+#: includes/abilities/add-tpgb-tabs-tours.php:616
 msgid "tpgb/tp-tabs-tours is not registered."
 msgstr ""
 
@@ -1792,7 +1792,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Team Member block (tpgb/tp-team-listing) — grid/carousel team showcase. Each member has photo, name, designation, category, custom URL, and 7 social channels (website, FB, IG, Twitter, LinkedIn, Mail, Phone). Supports grid/messy/slider layouts, columns per breakpoint, alignment, title tag, name typography & colors (normal+hover), designation typography & colors, social icon size/bg-size/colors (normal+hover), image margin/padding/radius/bg/filter/shadow (normal+hover), card box padding/border/radius/bg/shadow (normal+hover), content padding. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-team-listing.php:555
+#: includes/abilities/add-tpgb-team-listing.php:566
 msgid "tpgb/tp-team-listing is not registered."
 msgstr ""
 
@@ -1804,7 +1804,7 @@ msgstr ""
 msgid "Adds the Nexter Blocks Testimonials block (tpgb/tp-testimonials) — grid or carousel of customer testimonials. Each item has author name, designation, content/quote, author title overlay, and avatar image. Supports 3 visual styles, columns per breakpoint, content height limit (with hover/always scrollbars or read-more truncation), full styling for box (margin/padding/border/radius/bg/shadow normal+hover), title/author/designation/content typography & colors (normal+hover), avatar max-width/radius/shadow (normal+hover), Read-more button styling, scroll bar styling, and carousel pagination dots colour controls. This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-testimonials.php:571
+#: includes/abilities/add-tpgb-testimonials.php:582
 msgid "tpgb/tp-testimonials is not registered."
 msgstr ""
 
@@ -1816,12 +1816,20 @@ msgstr ""
 msgid "Adds the Nexter Blocks Video block (tpgb/tp-video) — embeds a YouTube, Vimeo, or self-hosted MP4 video with custom thumbnail/banner mode, optional popup (lightbox) playback, custom play-icon image, video title & description overlay (with typography & colour), continuous animations (pulse/rotate/drop_waves) for the play icon, video container border/radius/shadow + hover, transform, schema markup, and provider-specific options (autoplay, mute, loop, controls, modest branding, privacy mode, Vimeo title/portrait/byline, etc.). This is a dynamic block."
 msgstr ""
 
-#: includes/abilities/add-tpgb-video.php:594
+#: includes/abilities/add-tpgb-video.php:605
 msgid "tpgb/tp-video is not registered."
 msgstr ""
 
-#: includes/abilities/class-tpgb-mcp-abilities.php:60
+#: includes/abilities/class-tpgb-mcp-abilities.php:64
 msgid "Nexter Blocks Gutenberg abilities."
+msgstr ""
+
+#: includes/abilities/class-tpgb-mcp-abilities.php:72
+msgid "Nexter Blocks Pro"
+msgstr ""
+
+#: includes/abilities/class-tpgb-mcp-abilities.php:73
+msgid "Nexter Blocks Pro procedural skill guides for orchestrating builds when the pro plugin is active."
 msgstr ""
 
 #: includes/abilities/get-doc-creator-skill.php:26
@@ -1860,20 +1868,32 @@ msgstr ""
 msgid "Performance skill guide is missing or unreadable."
 msgstr ""
 
+#: includes/abilities/get-typography-skill.php:26
+msgid "Get Typography Skill Guide"
+msgstr ""
+
+#: includes/abilities/get-typography-skill.php:27
+msgid "Returns the authoritative recipe for applying fontWeight and textDecoration on any Nexter Blocks typographic block. CALL THIS RIGHT AFTER nexter-blocks/get-performance-skill — before nexter-blocks/inspect-page or any nexter-blocks/add-tpgb-* ability — whenever the build involves a non-default font weight, any text decoration, or any typography setting beyond plain fontFamily. Every typography-bearing add-tpgb-* ability now accepts fontWeight (\"100\"…\"900\") and textDecoration (none / underline / overline / line-through) as proper TOP-LEVEL parameters — pass them directly. For multi-typo-group blocks (infobox, pricing-table, accordion, etc.) the top-level values apply uniformly to every typography group on the block. Use the settings raw override (camelCase keys are preserved) or sprout/update-element only when different groups must have different settings. The guide also pins the exact tTypo JSON shape — fontWeight nested inside fontFamily, textDecoration sibling of fontFamily — and lists the AI mistakes (weight outside fontFamily, font-weight key, partial typo objects) to avoid."
+msgstr ""
+
+#: includes/abilities/get-typography-skill.php:84
+msgid "Typography skill guide is missing or unreadable."
+msgstr ""
+
 #: includes/abilities/helpers.php:53
 msgid "You are not allowed to edit this post."
 msgstr ""
 
-#: includes/abilities/helpers.php:265
+#: includes/abilities/helpers.php:364
 msgid "Button preset key is required."
 msgstr ""
 
-#: includes/abilities/helpers.php:268
+#: includes/abilities/helpers.php:367
 msgid "Button preset system is not available."
 msgstr ""
 
 #. translators: %s: button preset key requested by the caller.
-#: includes/abilities/helpers.php:276
+#: includes/abilities/helpers.php:375
 #, php-format
 msgid "Button preset \"%s\" was not found in the active preset set."
 msgstr ""
@@ -1883,28 +1903,36 @@ msgid "Inspect Page (URL → typography & palette)"
 msgstr ""
 
 #: includes/abilities/inspect-page.php:22
-msgid "Fetches a public URL and returns the typography (Google Fonts families, weights), inline-style colors, page title, OG metadata, and image asset URLs found in the HTML. CALL THIS FIRST whenever the user provides a URL and asks to recreate the page or match its style — the returned data is concrete CSS, not a guess from pixels, and dramatically improves font/color fidelity. Pair with nexter-blocks/get-image-to-page-skill."
+msgid "Fetches a public URL and returns the typography (Google Fonts families, weights), inline-style colors, page title, OG metadata, and every asset URL found in the HTML — images (including srcset variants), CSS background-images, <video>/<source> URLs, and YouTube/Vimeo iframe embeds. CALL THIS FIRST whenever the user provides a URL and asks to recreate the page or match its style — the returned data is concrete CSS, not a guess from pixels, and dramatically improves font/color/asset fidelity. Pair with nexter-blocks/get-image-to-page-skill (or nexter-blocks-pro/get-image-to-page-skill)."
 msgstr ""
 
-#: includes/abilities/inspect-page.php:132
+#: includes/abilities/inspect-page.php:151
 msgid "A valid http(s) URL is required."
 msgstr ""
 
-#: includes/abilities/inspect-page.php:139
+#: includes/abilities/inspect-page.php:158
 msgid "Internal / loopback URLs are not allowed."
 msgstr ""
 
+#: includes/abilities/inspect-page.php:199
+msgid "Refused to follow redirect to an internal / loopback host."
+msgstr ""
+
+#: includes/abilities/inspect-page.php:204
+msgid "Remote returned no response."
+msgstr ""
+
 #. translators: %d: HTTP status code returned by the remote server.
-#: includes/abilities/inspect-page.php:161
+#: includes/abilities/inspect-page.php:212
 #, php-format
 msgid "Remote returned HTTP %d."
 msgstr ""
 
-#: includes/abilities/inspect-page.php:169
+#: includes/abilities/inspect-page.php:225
 msgid "Remote response exceeds the 2 MB inspection limit."
 msgstr ""
 
-#: includes/abilities/inspect-page.php:172
+#: includes/abilities/inspect-page.php:228
 msgid "Remote returned an empty response."
 msgstr ""
 

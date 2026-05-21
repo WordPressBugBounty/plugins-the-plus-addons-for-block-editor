@@ -16,7 +16,7 @@ wp_register_ability(
 	'nexter-blocks/add-tpgb-heading',
 	array(
 		'label'               => __( 'Add Nexter Blocks Heading', 'the-plus-addons-for-block-editor' ),
-		'description'         => __( 'Adds a NEXTER BLOCKS Heading block (tpgb/tp-heading). Use this — NOT the WordPress core heading block — whenever the user asks to add a heading on a Nexter Blocks site. Supports all block settings including typography, colours, stroke, shadow, blend mode, animations, transforms, spacing, background, border, and advanced position/visibility controls.', 'the-plus-addons-for-block-editor' ),
+		'description'         => __( 'Adds a NEXTER BLOCKS Heading block (tpgb/tp-heading). Use this — NOT the WordPress core heading block — whenever the user asks to add a heading on a Nexter Blocks site. Typography is set via top-level params (enableTypography, fontFamily, fontType, fontWeight, textDecoration, lineHeight, letterSpacing, typoSize) — pass them directly here, do not route them through settings.tTypo. Also supports colours, stroke, shadow, blend mode, animations, transforms, spacing, background, border, and advanced position/visibility controls.', 'the-plus-addons-for-block-editor' ),
 		'category'            => 'nexter-blocks',
 
 		'input_schema'        => array(
@@ -133,6 +133,17 @@ wp_register_ability(
 				'customFont'          => array(
 					'type'        => 'string',
 					'description' => 'Custom (non-Google) font name. When set, this overrides fontFamily and is used as-is in CSS font-family.',
+					'default'     => '',
+				),
+				'fontWeight'          => array(
+					'type'        => 'string',
+					'description' => 'Font weight as a string: "100" Thin, "200" Extra Light, "300" Light, "400" Regular (default), "500" Medium, "600" Semi Bold, "700" Bold, "800" Extra Bold, "900" Black. Embedded inside tTypo.fontFamily.fontWeight. Requires enableTypography=true.',
+					'default'     => '',
+				),
+				'textDecoration'      => array(
+					'type'        => 'string',
+					'enum'        => array( '', 'none', 'underline', 'overline', 'line-through' ),
+					'description' => 'Text decoration. Stored as tTypo.textDecoration (sibling of fontFamily). Requires enableTypography=true.',
 					'default'     => '',
 				),
 				'lineHeight'          => array(
@@ -818,22 +829,11 @@ function tpgb_mcp_add_heading_ability( array $input ) {
 
 	/* ── Typography ───────────────────────────────────────────────────── */
 	if ( ! empty( $input['enableTypography'] ) ) {
-		// Build the fontFamily sub-object only when a family / customFont is given.
-		// Empty object preserves the original "no font" shape, otherwise the
-		// editor stores a typed family ({family, type, customFont}) like the
-		// block's native UI does.
-		$family    = sanitize_text_field( (string) ( $input['fontFamily'] ?? '' ) );
-		$font_type = sanitize_text_field( (string) ( $input['fontType'] ?? '' ) );
-		$custom_f  = sanitize_text_field( (string) ( $input['customFont'] ?? '' ) );
-		if ( '' !== $family || '' !== $custom_f ) {
-			$font_family_attr = array(
-				'family'     => $family,
-				'type'       => $font_type,
-				'customFont' => $custom_f,
-			);
-		} else {
-			$font_family_attr = (object) array();
-		}
+		// fontFamily sub-object — delegate to the shared helper so the
+		// fontWeight slot is populated consistently across every block.
+		// The helper returns (object) [] when nothing was supplied, which
+		// preserves the editor's "no font" shape.
+		$font_family_attr = tpgb_mcp_font_family_attr( $input );
 
 		// Optional line-height / letter-spacing — block stores them as
 		// {md, unit} pairs; height is unitless, spacing is in px.
@@ -869,6 +869,8 @@ function tpgb_mcp_add_heading_ability( array $input ) {
 		if ( ! empty( $input['typoGlobalPreset'] ) ) {
 			$t_typo['globalTypo'] = sanitize_text_field( $input['typoGlobalPreset'] );
 		}
+		// Attach textDecoration as a sibling of fontFamily inside tTypo.
+		$t_typo         = tpgb_mcp_apply_typo_extras( $t_typo, $input );
 		$attrs['tTypo'] = $t_typo;
 	}
 

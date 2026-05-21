@@ -254,7 +254,7 @@ class Tpgb_Core_Init_Blocks {
 		}
 		global $pagenow;
 		if ( ! defined( 'TPGBP_VERSION' ) ) {
-			$scripts_dep = array( 'moment', 'react', 'react-dom', 'wp-block-editor', 'wp-escape-html', 'wp-element', 'wp-wordcount', 'wp-blocks', 'wp-i18n', 'wp-plugins', 'wp-components', 'wp-api-fetch' );
+			$scripts_dep = array( 'react', 'react-dom', 'wp-block-editor', 'wp-escape-html', 'wp-element', 'wp-wordcount', 'wp-blocks', 'wp-i18n', 'wp-plugins', 'wp-components', 'wp-api-fetch' );
 			if ( 'widgets.php' !== $pagenow && 'customize.php' !== $pagenow ) {
 				$scripts_dep = array_merge( $scripts_dep, array( 'wp-editor', 'wp-edit-post' ) );
 

@@ -625,6 +625,17 @@ wp_register_ability(
 					'description' => 'Custom (non-Google) font name. Overrides fontFamily.',
 					'default'     => '',
 				),
+				'fontWeight'            => array(
+					'type'        => 'string',
+					'description' => 'Font weight as a string ("100"..."900"). Embedded inside every typography group\'s fontFamily.fontWeight on this block. For per-group control, use the settings raw override or sprout/update-element.',
+					'default'     => '',
+				),
+				'textDecoration'        => array(
+					'type'        => 'string',
+					'enum'        => array( '', 'none', 'underline', 'overline', 'line-through' ),
+					'description' => 'Text decoration applied to every typography group on this block. Stamped as a sibling of fontFamily inside each typo array. For per-group control, use the settings raw override or sprout/update-element.',
+					'default'     => '',
+				),
 			),
 			'required'             => array( 'post_id' ),
 			'additionalProperties' => false,
@@ -858,6 +869,11 @@ function tpgb_mcp_accordion_needs_wrapper( array $attrs ): bool {
 /**
  * Merge user-provided raw settings into block attributes.
  *
+ * Block attribute names are camelCase (tTypo, globalBgColor, fontWeight, …),
+ * so we cannot use sanitize_key() here — it lowercases the key and turns
+ * tTypo into ttypo, which Nexter Blocks does not read. Keys are restricted
+ * to [A-Za-z0-9_] instead, preserving case.
+ *
  * @param array $attrs    Existing block attributes.
  * @param array $settings Raw overrides keyed by attribute name.
  * @return array Merged attributes.
@@ -867,7 +883,14 @@ function tpgb_mcp_merge_block_settings( array $attrs, array $settings ): array {
 		return $attrs;
 	}
 	foreach ( $settings as $key => $value ) {
-		$attrs[ sanitize_key( $key ) ] = $value;
+		if ( ! is_string( $key ) ) {
+			continue;
+		}
+		$clean = preg_replace( '/[^A-Za-z0-9_]/', '', $key );
+		if ( '' === $clean ) {
+			continue;
+		}
+		$attrs[ $clean ] = $value;
 	}
 	return $attrs;
 }
@@ -1264,6 +1287,7 @@ function tpgb_mcp_add_accordion_ability( array $input ) {
 	}
 
 	/* ── Raw settings override ────────────────────────────────────────── */
+	tpgb_mcp_apply_typo_decoration( $attrs, $input );
 	$attrs = tpgb_mcp_merge_block_settings( $attrs, $input['settings'] ?? array() );
 
 	// ---------------------------------------------------------------------

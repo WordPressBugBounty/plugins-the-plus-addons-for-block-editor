@@ -227,7 +227,13 @@ if ( ! class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 		}
 	}
 
-	Tpgb_Gutenberg_Loader::get_instance();
+	add_action(
+		'plugins_loaded',
+		function () {
+			Tpgb_Gutenberg_Loader::get_instance();
+		},
+		1
+	);
 
 	/**
 	 * Tpgb load data.

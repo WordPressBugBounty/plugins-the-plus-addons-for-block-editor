@@ -537,6 +537,17 @@ wp_register_ability(
 					'description' => 'Custom (non-Google) font name. Overrides fontFamily.',
 					'default'     => '',
 				),
+				'fontWeight'               => array(
+					'type'        => 'string',
+					'description' => 'Font weight as a string ("100"..."900"). Embedded inside every typography group\'s fontFamily.fontWeight on this block. For per-group control, use the settings raw override or sprout/update-element.',
+					'default'     => '',
+				),
+				'textDecoration'           => array(
+					'type'        => 'string',
+					'enum'        => array( '', 'none', 'underline', 'overline', 'line-through' ),
+					'description' => 'Text decoration applied to every typography group on this block. Stamped as a sibling of fontFamily inside each typo array. For per-group control, use the settings raw override or sprout/update-element.',
+					'default'     => '',
+				),
 			),
 			'required'             => array( 'post_id' ),
 			'additionalProperties' => false,
@@ -1179,6 +1190,7 @@ function tpgb_mcp_add_data_table_ability( array $input ) {
 		$attrs['tpgbDisrule'] = true; }
 
 	/* ── Raw settings override ────────────────────────────────────────── */
+	tpgb_mcp_apply_typo_decoration( $attrs, $input );
 	$attrs = tpgb_mcp_merge_block_settings( $attrs, $input['settings'] ?? array() );
 
 	/* ── Build, insert, save (dynamic block) ──────────────────────────── */

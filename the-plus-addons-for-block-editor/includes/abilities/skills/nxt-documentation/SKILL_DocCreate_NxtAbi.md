@@ -424,6 +424,32 @@ tool: nexter-blocks/add-tpgb-pro-paragraph
 
 ---
 
+## Phase 3.5 — Save / Publish the Post in the Editor *(mandatory, never skip)*
+
+**As soon as Phase 3 is complete and the design is built, the post MUST be saved by triggering the editor's Save/Publish button. Block additions are not considered persisted until this step runs.**
+
+Trigger the appropriate save action on the `post_id` from Phase 2:
+
+- If `post_status` is `draft` (default) → click **Save Draft** (i.e. call the update-post / save ability so WordPress writes the latest block markup to the database).
+- If `post_status` is `publish` → click **Publish** (i.e. transition the post to `publish` via the publish/update ability).
+- If the post is already published and the abilities only added new blocks → click **Update** so the new blocks become live.
+
+Use the available Nexter / Sprout post abilities to perform this action — for example:
+
+```
+tool: sprout-wordpress → sprout-update-post
+  post_id: [post_id]
+  status:  [draft | publish]   ← same value used in Phase 2 unless user upgraded it
+```
+
+Rules:
+- Run this step **exactly once**, after every block in Phase 3 has been added.
+- Never end the workflow with unsaved changes sitting in the editor.
+- If the save/publish call returns an error, retry once; if it still fails, surface the error in the final report so the user can click Save/Publish manually in the WP editor.
+- The same rule applies to every other workflow in this plugin that uses Nexter abilities to build a design: as soon as the design phase ends, the Save / Publish button of the post or page editor must be triggered so the changes are committed.
+
+---
+
 ## Phase 4 — Final Checks & Report
 
 Verify before reporting done:
@@ -443,6 +469,7 @@ Verify before reporting done:
 - [ ] Every block-creation call used a real `nexter-blocks/add-tpgb-*` ability (no invented tool names)
 - [ ] No Elementor (`tpae-*`) abilities used anywhere
 - [ ] No header or footer blocks added
+- [ ] Phase 3.5 ran — the editor's Save / Publish (or Update) button was triggered after the design was finished, and the save call returned success
 
 **Report back to the user with:**
 - Post ID and WordPress admin edit URL
@@ -467,3 +494,4 @@ Verify before reporting done:
 | **Bold all UI terms** | Every setting name, toggle, tab name, button label in copy must be bold |
 | **Brand CTA style** | `--nxt-global-color-1` bg, `--nxt-global-color-8` text, 75% width, 5px radius, centre-aligned |
 | **Draft by default** | Always `draft` unless user explicitly requests `publish` |
+| **Save after design** | After every Nexter abilities design run, the editor's Save / Publish (or Update) button MUST be triggered (Phase 3.5). Never leave the post with unsaved block changes |

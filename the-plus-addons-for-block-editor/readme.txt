@@ -2,9 +2,9 @@
 Contributors: posimyththemes, nirmalkavaiya, sagarpatel124, jigar9998
 Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
-Requires at least: 4.0
+Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 4.7.10
+Stable tag: 4.7.11
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -319,6 +319,9 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.7.11 = 08 June 2026
+- Dashboard : AI Integration : Google Gemini Key Verification Issue Solved.
 
 = 4.7.10 = 21 May 2026
 - Compatibility : Added compatibility with WordPress v7.0

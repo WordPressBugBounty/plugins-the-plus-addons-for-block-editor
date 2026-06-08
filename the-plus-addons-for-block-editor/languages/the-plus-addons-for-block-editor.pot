@@ -2,7 +2,7 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.7.11\n"
+"Project-Id-Version: Nexter Blocks 4.7.12\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"

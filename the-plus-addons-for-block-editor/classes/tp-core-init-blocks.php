@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'TPGB_ASSET_PATH', wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . 'theplus_gutenberg' );
-define( 'TPGB_ASSET_URL', Tp_Blocks_Helper::tpgb_get_upload_url() . '/theplus_gutenberg' );
+define( 'TPGB_ASSET_URL', Tp_Blocks_Helper::tpgb_get_upload_url() . 'theplus_gutenberg' );
 
 /**
  * Tpgb_Core_Init_Blocks.
@@ -275,6 +275,7 @@ class Tpgb_Core_Init_Blocks {
 					'blocks-builder',
 					'blocks-social',
 					'blocks-listing',
+					'blocks-pro',
 				);
 
 				foreach ( $block_categories as $cat ) {

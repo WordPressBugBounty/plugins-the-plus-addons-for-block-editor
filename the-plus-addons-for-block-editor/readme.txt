@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 4.7.12
+Stable tag: 4.7.13
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -320,6 +320,11 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 == Changelog ==
 
+= 4.7.13 = 16 June 2026
+- Improve : Dashboard : Converted dashboard modules to a component-based structure for improved maintainability and scalability.
+- Fix : Video : 153 error on editor side Issue Solved.
+- Fix : Minor Bugs and Improvements.
+
 = 4.7.12 = 08 June 2026
 - Fix : Minor Bugs and Improvements.
 
@@ -449,116 +454,5 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 - Improvement : External Form Styler : All Block Attributes Converted to JSON
 - Improvement : Data Table : All Block Attributes Converted to JSON
 - Fixed : Minor Bugs and Improvements.
-
-= 4.5.12 = 18 Nov 2025
-- Fix : Dashboard template loading issue
-- Minor bug fixes and performance improvements
-
-= 4.5.11 = 03 Nov 2025
-- Added : Form Block : support for multiple email addresses in the “To” field of the Email.
-- Improvement: Improved the Dynamic Assets loading functionality.
-- Minor bug Fixes & Improvements.
-
-= 4.5.10 = 15 Oct 2025
-- Fix : External Form Style : Enhanced button styling for improved accuracy
-- Minor bug Fixes & Improvements.
-
-= 4.5.9 = 01 Oct 2025
-- Added : Quick Action Bar on editor.
-- Added : Data Table : Button Icon Option added.
-- Added : Info box : SVG Background ,  Border & padding option Added.
-- Update : SVG Animation Stop by Set Duration option.
-- Update : New Google Fonts Updated.
-- Minor bug Fixes & Improvements.
-
-= 4.5.8 = 16 Sep 2025
-- Added : Info box :  Global support for SVG fill and stroke color.
-- Added : Info box :  SVG Icon Border , Background option added.
-- Added : Flip box :  Global support for SVG fill and stroke color.
-- Added : Number Counter :  Global support for SVG fill and stroke color.
-- Added : Pricing Table :  Global support for SVG fill and stroke color.
-- Added : Draw Svg :  Global support for SVG fill and stroke color.
-- Added : Global  Equal Height Option Added.
-- Improve : Container : Margin option now defaults to auto if not set. 
-- Fix : Google Map :  Fixed issue where map was not displaying after Kit import.
-- Minor bug Fixes & Improvements.
-
-= 4.5.7 = 11 Sep 2025
-- Added : Heading Title : Main Title & Sub Title Text Gradient Color Option added.
-- Added : Infobox : Icon Text Option added.
-- Added : Video : Fallback Video & Image Option added For Compatibility to Different OS.
-- Update : Number Counter : Add Support For Decimal number.
-- Minor bug Fixes & Improvements.
-
-= 4.5.6 = 03 Sep 2025
-- Added :  Dashboard : Disable Template import Button Option added.
-- Added : Container : Background Top Layer (Overlay) option. 
-- Improve : Onboarding Block List Layout Improve.
-- Update : Form Block : Minor layout Change in mail body part.
-- Update : Iframe Injection Remove From Live Copy.
-- Fix : Heading Block : Color & Typo issue Solved on editor Side.
-- Minor bug Fixes & Improvements.
-
-= 4.5.5 = 11 Aug 2025
-- Fix : Countdown : Security Patch ( Low Security )
-- Fix : Pricing Table : Security Patch ( Low Security )
-- Fix : Message Box : Security Patch ( Low Security )
-- Fix : Info box : Security Patch ( Low Security )
-- Fix : Form Builder : Security Patch ( Low Security )
-- Fix : Minor Bug Fixes & Performance Improvements.
-
-= 4.5.4 = 04 Aug 2025
-- Improve : Admin Notice Improved.
-- Minor bug Fixes & Improvements.
-
-= 4.5.3 = 31 July 2025
-- Added : Import Preset button in the editor panel.
-- Fix : Resolved CSS issue with the WDesignKit popup.
-- Minor bug Fixes & Improvements.
-
-= 4.5.2 = 28 July 2025
-- Minor bug Fixes & Improvements.
-
-= 4.5.1 = 28 July 2025
-- Readme File Updated.
-- Minor bug Fixes & Improvements.
-
-= 4.5.0 = 28 July 2025
-- New : Revamped Smooth Scroll Block 
-- Added :  Accordion : Add Preset Option for the Ready design.
-- Added :  Advanced Button : Add Preset Option for the Ready design.
-- Added :  Blockquote : Add Preset Option for the Ready design.
-- Added :  Breadcrumbs Bar : Add Preset Option for the Ready design.
-- Added :  Button : Add Preset Option for the Ready design.
-- Added :  Code Highlighter : Add Preset Option for the Ready design.
-- Added :  Countdown : Add Preset Option for the Ready design.
-- Added :  Advanced Image : Add Preset Option for the Ready design.
-- Added :  Data Table : Add Preset Option for the Ready design.
-- Added :  Filp Box : Add Preset Option for the Ready design.
-- Added :  Form : Add Preset Option for the Ready design.
-- Added :  Google Map : Add Preset Option for the Ready design.
-- Added :  Heading Title : Add Preset Option for the Ready design.
-- Added :  Hover Card : Add Preset Option for the Ready design.
-- Added :  Info Box : Add Preset Option for the Ready design.
-- Added :  Interactive Circle Info : Add Preset Option for the Ready design.
-- Added :  Message Box : Add Preset Option for the Ready design.
-- Added :  Navigation Menu : Add Preset Option for the Ready design.
-- Added :  Number Counter : Add Preset Option for the Ready design.
-- Added :  Pricing List : Add Preset Option for the Ready design.
-- Added :  Pricing Table : Add Preset Option for the Ready design.
-- Added :  Progress Bar : Add Preset Option for the Ready design.
-- Added :  Stylish List : Add Preset Option for the Ready design.
-- Added :  Social Icon : Add Preset Option for the Ready design.
-- Added :  Tab Tours : Add Preset Option for the Ready design.
-- Added : Team Member : Add Preset Option for the Ready design.
-- Added :  Testimonials : Add Preset Option for the Ready design.
-- Added :  Video Player : Add Preset Option for the Ready design.
-- Added :  Post Content : Archive Term Description /  Excerpt  Option added.
-- Added :  Form : Alignment Option Added.
-- Added :  Form : Hide Required Icon Option Added.
-- Improve : Google Map : Allows User to setting a pin directly using an address. 
-- Improve: Dashboard : Auto Save Feature Added for Block Toggle on/off.
-- Fix : Form : Submit Button Click Resize Issue Solved.
-- Fix : CSS Not Load in Kadence Elements Bug Fix.
 
 == Upgrade Notice ==

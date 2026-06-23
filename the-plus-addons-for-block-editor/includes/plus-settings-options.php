@@ -2043,6 +2043,13 @@ class Tpgb_Gutenberg_Settings_Options {
 				'tag'        => 'pro',
 				'block_cate' => esc_html__( 'Extras', 'the-plus-addons-for-block-editor' ),
 			),
+			'tp-gsap-animation'         => array(
+				'label'      => esc_html__( 'GSAP Animation', 'the-plus-addons-for-block-editor' ),
+				'demoUrl'    => 'https://nexterwp.com/nexter-blocks/extras/wordpress-gsap-animation/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings',
+				'videoUrl'   => '',
+				'tag'        => 'pro',
+				'block_cate' => esc_html__( 'Extras', 'the-plus-addons-for-block-editor' ),
+			),
 		);
 	}
 

@@ -3140,6 +3140,84 @@ class Tpgb_Library {
 
 			}
 
+			// Add GSAP Animation class if gsapAnim attribute exists.
+			if ( ! empty( $options ) && isset( $options['gsapAnim'] ) && ! empty( $options['gsapAnim'] ) && isset( $options['plus_gsap_animation_type'] ) && 'tp_global' === $options['plus_gsap_animation_type'] ) {
+				// Get global animations — resolve from active preset (new per-preset structure)
+				// with fallback to legacy flat top-level animRep.
+				$options_raw  = get_option( 'tpgb_global_options', '{}' );
+				$options_data = is_string( $options_raw )
+					? json_decode( $options_raw, true )
+					: ( is_array( $options_raw ) ? $options_raw : array() );
+
+				$anim_rep      = array();
+				$active_preset = isset( $options_data['active'] ) ? $options_data['active'] : '';
+
+				if ( $active_preset && isset( $options_data['presets'][ $active_preset ]['animRep'] ) && is_array( $options_data['presets'][ $active_preset ]['animRep'] ) ) {
+					$anim_rep = $options_data['presets'][ $active_preset ]['animRep'];
+				} elseif ( isset( $options_data['animRep'] ) && is_array( $options_data['animRep'] ) ) {
+					// Legacy fallback: flat top-level animRep (pre-migration data).
+					$anim_rep = $options_data['animRep'];
+				}
+
+				// Extract animation name.
+				$gsap_anim = $options['gsapAnim'];
+				$anim_name = is_array( $gsap_anim ) && isset( $gsap_anim['animName'] ) ? $gsap_anim['animName'] : $gsap_anim;
+
+				// Find matching animation.
+				$anim_settings = null;
+				foreach ( $anim_rep as $anim ) {
+					if ( ! empty( $anim['animName'] ) && $anim['animName'] === $anim_name ) {
+						$anim_settings = $anim;
+						break;
+					}
+				}
+
+				if ( $anim_settings ) {
+					$final_anim_settings = $anim_settings;
+
+					// Stagger: container (unwrap single inner row), listing grids (.grid-item), or other repeater blocks (scope-specific selectors in JS).
+					$gsap_stagger_scope_by_block = array(
+						'tpgb/tp-container'       => '',
+						'tpgb/tp-post-listing'    => 'listing',
+						'tpgb/tp-team-listing'    => 'listing',
+						'tpgb/tp-testimonials'    => 'listing',
+						'tpgb/tp-product-listing' => 'listing',
+						'tpgb/tp-accordion'       => 'accordion',
+						'tpgb/tp-tabs-tours'      => 'tabs',
+						'tpgb/tp-stylist-list'    => 'stylist',
+						'tpgb/tp-social-icons'    => 'social',
+					);
+
+					if ( isset( $gsap_stagger_scope_by_block[ $block['blockName'] ] ) && ! empty( $options['gsapAnimStagger'] ) && true === $options['gsapAnimStagger'] ) {
+						$final_anim_settings['animStagger'] = true;
+						$stagger_scope                      = $gsap_stagger_scope_by_block[ $block['blockName'] ];
+
+						if ( '' !== $stagger_scope ) {
+							$final_anim_settings['animStaggerScope'] = $stagger_scope;
+						}
+					}
+
+					// Encode final settings.
+					$gsap_json = wp_json_encode( $final_anim_settings );
+
+					if ( 'tpgb/tp-container' === $block['blockName'] ) {
+						$block_content = preg_replace(
+							'/(<div\b[^>]*class="[^"]*tpgb-container-row[^"]*")/i',
+							'$1 data-nxt-gsap-scroll="' . esc_attr( $gsap_json ) . '"',
+							$block_content,
+							1
+						);
+					} else {
+						$block_content = preg_replace(
+							'/(<[a-z][a-z0-9]*\b[^>]*class="[^"]*tpgb-block-[^"]*")/i',
+							'$1 data-nxt-gsap-scroll="' . esc_attr( $gsap_json ) . '"',
+							$block_content,
+							1
+						);
+					}
+				}
+			}
+
 			$options = ( ! empty( $block['attrs'] ) ) ? $block['attrs'] : '';
 			if ( ! empty( $options ) && class_exists( 'Tpgb_Get_Blocks' ) && $this->check_generate_script() === true ) {
 				if ( isset( $options['block_id'] ) && ! in_array( $options['block_id'], $this->block_ids, true ) ) {

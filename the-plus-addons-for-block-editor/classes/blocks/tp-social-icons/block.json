@@ -271,6 +271,17 @@
 			"style": [{ "condition": [{ "key": "style", "relation": "==", "value": "style-16" }], "selector": " {{PLUS_WRAP}}.style-16 .tpgb-social-list .style-16 .tpgb-icon-link{ height: {{iconHeight}}; }" }],
 			"scopy": true
 		},
+		"iconBorder": {
+			"type": "object",
+			"default": { "openBorder": 0 },
+			"style": [
+				{
+					"condition": [{ "key": "style", "relation": "==", "value": "style-16" }],
+					"selector": "{{PLUS_WRAP}}.tpgb-social-icons.style-16 .tpgb-social-list .tpgb-icon-link"
+				}
+			],
+			"scopy": true
+		},
 		"borderStyle": {
 			"type": "string",
 			"default": "solid",

@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.7.13\n"
+"Project-Id-Version: Nexter Blocks 4.7.14\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-16T10:44:24+00:00\n"
+"POT-Creation-Date: 2026-06-23T05:51:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -526,7 +526,7 @@ msgstr ""
 #: classes/extras/tpgb-wdk-widgets-api.php:78
 #: classes/tp-admin.php:231
 #: includes/plus-settings-options.php:753
-#: includes/plus-settings-options.php:2588
+#: includes/plus-settings-options.php:2595
 msgid "Insufficient permissions."
 msgstr ""
 
@@ -717,11 +717,11 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: classes/tp-block-helper.php:1605
+#: classes/tp-block-helper.php:1615
 msgid "System"
 msgstr ""
 
-#: classes/tp-block-helper.php:1610
+#: classes/tp-block-helper.php:1620
 #: assets/js/admin/blocks-advanced.js:1
 #: assets/js/admin/blocks-builder.js:1
 #: assets/js/admin/blocks-creative.js:1
@@ -733,51 +733,51 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: classes/tp-block-helper.php:1614
+#: classes/tp-block-helper.php:1624
 msgid "Arial"
 msgstr ""
 
-#: classes/tp-block-helper.php:1618
+#: classes/tp-block-helper.php:1628
 msgid "Georgia"
 msgstr ""
 
-#: classes/tp-block-helper.php:1622
+#: classes/tp-block-helper.php:1632
 msgid "Helvetica"
 msgstr ""
 
-#: classes/tp-block-helper.php:1626
+#: classes/tp-block-helper.php:1636
 msgid "Tahoma"
 msgstr ""
 
-#: classes/tp-block-helper.php:1630
+#: classes/tp-block-helper.php:1640
 msgid "Times New Roman"
 msgstr ""
 
-#: classes/tp-block-helper.php:1634
+#: classes/tp-block-helper.php:1644
 msgid "Trebuchet MS"
 msgstr ""
 
-#: classes/tp-block-helper.php:1638
+#: classes/tp-block-helper.php:1648
 msgid "Verdana"
 msgstr ""
 
-#: classes/tp-block-helper.php:1646
+#: classes/tp-block-helper.php:1656
 msgid "Custom Fonts"
 msgstr ""
 
-#: classes/tp-block-helper.php:2078
+#: classes/tp-block-helper.php:2088
 msgid "Failed to send email."
 msgstr ""
 
-#: classes/tp-block-helper.php:2082
+#: classes/tp-block-helper.php:2092
 msgid "Email address and Subject is required. "
 msgstr ""
 
-#: classes/tp-block-helper.php:2125
+#: classes/tp-block-helper.php:2135
 msgid "No Cloudflare Turnstile response received."
 msgstr ""
 
-#: classes/tp-block-helper.php:2129
+#: classes/tp-block-helper.php:2139
 msgid "Invalid CAPTCHA validation response format."
 msgstr ""
 
@@ -1972,8 +1972,8 @@ msgstr ""
 
 #: includes/plus-settings-options.php:341
 #: includes/plus-settings-options.php:342
-#: includes/plus-settings-options.php:2089
-#: includes/plus-settings-options.php:2093
+#: includes/plus-settings-options.php:2096
+#: includes/plus-settings-options.php:2100
 #: dashboard/build/index.js:1
 #: dashboard/build/index.js:7
 msgid "Code Snippets"
@@ -2323,6 +2323,7 @@ msgid "LottieFiles Animation"
 msgstr ""
 
 #: includes/plus-settings-options.php:1551
+#: assets/js/admin/blocks-builder.js:1
 msgid "Mailchimp"
 msgstr ""
 
@@ -2555,6 +2556,7 @@ msgstr ""
 #: includes/plus-settings-options.php:2030
 #: includes/plus-settings-options.php:2037
 #: includes/plus-settings-options.php:2044
+#: includes/plus-settings-options.php:2051
 #: dashboard/build/index.js:7
 msgid "Extras"
 msgstr ""
@@ -2603,64 +2605,68 @@ msgstr ""
 msgid "3D Tilt"
 msgstr ""
 
-#: includes/plus-settings-options.php:2066
+#: includes/plus-settings-options.php:2047
+msgid "GSAP Animation"
+msgstr ""
+
+#: includes/plus-settings-options.php:2073
 msgid "Replace multiple small plugins with a single, unified snippet manager"
 msgstr ""
 
-#: includes/plus-settings-options.php:2067
+#: includes/plus-settings-options.php:2074
 msgid "Add PHP, HTML, CSS safely without editing theme or core files"
 msgstr ""
 
-#: includes/plus-settings-options.php:2068
+#: includes/plus-settings-options.php:2075
 msgid "Apply snippets site-wide or on specific pages, posts, or conditions"
 msgstr ""
 
-#: includes/plus-settings-options.php:2069
+#: includes/plus-settings-options.php:2076
 msgid "Stay protected with built-in validation, version control & rollback"
 msgstr ""
 
-#: includes/plus-settings-options.php:2070
+#: includes/plus-settings-options.php:2077
 msgid "Keep your site fast, only active snippets are loaded"
 msgstr ""
 
-#: includes/plus-settings-options.php:2071
+#: includes/plus-settings-options.php:2078
 msgid "Import or Organise snippets from our 1000+ Cloud Snippets Library"
 msgstr ""
 
-#: includes/plus-settings-options.php:2072
+#: includes/plus-settings-options.php:2079
 msgid "Preview, test, and toggle snippets without affecting live visitors"
 msgstr ""
 
-#: includes/plus-settings-options.php:2094
+#: includes/plus-settings-options.php:2101
 msgid "Add Custom PHP, HTML, CSS & JS Code to WordPress - No Child Theme or Extra Plugins Needed"
 msgstr ""
 
-#: includes/plus-settings-options.php:2095
+#: includes/plus-settings-options.php:2102
 msgid "Skip the pain of editing core files or juggling dozens of mini plugins. Nexter Code Snippets lets you safely add and manage custom PHP, HTML, CSS right inside your dashboard, no child theme required. Build smarter, cleaner sites with total control and zero risk to performance."
 msgstr ""
 
-#: includes/plus-settings-options.php:2097
+#: includes/plus-settings-options.php:2104
 msgid "Activate Nexter Extensions"
 msgstr ""
 
-#: includes/plus-settings-options.php:2097
+#: includes/plus-settings-options.php:2104
 msgid "Install Nexter Extensions"
 msgstr ""
 
-#: includes/plus-settings-options.php:2098
+#: includes/plus-settings-options.php:2105
 msgid "Explore All Features"
 msgstr ""
 
-#: includes/plus-settings-options.php:2115
+#: includes/plus-settings-options.php:2122
 #: dashboard/build/index.js:7
 msgid "Nexter Extension"
 msgstr ""
 
-#: includes/plus-settings-options.php:2600
+#: includes/plus-settings-options.php:2607
 msgid "Invalid HTTP method."
 msgstr ""
 
-#: includes/plus-settings-options.php:2613
+#: includes/plus-settings-options.php:2620
 msgid "Request blocked: destination URL is not in the permitted allowlist."
 msgstr ""
 
@@ -2812,32 +2818,9 @@ msgstr ""
 
 #: assets/js/admin/blocks-advanced.js:1
 #: assets/js/admin/blocks-builder.js:1
-#: assets/js/admin/blocks-creative.js:1
 #: assets/js/admin/blocks-essential.js:1
-#: assets/js/admin/blocks-listing.js:1
-#: assets/js/admin/blocks-social.js:1
-#: assets/js/admin/blocks-tabbed.js:1
 #: assets/js/admin/blocks.js:1
-#: dashboard/build/index.js:7
-msgid "Layout"
-msgstr ""
-
-#: assets/js/admin/blocks-advanced.js:1
-#: assets/js/admin/blocks-builder.js:1
-#: assets/js/admin/blocks-creative.js:1
-#: assets/js/admin/blocks-essential.js:1
-#: assets/js/admin/blocks-listing.js:1
-#: assets/js/admin/blocks-social.js:1
-#: assets/js/admin/blocks-tabbed.js:1
-#: assets/js/admin/blocks.js:1
-msgid "Content"
-msgstr ""
-
-#: assets/js/admin/blocks-advanced.js:1
-#: assets/js/admin/blocks-creative.js:1
-#: assets/js/admin/blocks-listing.js:1
-#: assets/js/admin/blocks-tabbed.js:1
-msgid "Select Style"
+msgid "Button Presets"
 msgstr ""
 
 #: assets/js/admin/blocks-advanced.js:1
@@ -2973,6 +2956,42 @@ msgstr ""
 
 #: assets/js/admin/blocks-advanced.js:1
 msgid "Style 23"
+msgstr ""
+
+#: assets/js/admin/blocks-advanced.js:1
+#: assets/js/admin/blocks-essential.js:1
+#: assets/js/admin/blocks.js:1
+msgid "Global"
+msgstr ""
+
+#: assets/js/admin/blocks-advanced.js:1
+#: assets/js/admin/blocks-builder.js:1
+#: assets/js/admin/blocks-creative.js:1
+#: assets/js/admin/blocks-essential.js:1
+#: assets/js/admin/blocks-listing.js:1
+#: assets/js/admin/blocks-social.js:1
+#: assets/js/admin/blocks-tabbed.js:1
+#: assets/js/admin/blocks.js:1
+#: dashboard/build/index.js:7
+msgid "Layout"
+msgstr ""
+
+#: assets/js/admin/blocks-advanced.js:1
+#: assets/js/admin/blocks-builder.js:1
+#: assets/js/admin/blocks-creative.js:1
+#: assets/js/admin/blocks-essential.js:1
+#: assets/js/admin/blocks-listing.js:1
+#: assets/js/admin/blocks-social.js:1
+#: assets/js/admin/blocks-tabbed.js:1
+#: assets/js/admin/blocks.js:1
+msgid "Content"
+msgstr ""
+
+#: assets/js/admin/blocks-advanced.js:1
+#: assets/js/admin/blocks-creative.js:1
+#: assets/js/admin/blocks-listing.js:1
+#: assets/js/admin/blocks-tabbed.js:1
+msgid "Select Style"
 msgstr ""
 
 #: assets/js/admin/blocks-advanced.js:1
@@ -5734,19 +5753,11 @@ msgid "customizable card"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Style 01"
+msgid "Simple Contact Form"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Style 02"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Style 03"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Style 04"
+msgid "Newsletter Form"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5766,6 +5777,22 @@ msgid "News Style 04"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
+msgid "Style 01"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Style 02"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Style 03"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Style 04"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
 #: assets/js/admin/blocks-essential.js:1
 msgid "Layout Type"
 msgstr ""
@@ -5775,19 +5802,51 @@ msgid "Action After Submit"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "You can select one or more actions here to decide what happens after someone submits the form."
+msgid "Database Entry"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "To make sure you receive every form submission, set up SMTP on your site so emails deliver reliably instead of landing in spam. You can also set this up using Nexter Extension. <a href=\"https://nexterwp.com/docs/set-up-smtp-using-gmail-smtp-in-wordpress/?utm_source=wpbackend&utm_medium=wpeditor&utm_campaign=gutenberg\" target=\"_blank\" rel=\"noopener noreferrer\">Learn More</a>"
+msgid "Auto Respond Email"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "ActiveCampaign"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Brevo"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "ConvertKit"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "GetResponse"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "MailerLite"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Drip"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Webhook"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Slack"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Discord"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
 msgid "To"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Add the email address where you want to receive all form submissions so every new entry notifies you instantly."
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5799,15 +5858,7 @@ msgid "CC"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid " Add extra email addresses here so your team also receives submission emails."
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
 msgid "BCC"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Add hidden email addresses here so they receive submission emails without being visible to other recipients."
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5815,15 +5866,7 @@ msgid "Email Heading"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid " Add a heading that appears at the top of the email body, so the email looks clearer and more professional."
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
 msgid "Subject *"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Set the subject line of the submission email so you can easily identify form entries in your inbox."
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5832,24 +5875,12 @@ msgid "From Email"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Set the sender email address for these emails. Use a verified domain email for best deliverability, and if you leave it empty, it will use your site admin email."
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
 #: dashboard/build/index.js:7
 msgid "From Name"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Set the sender name that shows in the inbox, so recipients instantly know who the email is coming from."
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
 msgid "Reply To"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Set the reply to email address so replies go to the right person. You can use the shortcode [nxt_user_email] to reply directly to the user who submitted the form, or add a custom email."
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5875,7 +5906,7 @@ msgid "Remote IP"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Select extra details you want to include in the email, like page URL, date time, browser info, or other submission context."
+msgid "Validation Error Occurred"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5883,15 +5914,62 @@ msgid "Sender's Message Send To Failed"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Set the message shown when the email fails to send, so users know the submission could not be delivered and they can try again."
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
 msgid "Validation Error Occured"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Set the message shown when form validation fails, like when required fields are missing or email format is incorrect, so users know what to fix."
+msgid "Custom API Key"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Custom API URL"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+#: dashboard/build/index.js:9
+msgid "API Key"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Audience ID"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "ConvertKit Form"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "List Token"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Group ID"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Account ID"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "WebHook"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "User OAuth Token"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Channel Name"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "WebHook URL"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+#: assets/js/admin/blocks-social.js:1
+#: dashboard/build/index.js:7
+msgid "Username"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5966,16 +6044,17 @@ msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
 #: assets/js/admin/blocks-essential.js:1
+msgid "Global Button "
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+#: assets/js/admin/blocks-essential.js:1
 #: assets/js/admin/blocks-social.js:1
 msgid "Button Padding"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-msgid "Loader Color"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Dropdown"
+msgid "Dropdown "
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -5994,14 +6073,6 @@ msgstr ""
 #: assets/js/admin/blocks-builder.js:1
 #: assets/js/admin/blocks-essential.js:1
 msgid "Column Gap"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "First Name"
-msgstr ""
-
-#: assets/js/admin/blocks-builder.js:1
-msgid "Last Name"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -6237,7 +6308,15 @@ msgid "Full Name"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
+msgid "First Name"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
 msgid "Middle Name"
+msgstr ""
+
+#: assets/js/admin/blocks-builder.js:1
+msgid "Last Name"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
@@ -9432,6 +9511,10 @@ msgid "navigation path"
 msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
+msgid "Hover Box Shadow"
+msgstr ""
+
+#: assets/js/admin/blocks-essential.js:1
 #: classes/blocks/tp-button-core/block.json
 msgctxt "block title"
 msgid "Button"
@@ -10022,6 +10105,7 @@ msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
 #: assets/js/admin/blocks.js:1
+#: dashboard/build/index.js:7
 msgid "Ag"
 msgstr ""
 
@@ -10033,6 +10117,7 @@ msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
 #: assets/js/admin/blocks.js:1
+#: dashboard/build/index.js:7
 msgid "AG"
 msgstr ""
 
@@ -10044,6 +10129,7 @@ msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
 #: assets/js/admin/blocks.js:1
+#: dashboard/build/index.js:7
 msgid "ag"
 msgstr ""
 
@@ -10819,6 +10905,7 @@ msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
 #: assets/js/admin/blocks-listing.js:1
+#: assets/js/admin/blocks.js:1
 msgid "Text Alignment"
 msgstr ""
 
@@ -10926,6 +11013,7 @@ msgid "Stripped Effect"
 msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
+#: assets/js/admin/blocks.js:1
 msgid "Button Width"
 msgstr ""
 
@@ -10995,10 +11083,6 @@ msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
 msgid "responsive table"
-msgstr ""
-
-#: assets/js/admin/blocks-essential.js:1
-msgid "Global"
 msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
@@ -12094,6 +12178,10 @@ msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
 msgid "Prefix/Postfix"
+msgstr ""
+
+#: assets/js/admin/blocks-essential.js:1
+msgid "Background Width"
 msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
@@ -14156,10 +14244,6 @@ msgid "Transform CSS"
 msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
-msgid "Hover Box Shadow"
-msgstr ""
-
-#: assets/js/admin/blocks-essential.js:1
 msgid "Hover Transform Effect"
 msgstr ""
 
@@ -14215,6 +14299,10 @@ msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
 msgid "Icon Radius"
+msgstr ""
+
+#: assets/js/admin/blocks-essential.js:1
+msgid "Max Height"
 msgstr ""
 
 #: assets/js/admin/blocks-essential.js:1
@@ -15284,11 +15372,6 @@ msgstr ""
 
 #: assets/js/admin/blocks-social.js:1
 msgid "Retweet"
-msgstr ""
-
-#: assets/js/admin/blocks-social.js:1
-#: dashboard/build/index.js:7
-msgid "Username"
 msgstr ""
 
 #: assets/js/admin/blocks-social.js:1
@@ -18907,6 +18990,10 @@ msgid "Open Theme Settings"
 msgstr ""
 
 #: dashboard/build/index.js:7
+msgid "Nexter Theme Image"
+msgstr ""
+
+#: dashboard/build/index.js:7
 msgid "50+ WordPress Extensions to Make Site More Secure, Performant & Smart"
 msgstr ""
 
@@ -18936,12 +19023,20 @@ msgid "Open Blocks"
 msgstr ""
 
 #: dashboard/build/index.js:7
+msgid "Total Blocks"
+msgstr ""
+
+#: dashboard/build/index.js:7
 #: dashboard/theme-builder/build/index.js:1
 msgid "Inactive"
 msgstr ""
 
 #: dashboard/build/index.js:7
 msgid " Active"
+msgstr ""
+
+#: dashboard/build/index.js:7
+msgid "Total Extensions"
 msgstr ""
 
 #: dashboard/build/index.js:7
@@ -19003,6 +19098,10 @@ msgstr ""
 
 #: dashboard/build/index.js:7
 msgid "We're Active on"
+msgstr ""
+
+#: dashboard/build/index.js:7
+msgid "New"
 msgstr ""
 
 #: dashboard/build/index.js:7
@@ -19132,10 +19231,6 @@ msgstr ""
 
 #: dashboard/build/index.js:7
 msgid " Total Blocks"
-msgstr ""
-
-#: dashboard/build/index.js:7
-msgid "New"
 msgstr ""
 
 #: dashboard/build/index.js:7
@@ -22321,6 +22416,10 @@ msgid "Connect Mailchimp CRM"
 msgstr ""
 
 #: dashboard/build/index.js:9
+msgid " Add your Mailchimp API key to connect with our Mailchimp form block and send emails directly to your CRM."
+msgstr ""
+
+#: dashboard/build/index.js:9
 msgid "Enter Audience / List ID"
 msgstr ""
 
@@ -22402,10 +22501,6 @@ msgstr ""
 
 #: dashboard/build/index.js:9
 msgid "AI Context Settings"
-msgstr ""
-
-#: dashboard/build/index.js:9
-msgid "API Key"
 msgstr ""
 
 #: dashboard/build/index.js:9

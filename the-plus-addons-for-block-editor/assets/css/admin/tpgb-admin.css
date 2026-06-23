@@ -1,5 +1,5 @@
-#toplevel_page_tpgb_gutenberg_settings ul.wp-submenu .wp-first-item,#ehe-admin-cb {
-	display: none;
+#toplevel_page_tpgb_gutenberg_settings ul.wp-submenu .wp-first-item,#ehe-admin-cb,.column-handle .tpgb-color-preview,.column-tpgb-meta-preview .tpgb-color-preview,.column-tpgb-meta-preview img,.column-handle img.wvs-preview  {
+    display: none;
 }
 .wp-menu-image.dashicons-nxt-builder-groups {
 	background: url(../../images/nxt-favicon.svg);

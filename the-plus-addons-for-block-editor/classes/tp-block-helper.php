@@ -1468,6 +1468,16 @@ class Tp_Blocks_Helper {
 		}
 
 		if ( isset( $attr['sliderMode'] ) && 'vertical' === $attr['sliderMode'] ) {
+			$unit                                      = $attr['slideHeight']['unit'] ?? 'px';
+			$settings['height']                        = ! empty( $attr['slideHeight']['md'] ) ? $attr['slideHeight']['md'] . $unit : '';
+			$settings['heightRatio']                   = ( isset( $attr['slideheightRatio'] ) && ! empty( $attr['slideheightRatio'] ) ) ? $attr['slideheightRatio'] : 0.5;
+			$settings['breakpoints']['1024']['height'] = ! isset( $attr['slideHeight']['sm'] )
+				? $settings['height']
+				: ( ! empty( $attr['slideHeight']['sm'] ) ? $attr['slideHeight']['sm'] . $unit : $settings['height'] );
+			$settings['breakpoints']['767']['height']  = ! isset( $attr['slideHeight']['xs'] )
+				? $settings['breakpoints']['1024']['height']
+				: ( ! empty( $attr['slideHeight']['xs'] ) ? $attr['slideHeight']['xs'] . $unit : $settings['breakpoints']['1024']['height'] );
+
 			$settings['heightRatio'] = ( isset( $attr['slideheightRatio'] ) && ! empty( $attr['slideheightRatio'] ) ) ? $attr['slideheightRatio'] : 0.5;
 
 			if ( isset( $attr['tabslideRatio'] ) && ! empty( $attr['tabslideRatio'] ) ) {
@@ -2172,6 +2182,18 @@ class Tp_Blocks_Helper {
 		}
 
 		return trailingslashit( $upload_dir['baseurl'] );
+	}
+
+	/**
+	 * GSAP Attributes Function (Pro feature - use tpgb_global_gsap_attributes filter)
+	 *
+	 * @since 4.5.10
+	 * @param mixed $attr The attr.
+	 */
+	public static function global_gsap_attributes( $attr ) {
+		if ( has_filter( 'tpgb_global_gsap_attributes' ) ) {
+			return apply_filters( 'tpgb_global_gsap_attributes', '', $attr );
+		}
 	}
 }
 

@@ -2880,7 +2880,7 @@
 							"value": false
 						}
 					],
-					"selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text"
+					"selector": "{{PLUS_WRAP}} .info-box-inner .info-icon-content"
 				}
 			],
 			"scopy": true
@@ -2899,7 +2899,7 @@
 							"value": false
 						}
 					],
-					"selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text:hover"
+					"selector": "{{PLUS_WRAP}} .info-box-inner:hover .info-icon-content"
 				}
 			],
 			"scopy": true
@@ -2917,7 +2917,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text{border-radius: {{txtBdrNmlRadius}};}"
+					"selector": "{{PLUS_WRAP}} .info-box-inner .info-icon-content{border-radius: {{txtBdrNmlRadius}};}"
 				}
 			],
 			"scopy": true
@@ -2935,7 +2935,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text:hover{border-radius: {{txtBdrHvrRadius}};}"
+					"selector": "{{PLUS_WRAP}} .info-box-inner:hover .info-icon-content{border-radius: {{txtBdrHvrRadius}};}"
 				}
 			],
 			"scopy": true
@@ -2958,7 +2958,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text"
+					"selector": "{{PLUS_WRAP}} .info-box-inner .info-icon-content"
 				}
 			],
 			"scopy": true
@@ -2968,7 +2968,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .info-box-inner .tpgb-icon-wrap-text:hover{ border-color: {{txtBdrHvrColor}}; }"
+					"selector": "{{PLUS_WRAP}} .info-box-inner:hover .info-icon-content{ border-color: {{txtBdrHvrColor}}; }"
 				}
 			],
 			"scopy": true

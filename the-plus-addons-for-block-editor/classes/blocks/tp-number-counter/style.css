@@ -29,7 +29,9 @@
 	width: 100%
 }
 .tpgb-number-counter .tpgb-draw-svg{
-	display: inline-block;
+	display: inline-flex;
+    align-items: center;
+    justify-content: center;
 	width: 100%;
 	max-width: 50px;
 	line-height: 50px;

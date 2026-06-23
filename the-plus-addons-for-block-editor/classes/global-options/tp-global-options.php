@@ -1636,14 +1636,27 @@ class Tpgb_Blocks_Global_Options {
 	 */
 	public static function load_plusButton_saves( $attributes ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid,WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 
+		// The preset-class slug helper lives in tp-button-preset-vars.php.
+		// Its primary loader is tp-generate-block-css.php, but this method
+		// can be invoked from contexts that don't pull that file (some
+		// REST handlers, dynamic-render shortcuts) — defensively require.
+		if ( ! class_exists( 'Tpgb_Button_Preset_Vars' ) ) {
+			$_preset_vars_file = dirname( __DIR__ ) . '/tp-button-preset-vars.php';
+			if ( file_exists( $_preset_vars_file ) ) {
+					require_once $_preset_vars_file;
+			}
+		}
+
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
 		if ( empty( $attributes ) ) {
 			return;
 		}
-		$ext_btnshow          = ( ! empty( $attributes['extBtnshow'] ) ) ? $attributes['extBtnshow'] : false;
-		$ext_btn_style        = ( ! empty( $attributes['extBtnStyle'] ) ) ? $attributes['extBtnStyle'] : 'style-8';
+		$ext_btnshow = ( ! empty( $attributes['extBtnshow'] ) ) ? $attributes['extBtnshow'] : false;
+		// Global mode always renders as style-8 — that's the markup the preset CSS targets.
+		$extbtn_globalmode    = ( ! empty( $attributes['extBtnGlobalMode'] ) ) ? $attributes['extBtnGlobalMode'] : false;
+		$ext_btn_style        = $extbtn_globalmode ? 'style-8' : ( ( ! empty( $attributes['extBtnStyle'] ) ) ? $attributes['extBtnStyle'] : 'style-8' );
 		$ext_btn_text         = ( ! empty( $attributes['extBtnText'] ) ) ? $attributes['extBtnText'] : '';
 		$ext_btn_url          = ( ! empty( $attributes['extBtnUrl'] ) ) ? $attributes['extBtnUrl'] : '';
 		$ext_btntarget        = ( ! empty( $attributes['extBtnUrl']['target'] ) ) ? ' target="_blank"' : '';
@@ -1653,8 +1666,18 @@ class Tpgb_Blocks_Global_Options {
 		$ext_btnicon_position = ( ! empty( $attributes['extBtniconPosition'] ) ) ? $attributes['extBtniconPosition'] : 'after';
 		$i_box_link_tgl       = ( ! empty( $attributes['IBoxLinkTgl'] ) ) ? $attributes['IBoxLinkTgl'] : false;
 
+		// When a preset is active, emit the same wrapper classes the standalone
+		// button blocks use. Class-based rules in plus-global.css then style
+		// these buttons too — even after "Regenerate All Assets" deletes the
+		// per-post CSS. The marker class doubles as a :not() hook for static
+		// style.css defaults elsewhere. Slug ("btnpreset-{name}") is derived
+		// from the preset's display name to match the JS side.
+		$extbtn_preset_key  = ( ! empty( $attributes['extBtnPresetKey'] ) ) ? $attributes['extBtnPresetKey'] : '';
+		$ext_preset_slug    = ( $extbtn_globalmode && $extbtn_preset_key && class_exists( 'Tpgb_Button_Preset_Vars' ) ) ? Tpgb_Button_Preset_Vars::preset_class_slug( $extbtn_preset_key ) : '';
+		$ext_preset_classes = ( $extbtn_globalmode && $extbtn_preset_key ) ? ' nxt-btn-global' . ( $ext_preset_slug ? ' nxt-btn-global-' . sanitize_html_class( $ext_preset_slug ) : '' ) : '';
+
 			$output  = '';
-			$output .= '<div class="tpgb-adv-button button-' . esc_attr( $ext_btn_style ) . '">';
+			$output .= '<div class="tpgb-adv-button button-' . esc_attr( $ext_btn_style ) . ' ' . esc_attr( $ext_preset_classes ) . ' ">';
 		if ( ! empty( $i_box_link_tgl ) ) {
 			$output .= '<div class="button-link-wrap">';
 		} else {
@@ -1839,8 +1862,20 @@ class Tpgb_Blocks_Global_Options {
 			$wrap_id .= 'id="' . esc_attr( $attributes['globalId'] ) . '"';
 		}
 
+		$gsap_attr = '';
+
+		if ( class_exists( 'Tp_Blocks_Helper' ) ) {
+			$gsap_attr = Tp_Blocks_Helper::global_gsap_attributes( $attributes );
+		}
+
+		// Container row outputs GSAP on its own root; skip duplicate global tpgb-wrap-* when GSAP is enabled.
+		$is_container_block  = ( ! empty( $attributes['__tpgb_block'] ) && 'tpgb/tp-container' === $attributes['__tpgb_block'] ) || ( strpos( $content, 'tpgb-container-row' ) !== false );
+		$gsap_anim_type      = isset( $attributes['plus_gsap_animation_type'] ) ? $attributes['plus_gsap_animation_type'] : 'none';
+		$container_uses_gsap = ! empty( $gsap_attr ) || ( ! empty( $gsap_anim_type ) && 'none' !== $gsap_anim_type );
+		$skip_gsap_wrap      = $is_container_block && $container_uses_gsap;
+
 		$has_wrapper = false;
-		if ( ! empty( $wrap_id ) || ! empty( $wrap_class ) || ! empty( $attributes['globalCustomCss'] ) || ! empty( $animation_effect ) || ! empty( $animation_out_effect['check'] ) || ( isset( $attributes['globalflexCss'] ) && ! empty( $attributes['globalflexCss']['tpgbReset'] ) ) || ( ! empty( $attributes['globalPosition'] ) && ( ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) || ( isset( $attributes['globalPosition']['sm'] ) && ! empty( $attributes['globalPosition']['sm'] ) ) || ( isset( $attributes['globalPosition']['xs'] ) && ! empty( $attributes['globalPosition']['xs'] ) ) ) ) ) {
+		if ( ! empty( $gsap_attr ) || ! empty( $wrap_id ) || ! empty( $wrap_class ) || ! empty( $attributes['globalCustomCss'] ) || ! empty( $animation_effect ) || ! empty( $animation_out_effect['check'] ) || ( isset( $attributes['globalflexCss'] ) && ! empty( $attributes['globalflexCss']['tpgbReset'] ) ) || ( ! empty( $attributes['globalPosition'] ) && ( ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) || ( isset( $attributes['globalPosition']['sm'] ) && ! empty( $attributes['globalPosition']['sm'] ) ) || ( isset( $attributes['globalPosition']['xs'] ) && ! empty( $attributes['globalPosition']['xs'] ) ) ) ) ) {
 			$has_wrapper = true;
 			if ( isset( $attributes['contentWidth'] ) && ! empty( $attributes['contentWidth'] ) ) {
 				$wrap_class .= ' alignfull';
@@ -1856,43 +1891,45 @@ class Tpgb_Blocks_Global_Options {
 			$wrapper_attr = apply_filters( 'tpgb_globalWrapAttr', $wrapper_attr, $attributes ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 		}
 		if ( ! empty( $has_wrapper ) ) {
-
-			if ( has_filter( 'tpgb_globalWrapClass' ) ) {
-				$wrap_class = apply_filters( 'tpgb_globalWrapClass', $wrap_class, $attributes ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
-			}
-
-			if ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) {
-				$wrap_class .= ' tpgb-position-' . esc_attr( $attributes['globalPosition']['md'] );
-			}
-			if ( isset( $attributes['globalPosition']['sm'] ) && ! empty( $attributes['globalPosition']['sm'] ) ) {
-				$wrap_class .= ' tpgb-tab-position-' . esc_attr( $attributes['globalPosition']['sm'] );
-			} elseif ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) {
-				$wrap_class .= ' tpgb-tab-position-' . esc_attr( $attributes['globalPosition']['md'] );
-			}
-
-			if ( isset( $attributes['globalPosition']['xs'] ) && ! empty( $attributes['globalPosition']['xs'] ) ) {
-				$wrap_class .= ' tpgb-mobile-position-' . esc_attr( $attributes['globalPosition']['xs'] );
-			} elseif ( isset( $attributes['globalPosition']['sm'] ) && ! empty( $attributes['globalPosition']['sm'] ) ) {
-				$wrap_class .= ' tpgb-mobile-position-' . esc_attr( $attributes['globalPosition']['sm'] );
-			} elseif ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) {
-				$wrap_class .= ' tpgb-mobile-position-' . esc_attr( $attributes['globalPosition']['md'] );
-			}
-
-			$output_wrap .= '<div ' . $wrap_id . ' class="tpgb-wrap-' . esc_attr( $attributes['block_id'] ) . ' ' . esc_attr( $wrap_class ) . ' ' . esc_attr( $anim_class ) . '" ' . $anim_attr . ' ' . $wrapper_attr . '>';
-				ob_start();
-				do_action( 'tpgb_wrapper_inner_before', $attributes );
-				$output_wrap .= ob_get_contents();
-				ob_end_clean();
-
+			if ( $skip_gsap_wrap ) {
 				$output_wrap .= $content;
+			} else {
+				if ( has_filter( 'tpgb_globalWrapClass' ) ) {
+					$wrap_class = apply_filters( 'tpgb_globalWrapClass', $wrap_class, $attributes ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
+				}
 
-				ob_start();
-				do_action( 'tpgb_wrapper_inner_after', $attributes );
-				$output_wrap .= ob_get_contents();
-				ob_end_clean();
+				if ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) {
+					$wrap_class .= ' tpgb-position-' . esc_attr( $attributes['globalPosition']['md'] );
+				}
+				if ( isset( $attributes['globalPosition']['sm'] ) && ! empty( $attributes['globalPosition']['sm'] ) ) {
+					$wrap_class .= ' tpgb-tab-position-' . esc_attr( $attributes['globalPosition']['sm'] );
+				} elseif ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) {
+					$wrap_class .= ' tpgb-tab-position-' . esc_attr( $attributes['globalPosition']['md'] );
+				}
 
-			$output_wrap .= '</div>';
+				if ( isset( $attributes['globalPosition']['xs'] ) && ! empty( $attributes['globalPosition']['xs'] ) ) {
+					$wrap_class .= ' tpgb-mobile-position-' . esc_attr( $attributes['globalPosition']['xs'] );
+				} elseif ( isset( $attributes['globalPosition']['sm'] ) && ! empty( $attributes['globalPosition']['sm'] ) ) {
+					$wrap_class .= ' tpgb-mobile-position-' . esc_attr( $attributes['globalPosition']['sm'] );
+				} elseif ( isset( $attributes['globalPosition']['md'] ) && ! empty( $attributes['globalPosition']['md'] ) ) {
+					$wrap_class .= ' tpgb-mobile-position-' . esc_attr( $attributes['globalPosition']['md'] );
+				}
 
+				$output_wrap .= '<div ' . $wrap_id . ' class="tpgb-wrap-' . esc_attr( $attributes['block_id'] ) . ' ' . esc_attr( $wrap_class ) . ' ' . esc_attr( $anim_class ) . '" ' . $anim_attr . ' ' . $wrapper_attr . ' ' . $gsap_attr . '>';
+					ob_start();
+					do_action( 'tpgb_wrapper_inner_before', $attributes );
+					$output_wrap .= ob_get_contents();
+					ob_end_clean();
+
+					$output_wrap .= $content;
+
+					ob_start();
+					do_action( 'tpgb_wrapper_inner_after', $attributes );
+					$output_wrap .= ob_get_contents();
+					ob_end_clean();
+
+				$output_wrap .= '</div>';
+			}
 		} else {
 			$output_wrap .= $content;
 		}

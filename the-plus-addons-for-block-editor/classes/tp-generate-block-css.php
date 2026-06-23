@@ -10,6 +10,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+// Button-preset → CSS variables helper. Loaded here (rather than from
+// plus-block-loader) because this file is its only consumer — the
+// apply_var_refs() calls below are the single entry point. Using
+// require_once + a class_exists guard means this stays a no-op if the
+// loader ever requires the helper elsewhere.
+if ( ! class_exists( 'Tpgb_Button_Preset_Vars' ) ) {
+	require_once __DIR__ . '/tp-button-preset-vars.php';
+}
+// Animation-preset mirror — emits viewer-facing CSS vars for every entry
+// in the global preset card's "GSAP Scroll" repeater. Separate file from
+// the button mirror because the consumer pipeline is different (GSAP at
+// runtime vs. CSS generator at render) even though the output format
+// (--tpgb-{ns}-{field}: value) is the same.
+if ( ! class_exists( 'Tpgb_Animation_Preset_Vars' ) ) {
+	require_once __DIR__ . '/tp-animation-preset-vars.php';
+}
+
+
 /**
  * Tpgb_Generate_Blocks_Css class
  *
@@ -26,18 +44,6 @@ class Tpgb_Generate_Blocks_Css {
 	private static $instance;
 
 	/**
-	 * Get instance
-	 *
-	 * @return Tpgb_Generate_Blocks_Css
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
 	 * All attributes
 	 *
 	 * @var array
@@ -50,6 +56,25 @@ class Tpgb_Generate_Blocks_Css {
 	 * @var bool
 	 */
 	protected static $all_dynamicattr = false;
+
+	/**
+	 * Button presets loaded once per generate_dynamic_css() run (not PHP-static forever).
+	 *
+	 * @var array<string,mixed>|null
+	 */
+	protected static $tpgb_button_presets_for_request = null;
+
+	/**
+	 * Get instance
+	 *
+	 * @return Tpgb_Generate_Blocks_Css
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * Constructor
@@ -84,12 +109,14 @@ class Tpgb_Generate_Blocks_Css {
 	 * @since 1.1.3
 	 */
 	public function generate_dynamic_css( $post_id = '', $dynamic = false ) {
-		self::$all_dynamicattr = $dynamic;
-		self::$all_attributes  = array();
-		$post_id               = ( ! empty( $post_id ) ) ? $post_id : $this->is_post_id();
-		$post_data             = get_post( $post_id );
-		$content               = ( isset( $post_data->post_content ) ) ? $post_data->post_content : '';
-		$parse_blocks          = parse_blocks( $content );
+		self::$all_dynamicattr                 = $dynamic;
+		self::$all_attributes                  = array();
+		self::$tpgb_button_presets_for_request = null;
+
+		$post_id      = ( ! empty( $post_id ) ) ? $post_id : $this->is_post_id();
+		$post_data    = get_post( $post_id );
+		$content      = ( isset( $post_data->post_content ) ) ? $post_data->post_content : '';
+		$parse_blocks = parse_blocks( $content );
 
 		foreach ( $parse_blocks as $block ) {
 			$this->parse_block_settings( $block, $dynamic );
@@ -140,6 +167,412 @@ class Tpgb_Generate_Blocks_Css {
 			$wpblock = new WP_Block( $block, $context );
 
 			$attributes = isset( $wpblock->parsed_block['attrs'] ) ? $wpblock->parsed_block['attrs'] : array();
+
+			// Load button presets once per request, on demand.
+			// Resolution order mirrors get_active_presets() in tp-button-preset-vars.php:
+			// tpgb_global_options is the primary JS write path. Checking
+			// tpgb-block-global-style first risks using stale legacy keys that don't
+			// match the selectedButtonPreset value written by the current JS flow.
+			$ensure_button_presets_loaded = static function () {
+				if ( null !== self::$tpgb_button_presets_for_request ) {
+					return;
+				}
+				self::$tpgb_button_presets_for_request = array();
+
+				// 1. Primary: tpgb_global_options.presets[$active].buttonPresets
+				$raw = get_option( 'tpgb_global_options', '' );
+				if ( is_array( $raw ) ) {
+					$dec = $raw;
+				} elseif ( is_string( $raw ) && '' !== $raw ) {
+					$raw_decoded = json_decode( $raw, true );
+					$dec         = is_array( $raw_decoded ) ? $raw_decoded : array();
+				} else {
+					$dec = array();
+				}
+				if ( ! empty( $dec['presets'] ) && ! empty( $dec['active'] ) && is_array( $dec['presets'] ) ) {
+					$_active_key = $dec['active'];
+					if ( isset( $dec['presets'][ $_active_key ]['buttonPresets'] ) && is_array( $dec['presets'][ $_active_key ]['buttonPresets'] ) ) {
+						self::$tpgb_button_presets_for_request = $dec['presets'][ $_active_key ]['buttonPresets'];
+						return;
+					}
+				}
+				// 2. Legacy flat: tpgb_global_options.buttonPresets
+				if ( ! empty( $dec['buttonPresets'] ) && is_array( $dec['buttonPresets'] ) ) {
+					self::$tpgb_button_presets_for_request = $dec['buttonPresets'];
+					return;
+				}
+				// 3. Last-resort: tpgb-block-global-style.__buttonCore.buttonPresets
+				$bgs = get_option( 'tpgb-block-global-style', '' );
+				if ( is_array( $bgs ) ) {
+					$bd = $bgs;
+				} elseif ( is_string( $bgs ) && '' !== $bgs ) {
+					$bgs_decoded = json_decode( $bgs, true );
+					$bd          = is_array( $bgs_decoded ) ? $bgs_decoded : array();
+				} else {
+					$bd = array();
+				}
+				if ( ! empty( $bd['__buttonCore']['buttonPresets'] ) && is_array( $bd['__buttonCore']['buttonPresets'] ) ) {
+					self::$tpgb_button_presets_for_request = $bd['__buttonCore']['buttonPresets'];
+				}
+			};
+
+			// Merge preset VAR REFERENCES for any button block with an active
+			// preset. Rather than merging raw preset values into $attributes,
+			// we replace the 11 preset-covered keys with objects whose leaves
+			// are var() references. The generator then emits.
+			// --tpgb-{preset}-{attr}-{sub} references in the block's CSS.
+			// Actual values live in plus-global.css (written by getGlobalCss
+			// on post save). Local attribute values for the 11 keys are
+			// intentionally discarded while a preset is active — this is the.
+			// "global overrides local" contract.
+			//
+			// For tp-button and tp-advanced-buttons we also remap the var-ref
+			// shapes onto each block's own attribute names and lock the style
+			// variant to the preset-target style (tp-button → style-23,
+			// tp-advanced-buttons → style-1). The JS remap in
+			// global-button-presets.js mirrors this mapping.
+			$use_global_btn  = ! isset( $attributes['useGlobalButtonSettings'] ) || $attributes['useGlobalButtonSettings'];
+			$is_preset_block = ! empty( $block['blockName'] ) && in_array(
+				$block['blockName'],
+				array( 'tpgb/tp-button-core', 'tpgb/tp-button', 'tpgb/tp-advanced-buttons' ),
+				true
+			);
+			if ( $is_preset_block && $use_global_btn && ! empty( $attributes['selectedButtonPreset'] ) && class_exists( 'Tpgb_Button_Preset_Vars' ) ) {
+				$refs = Tpgb_Button_Preset_Vars::apply_var_refs( $attributes, $attributes['selectedButtonPreset'] );
+
+				if ( 'tpgb/tp-button-core' === $block['blockName'] ) {
+					$attributes = $refs;
+				} else {
+					// Remap to block-specific attribute names.
+					$map              = array();
+					$forced_style_key = '';
+					$forced_style_val = '';
+					if ( 'tpgb/tp-button' === $block['blockName'] ) {
+						$forced_style_key = 'styleType';
+						$forced_style_val = 'style-23';
+						$map              = array(
+							'btColor'  => array( 'btnTextNmlColor', 'iconNmlColor' ),
+							'bthColor' => array( 'btnTextHvrColor', 'iconHvrColor' ),
+							'btBg'     => array( 'normalBG' ),
+							'bthBg'    => array( 'hoverBG' ),
+							'bTypo'    => array( 'texTyp' ),
+							'bBord'    => array( 'bgNormalB' ),
+							'brad'     => array( 'normalBRadius', 'hoverBRadius' ),
+							'btPad'    => array( 'innerPadding' ),
+							'btshadow' => array( 'nmlboxShadow' ),
+						);
+					} elseif ( 'tpgb/tp-advanced-buttons' === $block['blockName'] ) {
+						$forced_style_key = 'ctaStyle';
+						$forced_style_val = 'style-1';
+						$map              = array(
+							'btColor'  => array( 'textNmlColor' ),
+							'bthColor' => array( 'textHvrColor' ),
+							'btBg'     => array( 'normalBG' ),
+							'bthBg'    => array( 'hoverBG' ),
+							'bTypo'    => array( 'texTypo' ),
+							'bBord'    => array( 'bgNormalB' ),
+							'brad'     => array( 'nmlBRadius', 'hvrBRadius' ),
+							'btPad'    => array( 'btnPadding' ),
+							'btshadow' => array( 'nmlboxShadow' ),
+						);
+					}
+					if ( $forced_style_key ) {
+						$attributes[ $forced_style_key ] = $forced_style_val;
+					}
+					foreach ( $map as $preset_key => $targets ) {
+						if ( ! array_key_exists( $preset_key, $refs ) ) {
+							continue;
+						}
+						foreach ( $targets as $attr_key ) {
+							$attributes[ $attr_key ] = $refs[ $preset_key ];
+						}
+					}
+				}
+			}
+
+			// tp-mailchimp: subscribe button "Use Global Button Settings" preset.
+			// Mirrors the JS _BLOCK_ATTR_MAPS 'tp-mailchimp' entry: route the
+			// preset through var(--tpgb-btnpreset-{slug}-*) refs and remap them
+			// onto the subscribe-button attributes. Without this the preset only
+			// applied in the editor (client-side) and never reached frontend CSS
+			// (and wouldn't survive a preset rename like the other blocks do).
+			// tShadow/bthBColor are intentionally unmapped — the submit button
+			// has no text-shadow control and its hover border is a separate
+			// composite (btnHoverB), matching the JS map.
+			if ( ! empty( $block['blockName'] ) && 'tpgb/tp-mailchimp' === $block['blockName'] && ! empty( $attributes['useGlobalButtonSettings'] ) && ! empty( $attributes['selectedButtonPreset'] ) && class_exists( 'Tpgb_Button_Preset_Vars' ) ) {
+				$refs              = Tpgb_Button_Preset_Vars::apply_var_refs( $attributes, $attributes['selectedButtonPreset'] );
+				$mailchimp_btn_map = array(
+					'bTypo'     => 'btnTypo',
+					'btColor'   => 'btnTextNmlClr',
+					'bthColor'  => 'btnTextHvrClr',
+					'btBg'      => 'btnNormalBG',
+					'bthBg'     => 'btnHoverBG',
+					'bBord'     => 'btnNormalB',
+					'brad'      => 'btnNmlBRadius',
+					'btPad'     => 'btnPadding',
+					'btshadow'  => 'normalbtnShadow',
+					'bthShadow' => 'hoverbtnShadow',
+				);
+				foreach ( $mailchimp_btn_map as $preset_key => $attr_key ) {
+					if ( array_key_exists( $preset_key, $refs ) ) {
+						$attributes[ $attr_key ] = $refs[ $preset_key ];
+					}
+				}
+			}
+
+			// Merge preset VAR REFERENCES for "global button" used inside other
+			// blocks (extBtn* options, e.g. tp-infobox listing-mode button).
+			// Uses the same --tpgb-{preset}-{attr}-{sub} variables declared in
+			// plus-global.css so edits to a preset reflect instantly without
+			// per-post CSS rewrites.
+			if ( ! empty( $attributes['extBtnGlobalMode'] ) && ! empty( $attributes['extBtnPresetKey'] )
+				&& class_exists( 'Tpgb_Button_Preset_Vars' ) ) {
+				$refs = Tpgb_Button_Preset_Vars::apply_var_refs( $attributes, $attributes['extBtnPresetKey'] );
+
+				// Force the markup/style branch that global button presets target.
+				$attributes['extBtnStyle'] = 'style-8';
+
+				// Remap preset keys onto the extBtn* attribute names used by
+				// this block family's generator selectors.
+				$ext_map = array(
+					'btColor'   => 'extbtnTextColor',
+					'bthColor'  => 'extbtnThoverColor',
+					'btBg'      => 'extbtnBG',
+					'bthBg'     => 'extbtnHvrBG',
+					'bTypo'     => 'extbtnTypo',
+					'bBord'     => 'extbtnNormalB',
+					'brad'      => 'extbtnBRadius',
+					'btPad'     => 'extbtnPadding',
+					'btshadow'  => 'extbtnShadow',
+					'bthShadow' => 'hoverextbtnShadow',
+				);
+				foreach ( $ext_map as $preset_key => $attr_key ) {
+					if ( array_key_exists( $preset_key, $refs ) ) {
+						$attributes[ $attr_key ] = $refs[ $preset_key ];
+					}
+				}
+
+				// Map hover border color from preset — bthBColor is a scalar.
+				// (string color value) in the preset, but the ext-button uses
+				// extbtnHvrB (a border object) for the hover border CSS.
+				// Synthesise a minimal border-object so the CSS generator
+				// emits border-color on :hover for the ext-button.
+				if ( array_key_exists( 'bthBColor', $refs ) && '' !== $refs['bthBColor'] ) {
+					$hvr               = isset( $attributes['extbtnHvrB'] ) && is_array( $attributes['extbtnHvrB'] )
+						? $attributes['extbtnHvrB']
+						: array();
+					$hvr['color']      = $refs['bthBColor'];
+					$hvr['openBorder'] = ! empty( $hvr['openBorder'] ) ? $hvr['openBorder'] : 1;
+					// Preserve border style/width from normal border if not
+					// already set on hover — keeps the border visible on hover.
+					if ( empty( $hvr['type'] ) && ! empty( $attributes['extbtnNormalB']['type'] ) ) {
+						$hvr['type'] = $attributes['extbtnNormalB']['type'];
+					}
+					if ( empty( $hvr['width'] ) && ! empty( $attributes['extbtnNormalB']['width'] ) ) {
+						$hvr['width'] = $attributes['extbtnNormalB']['width'];
+					}
+					$attributes['extbtnHvrB'] = $hvr;
+				}
+			}
+
+			// Merge global button preset for listing load more buttons (same preset store as tp-button-core).
+			$listing_blocks_global_btn = array( 'tpgb/tp-post-listing', 'tpgb/tp-product-listing' );
+			if ( ! empty( $block['blockName'] ) && in_array( $block['blockName'], $listing_blocks_global_btn, true ) && ! empty( $attributes['useGlobalButtonSettings'] ) && ! empty( $attributes['selectedButtonPreset'] ) ) {
+				$ensure_button_presets_loaded();
+				$preset_key = $attributes['selectedButtonPreset'];
+				if ( ! empty( self::$tpgb_button_presets_for_request[ $preset_key ] ) ) {
+					$preset = self::$tpgb_button_presets_for_request[ $preset_key ];
+					if ( is_object( $preset ) ) {
+						$preset = json_decode( wp_json_encode( $preset ), true );
+					}
+					if ( is_array( $preset ) ) {
+						$saved_btn_border     = isset( $attributes['btnBorder'] ) ? $attributes['btnBorder'] : null;
+						$saved_btn_hvr_border = isset( $attributes['btnhvrBorder'] ) ? $attributes['btnhvrBorder'] : null;
+						$key_map              = array(
+							'bTypo'    => 'btnTypo',
+							'btColor'  => 'btncolor',
+							'btBg'     => 'btnBgtype',
+							'bBord'    => 'btnBorder',
+							'brad'     => 'btnBradius',
+							'bthColor' => 'btnhvrcolor',
+							'bthBg'    => 'btnHvrBgtype',
+						);
+						foreach ( $key_map as $src => $tgt ) {
+							if ( array_key_exists( $src, $preset ) ) {
+								$attributes[ $tgt ] = $preset[ $src ];
+							}
+						}
+						// Button core hover border is bthBColor (string); listing uses btnhvrBorder object.
+						if ( array_key_exists( 'bthBColor', $preset ) && '' !== $preset['bthBColor'] && null !== $preset['bthBColor'] ) {
+							$hvr                        = is_array( $saved_btn_hvr_border ) ? $saved_btn_hvr_border : array();
+							$hvr['color']               = $preset['bthBColor'];
+							$hvr['openBorder']          = ! empty( $hvr['openBorder'] ) ? $hvr['openBorder'] : 1;
+							$attributes['btnhvrBorder'] = $hvr;
+						}
+						// Match tp-button-core: one radius control applies to normal state; mirror to hover for listing.
+						if ( array_key_exists( 'brad', $preset ) ) {
+							$attributes['btnhvrBradius'] = $preset['brad'];
+						}
+						if ( null !== $saved_btn_border && ( ! empty( $saved_btn_border['openBorder'] ) || ! empty( $saved_btn_border['globalBorder'] ) ) ) {
+							$attributes['btnBorder'] = $saved_btn_border;
+						}
+						if ( null !== $saved_btn_hvr_border && ( ! empty( $saved_btn_hvr_border['openBorder'] ) || ! empty( $saved_btn_hvr_border['globalBorder'] ) ) ) {
+							$attributes['btnhvrBorder'] = $saved_btn_hvr_border;
+						}
+					}
+				}
+			}
+
+			// tp-post-listing: global show button uses style-8 markup selectors; optional preset merge.
+			if ( ! empty( $block['blockName'] ) && 'tpgb/tp-post-listing' === $block['blockName']
+				&& ! empty( $attributes['useGlobalShowBtnSettings'] ) ) {
+				$attributes['postBtnsty'] = 'style-8';
+			}
+			if ( ! empty( $block['blockName'] ) && 'tpgb/tp-post-listing' === $block['blockName'] && ! empty( $attributes['useGlobalShowBtnSettings'] ) && ! empty( $attributes['selectedShowBtnPreset'] ) ) {
+				$ensure_button_presets_loaded();
+				$preset_key = $attributes['selectedShowBtnPreset'];
+				if ( ! empty( self::$tpgb_button_presets_for_request[ $preset_key ] ) ) {
+					$preset = self::$tpgb_button_presets_for_request[ $preset_key ];
+					if ( is_object( $preset ) ) {
+						$preset = json_decode( wp_json_encode( $preset ), true );
+					}
+					if ( is_array( $preset ) ) {
+						$saved_pbut_border     = isset( $attributes['pbutBorder'] ) ? $attributes['pbutBorder'] : null;
+						$saved_pbut_hvr_border = isset( $attributes['pbutHvrBorder'] ) ? $attributes['pbutHvrBorder'] : null;
+						$key_map               = array(
+							'bTypo'    => 'butTypo',
+							'btColor'  => 'butNcolor',
+							'btBg'     => 'butbgType',
+							'bBord'    => 'pbutBorder',
+							'brad'     => 'butBradius',
+							'bthColor' => 'buthvrColor',
+							'bthBg'    => 'butHvrbgType',
+						);
+						foreach ( $key_map as $src => $tgt ) {
+							if ( array_key_exists( $src, $preset ) ) {
+								$attributes[ $tgt ] = $preset[ $src ];
+							}
+						}
+						if ( array_key_exists( 'bthBColor', $preset ) && '' !== $preset['bthBColor'] && null !== $preset['bthBColor'] ) {
+							$hvr                         = is_array( $saved_pbut_hvr_border ) ? $saved_pbut_hvr_border : array();
+							$hvr['color']                = $preset['bthBColor'];
+							$hvr['openBorder']           = ! empty( $hvr['openBorder'] ) ? $hvr['openBorder'] : 1;
+							$attributes['pbutHvrBorder'] = $hvr;
+						}
+						if ( array_key_exists( 'brad', $preset ) ) {
+							$attributes['butHvrBradius'] = $preset['brad'];
+						}
+						if ( array_key_exists( 'btPad', $preset ) ) {
+							$attributes['butpadding'] = $preset['btPad'];
+						}
+						if ( array_key_exists( 'btshadow', $preset ) ) {
+							$attributes['butBshadow'] = $preset['btshadow'];
+						}
+						if ( null !== $saved_pbut_border && ( ! empty( $saved_pbut_border['openBorder'] ) || ! empty( $saved_pbut_border['globalBorder'] ) ) ) {
+							$attributes['pbutBorder'] = $saved_pbut_border;
+						}
+						if ( null !== $saved_pbut_hvr_border && ( ! empty( $saved_pbut_hvr_border['openBorder'] ) || ! empty( $saved_pbut_hvr_border['globalBorder'] ) ) ) {
+							$attributes['pbutHvrBorder'] = $saved_pbut_hvr_border;
+						}
+					}
+				}
+			}
+
+			// tp-flipbox: global back button uses style-8 markup selectors; optional preset merge.
+			if ( ! empty( $block['blockName'] ) && 'tpgb/tp-flipbox' === $block['blockName'] && ! empty( $attributes['useGlobalBackButtonSettings'] ) ) {
+				$attributes['btnStyle']         = 'style-8';
+				$attributes['btnCarouselStyle'] = 'style-8';
+			}
+
+			if ( ! empty( $block['blockName'] ) && 'tpgb/tp-flipbox' === $block['blockName'] && ! empty( $attributes['useGlobalBackButtonSettings'] ) && ! empty( $attributes['selectedBackButtonPreset'] ) ) {
+				$ensure_button_presets_loaded();
+				$preset_key = $attributes['selectedBackButtonPreset'];
+				if ( ! empty( self::$tpgb_button_presets_for_request[ $preset_key ] ) ) {
+					$preset = self::$tpgb_button_presets_for_request[ $preset_key ];
+					if ( is_object( $preset ) ) {
+						$preset = json_decode( wp_json_encode( $preset ), true );
+					}
+					if ( is_array( $preset ) ) {
+						$saved_back_normal_b = isset( $attributes['backBtnNormalB'] ) ? $attributes['backBtnNormalB'] : null;
+						$saved_back_hvr_b    = isset( $attributes['backBtnHvrB'] ) ? $attributes['backBtnHvrB'] : null;
+						$key_map             = array(
+							'bTypo'    => 'backBtnTypo',
+							'btColor'  => 'backBtnTextColor',
+							'btBg'     => 'backBtnBG',
+							'bBord'    => 'backBtnNormalB',
+							'brad'     => 'backBtnBRadius',
+							'bthColor' => 'backBThoverColor',
+							'bthBg'    => 'backBtnHvrBG',
+						);
+						foreach ( $key_map as $src => $tgt ) {
+							if ( array_key_exists( $src, $preset ) ) {
+								$attributes[ $tgt ] = $preset[ $src ];
+							}
+						}
+						if ( array_key_exists( 'bthBColor', $preset ) && '' !== $preset['bthBColor'] && null !== $preset['bthBColor'] ) {
+							$hvr                       = is_array( $saved_back_hvr_b ) ? $saved_back_hvr_b : array();
+							$hvr['color']              = $preset['bthBColor'];
+							$hvr['openBorder']         = ! empty( $hvr['openBorder'] ) ? $hvr['openBorder'] : 1;
+							$attributes['backBtnHvrB'] = $hvr;
+						}
+						if ( array_key_exists( 'brad', $preset ) ) {
+							$attributes['backBtnHvrBRadius'] = $preset['brad'];
+						}
+						if ( array_key_exists( 'btPad', $preset ) ) {
+							$attributes['backBtnPadding'] = $preset['btPad'];
+						}
+						if ( array_key_exists( 'btshadow', $preset ) ) {
+							$attributes['backBtnShadow'] = $preset['btshadow'];
+						}
+						if ( null !== $saved_back_normal_b && ( ! empty( $saved_back_normal_b['openBorder'] ) || ! empty( $saved_back_normal_b['globalBorder'] ) ) ) {
+							$attributes['backBtnNormalB'] = $saved_back_normal_b;
+						}
+						if ( null !== $saved_back_hvr_b && ( ! empty( $saved_back_hvr_b['openBorder'] ) || ! empty( $saved_back_hvr_b['globalBorder'] ) ) ) {
+							$attributes['backBtnHvrB'] = $saved_back_hvr_b;
+						}
+					}
+				}
+			}
+
+			// Merge live preset values for tp-button global preset mode.
+			if ( ! empty( $block['blockName'] ) && 'tpgb/tp-button' === $block['blockName']
+				&& ! empty( $attributes['useGlobalButtonSettings'] ) && ! empty( $attributes['selectedButtonPreset'] ) ) {
+				$ensure_button_presets_loaded();
+				$preset_key = $attributes['selectedButtonPreset'];
+				if ( ! empty( self::$tpgb_button_presets_for_request[ $preset_key ] ) ) {
+					$preset = self::$tpgb_button_presets_for_request[ $preset_key ];
+					if ( is_object( $preset ) ) {
+						$preset = json_decode( wp_json_encode( $preset ), true ); }
+					if ( is_array( $preset ) ) {
+						// Keep tp-button markup/style path stable for global mode.
+						$attributes['styleType'] = 'style-23';
+						if ( array_key_exists( 'btColor', $preset ) ) {
+							$attributes['btnTextNmlColor'] = $preset['btColor'];
+							$attributes['iconNmlColor']    = $preset['btColor'];
+						}
+						if ( array_key_exists( 'bthColor', $preset ) ) {
+							$attributes['btnTextHvrColor'] = $preset['bthColor'];
+							$attributes['iconHvrColor']    = $preset['bthColor'];
+						}
+						if ( array_key_exists( 'btBg', $preset ) ) {
+							$attributes['normalBG'] = $preset['btBg']; }
+						if ( array_key_exists( 'bthBg', $preset ) ) {
+							$attributes['hoverBG'] = $preset['bthBg']; }
+						if ( array_key_exists( 'bTypo', $preset ) ) {
+							$attributes['texTyp'] = $preset['bTypo']; }
+						if ( array_key_exists( 'bBord', $preset ) ) {
+							$attributes['bgNormalB'] = $preset['bBord']; }
+						if ( array_key_exists( 'brad', $preset ) ) {
+							$attributes['normalBRadius'] = $preset['brad'];
+							$attributes['hoverBRadius']  = $preset['brad'];
+						}
+						if ( array_key_exists( 'btPad', $preset ) ) {
+							$attributes['innerPadding'] = $preset['btPad']; }
+						if ( array_key_exists( 'btshadow', $preset ) ) {
+							$attributes['nmlboxShadow'] = $preset['btshadow']; }
+					}
+				}
+			}
 
 			if ( ! is_null( $wpblock->block_type ) ) {
 				if ( ! isset( $wpblock->block_type->attributes ) ) {
@@ -365,6 +798,14 @@ class Tpgb_Generate_Blocks_Css {
 												$_gbr_idx = is_array( $_gbr ) ? ( isset( $_gbr['md'] ) ? $_gbr['md'] : '' ) : $_gbr;
 												if ( ! empty( $_gbr_idx ) && is_numeric( $_gbr_idx ) ) {
 													$_gbr_fb   = is_array( $_gbrf ) ? ( isset( $_gbrf['md'] ) ? $_gbrf['md'] : '' ) : ( is_string( $_gbrf ) ? $_gbrf : '' );
+													$dimension = 'var(--tpgb-RAD' . intval( $_gbr_idx ) . ( ! empty( $_gbr_fb ) && is_string( $_gbr_fb ) ? ', ' . $_gbr_fb : '' ) . ')';
+												} elseif ( gettype( $values['md'] ) === 'object' || gettype( $values['md'] ) === 'array' ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf, Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis
+													$dimension = $this->tp_object_field( $values['md'] )['data'];
+												} else {
+													$dimension = ( ! empty( $values['md'] ) || '0' === $values['md'] ) ? $values['md'] . ( isset( $values['unit'] ) ? $values['unit'] : '' ) : '';
+												}
+												if ( ! empty( $_gbr_idx ) && is_numeric( $_gbr_idx ) ) {
+													$_gbr_fb   = is_array( $_gbr ) ? ( isset( $_gbr['md'] ) ? $_gbr['md'] : '' ) : ( is_string( $_gbr ) ? $_gbr : '' );
 													$dimension = 'var(--tpgb-RAD' . intval( $_gbr_idx ) . ( ! empty( $_gbr_fb ) && is_string( $_gbr_fb ) ? ', ' . $_gbr_fb : '' ) . ')';
 												} elseif ( gettype( $values['md'] ) === 'object' || gettype( $values['md'] ) === 'array' ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf, Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis
 													$dimension = $this->tp_object_field( $values['md'] )['data'];
@@ -1178,6 +1619,15 @@ class Tpgb_Generate_Blocks_Css {
 	 * @param boolean              $is_hover    Whether the hover is active. Default false.
 	 * @return string The transform string.
 	 */
+	/**
+	 * Build transform string for a specific breakpoint.
+	 *
+	 * @since 1.0.0
+	 * @param array<string, mixed> $block_value The block value.
+	 * @param string               $breakpoint  The breakpoint name. Default 'md'.
+	 * @param boolean              $is_hover    Whether the hover is active. Default false.
+	 * @return string The transform string.
+	 */
 	public function tpgb_build_transform_string( $block_value, $breakpoint, $is_hover = false ) {
 		$transforms = array();
 		$suffix     = $is_hover ? 'Hov' : '';
@@ -1664,7 +2114,11 @@ class Tpgb_Generate_Blocks_Css {
 	 * @return string The selector.
 	 */
 	public function replaceUnitWithoutDigits( $value ) {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid,WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-		$output = preg_replace( '/(?<!\d)(px|%|em)/', '0', $value );
+		$output = preg_replace( '/(?<!\d)(?<!\))(px|%|em)/', '0', $value );
+		// Also collapse any stray `)px` / `)%` / `)em` that earlier code
+		// paths may have already concatenated before this helper ran —
+		// convert back to a bare `)` so the var() stays valid.
+		$output = preg_replace( '/\)(px|%|em)(?![a-zA-Z])/', ')', $output );
 		return $output;
 	}
 

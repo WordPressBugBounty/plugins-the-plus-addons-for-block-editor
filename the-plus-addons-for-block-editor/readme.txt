@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 4.7.13
+Stable tag: 4.7.14
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -319,6 +319,23 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.7.14 = 23 June 2026
+- Add : Pricing Table : Button Width Option Added.
+- Add : Social Icons : Global Border Option Added.
+- Add : Icon : Box Shadow Option Added.
+- Add : Number Counter : Background Color Option Added.
+- Add : Number Counter : Height Option Added.
+- Fix : Navigation Menu : Submenu Padding Issue Solved.
+- Fix : Infobox : Text Padding Issue Solved.
+- Fix : Global Typography : Responsive Styling Issue Solved.
+- Fix : Contact Form : Global Button Styling Issue Solved.
+- Fix : Blog Listing : Button Styling Issue Solved.
+- Fix : Switcher : Icon Display Issue Solved.
+- Fix : Post Listing : Global Button Styling Issue Solved.
+- Fix : Number Counter : Responsive Line Height Issue Solved.
+- Fix : Image Block : Large Screen Visibility Issue Solved.
+- Fix : Minor Bugs and Improvements.
 
 = 4.7.13 = 16 June 2026
 - Improve : Dashboard : Converted dashboard modules to a component-based structure for improved maintainability and scalability.

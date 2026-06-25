@@ -184,7 +184,7 @@ class Tpgb_Gutenberg_Settings_Options {
 					'docUrl'     => '',
 					'videoUrl'   => '',
 					'tag'        => 'pro' === $block['free_pro'] ? 'pro' : 'free',
-					'block_cate' => esc_html__( 'WDesignKit', 'nexter-extension' ),
+					'block_cate' => esc_html__( 'WDesignKit', 'the-plus-addons-for-block-editor' ),
 					'keyword'    => array(),
 					'w_unique'   => $block['id'],
 					'uniqueId'   => $block['w_unique'],

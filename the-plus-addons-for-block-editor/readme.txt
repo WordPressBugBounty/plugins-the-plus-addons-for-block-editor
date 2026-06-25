@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 4.7.14
+Stable tag: 4.7.15
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -319,6 +319,10 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 4.7.15 = 25 June 2026
+- Fix : hard-coded and non-translatable strings issue.
+- Fix : Minor Bugs and Improvements.
 
 = 4.7.14 = 23 June 2026
 - Add : Pricing Table : Button Width Option Added.

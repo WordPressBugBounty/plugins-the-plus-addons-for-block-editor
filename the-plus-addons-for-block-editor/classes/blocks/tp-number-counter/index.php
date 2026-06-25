@@ -148,7 +148,8 @@ function tpgb_tp_number_counter_render_callback( $attributes, $content ) { // ph
 		$getsvg .= '<a href="' . esc_url( $link_url ) . '" ' . $target . ' ' . $nofollow . ' ' . $link_attr . ' aria-label="' . $aria_label . '">';
 	}
 
-		$getsvg .= '<object id="service-svg-' . esc_attr( $block_id ) . '" type="image/svg+xml" data="' . esc_url( $svg_icon['url'] ) . '" aria-label="' . esc_attr__( 'icon', 'the-plus-addons-for-block-editor' ) . '"></object>';
+	$svg_icon_url = ( is_array( $svg_icon ) && ! empty( $svg_icon['url'] ) ) ? $svg_icon['url'] : '';
+	$getsvg      .= '<object id="service-svg-' . esc_attr( $block_id ) . '" type="image/svg+xml" data="' . esc_url( $svg_icon_url ) . '" aria-label="' . esc_attr__( 'icon', 'the-plus-addons-for-block-editor' ) . '"></object>';
 
 	if ( ! empty( $link_url ) ) {
 		$getsvg .= '</a>';

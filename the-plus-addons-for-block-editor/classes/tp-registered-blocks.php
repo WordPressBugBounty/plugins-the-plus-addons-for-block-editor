@@ -3140,6 +3140,7 @@ class Tpgb_Library {
 
 			}
 
+			$options = ( ! empty( $block['attrs'] ) ) ? $block['attrs'] : '';
 			// Add GSAP Animation class if gsapAnim attribute exists.
 			if ( ! empty( $options ) && isset( $options['gsapAnim'] ) && ! empty( $options['gsapAnim'] ) && isset( $options['plus_gsap_animation_type'] ) && 'tp_global' === $options['plus_gsap_animation_type'] ) {
 				// Get global animations — resolve from active preset (new per-preset structure)

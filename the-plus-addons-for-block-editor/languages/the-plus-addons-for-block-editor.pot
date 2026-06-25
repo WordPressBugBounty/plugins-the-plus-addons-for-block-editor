@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.7.14\n"
+"Project-Id-Version: Nexter Blocks 4.7.15\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-23T05:51:59+00:00\n"
+"POT-Creation-Date: 2026-06-25T07:17:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -102,7 +102,7 @@ msgstr ""
 #: classes/blocks/tp-flipbox/index.php:180
 #: classes/blocks/tp-infobox/index.php:162
 #: classes/blocks/tp-infobox/index.php:497
-#: classes/blocks/tp-number-counter/index.php:151
+#: classes/blocks/tp-number-counter/index.php:152
 #: classes/blocks/tp-pricing-table/index.php:102
 #: assets/js/admin/blocks-essential.js:1
 msgid "icon"
@@ -1943,6 +1943,14 @@ msgstr ""
 msgid "Nexter"
 msgstr ""
 
+#: includes/plus-settings-options.php:187
+#: includes/plus-settings-options.php:622
+#: dashboard/build/index.js:7
+#: dashboard/build/index.js:9
+#: dashboard/theme-builder/build/index.js:1
+msgid "WDesignKit"
+msgstr ""
+
 #: includes/plus-settings-options.php:307
 #: includes/plus-settings-options.php:308
 #: includes/plus-settings-options.php:402
@@ -2004,13 +2012,6 @@ msgstr ""
 #: includes/plus-settings-options.php:381
 #: includes/plus-settings-options.php:382
 msgid "Get Pro Nexter"
-msgstr ""
-
-#: includes/plus-settings-options.php:622
-#: dashboard/build/index.js:7
-#: dashboard/build/index.js:9
-#: dashboard/theme-builder/build/index.js:1
-msgid "WDesignKit"
 msgstr ""
 
 #: includes/plus-settings-options.php:791
@@ -4660,6 +4661,14 @@ msgstr ""
 #: assets/js/admin/blocks-essential.js:1
 #: assets/js/admin/blocks.js:1
 msgid "Options"
+msgstr ""
+
+#: assets/js/admin/blocks-advanced.js:1
+#: assets/js/admin/blocks-builder.js:1
+#: assets/js/admin/blocks-essential.js:1
+#: assets/js/admin/blocks-listing.js:1
+#: assets/js/admin/blocks-social.js:1
+msgid "Select..."
 msgstr ""
 
 #: assets/js/admin/blocks-advanced.js:1

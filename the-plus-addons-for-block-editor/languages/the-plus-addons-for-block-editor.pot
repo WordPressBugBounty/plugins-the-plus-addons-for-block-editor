@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 4.7.15\n"
+"Project-Id-Version: Nexter Blocks 4.7.16\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-25T07:17:06+00:00\n"
+"POT-Creation-Date: 2026-06-29T09:42:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -806,24 +806,24 @@ msgid "Nexter Global settings updated!"
 msgstr ""
 
 #: classes/tp-core-init-blocks.php:879
-#: classes/tp-core-init-blocks.php:909
-#: classes/tp-core-init-blocks.php:1070
+#: classes/tp-core-init-blocks.php:908
+#: classes/tp-core-init-blocks.php:1069
 msgid "CSS can not be load due to permission!!!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1012
+#: classes/tp-core-init-blocks.php:1011
 msgid "Plus block css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1017
+#: classes/tp-core-init-blocks.php:1016
 msgid "Plus block preview css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1458
+#: classes/tp-core-init-blocks.php:1457
 msgid ", "
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1622
+#: classes/tp-core-init-blocks.php:1621
 msgid "Sale"
 msgstr ""
 

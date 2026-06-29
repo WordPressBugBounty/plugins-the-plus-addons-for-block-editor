@@ -881,9 +881,8 @@ class Tpgb_Core_Init_Blocks {
 				}
 			}
 			if ( $params['is_block'] ) {
-				$block_css = $params['block_css'];
-				$filename  = "plus-css-{$post_id}.css";
-
+				$block_css  = $params['block_css'];
+				$filename   = "plus-css-{$post_id}.css";
 				$upload_dir = wp_upload_dir();
 				$dir        = trailingslashit( $upload_dir['basedir'] ) . 'theplus_gutenberg/';
 				$import_css = array();

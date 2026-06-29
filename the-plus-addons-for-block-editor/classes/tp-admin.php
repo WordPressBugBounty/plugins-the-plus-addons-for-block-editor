@@ -128,7 +128,7 @@ if ( ! class_exists( 'Tpgb_Admin' ) ) {
 		 */
 		public function tpgb_settings_pro_link( $links ) {
 			// Settings link.
-			$nxtlink = array();
+			$nxtlinks = array();
 			if ( current_user_can( 'manage_options' ) ) {
 				$nxtlinks[] = sprintf( '<a href="%s" rel="noopener noreferrer">%s</a>', admin_url( 'admin.php?page=nexter_welcome' ), __( 'Settings', 'the-plus-addons-for-block-editor' ) );
 				$nxtlinks[] = sprintf( '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url( 'https://nexterwp.com/free-vs-pro/?utm_source=wpbackend&utm_medium=admin&utm_campaign=pluginpage' ), __( 'Free vs Pro', 'the-plus-addons-for-block-editor' ) );

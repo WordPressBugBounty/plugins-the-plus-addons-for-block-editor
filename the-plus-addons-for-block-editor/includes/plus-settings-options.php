@@ -241,6 +241,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		$data['dashData']['nxt_wdkit_url']   = 'https://wdesignkit.com/';
 		$data['dashData']['extensionPro']    = defined( 'NXT_PRO_EXT_VER' );
 		$data['dashData']['tpgbRollbackUrl'] = wp_nonce_url( admin_url( 'admin-post.php?action=tpgb_rollback&version=TPGB_VERSION' ), 'tpgb_rollback' );
+		$data['dashData']['settingData']     = $this->tpgb_get_blocks_settings_data();
 		return $data;
 	}
 
@@ -718,6 +719,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'wdkactive'         => $wdkactive,
 				'uichemyactive'     => $uichemyactive,
 				'nexterThemeDet'    => admin_url( 'themes.php' ) . '?theme=nexter',
+				'settingData'       => $this->tpgb_get_blocks_settings_data(),
 			);
 		}
 
@@ -2689,6 +2691,139 @@ class Tpgb_Gutenberg_Settings_Options {
 				echo '</div>';
 			}
 		}
+	}
+
+	/**
+	 * Get Blocks Settings Data.
+	 *
+	 * @since 4.6.0
+	 * @return array Sequential array of setting definitions for the dashboard.
+	 */
+	public function tpgb_get_blocks_settings_data() {
+
+		$is_pro = defined( 'TPGBP_VERSION' );
+
+		$setting_data = array(
+			array(
+				'key'       => 'gmap_api_switch',
+				'name'      => esc_html__( 'Connect Google Maps API Key', 'the-plus-addons-for-block-editor' ),
+				'desc'      => esc_html__( 'To integrate Google Maps with your Maps Block, please enable the API, paste your Google Maps API key by clicking on the settings gear, and then save the changes.', 'the-plus-addons-for-block-editor' ),
+				'popDesc'   => __( 'Paste your <a href = "https://developers.google.com/maps/documentation/embed/get-api-key" target="_blank" rel="noopener noreferrer"> Google Maps API Key </a>', 'the-plus-addons-for-block-editor' ),
+				'formField' => array( 'googlemap_api' => esc_html__( 'Enter API Key', 'the-plus-addons-for-block-editor' ) ),
+				'docLink'   => 'https://nexterwp.com/help/nexter-blocks/wordpress-google-maps/?utm_source=nexter-addons&utm_medium=dashboard&utm_campaign=settings',
+			),
+			array(
+				'key'  => 'gfont_load',
+				'name' => esc_html__( 'Enable Google Fonts', 'the-plus-addons-for-block-editor' ),
+				'desc' => esc_html__( 'To disable Google Fonts, toggle this off. It will prevent any Google Fonts from loading and instead use the system font. If you want to avoid any Google Font requests, simply disable this option.', 'the-plus-addons-for-block-editor' ),
+			),
+			array(
+				'key'  => 'gbl_css',
+				'name' => esc_html__( 'Enable Nexter Global CSS', 'the-plus-addons-for-block-editor' ),
+				'desc' => esc_html__( 'If you do not plan to use Global CSS from Nexter Blocks and prefer to load it from your theme, you can disable it. It reduces extra CSS & JS loading on your site, ensuring faster performance and complete control over design.', 'the-plus-addons-for-block-editor' ),
+			),
+			array(
+				'key'  => 'assets_performance',
+				'name' => esc_html__( 'Show Nexter Performance in Admin Bar', 'the-plus-addons-for-block-editor' ),
+				'desc' => esc_html__( 'This option adds the Nexter Performance menu to the WordPress top admin bar, allowing you to purge assets for individual pages or all pages directly from any screen.', 'the-plus-addons-for-block-editor' ),
+			),
+		);
+
+		// Font Awesome — gains pro fields (kit ID + docs) only when pro is active.
+		$fontawesome = array(
+			'key'  => 'fontawesome_load',
+			'name' => esc_html__( 'Load Font Awesome PRO Icons', 'the-plus-addons-for-block-editor' ),
+			'desc' => esc_html__( 'Connect Font Awesome PRO icons by adding your Font awesome API key in the settings for access to more premium icons for your website.', 'the-plus-addons-for-block-editor' ),
+		);
+
+		if ( $is_pro ) {
+			$fontawesome['popDesc']   = __( "Paste your Font Awesome PRO Kit ID below <a href = 'https://fontawesome.com/license' target='_blank' rel='noopener noreferrer'> Get ID </a>", 'the-plus-addons-for-block-editor' );
+			$fontawesome['formField'] = array( 'fontawesome_pro_kit' => esc_html__( 'FontAwesome Pro Kit', 'the-plus-addons-for-block-editor' ) );
+			$fontawesome['docLink']   = '#';
+		}
+
+		$setting_data[] = $fontawesome;
+
+		$setting_data[] = array(
+			'key'     => 'tpgb_template_load',
+			'name'    => esc_html__( ' Enable Ajax Templates', 'the-plus-addons-for-block-editor' ),
+			'desc'    => esc_html__( 'Load templates using Ajax mode for optimal performance. This file will load after the page finishes loading and will dynamically request content as you scroll.', 'the-plus-addons-for-block-editor' ),
+			'docLink' => 'https://www.nexterwp.com/docs/enable-ajax-loading-for-wordpress-patterns-in-nexter-blocks/',
+		);
+		$setting_data[] = array(
+			'key'     => 'tpgb_lazy_render',
+			'name'    => esc_html__( 'Lazy Rendering (SEO Friendly)', 'the-plus-addons-for-block-editor' ),
+			'desc'    => __( 'If enabled, you can start using the class <b>nxt-lazy-load</b> in places where you want to lazy load content in an SEO-friendly way.', 'the-plus-addons-for-block-editor' ),
+			'docLink' => 'https://www.nexterwp.com/docs/add-seo-friendly-lazy-loading-in-wordpress/',
+		);
+		$setting_data[] = array(
+			'key'  => 'tpgb_dashicons_icon',
+			'name' => esc_html__( 'Disable Dashicons', 'the-plus-addons-for-block-editor' ),
+			'desc' => esc_html__( "If you don't need Dashicons from Nexter Blocks, you can disable them to reduce unnecessary CSS loading and improve your site's performance.", 'the-plus-addons-for-block-editor' ),
+		);
+		$setting_data[] = array(
+			'key'  => 'tpgb_preset_import',
+			'name' => esc_html__( 'Disable Template Button', 'the-plus-addons-for-block-editor' ),
+			'desc' => esc_html__( 'Turn off the template import option in the Gutenberg Editor if you’re not planning to use it.', 'the-plus-addons-for-block-editor' ),
+		);
+		$setting_data[] = array(
+			'key'  => 'nxt_qab_enable',
+			'name' => esc_html__( 'Disable Quick Action Bar', 'the-plus-addons-for-block-editor' ),
+			'desc' => esc_html__( 'Turn off the Quick Action Bar in the Gutenberg editor if you don’t plan to use it.', 'the-plus-addons-for-block-editor' ),
+		);
+		$setting_data[] = array(
+			'key'  => 'nxt_enable_mcp_abilities',
+			'name' => esc_html__( 'Enable MCP Abilities', 'the-plus-addons-for-block-editor' ),
+			'desc' => esc_html__( 'If enabled, you can utilize MCP capabilities to enhance automation, streamline workflows, and enable smarter interactions across supported features.', 'the-plus-addons-for-block-editor' ),
+		);
+
+		// Pro-only connectors.
+		if ( $is_pro ) {
+			$setting_data[] = array(
+				'key'       => 'mailchmp',
+				'name'      => esc_html__( 'Connect Mailchimp CRM', 'the-plus-addons-for-block-editor' ),
+				'desc'      => esc_html__( ' Add your Mailchimp API key to connect with our Mailchimp form block and send emails directly to your CRM.', 'the-plus-addons-for-block-editor' ),
+				'popDesc'   => __( 'Paste your your <a href = "https://mailchimp.com/help/about-api-keys/" target="_blank" rel="noopener noreferrer"> Mailchimp API Key </a> & <a href = "https://mailchimp.com/help/find-audience-id/" target="_blank" rel="noopener noreferrer">  List ID </a>', 'the-plus-addons-for-block-editor' ),
+				'formField' => array(
+					'mailchimp_api' => esc_html__( 'Enter API Key', 'the-plus-addons-for-block-editor' ),
+					'mailchimp_id'  => esc_html__( 'Enter Audience / List ID', 'the-plus-addons-for-block-editor' ),
+				),
+			);
+			$setting_data[] = array(
+				'key'       => 'recaptcha',
+				'name'      => esc_html__( 'Connect Google reCAPTCHA', 'the-plus-addons-for-block-editor' ),
+				'desc'      => esc_html__( ' Add your Google reCAPTCHA Site Key and Secret Key to enable spam protection with our form blocks and secure your site.', 'the-plus-addons-for-block-editor' ),
+				'popDesc'   => __( 'Place your <a href = "https://www.google.com/recaptcha/about/" target="_blank" rel="noopener noreferrer"> Google reCAPTCHA </a> Site Key & Secret Key', 'the-plus-addons-for-block-editor' ),
+				'formField' => array(
+					'tpgb_site_key_recaptcha'   => esc_html__( 'Site Key reCAPTCHA v3', 'the-plus-addons-for-block-editor' ),
+					'tpgb_secret_key_recaptcha' => esc_html__( 'Secret Key reCAPTCHA v3', 'the-plus-addons-for-block-editor' ),
+				),
+			);
+			$setting_data[] = array(
+				'key'       => 'tpgb_event_tracking',
+				'name'      => esc_html__( ' Add Event Tracking ID', 'the-plus-addons-for-block-editor' ),
+				'desc'      => esc_html__( 'Add your Facebook Pixel ID and GA4 ID here to enable event tracking for your clicks. This will allow you to track events directly from WordPress for your ads and GA4 analytics.', 'the-plus-addons-for-block-editor' ),
+				'popDesc'   => __( 'Paste your your <a href = "https://support.google.com/analytics/answer/12270356" target="_blank" rel="noopener noreferrer">  GA4 Measurement ID </a> & <a href = "https://www.facebook.com/business/help/952192354843755?id=1205376682832142" target="_blank" rel="noopener noreferrer">  Facebook Pixel </a>', 'the-plus-addons-for-block-editor' ),
+				'formField' => array(
+					'event_track_google'   => esc_html__( 'GA4 ID', 'the-plus-addons-for-block-editor' ),
+					'event_track_facebook' => esc_html__( 'Facebook Pixel ID', 'the-plus-addons-for-block-editor' ),
+				),
+				'docLink'   => 'https://www.nexterwp.com/help/nexter-extras/event-tracking-for-wordpress/',
+			);
+			$setting_data[] = array(
+				'key'  => 'nxt_form_submission_Disable',
+				'name' => esc_html__( 'Enable Form Submission Menu', 'the-plus-addons-for-block-editor' ),
+				'desc' => esc_html__( 'Keep the Form Submission menu visible in the WordPress admin to view, manage, and export entries collected from Nexter form blocks..', 'the-plus-addons-for-block-editor' ),
+			);
+		}
+
+		/**
+		 * Filter the dashboard Blocks Settings list.
+		 *
+		 * @since 4.6.0
+		 * @param array $setting_data Sequential array of setting definitions.
+		 */
+		return apply_filters( 'tpgb_blocks_settings_data', $setting_data );
 	}
 }
 // Get it started.

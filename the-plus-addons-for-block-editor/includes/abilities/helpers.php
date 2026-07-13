@@ -422,3 +422,84 @@ function tpgb_mcp_apply_button_preset( array &$attrs, string $preset_key, string
 			break;
 	}
 }
+
+/**
+ * Recursively make every object node in a JSON schema accept unknown keys.
+ *
+ * Walks a schema tree and, for every node typed as an object, forces
+ * `additionalProperties => true` (only when it is currently unset or a plain
+ * boolean — schema-object forms are left untouched). Also recurses through
+ * `properties` and `items` so nested objects and array items are relaxed too.
+ *
+ * @param mixed $node A schema node (array) or leaf value.
+ * @return mixed The relaxed schema node.
+ */
+function tpgb_mcp_relax_schema_node( $node ) {
+	if ( ! is_array( $node ) ) {
+		return $node;
+	}
+
+	if ( isset( $node['type'] ) ) {
+		$types = (array) $node['type'];
+		if ( in_array( 'object', $types, true ) ) {
+			if ( ! isset( $node['additionalProperties'] ) || is_bool( $node['additionalProperties'] ) ) {
+				$node['additionalProperties'] = true;
+			}
+		}
+	}
+
+	if ( isset( $node['properties'] ) && is_array( $node['properties'] ) ) {
+		foreach ( $node['properties'] as $key => $child ) {
+			$node['properties'][ $key ] = tpgb_mcp_relax_schema_node( $child );
+		}
+	}
+
+	if ( isset( $node['items'] ) && is_array( $node['items'] ) ) {
+		$node['items'] = tpgb_mcp_relax_schema_node( $node['items'] );
+	}
+
+	return $node;
+}
+
+/**
+ * Make every Nexter Blocks ability tolerant of extra input keys.
+ *
+ * AI / MCP clients routinely send parameters that are not in an ability's
+ * input_schema — misremembered or hallucinated option names, or client-added
+ * metadata. Because the WordPress Abilities API validates input with
+ * `rest_validate_value_from_schema()` BEFORE the execute callback runs, a
+ * schema that sets `additionalProperties => false` makes the API reject the
+ * ENTIRE call as `ability_invalid_input` the moment a single unrecognised key
+ * appears — so an otherwise-valid block build fails with an "invalid argument"
+ * error the AI cannot easily recover from.
+ *
+ * Every Nexter execute callback already reads only the keys it understands
+ * (via `$input['key'] ?? default`) and sanitises them, and the Abilities API
+ * catches any Throwable and converts it to a WP_Error — so unknown keys are
+ * harmless. This filter therefore flips every object node in every
+ * `nexter-blocks/*` ability's input schema to accept unknown keys instead of
+ * rejecting the call. It is scoped by name prefix so no other plugin's
+ * abilities are affected, and it applies to current AND future abilities with
+ * no per-file changes.
+ *
+ * Registered here (helpers.php loads before every ability file) so the filter
+ * is in place before the abilities register.
+ *
+ * @param array  $args Ability registration arguments.
+ * @param string $name Fully-qualified ability name.
+ * @return array Filtered registration arguments.
+ */
+function tpgb_mcp_relax_ability_input_schema( array $args, string $name ): array {
+	if ( 0 !== strpos( $name, 'nexter-blocks/' ) ) {
+		return $args;
+	}
+	if ( isset( $args['input_schema'] ) && is_array( $args['input_schema'] ) ) {
+		$args['input_schema'] = tpgb_mcp_relax_schema_node( $args['input_schema'] );
+	}
+	return $args;
+}
+
+// Guard against double registration when both free and pro helpers load.
+if ( ! has_filter( 'wp_register_ability_args', 'tpgb_mcp_relax_ability_input_schema' ) ) {
+	add_filter( 'wp_register_ability_args', 'tpgb_mcp_relax_ability_input_schema', 10, 2 );
+}

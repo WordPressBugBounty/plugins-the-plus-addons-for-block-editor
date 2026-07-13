@@ -26,6 +26,40 @@ and never include header/footer (those come from the theme builder site-wide).
 
 ---
 
+## 🚨 CRITICAL — How Nexter blocks render (read before building anything)
+
+Nexter blocks (`tpgb/*`) are **dynamic blocks that render from their SAVED block
+HTML** — the visible text/markup lives in the block's inner HTML, and the render
+callback simply re-emits it. It is **not** rebuilt from attributes alone. This has
+two hard consequences you must respect on **every** page or post, not just doc posts:
+
+1. **Build and nest ONLY with `nexter-blocks/add-tpgb-*` abilities.** To nest, create
+   the parent (e.g. `add-tpgb-container`) first, then add each child by passing the
+   parent's returned `block_id` as the child's `parent_block_id`. This writes correct,
+   fully-renderable markup — building the parent then its children one call at a time is
+   reliable and is the intended path.
+
+2. **NEVER create, rebuild, or edit a page that contains Nexter blocks with a generic
+   page-builder tool** — including `assemble-page`, `patch-tree`, `html-to-builder`,
+   `write-builder-content`, `read-builder-content` → re-write, or `place-widget /
+   place-section / place-container`. Those tools normalise the tree into
+   attribute-only, self-closing blocks with **no inner HTML**, which strips the very
+   markup Nexter blocks render from. The result: containers still show but every
+   heading/button/paragraph inside them renders **blank**. If a Nexter block seems to
+   be "missing" or a container looks empty, do **not** reach for these tools — that is
+   what breaks the page.
+
+3. **A missing block is a toggle, not a bug.** If an `add-tpgb-*` call reports the block
+   is not registered (e.g. `tpgb/tp-button`), the block is switched off under
+   **Nexter → Blocks**. Tell the user to enable it, or use the registered counterpart
+   (e.g. `tpgb/tp-button-core`). Never fall back to a generic builder tool.
+
+4. **Always finish with `nexter-blocks/verify-page`** (`post_id`). It re-parses the saved
+   tree and lists any Nexter block that renders blank. If `ok` is false, rebuild each
+   listed block with its `add-tpgb-*` ability — never with the tools in rule 2.
+
+---
+
 ## Inputs
 
 | Input | Required? | Behaviour if missing |
@@ -424,9 +458,16 @@ tool: nexter-blocks/add-tpgb-pro-paragraph
 
 ---
 
-## Phase 3.5 — Save / Publish the Post in the Editor *(mandatory, never skip)*
+## Phase 3.5 — Save / Publish the Post *(mandatory, never skip)*
 
-**As soon as Phase 3 is complete and the design is built, the post MUST be saved by triggering the editor's Save/Publish button. Block additions are not considered persisted until this step runs.**
+> ℹ️ **Persistence note.** Every `nexter-blocks/add-tpgb-*` call writes the updated
+> block markup straight to the database (via `wp_update_post`) as part of that call,
+> so the blocks are **already saved** after each add — a page rendering blank is
+> almost never an "unsaved changes" problem (see the CRITICAL section: it is caused by
+> a generic builder tool stripping the inner HTML). This phase is a status transition,
+> not a rescue for lost content.
+
+**After Phase 3, transition the post status if needed, then VERIFY the render.**
 
 Trigger the appropriate save action on the `post_id` from Phase 2:
 
@@ -448,6 +489,20 @@ Rules:
 - If the save/publish call returns an error, retry once; if it still fails, surface the error in the final report so the user can click Save/Publish manually in the WP editor.
 - The same rule applies to every other workflow in this plugin that uses Nexter abilities to build a design: as soon as the design phase ends, the Save / Publish button of the post or page editor must be triggered so the changes are committed.
 
+**Then run the render verification (mandatory):**
+
+```
+tool: nexter-blocks/verify-page
+  post_id: [post_id]
+```
+
+- If `ok` is `true` → every Nexter block carries content; the page is safe.
+- If `ok` is `false` → each block listed in `blank_blocks` renders blank because its
+  inner HTML was stripped. Rebuild each one with its `nexter-blocks/add-tpgb-*` ability
+  (into the correct `parent_block_id`), then run `verify-page` again. Never repair a
+  blank block with `assemble-page` / `patch-tree` / `html-to-builder` /
+  `write-builder-content` — that is what caused the blank in the first place.
+
 ---
 
 ## Phase 4 — Final Checks & Report
@@ -467,9 +522,10 @@ Verify before reporting done:
 - [ ] Every content section covering UI settings has an image placeholder
 - [ ] Style section present and ends with the Advanced tab link
 - [ ] Every block-creation call used a real `nexter-blocks/add-tpgb-*` ability (no invented tool names)
+- [ ] No generic page-builder tool (`assemble-page`, `patch-tree`, `html-to-builder`, `write-builder-content`, `place-widget`/`place-section`/`place-container`) was used to build or edit this page
 - [ ] No Elementor (`tpae-*`) abilities used anywhere
 - [ ] No header or footer blocks added
-- [ ] Phase 3.5 ran — the editor's Save / Publish (or Update) button was triggered after the design was finished, and the save call returned success
+- [ ] Phase 3.5 ran — the status transition (if any) completed, and `nexter-blocks/verify-page` returned `ok: true` (no blank blocks)
 
 **Report back to the user with:**
 - Post ID and WordPress admin edit URL
@@ -485,6 +541,10 @@ Verify before reporting done:
 | Rule | Detail |
 |---|---|
 | **Only Nexter Blocks abilities** | Use only `nexter-blocks/add-tpgb-*` abilities (or their bridged `nexter-blocks-add-tpgb-*` form). Never use `tpae-*` Elementor abilities, never invent `sprout-add-*` tool names |
+| **Never use generic builders** | Nexter blocks render from their SAVED HTML. NEVER build/rebuild/edit a Nexter page with `assemble-page`, `patch-tree`, `html-to-builder`, `write-builder-content`, `read-builder-content`→re-write, or `place-widget`/`place-section`/`place-container` — they strip inner HTML and every Nexter block renders blank |
+| **Nest via `parent_block_id`** | Create the parent container first, then add each child with the parent's returned `block_id` as `parent_block_id`. One block per call is reliable |
+| **Missing block = toggle** | If an `add-tpgb-*` call says a block is not registered, it is switched off under Nexter → Blocks. Ask the user to enable it or use the registered counterpart — never fall back to a generic builder |
+| **Verify at the end** | Always finish with `nexter-blocks/verify-page`. If `ok` is false, rebuild the listed `blank_blocks` with `add-tpgb-*` and verify again |
 | **No header / footer** | Theme builder handles these site-wide. Never add them inside a post |
 | **Fixed section order** | Breadcrumb → Key Takeaways → TOC → Intro → CTA (if url) → Required Setup → Video (if url) → Activation → Key Features → Dynamic Sections → Styling |
 | **Research first** | Always complete Phase 1 by reading the target ability's `input_schema` via `sprout-bridge-inspect-tool` before writing anything. Never invent block features |

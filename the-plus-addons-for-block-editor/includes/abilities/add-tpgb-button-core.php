@@ -16,7 +16,7 @@ wp_register_ability(
 	'nexter-blocks/add-tpgb-button-core',
 	array(
 		'label'               => __( 'Add Nexter Blocks Core Button', 'the-plus-addons-for-block-editor' ),
-		'description'         => __( 'Adds the Nexter Blocks Core Button block (tpgb/tp-button-core). A streamlined, modern button block with icon support (Font Awesome or image), typography, text shadow, colour, background (solid/gradient), border, border radius, box shadow, padding, alignment, animations, transforms, and advanced settings. This is the simplified counterpart to tpgb/tp-button — use this for clean, modern buttons.', 'the-plus-addons-for-block-editor' ),
+		'description'         => __( 'Adds the Nexter Blocks Core Button block (tpgb/tp-button-core). A streamlined, modern button block with icon support (Font Awesome or image), typography, text shadow, colour, background (solid/gradient), border, border radius, box shadow, padding, alignment, animations, transforms, and advanced settings. This is the simplified counterpart to tpgb/tp-button — use this for clean, modern buttons. ⚠️ NEXTER BUILD RULE — Nexter blocks render from their SAVED block HTML, not from attributes alone. Add and nest ONLY via nexter-blocks/add-tpgb-* abilities: to place this button inside a container, pass that container\'s block_id as parent_block_id. NEVER build, rebuild, or edit a page that contains Nexter blocks with generic page-builder tools (e.g. assemble-page, patch-tree, html-to-builder, write-builder-content, place-widget) — they store attribute-only blocks with no inner HTML, so the button renders blank. When finished, call nexter-blocks/verify-page to confirm no Nexter block is blank.', 'the-plus-addons-for-block-editor' ),
 		'category'            => 'nexter-blocks',
 
 		'input_schema'        => array(
@@ -693,6 +693,59 @@ function tpgb_mcp_btncore_needs_wrapper( array $attrs ): bool {
 	return false;
 }
 
+/**
+ * Build the tp-button-core saved markup from attributes.
+ *
+ * Tp-button-core is a STATIC (save-based) block — its render callback returns the
+ * SAVED innerHTML (via block_Wrap_Render, which early-returns on empty content).
+ * An attributes-only insert therefore renders blank on the front end. This mirrors
+ * the editor save() output so the button is visible; visual styling still comes
+ * from the attribute-driven generated CSS keyed on tpgb-block-{block_id}.
+ *
+ * @param array $attrs Block attributes (internal short names).
+ * @return string Button inner HTML.
+ */
+function tpgb_mcp_button_core_render_html( array $attrs ): string {
+	$block_id = isset( $attrs['block_id'] ) ? sanitize_text_field( $attrs['block_id'] ) : '';
+
+	$class = 'tp-button-core tpgb-block-' . $block_id;
+	if ( ! empty( $attrs['saveGlobalStyleClass'] ) ) {
+		$class .= ' tpgb-block-' . sanitize_text_field( $attrs['saveGlobalStyleClass'] );
+	}
+
+	// Link.
+	$link   = isset( $attrs['bLink'] ) && is_array( $attrs['bLink'] ) ? $attrs['bLink'] : array();
+	$url    = ! empty( $link['url'] ) ? $link['url'] : '#';
+	$target = ( ! empty( $link['target'] ) && '_blank' === $link['target'] ) ? '_blank' : '_self';
+	$rel    = ( ! empty( $link['nofollow'] ) && 'on' === $link['nofollow'] ) ? 'nofollow noopener' : 'follow noopener';
+
+	// Icon (optional).
+	$icon_html = '';
+	$bitype    = isset( $attrs['biType'] ) ? $attrs['biType'] : 'none';
+	if ( 'fontAwesome' === $bitype && ! empty( $attrs['bIcon'] ) ) {
+		$icon_html = '<span class="tpgb-btn-icon-wrap"><i class="tpgb-btn-icon ' . esc_attr( $attrs['bIcon'] ) . '"></i></span>';
+	} elseif ( 'image' === $bitype && ! empty( $attrs['bImg']['url'] ) ) {
+		$img       = $attrs['bImg'];
+		$img_alt   = ! empty( $img['alt'] ) ? $img['alt'] : __( 'Click Here', 'the-plus-addons-for-block-editor' );
+		$img_id    = ! empty( $img['id'] ) ? ' wp-image-' . absint( $img['id'] ) : '';
+		$icon_html = '<span class="tpgb-btn-icon-wrap"><img class="tpgb-btn-icon' . esc_attr( $img_id ) . '" src="' . esc_url( $img['url'] ) . '" alt="' . esc_attr( $img_alt ) . '" /></span>';
+	}
+
+	// Text (falls back to the block default when the ability left it unset).
+	$text      = isset( $attrs['btxt'] ) && '' !== $attrs['btxt'] ? $attrs['btxt'] : 'Click Here';
+	$text_html = '<span class="tpgb-btn-txt">' . wp_kses_post( $text ) . '</span>';
+
+	return sprintf(
+		'<div class="%1$s"><a class="tpgb-btn-link" href="%2$s" target="%3$s" rel="%4$s"><span class="tpgb-btn-wrap">%5$s%6$s</span></a></div>',
+		esc_attr( $class ),
+		esc_url( $url ),
+		esc_attr( $target ),
+		esc_attr( $rel ),
+		$icon_html,
+		$text_html
+	);
+}
+
 // -------------------------------------------------------------------------
 // EXECUTE CALLBACK
 // -------------------------------------------------------------------------
@@ -1064,6 +1117,17 @@ function tpgb_mcp_add_button_core_ability( array $input ) {
 	/* ── tpgbDisrule ──────────────────────────────────────────────────── */
 	if ( tpgb_mcp_btncore_needs_wrapper( $attrs ) ) {
 		$attrs['tpgbDisrule'] = true;
+
+		// Enabling the wrapper (for spacing / animation / transform styling) must
+		// NOT surface the block's display-rules default row ("Authentication is
+		// Logged-In"). Explicitly neutralise display rules unless the caller
+		// supplied them — a display condition should appear only when requested.
+		if ( ! isset( $attrs['disRule'] ) ) {
+			$attrs['disRule'] = 'all';
+		}
+		if ( ! isset( $attrs['displayRules'] ) ) {
+			$attrs['displayRules'] = array();
+		}
 	}
 
 	/* ── Raw settings override ────────────────────────────────────────── */
@@ -1071,9 +1135,16 @@ function tpgb_mcp_add_button_core_ability( array $input ) {
 	$attrs = tpgb_mcp_merge_block_settings( $attrs, $input['settings'] ?? array() );
 
 	// ---------------------------------------------------------------------
-	// Build, insert, save (dynamic block — no innerHTML needed).
+	// Build, insert, save. tp-button-core is static (save-based) so we must
+	// supply the button innerHTML (below) — attributes alone render blank.
 	// ---------------------------------------------------------------------
 	$block = tpgb_mcp_build_block( $block_name, $attrs );
+
+	// tp-button-core renders from its saved HTML — supply it so the button is
+	// visible on the front end (attributes-only would render blank).
+	$btn_html              = tpgb_mcp_button_core_render_html( $attrs );
+	$block['innerHTML']    = $btn_html;
+	$block['innerContent'] = array( $btn_html );
 
 	$parent_id = ! empty( $input['parent_block_id'] ) ? sanitize_text_field( $input['parent_block_id'] ) : '';
 	if ( '' !== $parent_id ) {

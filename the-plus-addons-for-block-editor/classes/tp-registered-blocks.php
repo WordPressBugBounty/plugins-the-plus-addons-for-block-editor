@@ -2857,10 +2857,19 @@ class Tpgb_Library {
 	public function tpgb_current_page_clear_cache() {
 		check_ajax_referer( 'tpgb-addons', 'security' );
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to perform this action.', 'the-plus-addons-for-block-editor' ), 403 );
+		}
+
 		$plus_name = '';
 		if ( isset( $_POST['plus_name'] ) && ! empty( $_POST['plus_name'] ) ) {
 			$plus_name = sanitize_text_field( wp_unslash( $_POST['plus_name'] ) );
 		}
+
+		if ( '' !== $plus_name && ! preg_match( '/^[A-Za-z0-9_-]+$/', $plus_name ) ) {
+			wp_send_json_error( esc_html__( 'Invalid cache identifier.', 'the-plus-addons-for-block-editor' ), 400 );
+		}
+
 		if ( 'gutenberg-all' === $plus_name ) {
 			// All clear cache files.
 			$this->remove_dir_files( TPGB_ASSET_PATH );

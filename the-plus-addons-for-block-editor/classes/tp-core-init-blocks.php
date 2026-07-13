@@ -304,9 +304,10 @@ class Tpgb_Core_Init_Blocks {
 			$google_map_api = 'AIzaSyA_ez85P6duaw7IrvfeK8LmRxLZPdLG7gs';
 		}
 
-		$google_fonts = apply_filters( 'tpgb_google_font_load', true );
-		$global_css   = apply_filters( 'tpgb_global_css_load', true );
-		$dash_icons   = apply_filters( 'tpgb_dashicons_icon_disable', true );
+		$google_fonts    = apply_filters( 'tpgb_google_font_load', true );
+		$global_css      = apply_filters( 'tpgb_global_css_load', true );
+		$dash_icons      = apply_filters( 'tpgb_dashicons_icon_disable', true );
+		$swatches_enable = apply_filters( 'tpgb_woo_swatches_enable', true );
 
 		$google_fonts_list = apply_filters( 'tpgb_custom_fonts_list', array() );
 		if ( empty( $google_fonts_list ) ) {
@@ -356,7 +357,14 @@ class Tpgb_Core_Init_Blocks {
 			}
 		}
 
+		$users = wp_get_current_user();
+
 		$wp_localize_tpgb = array(
+			'userData'               => array(
+				'userName'    => $users ? esc_html( $users->display_name ) : '',
+				'profileLink' => $users ? esc_url( get_avatar_url( $users->ID ) ) : '',
+				'userEmail'   => $users ? get_option( 'admin_email' ) : '',
+			),
 			'activeTheme'            => esc_html( get_template() ),
 			'category'               => TPGB_CATEGORY,
 			'activated_blocks'       => Tp_Blocks_Helper::get_block_enabled( array() ),
@@ -372,6 +380,7 @@ class Tpgb_Core_Init_Blocks {
 			'googlefont_load'        => $google_fonts,
 			'globalcss_load'         => $global_css,
 			'googlefont_list'        => $google_fonts_list,
+			'swatches_enable'        => $swatches_enable,
 			'fontawesome'            => false,
 			'contactform_list'       => Tp_Blocks_Helper::get_contact_form_post(),
 			'everestform_list'       => Tp_Blocks_Helper::get_everest_form_post(),

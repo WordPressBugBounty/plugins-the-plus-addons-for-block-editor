@@ -37,7 +37,6 @@ if ( ! empty( $layout ) && 'metro' === $layout ) {
 		<?php
 		if ( 'yes' === $show_post_category && 'style-1' === $style_layout || ( ( 'style-2' === $style_layout && 'metro' === $layout ) ) ) { // phpcs:ignore Generic.CodeAnalysis.RequireExplicitBooleanOperatorPrecedence.MissingParentheses
 			?>
-			// phpcs:ignore Generic.CodeAnalysis.RequireExplicitBooleanOperatorPrecedence.MissingParentheses
 			<div class="tpgb-post-metro-category-top <?php echo ( 'center' === $style2_alignment ) ? 'text-center' : 'text-left'; ?>">
 			<?php include TPGB_INCLUDES_URL . 'blog/' . sanitize_file_name( 'category-' . $post_category_style . '.php' ); ?>
 			</div>

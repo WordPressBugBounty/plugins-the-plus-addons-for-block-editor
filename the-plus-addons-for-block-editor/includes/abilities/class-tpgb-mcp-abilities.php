@@ -87,7 +87,7 @@ class Tpgb_MCP_Abilities {
 		require_once $base . 'helpers.php';
 
 		// Skills loaded first — performance skill must run before others, typography skill must run right after performance.
-		foreach ( array( 'get-performance-skill', 'get-typography-skill', 'get-image-to-page-skill', 'get-doc-creator-skill', 'inspect-page' ) as $f ) {
+		foreach ( array( 'get-performance-skill', 'get-typography-skill', 'get-image-to-page-skill', 'get-doc-creator-skill', 'inspect-page', 'verify-page' ) as $f ) {
 			require_once $base . $f . '.php';
 		}
 
@@ -158,7 +158,7 @@ class Tpgb_MCP_Abilities {
 			require_once $pro_helpers;
 		}
 
-		foreach ( array( 'get-performance-skill', 'get-typography-skill', 'get-image-to-page-skill', 'get-doc-creator-skill' ) as $f ) {
+		foreach ( array( 'get-performance-skill', 'get-typography-skill', 'get-image-to-page-skill', 'get-doc-creator-skill', 'get-woocommerce-skill' ) as $f ) {
 			$path = $pro . $f . '.php';
 			if ( file_exists( $path ) ) {
 				require_once $path;
@@ -167,15 +167,21 @@ class Tpgb_MCP_Abilities {
 
 		foreach ( array(
 			'add-tpgb-accordion-inner',
+			'add-tpgb-additional-information',
+			'add-tpgb-adv-typo',
 			'add-tpgb-advanced-buttons',
 			'add-tpgb-advanced-chart',
-			'add-tpgb-adv-typo',
 			'add-tpgb-animated-service-boxes',
 			'add-tpgb-anything-carousel',
 			'add-tpgb-anything-slide',
+			'add-tpgb-apply-coupon',
 			'add-tpgb-audio-player',
 			'add-tpgb-before-after',
+			'add-tpgb-billing-address',
 			'add-tpgb-carousel-remote',
+			'add-tpgb-cart-table',
+			'add-tpgb-cart-total',
+			'add-tpgb-checkout-login',
 			'add-tpgb-circle-menu',
 			'add-tpgb-column',
 			'add-tpgb-coupon-code',
@@ -191,16 +197,34 @@ class Tpgb_MCP_Abilities {
 			'add-tpgb-lottiefiles',
 			'add-tpgb-mailchimp',
 			'add-tpgb-media-listing',
+			'add-tpgb-mini-cart',
 			'add-tpgb-mobile-menu',
 			'add-tpgb-mouse-cursor',
+			'add-tpgb-my-account',
+			'add-tpgb-order-confirmation',
+			'add-tpgb-order-payment',
+			'add-tpgb-order-review',
+			'add-tpgb-payment-method',
 			'add-tpgb-popup-builder',
 			'add-tpgb-post-navigation',
 			'add-tpgb-preloader',
 			'add-tpgb-process-steps',
+			'add-tpgb-product-add-to-cart',
+			'add-tpgb-product-compare',
 			'add-tpgb-product-listing',
+			'add-tpgb-product-quick-view',
+			'add-tpgb-product-wishlist',
 			'add-tpgb-repeater-block',
 			'add-tpgb-scroll-navigation',
 			'add-tpgb-scroll-sequence',
+			'add-tpgb-shipping-address',
+			'add-tpgb-single-product-image',
+			'add-tpgb-single-product-meta',
+			'add-tpgb-single-product-pricing',
+			'add-tpgb-single-product-rating',
+			'add-tpgb-single-product-review',
+			'add-tpgb-single-product-stock',
+			'add-tpgb-single-product-tab',
 			'add-tpgb-social-feed',
 			'add-tpgb-social-reviews',
 			'add-tpgb-social-sharing',
@@ -208,6 +232,8 @@ class Tpgb_MCP_Abilities {
 			'add-tpgb-switch-inner',
 			'add-tpgb-tab-item',
 			'add-tpgb-table-content',
+			'add-tpgb-thank-you-address',
+			'add-tpgb-thank-you-order-details',
 			'add-tpgb-timeline',
 			'add-tpgb-timeline-inner',
 		) as $f ) {

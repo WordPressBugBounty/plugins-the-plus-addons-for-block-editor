@@ -131,6 +131,8 @@ if ( ! class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 
 			require_once TPGB_PATH . 'classes/tp-block-helper.php';
 
+			require_once TPGB_PATH . 'includes/tpgb-rtl-styles.php';
+
 			// Load AI API registration file only on admin OR during REST API requests to our namespace (tpgb/v1).
 			$values = '';
 

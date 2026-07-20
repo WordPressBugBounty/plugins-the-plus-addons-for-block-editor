@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -56,6 +56,10 @@ A full [wordpress form builder](https://nexterwp.com/nexter-blocks/builder/wordp
 ###Blog Builder, Ajax Search & Navigation
 
 [Blog Builder](https://nexterwp.com/nexter-blocks/builder/wordpress-blog-builder/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) for fully custom blog archive layouts, [Ajax Search Bar](https://nexterwp.com/nexter-blocks/builder/wordpress-ajax-search-bar/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) for real-time live search across posts and WooCommerce, [Navigation Menu](https://nexterwp.com/nexter-blocks/builder/wordpress-navigation-menu/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks), and [Mobile Menu](https://nexterwp.com/nexter-blocks/builder/wordpress-mobile-menu/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) with slide-in, toggle, and dropdown variants.
+
+###WooCommerce Store Builder
+
+Build your entire [WooCommerce store in Gutenberg](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) with 27 dedicated WooCommerce blocks. Design the single product page, cart, mini cart, checkout, thank-you page, and My Account dashboard block by block, with no page builder and no separate plugins for a custom checkout, variation swatches, wishlist, compare, or quick view. Every block inherits your theme colors, typography, and spacing, so your store stays on brand without CSS.
 
 ###Dynamic Post Grid Builder
 
@@ -190,6 +194,16 @@ Build complete post and page templates with these Gutenberg theme builder blocks
 * [WooCommerce Product Grid](https://nexterwp.com/nexter-blocks/listing/wordpress-product-grid/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) — fully styled [wordpress woocommerce blocks](https://nexterwp.com/nexter-blocks/listing/wordpress-product-grid/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) with custom layouts beyond the default WooCommerce templates
 * [Product Carousel](https://nexterwp.com/nexter-blocks/listing/wordpress-product-carousel/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Product Masonry](https://nexterwp.com/nexter-blocks/listing/wordpress-product-masonry/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Product Metro](https://nexterwp.com/nexter-blocks/listing/wordpress-product-metro/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Product Listing](https://nexterwp.com/nexter-blocks/listing/wordpress-product-listing/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Taxonomy Category & Tags Listing](https://nexterwp.com/nexter-blocks/builder/wordpress-taxonomy-listing/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
 
+= WooCommerce Store Builder Blocks =
+
+Build the entire store in the block editor: 27 dedicated blocks across the single product page, cart, checkout, order, thank-you page, and account. [See the full WooCommerce Store Builder demo](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks).
+
+* Single Product Page: [Single Product Image](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Single Product Pricing](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Single Product Rating](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Single Product Stock](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Single Product Meta](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Single Product Review](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Single Product Tab](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Product Add to Cart](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
+* Cart & Mini Cart: [Cart Table](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Cart Total](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Mini Cart](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Apply Coupon](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Free Shipping Progress Bar](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
+* Checkout: [Checkout Login](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Billing Address](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Shipping Address](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Additional Information](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Payment Method](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Order Review](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
+* Order, Thank You & My Account: [Order Confirmation](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Order Payment](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Thank You Order Details](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Thank You Address](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [My Account](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
+* Catalog & Conversion: [Product Quick View](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Product Compare](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) | [Product Wishlist](https://nexterwp.com/nexter-blocks/builder/woocommerce-store-builder-for-wordpress/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks)
+
 = Team Members =
 
 * [Team Member](https://nexterwp.com/nexter-blocks/listing/wordpress-team-members/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) — [wordpress team members plugin](https://nexterwp.com/nexter-blocks/listing/wordpress-team-members/?utm_source=wordpress&utm_medium=readmepage&utm_campaign=nexterblocks) block — photos, bio, role, and social profile links
@@ -320,8 +334,12 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 == Changelog ==
 
+= 5.0.1 = 20 July 2026
+– Update : Dashboard : WooCommerce Blocks Demo and Documentation URLs to the Dashboard Block List for easier access.
+– Fix : Minor Bugs and Improvements.
+
 = 5.0.0 = 13 July 2026
-– Added : Dashboard : Block Settings Render Via Php
+– Fixed an authenticated (Subscriber+) path traversal vulnerability in the cache-clear handler that could delete arbitrary CSS/JS files.
 
 = 4.7.17 = 08 July 2026
 – Added : Dashboard : Block Settings Render Via Php

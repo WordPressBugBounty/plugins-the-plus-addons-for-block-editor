@@ -300,10 +300,6 @@ class Tpgb_Core_Init_Blocks {
 			$google_map_api = Tp_Blocks_Helper::get_extra_option( 'googlemap_api' );
 		}
 
-		if ( empty( trim( $google_map_api ) ) ) {
-			$google_map_api = 'AIzaSyA_ez85P6duaw7IrvfeK8LmRxLZPdLG7gs';
-		}
-
 		$google_fonts    = apply_filters( 'tpgb_google_font_load', true );
 		$global_css      = apply_filters( 'tpgb_global_css_load', true );
 		$dash_icons      = apply_filters( 'tpgb_dashicons_icon_disable', true );
@@ -439,8 +435,10 @@ class Tpgb_Core_Init_Blocks {
 				array(
 					'methods'             => WP_REST_Server::EDITABLE,
 					'callback'            => array( $this, 'tpgb_update_global_settings' ),
-					'permission_callback' => function ( WP_REST_Request $request ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
-						return current_user_can( 'edit_posts' );
+					'permission_callback' => function () {
+						// Writes site-wide plugin options / global block styles, so it
+						// is restricted to users who can manage the site (not Contributors).
+						return current_user_can( 'manage_options' );
 					},
 					'args'                => array(),
 				),
@@ -471,7 +469,22 @@ class Tpgb_Core_Init_Blocks {
 				array(
 					'methods'             => 'POST',
 					'callback'            => array( $this, 'plus_save_block_css' ),
-					'permission_callback' => function ( WP_REST_Request $request ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+					'permission_callback' => function ( WP_REST_Request $request ) {
+						// Saving site-wide global CSS is an administrator-level action.
+						// Note: use the same truthiness as the handler ( if ( $params['is_global'] ) )
+						// so a value like the string "false" cannot slip past this gate.
+						if ( ! empty( $request['is_global'] ) ) {
+							return current_user_can( 'manage_options' );
+						}
+
+						// Per-post block CSS: require the ability to edit that specific
+						// post, which also blocks writing/removing CSS for posts the
+						// user is not allowed to edit.
+						$post_id = isset( $request['post_id'] ) ? absint( $request['post_id'] ) : 0;
+						if ( $post_id > 0 ) {
+							return current_user_can( 'edit_post', $post_id );
+						}
+
 						return current_user_can( 'edit_posts' );
 					},
 					'args'                => array(),

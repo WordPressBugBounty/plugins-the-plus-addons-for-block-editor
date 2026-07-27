@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 5.0.1\n"
+"Project-Id-Version: Nexter Blocks 5.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-20T04:41:18+00:00\n"
+"POT-Creation-Date: 2026-07-27T04:45:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -645,86 +645,90 @@ msgstr ""
 msgid "Empty Content."
 msgstr ""
 
-#: classes/tp-block-helper.php:513
+#: classes/tp-block-helper.php:161
+msgid "Sorry, this SVG could not be verified as safe and was not uploaded."
+msgstr ""
+
+#: classes/tp-block-helper.php:594
 #: assets/js/admin/blocks-essential.js:1
 msgid "Full"
 msgstr ""
 
-#: classes/tp-block-helper.php:595
-#: classes/tp-block-helper.php:616
+#: classes/tp-block-helper.php:676
+#: classes/tp-block-helper.php:697
 #: assets/js/admin/blocks-essential.js:1
 msgid "Select Form"
 msgstr ""
 
-#: classes/tp-block-helper.php:600
+#: classes/tp-block-helper.php:681
 msgid "No everest forms found"
 msgstr ""
 
-#: classes/tp-block-helper.php:623
+#: classes/tp-block-helper.php:704
 msgid "Form Not Found!"
 msgstr ""
 
-#: classes/tp-block-helper.php:640
+#: classes/tp-block-helper.php:721
 msgid "Select Ninja Form"
 msgstr ""
 
-#: classes/tp-block-helper.php:647
-#: classes/tp-block-helper.php:675
+#: classes/tp-block-helper.php:728
+#: classes/tp-block-helper.php:756
 msgid "Create a Form First"
 msgstr ""
 
-#: classes/tp-block-helper.php:668
+#: classes/tp-block-helper.php:749
 msgid "Select a WPForm"
 msgstr ""
 
 #. translators: Archive by: %s
-#: classes/tp-block-helper.php:720
+#: classes/tp-block-helper.php:801
 #, php-format
 msgid "Archive by \"%s\""
 msgstr ""
 
 #. translators: Search Results for: %s
-#: classes/tp-block-helper.php:722
+#: classes/tp-block-helper.php:803
 #, php-format
 msgid "Search Results for \"%s\""
 msgstr ""
 
 #. translators: Posts Tagged for: %s
-#: classes/tp-block-helper.php:724
+#: classes/tp-block-helper.php:805
 #, php-format
 msgid "Posts Tagged \"%s\""
 msgstr ""
 
 #. translators: Articles Posted by for: %s
-#: classes/tp-block-helper.php:726
+#: classes/tp-block-helper.php:807
 #, php-format
 msgid "Articles Posted by %s"
 msgstr ""
 
 #. translators: Error 404: %s
-#: classes/tp-block-helper.php:728
+#: classes/tp-block-helper.php:809
 msgid "Error 404"
 msgstr ""
 
-#: classes/tp-block-helper.php:771
+#: classes/tp-block-helper.php:852
 msgid "home"
 msgstr ""
 
-#: classes/tp-block-helper.php:779
+#: classes/tp-block-helper.php:860
 #: assets/js/admin/blocks-advanced.js:1
 msgid "separator"
 msgstr ""
 
-#: classes/tp-block-helper.php:1321
+#: classes/tp-block-helper.php:1402
 #: assets/js/admin/blocks-social.js:1
 msgid "Page"
 msgstr ""
 
-#: classes/tp-block-helper.php:1650
+#: classes/tp-block-helper.php:1731
 msgid "System"
 msgstr ""
 
-#: classes/tp-block-helper.php:1655
+#: classes/tp-block-helper.php:1736
 #: assets/js/admin/blocks-advanced.js:1
 #: assets/js/admin/blocks-builder.js:1
 #: assets/js/admin/blocks-creative.js:1
@@ -736,97 +740,97 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: classes/tp-block-helper.php:1659
+#: classes/tp-block-helper.php:1740
 msgid "Arial"
 msgstr ""
 
-#: classes/tp-block-helper.php:1663
+#: classes/tp-block-helper.php:1744
 msgid "Georgia"
 msgstr ""
 
-#: classes/tp-block-helper.php:1667
+#: classes/tp-block-helper.php:1748
 msgid "Helvetica"
 msgstr ""
 
-#: classes/tp-block-helper.php:1671
+#: classes/tp-block-helper.php:1752
 msgid "Tahoma"
 msgstr ""
 
-#: classes/tp-block-helper.php:1675
+#: classes/tp-block-helper.php:1756
 msgid "Times New Roman"
 msgstr ""
 
-#: classes/tp-block-helper.php:1679
+#: classes/tp-block-helper.php:1760
 msgid "Trebuchet MS"
 msgstr ""
 
-#: classes/tp-block-helper.php:1683
+#: classes/tp-block-helper.php:1764
 msgid "Verdana"
 msgstr ""
 
-#: classes/tp-block-helper.php:1691
+#: classes/tp-block-helper.php:1772
 msgid "Custom Fonts"
 msgstr ""
 
-#: classes/tp-block-helper.php:2123
+#: classes/tp-block-helper.php:2204
 msgid "Failed to send email."
 msgstr ""
 
-#: classes/tp-block-helper.php:2127
+#: classes/tp-block-helper.php:2208
 msgid "Email address and Subject is required. "
 msgstr ""
 
-#: classes/tp-block-helper.php:2170
+#: classes/tp-block-helper.php:2251
 msgid "No Cloudflare Turnstile response received."
 msgstr ""
 
-#: classes/tp-block-helper.php:2174
+#: classes/tp-block-helper.php:2255
 msgid "Invalid CAPTCHA validation response format."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:490
+#: classes/tp-core-init-blocks.php:503
 msgid "Nexter Blocks Different sized of featured images"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:504
+#: classes/tp-core-init-blocks.php:517
 msgid "Post Listing of get Post Meta Info."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:518
+#: classes/tp-core-init-blocks.php:531
 msgid "Category list links"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:536
+#: classes/tp-core-init-blocks.php:549
 msgid "Product Data."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:722
+#: classes/tp-core-init-blocks.php:735
 msgid "Settings parameter is missing!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:727
+#: classes/tp-core-init-blocks.php:740
 msgid "Nexter Global settings updated!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:888
-#: classes/tp-core-init-blocks.php:917
-#: classes/tp-core-init-blocks.php:1078
+#: classes/tp-core-init-blocks.php:901
+#: classes/tp-core-init-blocks.php:930
+#: classes/tp-core-init-blocks.php:1091
 msgid "CSS can not be load due to permission!!!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1020
+#: classes/tp-core-init-blocks.php:1033
 msgid "Plus block css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1025
+#: classes/tp-core-init-blocks.php:1038
 msgid "Plus block preview css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1466
+#: classes/tp-core-init-blocks.php:1479
 msgid ", "
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1630
+#: classes/tp-core-init-blocks.php:1643
 msgid "Sale"
 msgstr ""
 
@@ -18052,6 +18056,10 @@ msgid "No, you don’t! WDesignKit templates are completely free for Nexter user
 msgstr ""
 
 #: assets/js/admin/blocks.js:1
+msgid "Import Pre-Designed Blocks Styles for Nexter Blocks"
+msgstr ""
+
+#: assets/js/admin/blocks.js:1
 msgid "Design Quickly without starting from Scratch"
 msgstr ""
 
@@ -19956,6 +19964,10 @@ msgid "Disable Skip Link"
 msgstr ""
 
 #: dashboard/build/index.js:9
+msgid "Remove the \"Skip to content\" link."
+msgstr ""
+
+#: dashboard/build/index.js:9
 msgid "Bare-minimum core — no unnecessary code or hidden bloat"
 msgstr ""
 
@@ -20052,20 +20064,26 @@ msgstr ""
 msgid "Import/Export Theme Customizer"
 msgstr ""
 
+#. translators: %s: brand name
 #: dashboard/build/index.js:9
-msgid "Easily import or export Nexter Theme Customizer settings to use across different sites."
+#, js-format
+msgid "Easily import or export %s Theme Customizer settings to use across different sites."
 msgstr ""
 
 #: dashboard/build/index.js:9
 msgid "Import/Export Extension Settings"
 msgstr ""
 
+#. translators: %s: brand name
 #: dashboard/build/index.js:9
-msgid "Easily import or export Nexter Extension settings to use across different sites."
+#, js-format
+msgid "Easily import or export %s Extension settings to use across different sites."
 msgstr ""
 
+#. translators: %s: brand name
 #: dashboard/build/index.js:9
-msgid "Nexter Import/Export Data"
+#, js-format
+msgid "%s Import/Export Data"
 msgstr ""
 
 #: dashboard/build/index.js:9
@@ -20750,6 +20768,10 @@ msgid "Ninja Firewall"
 msgstr ""
 
 #: dashboard/build/index.js:9
+msgid " ensure the option \"Block attempts to gain administrative privileges\" is unchecked in Firewall Policies before switching to a non-admin role. This prevents accidental lockouts from your admin account."
+msgstr ""
+
+#: dashboard/build/index.js:9
 msgid "Disable Admin Settings"
 msgstr ""
 
@@ -20974,6 +20996,10 @@ msgid "Remove New Content Menu"
 msgstr ""
 
 #: dashboard/build/index.js:9
+msgid "Remove \"Howdy\""
+msgstr ""
+
+#: dashboard/build/index.js:9
 msgid "Remove the Help Tab and Drawer"
 msgstr ""
 
@@ -21178,7 +21204,15 @@ msgid "Hide Email from Spam Bots"
 msgstr ""
 
 #: dashboard/build/index.js:9
+msgid "Display email like [obfuscate email=\"john@site.com\" display=\"inline\"] so bots can't scrape it."
+msgstr ""
+
+#: dashboard/build/index.js:9
 msgid "Hide Telephone Secure Spam Bots"
+msgstr ""
+
+#: dashboard/build/index.js:9
+msgid "Protects contact info from bots — use [nxt_encode link=\"tel:+1555123\"]+1 (555) 123-4567[/nxt_encode] to display a safe, clickable number."
 msgstr ""
 
 #: dashboard/build/index.js:9
@@ -21832,6 +21866,10 @@ msgstr ""
 
 #: dashboard/build/index.js:9
 msgid "Display Swap"
+msgstr ""
+
+#: dashboard/build/index.js:9
+msgid "Enable the \"swap\" attribute for Google Fonts to display system fonts while Google Fonts load."
 msgstr ""
 
 #: dashboard/build/index.js:9
@@ -22642,6 +22680,10 @@ msgid "Select Cache Method"
 msgstr ""
 
 #: dashboard/build/index.js:11
+msgid "In \"Smart Optimised\" method of caching, We use detect widgets used in each page, combine and minify all JS and CSS of page in two separate files for the best possible performance with least possible requests. All Cache stored at \"SiteURL/wp-content/uploads/nxt-addons/\"."
+msgstr ""
+
+#: dashboard/build/index.js:11
 msgid "Regenerate Files"
 msgstr ""
 
@@ -22918,7 +22960,15 @@ msgid "AI Context Settings"
 msgstr ""
 
 #: dashboard/build/index.js:11
+msgid "Enter your LLM API Keys to enable AI-powered content generation."
+msgstr ""
+
+#: dashboard/build/index.js:11
 msgid "Add Website Custom Context"
+msgstr ""
+
+#: dashboard/build/index.js:11
+msgid "Set the writing style, tone, and site-specific instructions. This context will be applied to all AI prompts to deliver more accurate and brand-aligned output. "
 msgstr ""
 
 #: dashboard/build/index.js:11

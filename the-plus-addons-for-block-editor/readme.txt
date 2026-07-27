@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 5.0.1
+Stable tag: 5.0.2
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -333,6 +333,11 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 
 
 == Changelog ==
+
+= 5.0.2 = 27 July 2026
+– Security : Fixed Author+ Stored XSS via SVG upload (SVGs now restricted to trusted users and sanitized).
+– Security : Fixed Contributor+ Stored CSS Injection in the global CSS endpoint (now admin-only).
+– Fix : Minor Bugs and Improvements.
 
 = 5.0.1 = 20 July 2026
 – Update : Dashboard : WooCommerce Blocks Demo and Documentation URLs to the Dashboard Block List for easier access.

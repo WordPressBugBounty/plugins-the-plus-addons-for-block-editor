@@ -57,7 +57,12 @@ class Tp_Blocks_Helper {
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'init_blocks_load' ) );
 		add_action( 'wp_head', array( $this, 'custom_css_js_load' ) );
+
 		add_filter( 'upload_mimes', array( $this, 'tpgb_mime_types' ) );
+
+		// Sanitize SVG uploads so they cannot carry executable content (stored XSS).
+		add_filter( 'wp_handle_upload_prefilter', array( $this, 'tpgb_pre_upload_sanitize_svg' ) );
+		add_action( 'add_attachment', array( $this, 'tpgb_sanitize_attached_svg' ) );
 
 		// Ajax For Template Content.
 		add_action( 'wp_ajax_tpgb_get_template_content', array( $this, 'tpgb_get_template_content' ) );
@@ -110,8 +115,84 @@ class Tp_Blocks_Helper {
 	 * @param mixed $mimes The mimes.
 	 */
 	public function tpgb_mime_types( $mimes ) {
-		$mimes['svg'] = 'image/svg+xml';
+		/**
+		 * SVG is markup that can carry executable content, so it is only added to
+		 * allowed uploads for users trusted to post unfiltered HTML (admins/editors
+		 * on single site, super admins on multisite). Removes the Author+/unauth
+		 * upload surface reported by WPScan. Uploaded SVGs are additionally scrubbed.
+		 *
+		 * @since 5.0.2
+		 */
+		$capability = apply_filters( 'tpgb_svg_upload_capability', 'unfiltered_html' );
+
+		if ( ! empty( $capability ) && current_user_can( $capability ) ) {
+			$mimes['svg'] = 'image/svg+xml';
+		}
+
 		return $mimes;
+	}
+
+	/**
+	 * Sanitize an SVG at upload time (wp_handle_upload / media-library path).
+	 * Rejects any file that cannot be parsed as safe SVG before it is stored.
+	 *
+	 * @since 5.0.2
+	 * @param array $file Upload data ( name, type, tmp_name, error, size ).
+	 * @return array
+	 */
+	public function tpgb_pre_upload_sanitize_svg( $file ) {
+		if ( empty( $file['tmp_name'] ) || ! empty( $file['error'] ) ) {
+			return $file;
+		}
+
+		$ext  = strtolower( pathinfo( isset( $file['name'] ) ? $file['name'] : '', PATHINFO_EXTENSION ) );
+		$type = isset( $file['type'] ) ? strtolower( $file['type'] ) : '';
+
+		if ( 'svg' !== $ext && 'image/svg+xml' !== $type ) {
+			return $file;
+		}
+
+		require_once TPGB_PATH . 'classes/extras/tp-svg-sanitizer.php';
+
+		$raw   = file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Temp upload file.
+		$clean = ( false !== $raw ) ? Tpgb_Svg_Sanitizer::sanitize( $raw ) : false;
+
+		if ( false === $clean ) {
+			$file['error'] = esc_html__( 'Sorry, this SVG could not be verified as safe and was not uploaded.', 'the-plus-addons-for-block-editor' );
+			return $file;
+		}
+
+		if ( $clean !== $raw ) {
+			file_put_contents( $file['tmp_name'], $clean ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Temp upload file.
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Catch-all SVG sanitization for any newly created attachment — covers paths
+	 * that bypass wp_handle_upload_prefilter (e.g. wp_upload_bits used by media
+	 * import / form submissions). Neutralizes to an empty SVG if it can't be cleaned.
+	 *
+	 * @since 5.0.2
+	 * @param int $attachment_id Attachment post ID.
+	 * @return void
+	 */
+	public function tpgb_sanitize_attached_svg( $attachment_id ) {
+		if ( 'image/svg+xml' !== get_post_mime_type( $attachment_id ) ) {
+			return;
+		}
+
+		$path = get_attached_file( $attachment_id );
+		if ( empty( $path ) || ! file_exists( $path ) ) {
+			return;
+		}
+
+		require_once TPGB_PATH . 'classes/extras/tp-svg-sanitizer.php';
+
+		if ( ! Tpgb_Svg_Sanitizer::sanitize_file( $path ) ) {
+			file_put_contents( $path, '<svg xmlns="http://www.w3.org/2000/svg"></svg>' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Local uploaded file.
+		}
 	}
 
 	/**

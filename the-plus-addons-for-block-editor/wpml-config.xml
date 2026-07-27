@@ -107,7 +107,7 @@
             <xpath label="Image Caption">//figcaption[contains(@class,"tpgb-image-caption")]</xpath>
             <xpath label="Figure Caption">//figure/figcaption</xpath>
         </gutenberg-block>
-        <gutenberg-block type="tpgb/tp-infobox" translate="1"> 
+        <gutenberg-block type="tpgb/tp-infobox" translate="1">
             <key name="Title" />
             <key name="Description" />
             <key name="pinText" />
@@ -120,6 +120,10 @@
                     <key name="pinText" />
                 </key>
             </key>
+            <xpath label="Infobox Title">//*[contains(@class,"service-title")]</xpath>
+            <xpath label="Infobox Description">//*[contains(@class,"service-desc")]</xpath>
+            <xpath label="Infobox Pin Text">//*[contains(@class,"info-pin-text")]</xpath>
+            <xpath label="Infobox Button Text">//a[contains(@class,"button-link-wrap")]</xpath>
         </gutenberg-block>
         <gutenberg-block type="tpgb/tp-interactive-circle-info" translate="1"> 
             <key name="intCircle">

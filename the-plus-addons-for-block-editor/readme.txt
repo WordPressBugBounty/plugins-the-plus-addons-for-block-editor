@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 5.0.2
+Stable tag: 5.0.3
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -308,31 +308,22 @@ Via Patchstack Vulnerability Disclosure: https://patchstack.com/database/vdp/the
 
 == External services ==
 
-This plugin relies on external services to provide enhanced features and functionalities. Below is a list of the external services used, along with the details of their usage, the data transmitted, and links to their respective terms of service and privacy policies.
+Nexter Blocks may connect to external services only when the related feature is enabled:
 
-1. Instagram Embedded Content
-Purpose: Embeds Instagram content in the plugin blocks.
-Data Sent: None from the user. The plugin loads the Instagram embedding script (//www.instagram.com/embed.js) to display content.
-Privacy Policy & Terms: Instagram [Privacy Policy](https://privacycenter.instagram.com/policy) | [Terms of Use](https://help.instagram.com/581066165581870)
-2. Facebook SDK and Embedded Content
-Purpose: Integrates Facebook SDK for sharing and embeds Facebook content in plugin blocks.
-Data Sent: None from the user. The plugin requests the Facebook SDK (https://connect.facebook.net/en_US/sdk.js) and embed scripts for sharing or displaying posts.
-Privacy Policy & Terms: Facebook [Privacy Policy](https://www.facebook.com/privacy/policy/) | [Terms of Service](https://www.facebook.com/terms.php)
-3. Google Maps API
-Purpose: Displays Google Maps for various plugin functionalities, such as embedding maps or getting directions.
-Data Sent: Google Maps API key provided by the user during setup.
-Privacy Policy & Terms: Google [Privacy Policy](https://maps.google.com/intl/en-US/policies/privacy/archive/20171002/) | [Google Maps Terms](https://cloud.google.com/maps-platform/terms)
-4. Vimeo Embedded Content
-Purpose: Embeds Vimeo videos in the plugin blocks.
-Data Sent: None from the user. The plugin loads Vimeo's embed script (https://player.vimeo.com/video/{video_id}).
-Privacy Policy & Terms: Vimeo [Privacy Policy](https://vimeo.com/privacy) | [Terms of Service](https://vimeo.com/terms)
-5. ThePlus Addons API
-Purpose: Connects to theplusaddons.com to fetch templates and social review data.
-Data Sent: Minimal anonymous data (e.g., timestamp for caching).
-Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.com/privacy-policy/) | [Terms of Service](https://store.posimyth.com/terms-conditions/)
+* **api.posimyth.com** — usage analytics. Off by default; submitting the plugin deactivation feedback form also sends it, even when sharing is off. [Terms](https://store.posimyth.com/terms-conditions/) · [Privacy](https://store.posimyth.com/privacy-policy/) · [what's shared](https://nexterwp.com/docs/data-sharing/)
+* **theplusaddons.com** — fetches templates and social review data. [Terms](https://store.posimyth.com/terms-conditions/) · [Privacy](https://store.posimyth.com/privacy-policy/)
+* **instagram.com** — embeds Instagram content when an Instagram block is used. [Terms](https://help.instagram.com/581066165581870) · [Privacy](https://privacycenter.instagram.com/policy)
+* **connect.facebook.net** — Facebook SDK for sharing and embedding Facebook content when a Facebook block is used. [Terms](https://www.facebook.com/terms.php) · [Privacy](https://www.facebook.com/privacy/policy/)
+* **maps.google.com** — displays maps and directions, using your own Google Maps API key. [Terms](https://cloud.google.com/maps-platform/terms) · [Privacy](https://maps.google.com/intl/en-US/policies/privacy/archive/20171002/)
+* **player.vimeo.com** — embeds Vimeo videos when a Vimeo block is used. [Terms](https://vimeo.com/terms) · [Privacy](https://vimeo.com/privacy)
+* **api.openai.com** — AI content, using your own OpenAI API key. [Terms](https://openai.com/policies/terms-of-use/) · [Privacy](https://openai.com/policies/privacy-policy/)
+* **generativelanguage.googleapis.com** — AI content, using your own Gemini API key. [Terms](https://policies.google.com/terms) · [Privacy](https://policies.google.com/privacy)
 
 
 == Changelog ==
+
+= 5.0.3 = 07 Aug 2026
+– Fix : Few minor bug fixes & improvements
 
 = 5.0.2 = 27 July 2026
 – Security : Fixed Author+ Stored XSS via SVG upload (SVGs now restricted to trusted users and sanitized).
@@ -473,40 +464,5 @@ Privacy Policy & Terms: ThePlus Addons [Privacy Policy](https://store.posimyth.c
 - Improvement : Tab Tours : Add labels for the options.
 - Improvement : Team Member : Add labels for the options.
 - Improvement : Testimonial : Add labels for the options.
-
-= 4.6.4 = 09 Jan 2026
-- Fix: Security : Improved code security and resolved a vulnerability.
-
-= 4.6.3 = 15 Dec 2025
-- Fixed : Dashboard : Asset Delivery Clear cache Bug Fix.
-- Update : Admin Banner remove.
-
-= 4.6.2 = 04 Dec 2025
-- Fixed : Extra : Equal Column Height Bug Fix.
-- Fixed : Minor Bugs and Improvements.
-
-= 4.6.1 = 02 Dec 2025
-- Fixed : Dashboard : Translation Issue Fix.
-- Fixed : Minor Bugs and Improvements.
-
-= 4.6.0 = 24 Nov 2025
-- Important Release:  Introduced a unified Nexter Settings Panel that combines all options from Nexter Theme, Nexter Blocks, and Nexter Extension into one centralized dashboard.
-- Improvement : Social Reviews :  All Block Attributes Converted to JSON
-- Improvement : Social Feed  :  All Block Attributes Converted to JSON
-- Improvement : Social Embed  :  All Block Attributes Converted to JSON
-- Improvement : Site Logo : All Block Attributes Converted to JSON
-- Improvement : Search Bar : All Block Attributes Converted to JSON
-- Improvement : Post Title : All Block Attributes Converted to JSON
-- Improvement : Post Meta : All Block Attributes Converted to JSON
-- Improvement : Post Image : All Block Attributes Converted to JSON
-- Improvement : Post Content : All Block Attributes Converted to JSON
-- Improvement : Post Comment : All Block Attributes Converted to JSON
-- Improvement : Post Author : All Block Attributes Converted to JSON
-- Improvement : Post Listing : All Block Attributes Converted to JSON
-- Improvement : Navigation Builder : All Block Attributes Converted to JSON
-- Improvement : Hover Card : All Block Attributes Converted to JSON
-- Improvement : External Form Styler : All Block Attributes Converted to JSON
-- Improvement : Data Table : All Block Attributes Converted to JSON
-- Fixed : Minor Bugs and Improvements.
 
 == Upgrade Notice ==

@@ -666,60 +666,67 @@ class Tpgb_Gutenberg_Settings_Options {
 			}
 
 			$dash_data = array(
-				'userData'          => array(
+				'userData'                     => array(
 					'userName'    => esc_html( $user->display_name ),
 					'profileLink' => esc_url( get_avatar_url( $user->ID ) ),
 					'userEmail'   => get_option( 'admin_email' ),
 					'siteUrl'     => get_option( 'siteurl' ),
 				),
-				'whiteLabelData'    => array(
+				'whiteLabelData'               => array(
 					'brandname' => $this->setting_name,
 					'brandlogo' => $this->setting_logo,
 				),
-				'blockList'         => array_merge( $this->block_extra, $this->block_lists, (array) $nxt_format_widget ),
-				'avtiveBlock'       => ( isset( $default_load['enable_normal_blocks'] ) && is_array( $default_load['enable_normal_blocks'] ) ) ? count(
+				'blockList'                    => array_merge( $this->block_extra, $this->block_lists, (array) $nxt_format_widget ),
+				'avtiveBlock'                  => ( isset( $default_load['enable_normal_blocks'] ) && is_array( $default_load['enable_normal_blocks'] ) ) ? count(
 					array_filter(
 						$default_load['enable_normal_blocks'],
 						function ( $block ) {
-							return strpos( $block, 'tp-' ) === 0; }
+							return strpos( $block, 'tp-' ) === 0;
+						}
 					)
 				) : 0,
-				'enableBlock'       => array_merge( is_array( $default_load['enable_normal_blocks'] ) ? $default_load['enable_normal_blocks'] : array(), isset( $default_load['tp_extra_option'] ) && is_array( $default_load['tp_extra_option'] ) ? $default_load['tp_extra_option'] : array() ),
-				'extOption'         => $ext_option,
-				'cacheData'         => array( get_option( 'tpgb_performance_cache' ), get_option( 'tpgb_delay_css_js' ), get_option( 'tpgb_defer_css_js' ) ),
-				'customCode'        => get_option( 'tpgb_custom_css_js' ),
-				'rollbacVer'        => Tpgb_Rollback::get_rollback_versions(),
-				'tpgbRollbackUrl'   => $rollback_url,
-				'wdadded'           => $wdadded,
-				'nexterBlock'       => $nxt_plugin,
-				'tpgbinstall'       => $nxt_plugin,
-				'nexterThemeActive' => ( defined( 'NXT_VERSION' ) ) ? true : false,
-				'wdTemplates'       => array(),
-				'nexterext'         => $nxtextension,
-				'extensioninstall'  => $nxtextension,
-				'extensionPro'      => defined( 'NXT_PRO_EXT_VER' ),
-				'wpVersion'         => get_bloginfo( 'version' ),
-				'pluginVer'         => TPGB_VERSION,
-				'uichemy'           => $uichemy,
-				'nextheme'          => $nxtheme,
-				'nexterThemeIntall' => $nxtheme,
-				'nexterCustLink'    => admin_url( 'customize.php' ),
-				'whiteLabel'        => get_option( 'tpgb_white_label' ),
-				'keyActmsg'         => class_exists( 'Tpgb_Pro_Library' ) ? Tpgb_Pro_Library::tpgb_pro_activate_msg() : '',
-				'nxtactivateKey'    => $licence_key,
-				'activePlan'        => ( class_exists( 'Tpgb_Pro_Library' ) && method_exists( 'Tpgb_Pro_Library', 'tpgb_get_activate_plan' ) ) ? Tpgb_Pro_Library::tpgb_get_activate_plan() : '',
-				'showSidebar'       => $this->nxt_notice_should_show(),
-				'nxt_onboarding'    => get_option( 'nxt_onboarding_done' ),
-				'tpaeAddon'         => $plus_addons,
-				'nxtThemeSetting'   => (array) get_option( 'nexter_settings_opts', array() ),
-				'nxt_wdkit_url'     => 'https://wdesignkit.com/',
-				'extensionactivate' => $extensionactivate,
-				'tpgbactivate'      => $tpgbactivate,
-				'tpaeactive'        => $tpaeactive,
-				'wdkactive'         => $wdkactive,
-				'uichemyactive'     => $uichemyactive,
-				'nexterThemeDet'    => admin_url( 'themes.php' ) . '?theme=nexter',
-				'settingData'       => $this->tpgb_get_blocks_settings_data(),
+				'enableBlock'                  => array_merge(
+					is_array( $default_load['enable_normal_blocks'] ) ? $default_load['enable_normal_blocks'] : array(),
+					isset( $default_load['tp_extra_option'] ) && is_array( $default_load['tp_extra_option'] ) ? $default_load['tp_extra_option'] : array()
+				),
+				'extOption'                    => $ext_option,
+				'cacheData'                    => array( get_option( 'tpgb_performance_cache' ), get_option( 'tpgb_delay_css_js' ), get_option( 'tpgb_defer_css_js' ) ),
+				'customCode'                   => get_option( 'tpgb_custom_css_js' ),
+				'rollbacVer'                   => Tpgb_Rollback::get_rollback_versions(),
+				'tpgbRollbackUrl'              => $rollback_url,
+				'wdadded'                      => $wdadded,
+				'nexterBlock'                  => $nxt_plugin,
+				'tpgbinstall'                  => $nxt_plugin,
+				'nexterThemeActive'            => ( defined( 'NXT_VERSION' ) ) ? true : false,
+				'wdTemplates'                  => array(),
+				'nexterext'                    => $nxtextension,
+				'extensioninstall'             => $nxtextension,
+				'extensionPro'                 => defined( 'NXT_PRO_EXT_VER' ),
+				'wpVersion'                    => get_bloginfo( 'version' ),
+				'pluginVer'                    => TPGB_VERSION,
+				'uichemy'                      => $uichemy,
+				'nextheme'                     => $nxtheme,
+				'nexterThemeIntall'            => $nxtheme,
+				'nexterCustLink'               => admin_url( 'customize.php' ),
+				'whiteLabel'                   => get_option( 'tpgb_white_label' ),
+				'keyActmsg'                    => class_exists( 'Tpgb_Pro_Library' ) ? Tpgb_Pro_Library::tpgb_pro_activate_msg() : '',
+				'nxtactivateKey'               => $licence_key,
+				'activePlan'                   => ( class_exists( 'Tpgb_Pro_Library' ) && method_exists( 'Tpgb_Pro_Library', 'tpgb_get_activate_plan' ) ) ? Tpgb_Pro_Library::tpgb_get_activate_plan() : '',
+				'showSidebar'                  => $this->nxt_notice_should_show(),
+				'nxt_onboarding'               => get_option( 'nxt_onboarding_done' ),
+				'tpaeAddon'                    => $plus_addons,
+				'nxtThemeSetting'              => (array) get_option( 'nexter_settings_opts', array() ),
+				'nxt_wdkit_url'                => 'https://wdesignkit.com/',
+				'extensionactivate'            => $extensionactivate,
+				'tpgbactivate'                 => $tpgbactivate,
+				'tpaeactive'                   => $tpaeactive,
+				'wdkactive'                    => $wdkactive,
+				'uichemyactive'                => $uichemyactive,
+				'nexterThemeDet'               => admin_url( 'themes.php' ) . '?theme=nexter',
+				'settingData'                  => $this->tpgb_get_blocks_settings_data(),
+				'shareAnalytics'               => (int) get_site_option( 'posimyth_nexter_share_analytics', 0 ),
+				'shareAnalyticsDocs'           => 'https://nexterwp.com/docs/data-sharing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=datasharingsettings',
+				'shareAnalyticsDocsOnboarding' => 'https://nexterwp.com/docs/data-sharing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=datasharingonboarding',
 			);
 		}
 
@@ -2648,93 +2655,47 @@ class Tpgb_Gutenberg_Settings_Options {
 
 		$tponb_data = ( isset( $_POST['boardingData'] ) && ! empty( $_POST['boardingData'] ) ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['boardingData'] ) ), true ) : array();
 
-		$user_data = array();
 		if ( isset( $tponb_data ) && ! empty( $tponb_data ) ) {
 
 			// $tpoUpdate = update_option('tpgb_onboarding_data' , $tponb_data); // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-			if ( isset( $tponb_data['tpgb_onboarding'] ) && true === $tponb_data['tpgb_onboarding'] ) {
 
-				$user_data['web_server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '';
+			/*
+			 * Onboarding's diagnostics checkbox now records consent through the shared SDK.
+			 *
+			 * This used to assemble an untracked payload — server software, memory limit, max execution
+			 * time, PHP and WP versions, active theme, the full active-plugin list via get_plugins(), the
+			 * enabled-blocks list, the site URL, the site language and the raw admin_email — and POST it to
+			 * api.posimyth.com/wp-json/tpgb/v2/tpgb_store_user_data. That ran outside the shared consent
+			 * model entirely: no opt-in surface, no white-label suppression, no capability check beyond the
+			 * nonce, and it sent the administrator's email address, which the consent copy explicitly
+			 * promises is never sent.
+			 *
+			 * It was also the ONLY consumer of this checkbox: Nexter Blocks never registered the
+			 * nxt_set_share_analytics action that the shared dashboard bundle posts to, so ticking the box
+			 * did nothing else. That action is registered in the main plugin file now, and the SDK owns the
+			 * rest — one suite-wide opt-in, a payload with no personal data, and a first ping the moment
+			 * consent is given. Recording the answer either way also stops the consent notice re-asking on
+			 * the very next admin page load.
+			 *
+			 * add_option( 'nxt_onboarding_done' ) used to sit INSIDE the remote call's success branch, so a
+			 * failed or non-200 response left onboarding permanently unfinished — and a 200 without a
+			 * success flag returned no JSON at all and hung the wizard. It is unconditional now.
+			 */
+			$tpgb_consent = ! empty( $tponb_data['tpgb_onboarding'] );
 
-				// Memory Limit.
-				$user_data['memory_limit'] = ini_get( 'memory_limit' );
+			// Site option + autoloaded, matching the SDK's has_consent() and the notice's own writes.
+			update_site_option( 'posimyth_nexter_share_analytics', $tpgb_consent ? 1 : 0 );
 
-				// Memory Limit.
-				$user_data['max_execution_time'] = ini_get( 'max_execution_time' );
-
-				// Php Version.
-				$user_data['php_version'] = phpversion();
-
-				// WordPress Version.
-				$user_data['wp_version'] = get_bloginfo( 'version' );
-
-				// Active Theme.
-				$acthemeobj = wp_get_theme();
-				if ( $acthemeobj->get( 'Name' ) !== null && ! empty( $acthemeobj->get( 'Name' ) ) ) {
-					$user_data['theme'] = $acthemeobj->get( 'Name' );
-				}
-
-				// Active Plugin Name.
-				$act_plugin = array();
-				$actplu     = get_option( 'active_plugins' );
-				if ( ! function_exists( 'get_plugins' ) ) {
-					require_once ABSPATH . 'wp-admin/includes/plugin.php';
-				}
-
-				$plugins = get_plugins();
-				foreach ( $actplu as $p ) {
-					if ( isset( $plugins[ $p ] ) ) {
-						$act_plugin[] = $plugins[ $p ]['Name'];
-					}
-				}
-
-				$user_data['plugin'] = wp_json_encode( $act_plugin );
-
-				// No Of TPAG Block Used.
-				$get_blocks_list = get_option( 'tpgb_normal_blocks_opts' );
-
-				if ( isset( $get_blocks_list ) && ! empty( $get_blocks_list ) && isset( $get_blocks_list['enable_normal_blocks'] ) && ! empty( $get_blocks_list['enable_normal_blocks'] ) ) {
-					$user_data['no_block']    = count( $get_blocks_list['enable_normal_blocks'] );
-					$user_data['used_blocks'] = wp_json_encode( $get_blocks_list['enable_normal_blocks'] );
-				}
-
-				// User Email.
-				$user_data['email'] = get_option( 'admin_email' );
-
-				// Site Url.
-				$user_data['site_url'] = get_option( 'siteurl' );
-
-				// Site Url.
-				$user_data['site_language'] = get_bloginfo( 'language' );
-
-				// Nexter Block Version.
-				$user_data['nexter_block_version'] = TPGB_VERSION;
-
-				$response = wp_remote_post(
-					'https://api.posimyth.com/wp-json/tpgb/v2/tpgb_store_user_data',
-					array(
-						'method' => 'POST',
-						'body'   => wp_json_encode( $user_data ),
-					)
-				);
-
-				if ( is_wp_error( $response ) ) {
-					wp_send_json( array( 'onBoarding' => false ) );
-				} else {
-					$status_one = wp_remote_retrieve_response_code( $response );
-					if ( 200 === $status_one ) {
-						$get_data_one = wp_remote_retrieve_body( $response );
-						$get_data_one = (array) json_decode( json_decode( $get_data_one, true ) );
-						if ( isset( $get_data_one['success'] ) && ! empty( $get_data_one['success'] ) ) {
-							add_option( 'nxt_onboarding_done', true );
-							wp_send_json( array( 'onBoarding' => true ) );
-						}
-					}
-				}
-			} else {
-				add_option( 'nxt_onboarding_done', true );
-				wp_send_json( array( 'onBoarding' => true ) );
+			if ( class_exists( 'Posimyth_Consent_Notice' ) ) {
+				update_site_option( 'posi_consent_dismissed_nexter_suite', 1 );
 			}
+
+			if ( $tpgb_consent && class_exists( 'Posimyth_Tracker_TPGB' ) ) {
+				Posimyth_Tracker_TPGB::send_first_ping();
+			}
+
+			add_option( 'nxt_onboarding_done', true );
+			wp_send_json( array( 'onBoarding' => true ) );
 		}
 		exit;
 	}

@@ -124,9 +124,6 @@ if ( ! class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 
 				// Dashboard Options.
 				require TPGB_PATH . 'includes/plus-settings-options.php';
-
-				// Plugin Deactive Popup.
-				require_once TPGB_PATH . 'classes/extras/tpag-deactive.php';
 			}
 
 			require_once TPGB_PATH . 'classes/tp-block-helper.php';

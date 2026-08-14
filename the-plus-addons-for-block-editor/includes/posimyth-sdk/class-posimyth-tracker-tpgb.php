@@ -154,6 +154,33 @@ if ( ! class_exists( 'Posimyth_Tracker_TPGB' ) && class_exists( 'Posimyth_Tracke
 		}
 
 		/**
+		 * Whether the setup wizard has been finished on this site.
+		 *
+		 * Without this override the base class returns an empty string, and the hub compares the
+		 * reported value against 'completed' — so the "Onboarding Done" card and chart read 0% for
+		 * every Nexter Blocks site regardless of what the user actually did.
+		 *
+		 * `nxt_onboarding_done` is the option the wizard writes when it finishes (see
+		 * plus-settings-options.php). Two things worth knowing about it:
+		 *
+		 *  - It is shared with Nexter Extension, but Extension deliberately does not run the wizard,
+		 *    so this plugin's wizard is the only thing that ever writes it. That is also why
+		 *    Extension leaves this method alone and keeps reporting '' — a completion rate for a
+		 *    flow it does not have would be meaningless.
+		 *  - It is set whether the user walked through the wizard or skipped it. The hub buckets
+		 *    everything that is not 'completed' as "Pending / Skipped", so reporting the option's own
+		 *    meaning — finished, one way or another — is the honest mapping.
+		 *
+		 * Read as truthy rather than compared to a literal, so a future change to the value that
+		 * handler stores cannot silently reset every site's figure to pending.
+		 *
+		 * @return string 'completed' or 'pending'.
+		 */
+		protected static function onboarding_status(): string {
+			return get_option( 'nxt_onboarding_done' ) ? 'completed' : 'pending';
+		}
+
+		/**
 		 * Real block usage counted from published content.
 		 *
 		 * Uses the shared, bounded scanner in the base class (capped by the
@@ -164,6 +191,67 @@ if ( ! class_exists( 'Posimyth_Tracker_TPGB' ) && class_exists( 'Posimyth_Tracke
 		 */
 		protected static function used_features(): array {
 			return self::scan_gutenberg_blocks( 'tpgb/' );
+		}
+
+		/**
+		 * Nexter Blocks settings that change what a page actually loads.
+		 *
+		 * Everything here comes from Extra Options → Asset Delivery. These three decide whether a page
+		 * gets one combined file or many, and whether scripts are deferred or delayed, which moves a
+		 * page's timings far more than any single block does — so a "slow page" or "block not rendering"
+		 * report is unreadable without them.
+		 *
+		 * Nothing is needed here for the Extras (Global Block Style, Display Rules, Equal Column Height,
+		 * On Scroll Animation and the rest): Nexter Blocks stores them in the same
+		 * `enable_normal_blocks` list as the blocks themselves, so enabled_features() already reports
+		 * every one of them. This is unlike The Plus Addons, which keeps its extensions in a separate
+		 * `extras_elements` option and therefore has to report them here.
+		 *
+		 * Values are the stored ones, not the dashboard labels — 'combine' is shown as
+		 * "Smart Optimised (Recommended)". The toggles are stored as the STRINGS 'true'/'false', so they
+		 * are normalised to real booleans rather than cast, because (bool) 'false' is true.
+		 *
+		 * @return array<string,mixed>
+		 */
+		protected static function plugin_meta(): array {
+			return array(
+				'performance' => array(
+					'asset_mode'         => self::stored_key( 'tpgb_performance_cache' ),
+					'defer_css_js'       => self::stored_flag( 'tpgb_defer_css_js' ),
+					'delay_3rd_party_js' => self::stored_flag( 'tpgb_delay_css_js' ),
+				),
+			);
+		}
+
+		/**
+		 * A stored single-choice setting, or 'default' when the screen has never been saved.
+		 *
+		 * @param string $option Option name.
+		 * @return string
+		 */
+		private static function stored_key( string $option ): string {
+			$value = get_option( $option, '' );
+			if ( ! is_scalar( $value ) || '' === (string) $value ) {
+				return 'default';
+			}
+			return sanitize_key( (string) $value );
+		}
+
+		/**
+		 * A stored on/off setting as a real boolean.
+		 *
+		 * These are written as the strings 'true' and 'false', so the string 'false' has to be matched
+		 * explicitly — casting it would report every disabled toggle as enabled.
+		 *
+		 * @param string $option Option name.
+		 * @return bool
+		 */
+		private static function stored_flag( string $option ): bool {
+			$value = get_option( $option, false );
+			if ( is_string( $value ) ) {
+				return ! in_array( strtolower( $value ), array( '', 'false', 'off', 'no', '0' ), true );
+			}
+			return (bool) $value;
 		}
 	}
 }

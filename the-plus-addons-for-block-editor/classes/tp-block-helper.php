@@ -854,7 +854,28 @@ class Tp_Blocks_Helper {
 
 		$icons_sep_content = '';
 		if ( 'sep_icon' === $sep_icon_type && '' !== $sep_icons ) {
-			$icons_sep_content = '<i class=" ' . esc_attr( $sep_icons ) . ' bread-sep-icon" aria-hidden="true"></i>';
+			$sep_class = $sep_icons;
+			if ( is_rtl() ) {
+				// Mirror directional separator icons for RTL reading order.
+				$sep_class = strtr(
+					$sep_class,
+					array(
+						'angle-double-right'     => 'angle-double-left',
+						'angle-right'            => 'angle-left',
+						'chevron-circle-right'   => 'chevron-circle-left',
+						'chevron-right'          => 'chevron-left',
+						'caret-square-right'     => 'caret-square-left',
+						'caret-right'            => 'caret-left',
+						'arrow-alt-circle-right' => 'arrow-alt-circle-left',
+						'arrow-circle-right'     => 'arrow-circle-left',
+						'long-arrow-alt-right'   => 'long-arrow-alt-left',
+						'arrow-right'            => 'arrow-left',
+						'hand-point-right'       => 'hand-point-left',
+						'greater-than'           => 'less-than',
+					)
+				);
+			}
+			$icons_sep_content = '<i class=" ' . esc_attr( $sep_class ) . ' bread-sep-icon" aria-hidden="true"></i>';
 		}
 		if ( 'sep_image' === $sep_icon_type && '' !== $sep_icons ) {
 			$icons_sep_content = '<img class="bread-sep-icon" alt="' . esc_attr__( 'separator', 'the-plus-addons-for-block-editor' ) . '" src="' . esc_url( $sep_icons ) . '" />';

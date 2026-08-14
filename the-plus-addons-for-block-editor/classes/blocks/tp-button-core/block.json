@@ -392,7 +392,12 @@
 			"type": "object",
 			"default": {
 				"openShadow": 0
-			}
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .tpgb-btn-wrap:hover"
+				}
+			]
 		}
 	},
 	"usesContext": ["postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField"]

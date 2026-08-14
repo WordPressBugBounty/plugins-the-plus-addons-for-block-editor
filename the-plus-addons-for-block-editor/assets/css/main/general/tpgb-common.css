@@ -233,3 +233,6 @@ h3.tpgb-posts-not-found{
 	height : auto;
 	font-weight : 900;
 }
+[class*="tpgb-"] img[sizes^="auto" i],[class*="tpgb-"] img[sizes="auto" i] {
+    contain-intrinsic-size: none !important;
+}

@@ -964,6 +964,9 @@ class Tpgb_Gutenberg_Settings_Options {
 	public function tpgb_performance_opt_cache_save_action() {
 		check_ajax_referer( 'nexter_admin_nonce', 'security' );
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error();
+		}
 		if ( ( isset( $_POST['perf_caching'] ) && ! empty( $_POST['perf_caching'] ) ) || isset( $_POST['delay_js'] ) || isset( $_POST['defer_js'] ) ) {
 			$action_page  = 'tpgb_performance_cache';
 			$perf_caching = sanitize_text_field( wp_unslash( $_POST['perf_caching'] ) );
@@ -999,11 +1002,13 @@ class Tpgb_Gutenberg_Settings_Options {
 		$action_page = 'tpgb_normal_blocks_opts';
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_safe_redirect( esc_url( admin_url( 'admin.php?page=nexter_welcome' ) ) );
+			exit;
 		}
 		if ( isset( $_POST['submit-key'] ) && ! empty( $_POST['submit-key'] ) && 'Save' === $_POST['submit-key'] ) {
 
 			if ( ! isset( $_POST['nonce_tpgb_normal_blocks_opts'] ) || ! wp_verify_nonce( sanitize_key( $_POST['nonce_tpgb_normal_blocks_opts'] ), 'nexter_admin_nonce' ) ) { // nonce_tpgb_normal_blocks_action.
 				wp_safe_redirect( esc_url( admin_url( 'admin.php?page=nexter_welcome' ) ) );
+				exit;
 			} else {
 				Tpgb_Library()->remove_backend_dir_files();
 				if ( false === get_option( $action_page ) ) {
@@ -1066,6 +1071,7 @@ class Tpgb_Gutenberg_Settings_Options {
 		$action_page = 'tpgb_connection_data';
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_safe_redirect( esc_url( admin_url( 'admin.php?page=nexter_welcome' ) ) );
+			exit;
 		}
 		if ( isset( $_POST['submit-key'] ) && ! empty( $_POST['submit-key'] ) && 'Save' === $_POST['submit-key'] ) {
 			// Verify nonce.
@@ -2402,7 +2408,8 @@ class Tpgb_Gutenberg_Settings_Options {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX &&
 			isset( $_POST['nonce'] ) &&
 			! empty( $_POST['nonce'] ) &&
-			wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'nexter_admin_nonce' )
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'nexter_admin_nonce' ) &&
+			current_user_can( 'manage_options' )
 		) {
 			global $wpdb;
 			$block_scan = array();
@@ -2458,7 +2465,7 @@ class Tpgb_Gutenberg_Settings_Options {
 	 * @since 1.4.4
 	 */
 	public function tpgb_disable_unsed_block_fun() {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['nonce'] ) && ! empty( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'nexter_admin_nonce' ) ) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['nonce'] ) && ! empty( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'nexter_admin_nonce' ) && current_user_can( 'manage_options' ) ) {
 
 			if ( ! isset( $_POST['blocks'] ) || empty( $_POST['blocks'] ) ) {
 				echo 0;
@@ -2590,7 +2597,6 @@ class Tpgb_Gutenberg_Settings_Options {
 		wp_die();
 	}
 
-
 	/**
 	 * Wdesignkit Import Template Block List Merge
 	 *
@@ -2652,6 +2658,11 @@ class Tpgb_Gutenberg_Settings_Options {
 	public function nxt_block_boarding_store() { // phpcs:ignore Squiz.Commenting.FunctionComment
 
 		check_ajax_referer( 'nexter_admin_nonce', 'security' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error();
+			exit;
+		}
 
 		$tponb_data = ( isset( $_POST['boardingData'] ) && ! empty( $_POST['boardingData'] ) ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['boardingData'] ) ), true ) : array();
 
@@ -2827,6 +2838,30 @@ class Tpgb_Gutenberg_Settings_Options {
 
 		$body = isset( $_POST['url_body'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['url_body'] ) ), true ) : array();
 
+		/**
+		 * Optional response cache, opt-in per request via `cache_ttl` (seconds).
+		 * Mirrors the same block in Nexter Extension's copy of this proxy —
+		 * both plugins register `wp_ajax_nexter_temp_api_call`, and whichever
+		 * runs first answers, so the cache has to exist in both to be reliable.
+		 */
+		$cache_ttl = isset( $_POST['cache_ttl'] ) ? absint( wp_unslash( $_POST['cache_ttl'] ) ) : 0;
+		$cache_ttl = min( $cache_ttl, DAY_IN_SECONDS );
+		$cache_key = '';
+		if ( $cache_ttl > 0 ) {
+			$cache_key  = 'nxt_api_' . md5( $api_url . '|' . $method . '|' . wp_json_encode( $body ) );
+			$cache_bust = isset( $_POST['cache_bust'] ) && '1' === sanitize_text_field( wp_unslash( $_POST['cache_bust'] ) );
+			if ( $cache_bust ) {
+				delete_transient( $cache_key );
+			} else {
+				$cached = get_transient( $cache_key );
+				if ( false !== $cached && is_array( $cached ) ) {
+					$cached['NXT_CACHED'] = true;
+					wp_send_json( $cached );
+					exit;
+				}
+			}
+		}
+
 		$args = array(
 			'method'  => $method,
 			'timeout' => 10, // Reduced from 30 to limit slow-loris exposure.
@@ -2870,8 +2905,39 @@ class Tpgb_Gutenberg_Settings_Options {
 			$final = array_merge( $statuscode_array, array( 'data' => $response_data ) );
 		}
 
+		// Only cache successful responses, so a transient can't pin an error.
+		if ( $cache_ttl > 0 && ! empty( $cache_key ) && 200 === (int) $statuscode && ! empty( $response_data ) ) {
+			$this->nexter_purge_expired_api_transients();
+			set_transient( $cache_key, $final, $cache_ttl );
+		}
+
 		wp_send_json( $final );
 		exit;
+	}
+
+	/**
+	 * Delete expired `nxt_api_*` response transients.
+	 *
+	 * WordPress only clears an expired transient when it's next requested, so
+	 * keys never asked for again would linger in wp_options. Runs only on a
+	 * cache miss, just before a new entry is written.
+	 */
+	private function nexter_purge_expired_api_transients() {
+		global $wpdb;
+		$expired = $wpdb->get_col( //phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			$wpdb->prepare(
+				"SELECT option_name FROM {$wpdb->options}
+				WHERE option_name LIKE %s AND option_value < %d LIMIT 100",
+				$wpdb->esc_like( '_transient_timeout_nxt_api_' ) . '%',
+				time()
+			)
+		);
+		if ( empty( $expired ) ) {
+			return;
+		}
+		foreach ( $expired as $timeout_name ) {
+			delete_transient( substr( $timeout_name, strlen( '_transient_timeout_' ) ) );
+		}
 	}
 
 	/**
@@ -3013,7 +3079,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			$setting_data[] = array(
 				'key'  => 'nxt_form_submission_Disable',
 				'name' => esc_html__( 'Enable Form Submission Menu', 'the-plus-addons-for-block-editor' ),
-				'desc' => esc_html__( 'Keep the Form Submission menu visible in the WordPress admin to view, manage, and export entries collected from Nexter form blocks..', 'the-plus-addons-for-block-editor' ),
+				'desc' => esc_html__( 'Keep the Form Submission menu visible in the WordPress admin to view, manage, and export entries collected from Nexter form blocks.', 'the-plus-addons-for-block-editor' ),
 			);
 			$setting_data[] = array(
 				'key'  => 'tpgb_swatches_enable',

@@ -78,7 +78,7 @@ table.csv-html-table th,tbody tr .tpgb-table-col,tbody tr th.tpgb-table-col,thea
 	background-color: #eaeaea
 }
 
-tbody tr:nth-child(even) {
+.tpgb-table-wrapper tbody tr:nth-child(even) {
 	background-color: #fff
 }
 

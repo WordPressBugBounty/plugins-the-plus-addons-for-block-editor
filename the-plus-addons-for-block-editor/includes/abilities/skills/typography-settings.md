@@ -18,18 +18,34 @@ The single most common AI mistake is putting `weight` or `fontWeight` at the wro
 
 ---
 
+## Using the site's own installed fonts (call this FIRST when the user says "my font")
+
+Whenever the user asks to use "my font", a "brand font", or any typeface they installed on the site — **do NOT guess a Google Font name.** First call **`nexter-blocks/get-site-fonts`**. It returns every font actually available on this site with, for each family, a `will_render` flag, the count of active variants, and a `use` field telling you exactly how to pass it.
+
+Two hard rules from that result:
+
+1. **Never apply a font whose `will_render` is `false`.** A WordPress Font Library family with **zero active variants** emits no `@font-face` and will silently fall back on the front end — the page looks unchanged no matter what you set. When you see `will_render: false`, stop and tell the user to activate a weight in **Appearance → Fonts** (then click **Update**) before you can use it. This is the #1 cause of "the AI ignored my font."
+
+2. **Follow the `use` field:**
+    - `use: "fontFamily"` (System / web-safe fonts, and bare font stacks) → pass **`fontFamily`** only.
+    - `use: "fontFamily+customFont"` (Font Library, theme.json, BSF Custom Fonts, Use Any Font) → pass **BOTH** `fontFamily` **and** `customFont` set to the exact name. Setting `customFont` tells Nexter the font is already enqueued by the site and must **not** be fetched from Google (a Google fetch would 404 for a self-hosted font).
+
+Only when a font is **not** in `get-site-fonts` output may you treat a name as a genuine Google Font — pass `fontFamily` only, leaving `customFont` empty, so Nexter `@import`s it.
+
+---
+
 ## Decision tree — pick the lowest-numbered path that applies
 
 ### Path 1 (preferred, default) — top-level params on the block
 
 **Every typography-bearing `add-tpgb-*` ability now accepts these as proper top-level parameters:**
 
-| Parameter | Purpose |
-|---|---|
-| `fontFamily` | Google Fonts family name (or empty to inherit). |
-| `fontType` | Google Fonts category — `sans-serif`, `serif`, `display`, `handwriting`, `monospace`. |
-| `customFont` | Non-Google font name. Overrides fontFamily. |
-| `fontWeight` | `"100"`–`"900"` as a string. Embedded inside every typo group's `fontFamily.fontWeight`. |
+| Parameter        | Purpose                                                                                                         |
+| ---------------- | --------------------------------------------------------------------------------------------------------------- |
+| `fontFamily`     | Google Fonts family name (or empty to inherit).                                                                 |
+| `fontType`       | Google Fonts category — `sans-serif`, `serif`, `display`, `handwriting`, `monospace`.                           |
+| `customFont`     | Non-Google font name. Overrides fontFamily.                                                                     |
+| `fontWeight`     | `"100"`–`"900"` as a string. Embedded inside every typo group's `fontFamily.fontWeight`.                        |
 | `textDecoration` | `none` / `underline` / `overline` / `line-through`. Stamped onto every typo group as a sibling of `fontFamily`. |
 
 For single-typo blocks (heading, button, pro-paragraph, etc.) this is the only path you need.
@@ -37,34 +53,37 @@ For single-typo blocks (heading, button, pro-paragraph, etc.) this is the only p
 For multi-typo blocks (infobox = `titleTypo` + `descTypo` + `btnTypo`, pricing-table = 8 typos, etc.) the top-level value is applied to ALL groups uniformly. That's almost always what the user wants. Use Path 2 or Path 3 only when groups must differ.
 
 **Example — heading bold + underline:**
+
 ```json
 {
-  "ability_name": "nexter-blocks/add-tpgb-heading",
-  "parameters": {
-    "post_id": 123,
-    "title": "Our Mission",
-    "tTag": "h1",
-    "enableTypography": true,
-    "fontFamily": "Poppins",
-    "fontType": "sans-serif",
-    "fontWeight": "700",
-    "textDecoration": "underline"
-  }
+	"ability_name": "nexter-blocks/add-tpgb-heading",
+	"parameters": {
+		"post_id": 123,
+		"title": "Our Mission",
+		"tTag": "h1",
+		"enableTypography": true,
+		"fontFamily": "Poppins",
+		"fontType": "sans-serif",
+		"fontWeight": "700",
+		"textDecoration": "underline"
+	}
 }
 ```
 
 **Example — pricing-table all-groups bold:**
+
 ```json
 {
-  "ability_name": "nexter-blocks/add-tpgb-pricing-table",
-  "parameters": {
-    "post_id": 123,
-    "fontFamily": "Inter",
-    "fontType": "sans-serif",
-    "fontWeight": "700"
-  }
+	"ability_name": "nexter-blocks/add-tpgb-pricing-table",
+	"parameters": {
+		"post_id": 123,
+		"fontFamily": "Inter",
+		"fontType": "sans-serif",
+		"fontWeight": "700"
+	}
 }
 ```
+
 → `titleTypo`, `priceTypo`, `descTypo`, `ctaTypo`, etc. all get Inter 700.
 
 ### Path 2 — `settings` raw override (different settings per group)
@@ -74,33 +93,39 @@ When a multi-typo block needs per-group differences, pass each typo object via t
 Pass the **full** typo object — partial overrides leave defaults in place and may produce unpredictable output. Use the structure in the reference section below.
 
 **Example — pricing-table title 700 + price 900:**
+
 ```json
 {
-  "ability_name": "nexter-blocks/add-tpgb-pricing-table",
-  "parameters": {
-    "post_id": 123,
-    "fontFamily": "Poppins",
-    "fontType": "sans-serif",
-    "settings": {
-      "titleTypo": {
-        "openTypography": 1,
-        "size": { "md": "", "unit": "px" }, "height": "", "spacing": "",
-        "fontFamily": { "family": "Poppins", "type": "sans-serif", "customFont": "", "fontWeight": "700" }
-      },
-      "priceTypo": {
-        "openTypography": 1,
-        "size": { "md": "", "unit": "px" }, "height": "", "spacing": "",
-        "fontFamily": { "family": "Poppins", "type": "sans-serif", "customFont": "", "fontWeight": "900" },
-        "textDecoration": "underline"
-      }
-    }
-  }
+	"ability_name": "nexter-blocks/add-tpgb-pricing-table",
+	"parameters": {
+		"post_id": 123,
+		"fontFamily": "Poppins",
+		"fontType": "sans-serif",
+		"settings": {
+			"titleTypo": {
+				"openTypography": 1,
+				"size": { "md": "", "unit": "px" },
+				"height": "",
+				"spacing": "",
+				"fontFamily": { "family": "Poppins", "type": "sans-serif", "customFont": "", "fontWeight": "700" }
+			},
+			"priceTypo": {
+				"openTypography": 1,
+				"size": { "md": "", "unit": "px" },
+				"height": "",
+				"spacing": "",
+				"fontFamily": { "family": "Poppins", "type": "sans-serif", "customFont": "", "fontWeight": "900" },
+				"textDecoration": "underline"
+			}
+		}
+	}
 }
 ```
 
 ### Path 3 — `sprout/update-element` (patching after insertion)
 
 Use this only when:
+
 - You already inserted the block and want to patch typography without re-inserting.
 - The block was added by another tool and you need to retro-fit weight/decoration.
 
@@ -116,38 +141,40 @@ Two calls — capture the `block_id` from the first, then patch:
 
 ```json
 {
-  "<typoKey>": {
-    "openTypography": 1,
-    "size": { "md": "<size or ''>", "unit": "px" },
-    "height": "",
-    "spacing": "",
-    "fontFamily": {
-      "family": "<fontFamily value>",
-      "type": "<sans-serif | serif | display | handwriting | monospace>",
-      "customFont": "",
-      "fontWeight": "<100..900 as string>"
-    },
-    "textDecoration": "<'' | none | underline | overline | line-through>"
-  }
+	"<typoKey>": {
+		"openTypography": 1,
+		"size": { "md": "<size or ''>", "unit": "px" },
+		"height": "",
+		"spacing": "",
+		"fontFamily": {
+			"family": "<fontFamily value>",
+			"type": "<sans-serif | serif | display | handwriting | monospace>",
+			"customFont": "",
+			"fontWeight": "<100..900 as string>"
+		},
+		"textDecoration": "<'' | none | underline | overline | line-through>"
+	}
 }
 ```
 
 ### fontWeight values
-| Value | Meaning |
-|---|---|
-| `"100"` | Thin |
-| `"200"` | Extra Light |
-| `"300"` | Light |
+
+| Value   | Meaning                         |
+| ------- | ------------------------------- |
+| `"100"` | Thin                            |
+| `"200"` | Extra Light                     |
+| `"300"` | Light                           |
 | `"400"` | Regular (default — omit if 400) |
-| `"500"` | Medium |
-| `"600"` | Semi Bold |
-| `"700"` | Bold |
-| `"800"` | Extra Bold |
-| `"900"` | Black |
+| `"500"` | Medium                          |
+| `"600"` | Semi Bold                       |
+| `"700"` | Bold                            |
+| `"800"` | Extra Bold                      |
+| `"900"` | Black                           |
 
 Always pass `fontWeight` as a **string** inside `fontFamily`. Do not put it at the `tTypo` level. Do not name the key `weight` or `font-weight` — only `fontWeight`.
 
 ### textDecoration values
+
 `""` (inherit), `"none"`, `"underline"`, `"overline"`, `"line-through"`.
 
 `textDecoration` is a sibling of `fontFamily` inside the typo key. Never nest it inside `fontFamily`.
@@ -156,42 +183,42 @@ Always pass `fontWeight` as a **string** inside `fontFamily`. Do not put it at t
 
 ## Per-block typo key reference (for Path 2 / Path 3 only)
 
-| Block ability | Typo key(s) |
-|---|---|
-| `add-tpgb-heading` | `tTypo` |
-| `add-tpgb-heading-title` | `titleTypo` (main), `subTitleTypo` (sub), `extraTitleTypo` (extra) |
-| `add-tpgb-pro-paragraph` | `textTypo`, `titleTypo`, `dcapTypo` (drop cap) |
-| `add-tpgb-button` | `texTyp` |
-| `add-tpgb-button-core` | `bTypo` |
-| `add-tpgb-blockquote` | `typography`, `authorTypo` |
-| `add-tpgb-breadcrumbs` | `bredTypo` |
-| `add-tpgb-countdown` | `counterTypo`, `labelTypo`, `expiryMsgTypo` |
-| `add-tpgb-dark-mode` | `beforeTypo`, `afterTypo` |
-| `add-tpgb-data-table` | `ThTypo`, `TBTypo`, `BtnTypo` |
-| `add-tpgb-flipbox` | `titleTypo`, `descTypo`, `backBtnTypo` |
-| `add-tpgb-form-block` | `lblTypo`, `inpTypo`, `btnTypo`, `chkRadTxtTypo`, `selTypo`, `descTypo`, `sucTypo` |
-| `add-tpgb-image` | `icapTypo` |
-| `add-tpgb-infobox` | `titleTypo`, `descTypo`, `textIconTypo`, `pinTextTypo`, `cBtnTypo` |
-| `add-tpgb-interactive-circle-info` | `iTitleTypo`, `cTitleTypo`, `cDescTypo`, `btnTypo` |
-| `add-tpgb-messagebox` | `titleTypo`, `descTypo` |
-| `add-tpgb-navigation-builder` | `menuTypo`, `submenuTypo` |
-| `add-tpgb-number-counter` | `titleTypo`, `digitTypo`, `symbolTypo` |
-| `add-tpgb-post-author` | `nameTypo`, `roleTypo`, `bioTypo` |
-| `add-tpgb-post-comment` | `commTypo`, `userTypo`, `metaTypo`, `replyTypo`, `fieldTypo`, `btnTypo` |
-| `add-tpgb-post-content` | `contentTypo` |
-| `add-tpgb-post-listing` | `titleTypo`, `excerptTypo`, `postMetaTypo`, `postCategoryTypo`, `butTypo` |
-| `add-tpgb-post-meta` | `metaTypo`, `labelTypo` |
-| `add-tpgb-post-title` | `titleTypo`, `prePostTypo` |
-| `add-tpgb-pricing-list` | `titleTypo`, `tagTypo`, `priceTypo`, `descTypo` |
-| `add-tpgb-pricing-table` | `ctaTypo`, `titleTypo`, `subTitleTypo`, `priceTypo`, `postfixTypo`, `prevPriceTypo`, `wysiwygTypo`, `listContentTypo` |
-| `add-tpgb-progress-bar` | `titleTypo`, `subTitleTypo`, `numTypo`, `numPrePostTypo` |
-| `add-tpgb-progress-tracker` | `texTypo`, `pinTypo` |
-| `add-tpgb-search-bar` | `inputTypo`, `labelTypo`, `btnTypo`, `titleTypo`, `contentTypo`, `errorTypo` |
-| `add-tpgb-social-icons` | `titleTypo` |
-| `add-tpgb-stylist-list` | `toggleTypo`, `textTypo`, `pinTypo` |
-| `add-tpgb-tabs-tours` | `titleTypo`, `descTypo` |
-| `add-tpgb-team-listing` | `nameTypo`, `roleTypo`, `descTypo`, `socialTypo` |
-| `add-tpgb-testimonials` | `contentTypo`, `nameTypo`, `roleTypo` |
+| Block ability                      | Typo key(s)                                                                                                           |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `add-tpgb-heading`                 | `tTypo`                                                                                                               |
+| `add-tpgb-heading-title`           | `titleTypo` (main), `subTitleTypo` (sub), `extraTitleTypo` (extra)                                                    |
+| `add-tpgb-pro-paragraph`           | `textTypo`, `titleTypo`, `dcapTypo` (drop cap)                                                                        |
+| `add-tpgb-button`                  | `texTyp`                                                                                                              |
+| `add-tpgb-button-core`             | `bTypo`                                                                                                               |
+| `add-tpgb-blockquote`              | `typography`, `authorTypo`                                                                                            |
+| `add-tpgb-breadcrumbs`             | `bredTypo`                                                                                                            |
+| `add-tpgb-countdown`               | `counterTypo`, `labelTypo`, `expiryMsgTypo`                                                                           |
+| `add-tpgb-dark-mode`               | `beforeTypo`, `afterTypo`                                                                                             |
+| `add-tpgb-data-table`              | `ThTypo`, `TBTypo`, `BtnTypo`                                                                                         |
+| `add-tpgb-flipbox`                 | `titleTypo`, `descTypo`, `backBtnTypo`                                                                                |
+| `add-tpgb-form-block`              | `lblTypo`, `inpTypo`, `btnTypo`, `chkRadTxtTypo`, `selTypo`, `descTypo`, `sucTypo`                                    |
+| `add-tpgb-image`                   | `icapTypo`                                                                                                            |
+| `add-tpgb-infobox`                 | `titleTypo`, `descTypo`, `textIconTypo`, `pinTextTypo`, `cBtnTypo`                                                    |
+| `add-tpgb-interactive-circle-info` | `iTitleTypo`, `cTitleTypo`, `cDescTypo`, `btnTypo`                                                                    |
+| `add-tpgb-messagebox`              | `titleTypo`, `descTypo`                                                                                               |
+| `add-tpgb-navigation-builder`      | `menuTypo`, `submenuTypo`                                                                                             |
+| `add-tpgb-number-counter`          | `titleTypo`, `digitTypo`, `symbolTypo`                                                                                |
+| `add-tpgb-post-author`             | `nameTypo`, `roleTypo`, `bioTypo`                                                                                     |
+| `add-tpgb-post-comment`            | `commTypo`, `userTypo`, `metaTypo`, `replyTypo`, `fieldTypo`, `btnTypo`                                               |
+| `add-tpgb-post-content`            | `contentTypo`                                                                                                         |
+| `add-tpgb-post-listing`            | `titleTypo`, `excerptTypo`, `postMetaTypo`, `postCategoryTypo`, `butTypo`                                             |
+| `add-tpgb-post-meta`               | `metaTypo`, `labelTypo`                                                                                               |
+| `add-tpgb-post-title`              | `titleTypo`, `prePostTypo`                                                                                            |
+| `add-tpgb-pricing-list`            | `titleTypo`, `tagTypo`, `priceTypo`, `descTypo`                                                                       |
+| `add-tpgb-pricing-table`           | `ctaTypo`, `titleTypo`, `subTitleTypo`, `priceTypo`, `postfixTypo`, `prevPriceTypo`, `wysiwygTypo`, `listContentTypo` |
+| `add-tpgb-progress-bar`            | `titleTypo`, `subTitleTypo`, `numTypo`, `numPrePostTypo`                                                              |
+| `add-tpgb-progress-tracker`        | `texTypo`, `pinTypo`                                                                                                  |
+| `add-tpgb-search-bar`              | `inputTypo`, `labelTypo`, `btnTypo`, `titleTypo`, `contentTypo`, `errorTypo`                                          |
+| `add-tpgb-social-icons`            | `titleTypo`                                                                                                           |
+| `add-tpgb-stylist-list`            | `toggleTypo`, `textTypo`, `pinTypo`                                                                                   |
+| `add-tpgb-tabs-tours`              | `titleTypo`, `descTypo`                                                                                               |
+| `add-tpgb-team-listing`            | `nameTypo`, `roleTypo`, `descTypo`, `socialTypo`                                                                      |
+| `add-tpgb-testimonials`            | `contentTypo`, `nameTypo`, `roleTypo`                                                                                 |
 
 If unsure for a block, run `sprout/extract-content` after Path 1 and inspect the saved attribute structure for keys ending in `Typo` / `typography` / `texTyp` / `bTypo`.
 

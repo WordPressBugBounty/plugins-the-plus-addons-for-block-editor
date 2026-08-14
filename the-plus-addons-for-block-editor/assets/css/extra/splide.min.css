@@ -172,6 +172,9 @@
 	transform:translateX(-50%);
 	padding:0
 }
+.tpgb-carousel .splide__pagination--rtl{
+    transform:translateX(50%);
+}
 .splide__pagination__page {
 	display: inline-block;
 	width: 8px;

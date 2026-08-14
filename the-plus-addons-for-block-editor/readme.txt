@@ -1,10 +1,10 @@
 === Nexter Blocks - Gutenberg Blocks, Page Builder & AI Website Builder ===
-Contributors: posimyththemes, nirmalkavaiya, sagarpatel124, jigar9998
+Contributors: posimyththemes, jigar9998, sagarpatel124
 Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 5.0.3
+Stable tag: 5.0.4
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -322,8 +322,19 @@ Nexter Blocks may connect to external services only when the related feature is 
 
 == Changelog ==
 
+= 5.0.4 = 12 Aug 2026
+- Added : MCP : "Get Site Fonts" ability — lists installed fonts and whether each will render on the front end.
+- Added : Global Block Style : Added an Edit option to load a saved style's values into the block so you can view and change them.
+- Added : Global Block Style : Added a Default option to set a style as the default for a block type — new blocks apply it automatically.
+- Improvement : MCP : Typography guide now resolves site/brand fonts via Get Site Fonts before building.
+- Update : Dashboard : Fresh design and new filters, browse ready-made website kits by category or AI Compatible right from the dashboard.
+- Improvement : right-to-left (RTL) support across every block, on both the front end and inside the Gutenberg editor.
+- Improvement : Global Block Style : Redesigned the panel and action buttons for a cleaner, clearer layout.
+- Improvement : Global Block Style : Refined the Sync popup and helper text so the options are easier to understand.
+- Fix : MCP : Installed fonts with no active variants are detected and reported instead of failing silently.
+
 = 5.0.3 = 07 Aug 2026
-– Fix : Few minor bug fixes & improvements
+– Fix : Minor Bugs and Improvements.
 
 = 5.0.2 = 27 July 2026
 – Security : Fixed Author+ Stored XSS via SVG upload (SVGs now restricted to trusted users and sanitized).

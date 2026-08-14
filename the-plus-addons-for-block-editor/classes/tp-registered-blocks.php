@@ -3554,6 +3554,11 @@ class Tpgb_Library {
 		if ( defined( 'WPV_VERSION' ) ) {
 			require_once TPGB_PATH . 'classes/extras/compatibility/class-tpgb-toolset.php';
 		}
+
+		// Disable WP 6.7 auto-sizes. It prepends sizes="auto" to lazy images,
+		// which triggers the browser's contain:size + a large contain-intrinsic-size
+		// that breaks card/grid layouts. WP core added this filter to opt out.
+		add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
 	}
 }
 

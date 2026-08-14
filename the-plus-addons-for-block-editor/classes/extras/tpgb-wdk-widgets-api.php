@@ -38,6 +38,29 @@ class nxt_Wdk_Widget_Api {
 	public $wdk_site = 'https://wdesignkit.com/api/wp/';
 
 	/**
+	 * Option holding the cache namespace version, bump it to invalidate
+	 * every cached browse_widget response at once.
+	 *
+	 * @since 4.6.1
+	 */
+	const WDK_CACHE_VERSION_OPT = 'tpgb_wdk_widget_cache_version';
+
+	/**
+	 * How long a successful browse_widget response is reused.
+	 *
+	 * @since 4.6.1
+	 */
+	const WDK_CACHE_TTL = DAY_IN_SECONDS;
+
+	/**
+	 * How long an empty/failed browse_widget response is reused, keeps a slow
+	 * or unreachable API from being hit again on the very next page load.
+	 *
+	 * @since 4.6.1
+	 */
+	const WDK_CACHE_TTL_FAILED = 15 * MINUTE_IN_SECONDS;
+
+	/**
 	 * Member Variable
 	 *
 	 * @var instance
@@ -64,6 +87,10 @@ class nxt_Wdk_Widget_Api {
 	 */
 	public function __construct() {
 		add_filter( 'nxt_wdk_widget_ajax_call', array( $this, 'tp_nxt_wdkit_widget_ajax_call' ), 10 );
+
+		// Widget list can change when WDesignKit itself is switched on/off.
+		add_action( 'activated_plugin', array( $this, 'nxt_wdk_flush_widget_cache' ) );
+		add_action( 'deactivated_plugin', array( $this, 'nxt_wdk_flush_widget_cache' ) );
 	}
 
 	/**
@@ -253,15 +280,62 @@ class nxt_Wdk_Widget_Api {
 			'free_pro'    => isset( $_POST['free_pro'] ) ? sanitize_text_field( wp_unslash( $_POST['free_pro'] ) ) : '', // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		);
 
+		$cache_key = $this->nxt_wdk_widget_cache_key( $array_data );
+		$cached    = get_transient( $cache_key );
+
+		if ( false !== $cached && ! $this->nxt_wdk_is_cache_bypassed() ) {
+			return is_array( $cached ) ? $cached : array();
+		}
+
 		$response = $this->nxt_wdesign_api_call( $array_data, 'browse_widget' );
 
 		if ( ! empty( $response['success'] ) && ! empty( $response['data']['data']['widgets'] ) ) {
 			$widgets = $response['data']['data']['widgets'];
 
+			set_transient( $cache_key, $widgets, apply_filters( 'tpgb_wdk_widget_cache_ttl', self::WDK_CACHE_TTL ) );
+
 			return $widgets;
 		} else {
+			set_transient( $cache_key, array(), apply_filters( 'tpgb_wdk_widget_cache_ttl_failed', self::WDK_CACHE_TTL_FAILED ) );
+
 			return array();
 		}
+	}
+
+	/**
+	 * Transient key for a given browse_widget request payload.
+	 *
+	 * @since 4.6.1
+	 *
+	 * @param array $data The request payload sent to the API.
+	 * @return string The transient key.
+	 */
+	public function nxt_wdk_widget_cache_key( $data ) {
+		$version = (int) get_option( self::WDK_CACHE_VERSION_OPT, 1 );
+
+		return 'tpgb_wdk_widgets_' . $version . '_' . md5( (string) wp_json_encode( $data ) );
+	}
+
+	/**
+	 * Whether the current request explicitly asked for a fresh widget list.
+	 *
+	 * @since 4.6.1
+	 *
+	 * @return bool True when the cache should be skipped.
+	 */
+	public function nxt_wdk_is_cache_bypassed() {
+		return ! empty( $_POST['wdk_refresh'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	}
+
+	/**
+	 * Invalidate every cached browse_widget response.
+	 *
+	 * @since 4.6.1
+	 */
+	public function nxt_wdk_flush_widget_cache() {
+		$version = (int) get_option( self::WDK_CACHE_VERSION_OPT, 1 );
+
+		update_option( self::WDK_CACHE_VERSION_OPT, $version + 1, false );
 	}
 
 	/**

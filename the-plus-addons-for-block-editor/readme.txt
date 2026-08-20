@@ -3,8 +3,8 @@ Contributors: posimyththemes, jigar9998, sagarpatel124
 Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
-Tested up to: 7.0
-Stable tag: 5.0.4
+Tested up to: 7.1
+Stable tag: 5.0.5
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -322,7 +322,18 @@ Nexter Blocks may connect to external services only when the related feature is 
 
 == Changelog ==
 
-= 5.0.4 = 12 Aug 2026
+= 5.0.5 = 20 Aug 
+- Added : MCP : WordPress 7.1 Abilities API support — every Nexter Blocks ability now sets the unified public exposure flag so abilities stay discoverable to AI/MCP clients on WordPress 7.1 and later.
+- Compatibility : Tested and confirmed compatible with WordPress 7.1.
+- Improvement : MCP : WordPress 7.1 execution-lifecycle support — input presets for faster block building, result caching for read-only abilities, and automatic page verification after inserts.
+- Improvement : Form Builder : Form email recipients, headers and action settings are now validated on the server for safer, more reliable submissions.
+- Improvement : Form Builder : Improved escaping of submitted values in the notification email.
+- Improvement : Performance & Cache : Added capability checks to the cache-clear actions so only authorized users can trigger them.
+- Improvement : Dashboard : Plugin and theme installation now uses the native WordPress API for more reliable installs.
+- Improvement : Search : Custom search result templates now render published content only.
+- Improvement : Core : Introduced a unique per-site key for encoding configuration data and added direct-access protection to plugin files.Fix : Cache : Fixed and optimized the transient cache-clear query.
+
+= 5.0.4 = 14 Aug 2026
 - Added : MCP : "Get Site Fonts" ability — lists installed fonts and whether each will render on the front end.
 - Added : Global Block Style : Added an Edit option to load a saved style's values into the block so you can view and change them.
 - Added : Global Block Style : Added a Default option to set a style as the default for a block type — new blocks apply it automatically.

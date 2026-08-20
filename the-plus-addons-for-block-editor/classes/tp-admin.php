@@ -207,6 +207,10 @@ if ( ! class_exists( 'Tpgb_Admin' ) ) {
 				wp_send_json_error( array( 'message' => esc_html__( 'Invalid nonce. Unauthorized request.', 'the-plus-addons-for-block-editor' ) ) );
 			}
 
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'the-plus-addons-for-block-editor' ) ) );
+			}
+
 			if ( ! empty( $_POST['notice_id'] ) ) {
 				$notice_id = sanitize_text_field( wp_unslash( $_POST['notice_id'] ) );
 				update_option( $notice_id . '_dismissed', true );
@@ -437,8 +441,7 @@ if ( ! class_exists( 'Tpgb_Admin' ) ) {
 			global $wpdb;
 			$transient      = array();
 				$table_name = $wpdb->prefix . 'options';
-				$query      = $wpdb->prepare( 'SELECT * FROM %s', $table_name );
-				$data_bash  = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				$data_bash  = array();
 				$block_name = ! empty( $_POST['blockName'] ) ? sanitize_text_field( wp_unslash( $_POST['blockName'] ) ) : '';
 
 			if ( 'SocialFeed' === $block_name ) {
@@ -510,12 +513,23 @@ if ( ! class_exists( 'Tpgb_Admin' ) ) {
 					'Beach-Data-',
 				);
 			}
+			// Security/perf: fetch only rows matching the transient prefixes (scoped LIKE + esc_like).
+			if ( ! empty( $transient ) ) {
+				$like_clauses = array();
+				foreach ( $transient as $second ) {
+					$like_value     = '%' . $wpdb->esc_like( $second ) . '%';
+					$like_clauses[] = $wpdb->prepare( 'option_name LIKE %s', $like_value );
+				}
+				$where     = implode( ' OR ', $like_clauses );
+				$query     = "SELECT option_name FROM {$wpdb->options} WHERE {$where}";
+				$data_bash = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- $where is built from individually prepared LIKE clauses above; direct query, no cache available for this real-time operation.
+			}
 			foreach ( $data_bash as $first ) {
 				if ( ! empty( $transient ) ) {
 					foreach ( $transient as $second ) {
 						$find_transient = ! empty( $first->option_name ) ? strpos( $first->option_name, $second ) : '';
 						if ( ! empty( $find_transient ) ) {
-							$wpdb->delete( $table_name, array( 'option_name' => $first->option_name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+							$wpdb->delete( $wpdb->options, array( 'option_name' => $first->option_name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						}
 					}
 				}

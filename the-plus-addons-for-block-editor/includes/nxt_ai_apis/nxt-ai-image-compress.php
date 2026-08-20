@@ -130,7 +130,7 @@ class Nxt_AI_Image_Compress {
 				$image,
 				array(
 					'timeout'   => 30,
-					'sslverify' => false,
+					'sslverify' => true,
 				)
 			);
 

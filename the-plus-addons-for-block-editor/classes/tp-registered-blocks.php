@@ -1731,7 +1731,7 @@ class Tpgb_Library {
 			$new_post_id = apply_filters( 'wpml_object_id', $post_id, get_post_type( $post_id ), true );
 			$new_post_id = ( $new_post_id ) ? $new_post_id : $post_id;
 			$block_post  = get_post( $new_post_id );
-			if ( ! is_wp_error( $block_post ) ) {
+			if ( $block_post && ! is_wp_error( $block_post ) && 'publish' === get_post_status( $block_post ) ) {
 				$this->plus_template_blocks[] = $new_post_id;
 				$content                      = ( isset( $block_post->post_content ) ) ? $block_post->post_content : '';
 				if ( isset( $content ) ) {

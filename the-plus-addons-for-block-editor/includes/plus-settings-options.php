@@ -776,27 +776,21 @@ class Tpgb_Gutenberg_Settings_Options {
 		include_once ABSPATH . 'wp-admin/includes/class-automatic-upgrader-skin.php';
 		include_once ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php';
 
-		$result   = array();
-		$response = wp_remote_post(
-			'http://api.wordpress.org/plugins/info/1.0/',
+		$result = array();
+
+		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+		$plugin_info = plugins_api(
+			'plugin_information',
 			array(
-				'body' => array(
-					'action'  => 'plugin_information',
-					'request' => serialize( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode, WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
-						(object) array(
-							'slug'   => $plu_slug,
-							'fields' => array(
-								'version' => false,
-							),
-						)
-					),
+				'slug'   => $plu_slug,
+				'fields' => array(
+					'version' => false,
 				),
 			)
 		);
 
-		$plugin_info = unserialize( wp_remote_retrieve_body( $response ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode, WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
-
-		if ( ! $plugin_info ) {
+		if ( is_wp_error( $plugin_info ) ) {
 			wp_send_json_error( array( 'content' => __( 'Failed to retrieve plugin information.', 'the-plus-addons-for-block-editor' ) ) );
 		}
 
@@ -857,50 +851,30 @@ class Tpgb_Gutenberg_Settings_Options {
 			wp_send_json_error( __( 'You are not allowed to do this action', 'the-plus-addons-for-block-editor' ) );
 		}
 
-		$theme_slug    = ( ! empty( $_POST['slug'] ) ) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : 'nexter';
-		$theme_api_url = 'https://api.wordpress.org/themes/info/1.0/';
+		$theme_slug = ( ! empty( $_POST['slug'] ) ) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : 'nexter';
+		// Use the core themes_api() helper. It performs the api.wordpress.org
+		// request through WordPress' controlled path and returns a sanitized
+		// object, so the response body is never passed to unserialize() (which
+		// would allow PHP object injection on a tampered/MITM'd response).
+		if ( ! function_exists( 'themes_api' ) ) {
+			require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/theme.php' );
+		}
 
-		// Parameters for the request.
-
-		$args = array(
-			'body' => array(
-				'action'  => 'theme_information',
-				'request' => serialize( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode, WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
-					(object) array(
-						'slug'   => 'nexter',
-						'fields' => array(
-							'description'     => false,
-							'sections'        => false,
-							'rating'          => true,
-							'ratings'         => false,
-							'downloaded'      => true,
-							'download_link'   => true,
-							'last_updated'    => true,
-							'homepage'        => true,
-							'tags'            => true,
-							'template'        => true,
-							'active_installs' => false,
-							'parent'          => false,
-							'versions'        => false,
-							'screenshot_url'  => true,
-							'active_installs' => false, // phpcs:ignore Universal.Arrays.DuplicateArrayKey.Found
-						),
-
-					)
+		$theme_info = themes_api(
+			'theme_information',
+			array(
+				'slug'   => $theme_slug,
+				'fields' => array(
+					'download_link' => true,
 				),
-			),
+			)
 		);
 
-		// Make the request.
-		$response = wp_remote_post( $theme_api_url, $args );
-
 		// Check for errors.
-		if ( is_wp_error( $response ) ) {
-			$error_message = $response->get_error_message();
+		if ( is_wp_error( $theme_info ) || empty( $theme_info->download_link ) ) {
 			wp_send_json( array( 'Sucees' => false ) );
 		} else {
-			$theme_info    = unserialize( $response['body'] ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode, WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
-			$theme_name    = $theme_info->name;
+			$theme_name    = ! empty( $theme_info->name ) ? $theme_info->name : $theme_slug;
 			$theme_zip_url = $theme_info->download_link;
 			global $wp_filesystem;
 

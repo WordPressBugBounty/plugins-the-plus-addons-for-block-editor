@@ -1956,41 +1956,84 @@ class Tp_Blocks_Helper {
 	 *
 	 * @since 1.2.1
 	 * @param mixed $key The key.
+	 * @param mixed $allow_legacy The allow legacy.
 	 */
-	public static function tpgb_check_decrypt_key( $key ) {
-		$decrypted = self::tpgb_simple_decrypt( $key, 'dy' );
+	public static function tpgb_check_decrypt_key( $key, $allow_legacy = true ) {
+		$decrypted = self::tpgb_simple_decrypt( $key, 'dy', $allow_legacy );
 		return $decrypted;
 	}
 
 	/**
-	 * ENCRYPT
+	 * Per-site secret used to encrypt/sign config blobs. Generated once and
+	 * stored so it is identical for the free and pro plugins on the same site,
+	 * and unknown to any remote attacker (replaces the old shared hard-coded key).
+	 *
+	 * @since 5.0.5
+	 * @return string
+	 */
+	public static function tpgb_secret_key() {
+		$secret = get_option( 'tpgb_secret_key' );
+		if ( empty( $secret ) || ! is_string( $secret ) ) {
+			// This can run at plugin-load time, before pluggable functions such as
+			// wp_generate_password() are defined — so use PHP-native randomness.
+			try {
+				$secret = bin2hex( random_bytes( 32 ) );
+			} catch ( \Exception $e ) {
+				$secret = hash( 'sha256', uniqid( 'tpgb', true ) . microtime( true ) );
+			}
+			// add_option() is a single INSERT that no-ops if the row already
+			// exists, which also avoids a first-run race between concurrent requests.
+			if ( ! add_option( 'tpgb_secret_key', $secret, '', true ) ) {
+				$stored = get_option( 'tpgb_secret_key' );
+				if ( ! empty( $stored ) && is_string( $stored ) ) {
+					$secret = $stored;
+				}
+			}
+		}
+		return $secret;
+	}
+
+
+	/**
+	 * ENCRYPT / DECRYPT config blobs with the per-site key.
+	 *
+	 * Security: trust-boundary callers (e.g. form submission) MUST pass
+	 * $allow_legacy = false so a blob forged with the old public key is rejected.
+	 * At-rest data (stored API keys) keeps the default true so values written
+	 * before the key change remain readable.
 	 *
 	 * @since 1.2.1
-	 * @param mixed $string The string.
-	 * @param mixed $action The action.
+	 * @param mixed  $string       The string.
+	 * @param string $action       'ey' to encrypt, 'dy' to decrypt.
+	 * @param bool   $allow_legacy Allow decrypting data written with the old key.
 	 */
-	public static function tpgb_simple_decrypt( $string, $action = 'dy' ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound,Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
-		$tppk         = get_option( 'tpgb_activate' );
-		$pro_key      = ( isset( $tppk['tpgb_activate_key'] ) && ! empty( $tppk['tpgb_activate_key'] ) ) ? $tppk['tpgb_activate_key'] : null;
-		$fallback_key = 'PO$_key';
-		$secret_key   = null !== $pro_key ? $pro_key : $fallback_key;
-		$secret_iv    = 'PO$_iv';
-
-		$output         = false;
+	public static function tpgb_simple_decrypt( $string, $action = 'dy', $allow_legacy = true ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound,Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
 		$encrypt_method = 'AES-128-CBC';
+		$secret_key     = self::tpgb_secret_key();
 		$key            = hash( 'sha256', $secret_key );
-		$iv             = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+		$iv             = substr( hash( 'sha256', $secret_key . '|tpgb_iv' ), 0, 16 );
 
 		if ( 'ey' === $action ) {
-			$output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
-		} elseif ( 'dy' === $action ) {
-			$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+			return base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+		}
 
-			// If decryption failed and we used the Pro key, retry with the fallback.
-			// This handles data that was encrypted before the Pro key was activated.
-			if ( ( false === $output || '' === $output ) && null !== $pro_key ) {
-				$fallback_hash = hash( 'sha256', $fallback_key );
-				$output        = openssl_decrypt( base64_decode( $string ), $encrypt_method, $fallback_hash, 0, $iv ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+		$output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+
+		// Backward compatibility for data encrypted with the pre-5.0.5 shared key.
+		// Only for at-rest values; forgeable callers pass $allow_legacy = false.
+		if ( false === $output && $allow_legacy ) {
+			$tppk       = get_option( 'tpgb_activate' );
+			$legacy_iv  = substr( hash( 'sha256', 'PO$_iv' ), 0, 16 );
+			$legacy_set = array( 'PO$_key' );
+			if ( ! empty( $tppk['tpgb_activate_key'] ) ) {
+				array_unshift( $legacy_set, $tppk['tpgb_activate_key'] );
+			}
+			foreach ( $legacy_set as $legacy_key ) {
+				$try = openssl_decrypt( base64_decode( $string ), $encrypt_method, hash( 'sha256', $legacy_key ), 0, $legacy_iv ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+				if ( false !== $try && '' !== $try ) {
+					$output = $try;
+					break;
+				}
 			}
 		}
 
@@ -2076,7 +2119,7 @@ class Tp_Blocks_Helper {
 		);
 		$errors            = '';
 		$action_option_raw = isset( $_POST['actionOption'] ) ? sanitize_text_field( wp_unslash( $_POST['actionOption'] ) ) : '[]';
-		$action_option     = $this->tpgb_simple_decrypt( $action_option_raw, 'dy' );
+		$action_option     = $this->tpgb_simple_decrypt( $action_option_raw, 'dy', false );
 		$action_option     = json_decode( $action_option, true );
 
 		$form_id = $action_option['formId'] ?? '';
@@ -2163,7 +2206,7 @@ class Tp_Blocks_Helper {
 					if ( is_array( $value ) ) {
 						$value = implode( ', ', $value );
 					}
-					$full_message .= '<p>' . ucfirst( $key ) . ": $value\n</p>";
+					$full_message .= '<p>' . esc_html( ucfirst( $key ) ) . ": $value\n</p>";
 				}
 
 				$full_message .= "<hr style='border: 1px dashed #ccc; margin: 20px 0;'>";
@@ -2184,20 +2227,20 @@ class Tp_Blocks_Helper {
 									$value = gmdate( 'H:i:s' );
 									break;
 								case 'metaRemoteIp':
-									$value = $_SERVER['REMOTE_ADDR'] ?? 'Unknown IP'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput,WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended
+									$value = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'Unknown IP';
 									break;
 								case 'metaUserAgent':
-									$value = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown User Agent'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput,WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended
+									$value = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : 'Unknown User Agent';
 									break;
 								case 'metaPageUrl':
-									$value = $_SERVER['HTTP_REFERER'] ?? 'Unknown Page URL'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput,WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended
+									$value = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : 'Unknown Page URL';
 									break;
 								default:
 									$value = 'Unknown Value';
 							}
 						}
 
-						$full_message .= "$label: $value<br>";
+						$full_message .= esc_html( $label ) . ': ' . esc_html( $value ) . '<br>';
 					}
 
 					// $full_message .= "</ul>"; // phpcs:ignore Squiz.PHP.CommentedOutCode.Found

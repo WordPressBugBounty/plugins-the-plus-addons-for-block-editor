@@ -85,6 +85,7 @@ class Tpgb_MCP_Abilities {
 		$base = TPGB_PATH . 'includes/abilities/';
 
 		require_once $base . 'helpers.php';
+		require_once $base . 'lifecycle-filters.php';
 
 		// Skills loaded first — performance skill must run before others, typography skill must run right after performance.
 		foreach ( array( 'get-performance-skill', 'get-typography-skill', 'get-site-fonts', 'get-image-to-page-skill', 'get-doc-creator-skill', 'inspect-page', 'verify-page' ) as $f ) {

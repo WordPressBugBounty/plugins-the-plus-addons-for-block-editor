@@ -128,7 +128,7 @@ function tpgb_get_html_structure( $attr, $load = '' ) {
 		// Content.
 		if ( ! empty( $item['content'] ) && 'none' !== $item['content'] ) {
 			if ( 'text' === $item['content'] && ! empty( $item['cntText'] ) ) {
-				$html .= $item['cntText'];
+				$html .= wp_kses_post( $item['cntText'] );
 			}
 
 			if ( 'img' === $item['content'] && ! empty( $item['cntImg']['url'] ) ) {

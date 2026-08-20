@@ -91,7 +91,7 @@ class Nxt_AI_Image_Saver {
 			$url,
 			array(
 				'timeout'     => 120,
-				'sslverify'   => false,
+				'sslverify'   => true,
 				'redirection' => 10,
 				'httpversion' => '1.1',
 				'blocking'    => true,

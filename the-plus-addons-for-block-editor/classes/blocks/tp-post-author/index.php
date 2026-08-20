@@ -48,7 +48,7 @@ function tpgb_tp_post_author_render_callback( $attr, $content ) { // phpcs:ignor
 			$outputavatar .= '<a href="' . esc_url( $author_page_url ) . '" rel="' . esc_attr__( 'author', 'the-plus-addons-for-block-editor' ) . '" aria-label="' . esc_attr( $author_name ) . '" class="author-avatar tpgb-trans-linear">' . get_avatar( get_the_author_meta( 'email', $post->post_author ), 130 ) . '</a>';
 		}
 		if ( ! empty( $show_bio ) ) {
-			$outputbio .= '<div class="author-bio tpgb-trans-linear" >' . esc_html( $author_bio ) . '</div>';
+			$outputbio .= '<div class="author-bio tpgb-trans-linear" >' . wp_kses_post( $author_bio ) . '</div>';
 		}
 
 		$user_meta = get_the_author_meta( 'roles', $post->post_author );

@@ -185,7 +185,7 @@ class Nxt_AI_Image_Expand {
 			$img_url,
 			array(
 				'timeout'    => 60,
-				'sslverify'  => false,
+				'sslverify'  => true,
 				'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
 			)
 		);

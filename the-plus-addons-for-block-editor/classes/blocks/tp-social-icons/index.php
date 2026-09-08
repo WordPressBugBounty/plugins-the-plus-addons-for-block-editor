@@ -56,11 +56,11 @@ function tpgb_tp_social_icons_render_callback( $attributes, $content ) { // phpc
 			if ( ! empty( $network['itemTooltip'] ) ) {
 				$itemtooltip .= ' data-tippy=""';
 				$itemtooltip .= ' data-tippy-interactive="' . ( ! empty( $attributes['tipInteractive'] ) ? 'true' : 'false' ) . '"';
-				$itemtooltip .= ' data-tippy-placement="' . ( ! empty( $attributes['tipPlacement'] ) ? $attributes['tipPlacement'] : 'top' ) . '"';
+				$itemtooltip .= ' data-tippy-placement="' . ( ! empty( $attributes['tipPlacement'] ) ? esc_attr( $attributes['tipPlacement'] ) : 'top' ) . '"';
 				$itemtooltip .= ' data-tippy-theme="' . esc_attr( $attributes['tipTheme'] ) . '"';
 				$itemtooltip .= ' data-tippy-arrow="' . ( ! empty( $attributes['tipArrow'] ) ? 'true' : 'false' ) . '"';
 
-				$itemtooltip .= ' data-tippy-animation="' . ( ! empty( $attributes['tipAnimation'] ) ? $attributes['tipAnimation'] : 'fade' ) . '"';
+				$itemtooltip .= ' data-tippy-animation="' . ( ! empty( $attributes['tipAnimation'] ) ? esc_attr( $attributes['tipAnimation'] ) : 'fade' ) . '"';
 				$itemtooltip .= ' data-tippy-offset="[' . ( ! empty( $attributes['tipOffset'] ) ? (int) $attributes['tipOffset'] : 0 ) . ',' . ( ! empty( $attributes['tipDistance'] ) ? (int) $attributes['tipDistance'] : 0 ) . ']"';
 				$itemtooltip .= ' data-tippy-duration="[' . ( ! empty( $attributes['tipDurationIn'] ) ? (int) $attributes['tipDurationIn'] : '1' ) . ',' . ( ! empty( $attributes['tipDurationOut'] ) ? (int) $attributes['tipDurationOut'] : '1' ) . ']"';
 

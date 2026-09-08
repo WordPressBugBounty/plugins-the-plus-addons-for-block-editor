@@ -634,3 +634,140 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+/* ------------------------------------------------------------------------ *
+ * Conditional Logic
+ *
+ * A field carrying data-nxt-cond is shown or hidden based on the answer to a
+ * radio or checkbox field in the same form.
+ *
+ * Hiding a field also clears its inputs and marks them not-required, which is
+ * what keeps the existing code correct without touching it: every validator
+ * returns early when data-required is "false", and the submit collector skips
+ * fields that are empty or unchecked. So a hidden field can neither block the
+ * submit nor end up in the email.
+ * ------------------------------------------------------------------------ */
+document.addEventListener("DOMContentLoaded", function () {
+    var original = new WeakMap();
+
+    document.querySelectorAll(".tp-form-block").forEach(function (form) {
+        var rules = [];
+
+        form.querySelectorAll("[data-nxt-cond]").forEach(function (el) {
+            var rule;
+            try {
+                rule = JSON.parse(el.getAttribute("data-nxt-cond"));
+            } catch (e) {
+                return;
+            }
+            if (!rule || !rule.src || !rule.op) {
+                return;
+            }
+            /* A block id often starts with a digit, which is not a valid CSS
+               class selector — match on the class attribute instead. */
+            if (!/^[A-Za-z0-9_-]+$/.test(rule.src)) {
+                return;
+            }
+            var source = form.querySelector(
+                '[class~="tpgb-block-' + rule.src + '"]'
+            );
+            if (source) {
+                rules.push({ el: el, rule: rule, source: source });
+            }
+        });
+
+        if (!rules.length) {
+            return;
+        }
+
+        /* Values currently chosen in the driving field. */
+        function answers(source) {
+            return Array.prototype.slice
+                .call(
+                    source.querySelectorAll(
+                        'input[type="radio"], input[type="checkbox"]'
+                    )
+                )
+                .filter(function (input) {
+                    return input.checked;
+                })
+                .map(function (input) {
+                    return (input.value || "").toLowerCase();
+                });
+        }
+
+        function matches(rule, values) {
+            var want = (rule.val || "").toLowerCase();
+            switch (rule.op) {
+                case "is":
+                    return values.length === 1 && values[0] === want;
+                case "isnot":
+                    return !(values.length === 1 && values[0] === want);
+                case "contains":
+                    return values.indexOf(want) !== -1;
+                case "notcontains":
+                    return values.indexOf(want) === -1;
+                case "empty":
+                    return !values.length;
+                case "notempty":
+                    return !!values.length;
+            }
+            return false;
+        }
+
+        function setVisible(el, show) {
+            var hidden = el.getAttribute("data-nxt-cond-hidden") === "1";
+            if (show === !hidden) {
+                return;
+            }
+            var inputs = el.querySelectorAll("input, textarea, select");
+
+            if (show) {
+                el.style.display = "";
+                el.removeAttribute("data-nxt-cond-hidden");
+                Array.prototype.forEach.call(inputs, function (input) {
+                    var req = original.get(input);
+                    if (req === undefined) {
+                        return;
+                    }
+                    if (req === null) {
+                        input.removeAttribute("data-required");
+                    } else {
+                        input.setAttribute("data-required", req);
+                    }
+                    original.delete(input);
+                });
+                return;
+            }
+
+            el.style.display = "none";
+            el.setAttribute("data-nxt-cond-hidden", "1");
+            Array.prototype.forEach.call(inputs, function (input) {
+                if (!original.has(input)) {
+                    original.set(input, input.getAttribute("data-required"));
+                }
+                input.setAttribute("data-required", "false");
+                if (input.type === "checkbox" || input.type === "radio") {
+                    input.checked = false;
+                } else {
+                    input.value = "";
+                }
+            });
+        }
+
+        /* Re-run a few times so a rule driven by a field that was itself just
+           hidden settles instead of lagging one change behind. */
+        function apply() {
+            for (var pass = 0; pass < 3; pass++) {
+                rules.forEach(function (item) {
+                    var hit = matches(item.rule, answers(item.source));
+                    setVisible(item.el, item.rule.act === "hide" ? !hit : hit);
+                });
+            }
+        }
+
+        form.addEventListener("change", apply);
+        apply();
+    });
+});

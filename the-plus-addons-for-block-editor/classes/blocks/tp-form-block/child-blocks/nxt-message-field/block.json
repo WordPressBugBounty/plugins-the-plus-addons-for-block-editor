@@ -34,6 +34,14 @@
 				}
 			]
 		},
-		"descPoss": { "type": "string", "default": "top" }
+		"descPoss": { "type": "string", "default": "top" },
+		"condEnable": {
+			"type": "boolean",
+			"default": false
+		},
+		"condRule": {
+			"type": "object",
+			"default": {}
+		}
 	}
 }

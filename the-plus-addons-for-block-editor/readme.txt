@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.1
-Stable tag: 5.0.5
+Stable tag: 5.0.6
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -322,7 +322,10 @@ Nexter Blocks may connect to external services only when the related feature is 
 
 == Changelog ==
 
-= 5.0.5 = 20 Aug 
+= 5.0.6 = 08 Sep 2026
+- Added : Form Builder : Conditional Logic — any field can watch another field and show or hide itself based on the answer, with six operators (is, is not, contains, doesn't contain, is empty, is not empty) across 12 field types, set from the block sidebar with no code.
+
+= 5.0.5 = 20 Aug 2026
 - Added : MCP : WordPress 7.1 Abilities API support — every Nexter Blocks ability now sets the unified public exposure flag so abilities stay discoverable to AI/MCP clients on WordPress 7.1 and later.
 - Compatibility : Tested and confirmed compatible with WordPress 7.1.
 - Improvement : MCP : WordPress 7.1 execution-lifecycle support — input presets for faster block building, result caching for read-only abilities, and automatic page verification after inserts.

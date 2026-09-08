@@ -58,6 +58,14 @@
 				}
 			],
 			"scopy": true
+		},
+		"condEnable": {
+			"type": "boolean",
+			"default": false
+		},
+		"condRule": {
+			"type": "object",
+			"default": {}
 		}
 	}
 }

@@ -96,6 +96,47 @@ function tpgb_rtl_flip_css( $css ) {
 		$css
 	);
 
+	// 6) background-position keyword side  ("top right" -> "top left") + leading horizontal %.
+	$css = preg_replace_callback(
+		'/\bbackground-position\s*:\s*([^;}]+)/i',
+		static function ( $m ) {
+			$v = preg_replace_callback(
+				'/\b(left|right)\b/i',
+				static function ( $mm ) {
+					return 'left' === strtolower( $mm[1] ) ? 'right' : 'left';
+				},
+				$m[1]
+			);
+			$v = preg_replace_callback(
+				'/^\s*(\d+(?:\.\d+)?)%/',
+				static function ( $mm ) {
+					return ( 100 - (float) $mm[1] ) . '%';
+				},
+				$v
+			);
+			return 'background-position:' . $v;
+		},
+		$css
+	);
+
+	// 7) Flip X of translate / translateX / translate3d (mirrors rtlcss). Keeps a centered
+	//    absolute element (left:50% + translateX(-50%)) correct after the left<->right swap.
+	$css = preg_replace_callback(
+		'/\btranslate(x|3d)?\s*\(\s*(-?[0-9.]+[a-z%]*)/i',
+		static function ( $m ) {
+			$x = $m[2];
+			if ( 0.0 === (float) $x ) {
+				$nx = $x;
+			} elseif ( '-' === $x[0] ) {
+				$nx = substr( $x, 1 );
+			} else {
+				$nx = '-' . $x;
+			}
+			return 'translate' . $m[1] . '(' . $nx;
+		},
+		$css
+	);
+
 	return $css;
 }
 
@@ -187,3 +228,27 @@ function tpgb_rtl_style_src( $src, $handle ) { // phpcs:ignore Generic.CodeAnaly
 	return $cache[ $src ];
 }
 add_filter( 'style_loader_src', 'tpgb_rtl_style_src', 10, 2 );
+
+/**
+ * Fancybox (v5) RTL correction.
+ *
+ * Fancybox handles its own direction (arrow icons + positions via CSS variables). Our rtlcss
+ * twin blindly flips its physical left/right, which moves each nav button out from under its
+ * own chevron — leaving the arrows pointing inward on RTL. This restores Fancybox's native nav
+ * positioning so each button sits under the correct chevron again. Printed inline on RTL only,
+ * so it is never run through rtlcss or swapped by the twin filter.
+ */
+function tpgb_rtl_fancybox_fix() {
+	if ( ! is_rtl() ) {
+		return;
+	}
+	echo '<style id="tpgb-rtl-fancybox-fix">'
+		// Force the lightbox to a clean LTR nav. !important beats Fancybox\'s own .is-rtl rules
+		// (which our rtlcss twin also flipped, causing the buttons to overlap on one side).
+		. '.fancybox__container{direction:ltr}'
+		. '.fancybox__nav .f-button.is-prev{left:var(--f-button-prev-pos)!important;right:auto!important}'
+		. '.fancybox__nav .f-button.is-next{right:var(--f-button-next-pos)!important;left:auto!important}'
+		. '</style>';
+}
+add_action( 'wp_head', 'tpgb_rtl_fancybox_fix', 100 );
+add_action( 'admin_head', 'tpgb_rtl_fancybox_fix', 100 );

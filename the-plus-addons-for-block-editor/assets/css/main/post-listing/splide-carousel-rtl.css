@@ -9,11 +9,11 @@
 /* Splide Silder Css */
 
 /*arrows style-1*/
-.outer-slider-arrow.splide--ltr .splide__arrow.splide__arrow--prev,.outer-slider-arrow .splide--ltr .splide__arrow.splide__arrow--prev  {
-    right: -65px;
+.outer-slider-arrow.splide--ltr .splide__arrow.splide__arrow--prev,.outer-slider-arrow .splide--ltr .splide__arrow.splide__arrow--prev,.outer-slider-arrow.splide--rtl .splide__arrow.splide__arrow--prev,.outer-slider-arrow .splide--rtl .splide__arrow.splide__arrow--prev  {
+	left: -65px;
 }
-.outer-slider-arrow.splide--ltr .splide__arrow.splide__arrow--next,.outer-slider-arrow .splide--ltr .splide__arrow.splide__arrow--next {
-    left: -65px;
+.outer-slider-arrow.splide--ltr .splide__arrow.splide__arrow--next,.outer-slider-arrow .splide--ltr .splide__arrow.splide__arrow--next,.outer-slider-arrow.splide--rtl .splide__arrow.splide__arrow--next,.outer-slider-arrow .splide--rtl .splide__arrow.splide__arrow--next {
+	right: -65px;
 }
 .splide__arrow,.splide__arrow:hover,.splide__arrow:focus{
     background: none;

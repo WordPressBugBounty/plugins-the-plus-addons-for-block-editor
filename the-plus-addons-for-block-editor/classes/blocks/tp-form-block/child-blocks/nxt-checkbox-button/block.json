@@ -87,6 +87,14 @@
 		"error": {
 			"type": "string",
 			"default": "This field is required."
+		},
+		"condEnable": {
+			"type": "boolean",
+			"default": false
+		},
+		"condRule": {
+			"type": "object",
+			"default": {}
 		}
 	}
 }

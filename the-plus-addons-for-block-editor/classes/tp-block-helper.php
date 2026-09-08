@@ -341,6 +341,7 @@ class Tp_Blocks_Helper {
 							'tp-form-block/child-blocks/nxt-time-field',
 							'tp-form-block/child-blocks/nxt-date-field',
 							'tp-form-block/child-blocks/nxt-phone-field',
+							'tp-form-block/child-blocks/nxt-form-step',
 						);
 
 						foreach ( $form_child as $block ) {

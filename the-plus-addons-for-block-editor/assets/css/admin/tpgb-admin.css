@@ -2,19 +2,7 @@
     display: none;
 }
 .wp-menu-image.dashicons-nxt-builder-groups {
-	background: url(../../images/nxt-favicon.svg);
-	background-size: 22px;
-	background-repeat: no-repeat;
-	background-position: center;
-}
-li.wp-has-current-submenu.wp-menu-open.menu-top .wp-menu-image.dashicons-nxt-builder-groups{
 	background: url(../../images/nxt-favicon-white.svg);
-	background-size: 22px;
-	background-repeat: no-repeat;
-	background-position: center;
-}
-li.wp-not-current-submenu:hover .wp-menu-image.dashicons-nxt-builder-groups{
-	background: url(../../images/nxt-favicon-blue.svg);
 	background-size: 22px;
 	background-repeat: no-repeat;
 	background-position: center;

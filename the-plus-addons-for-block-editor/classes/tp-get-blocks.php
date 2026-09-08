@@ -188,7 +188,10 @@ class Tpgb_Get_Blocks {
 		if ( '' !== $post_id ) {
 
 			if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) && is_shop() ) {
-				$post_id = wc_get_page_id( 'shop' );
+				$passed_post = get_post( $post_id );
+				if ( empty( $passed_post ) || ! has_blocks( $passed_post ) ) {
+					$post_id = wc_get_page_id( 'shop' );
+				}
 			}
 
 			$post_content = get_post( $post_id );
@@ -267,7 +270,19 @@ class Tpgb_Get_Blocks {
 			if ( tpgb_library()->check_css_js_cache_files( $this->post_type, $this->preload_name, 'css', true ) ) {
 				$css_file     = TPGB_ASSET_URL . '/theplus-preload-' . $this->post_type . '-' . $this->preload_name . '.min.css';
 				$enqueue_name = 'tpgb-plus-' . $this->post_type . '-' . $this->preload_name;
-				if ( false === $dependency ) {
+
+				/*
+				 * Only claim the shared primary handle when it is still free. If
+				 * an earlier template on this page (e.g. a header/footer built
+				 * with Nexter Blocks) already registered "tpgb-plus-block-front-css"
+				 * for the base stylesheet, reusing it here would make
+				 * wp_enqueue_style() a no-op and silently drop this preload - which
+				 * left Theme Builder archives such as the default Posts page
+				 * unstyled until a manual reload. In that case fall through to the
+				 * unique handle that depends on the primary so the archive block CSS
+				 * still loads in <head>.
+				 */
+				if ( false === $dependency && ! wp_style_is( 'tpgb-plus-block-front-css', 'registered' ) && ! wp_style_is( 'tpgb-plus-block-front-css', 'enqueued' ) ) {
 					$enqueue_name = 'tpgb-plus-block-front-css';
 					if ( ! empty( $check_global_css ) && 'disable' === $check_global_css && ! empty( $global_block_style ) && ! in_array( 'tp-global-block-style', $global_block_style, true ) ) {
 						$dependency = array();

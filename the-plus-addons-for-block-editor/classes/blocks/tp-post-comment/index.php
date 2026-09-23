@@ -88,13 +88,17 @@ function tpgb_comment_args( $attr = array() ) {
 		'cancel_reply_link'    => wp_kses_post( $cancel_reply_text ),
 		'label_submit'         => wp_kses_post( $submit_btn_text ),
 
-		'comment_field'        => '<div class="tpgb-row"><div class="tpgb-col-md-12 tpgb-col"><label><textarea id="comment" name="comment" cols="45" rows="6" placeholder="' . wp_kses_post( $comment_field ) . '" aria-required="true"></textarea></label></div></div>',
+		// esc_attr(), not wp_kses_post() -- this lands inside a quoted `placeholder` attribute, not
+		// between tags. Fires via core's comment_form() on every page load with comments enabled,
+		// for every visitor.
+		'comment_field'        => '<div class="tpgb-row"><div class="tpgb-col-md-12 tpgb-col"><label><textarea id="comment" name="comment" cols="45" rows="6" placeholder="' . esc_attr( $comment_field ) . '" aria-required="true"></textarea></label></div></div>',
 
 		'must_log_in'          => '<p class="must-log-in">' .
 		sprintf(
-			/* translators: %s: link to the login page, wrapped in an anchor tag */
-			esc_html__( 'You must be %s to post a comment.', 'the-plus-addons-for-block-editor' ),
-			'<a href="' . esc_url( wp_login_url( apply_filters( 'the_permalink', get_permalink() ) ) ) . '">' . esc_html__( 'logged in', 'the-plus-addons-for-block-editor' ) . '</a>'
+			/** translators: You must be %1$slogged in%2$s to post a comment */ // phpcs:ignore Generic.Commenting.DocComment.ShortNotCapital,Generic.Commenting.DocComment.LongNotCapital,Generic.Commenting.DocComment.MissingShort
+			esc_html__( 'You must be %1$slogged in%2$s to post a comment.', 'the-plus-addons-for-block-editor' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+			'<a href="' . wp_login_url( apply_filters( 'the_permalink', get_permalink() ) ) . '">',
+			'</a>'
 		) . '</p>',
 
 		'logged_in_as'         => '<p class="logged-in-as">' .
@@ -103,7 +107,9 @@ function tpgb_comment_args( $attr = array() ) {
 			wp_kses_post( $logged_in_as_text ) . esc_html__( ' %1$s%2$s. %3$s%4$s%5$s', 'the-plus-addons-for-block-editor' ),
 			'<a href="' . admin_url( 'profile.php' ) . '">' . $user_identity,
 			'</a>',
-			'<a href="' . wp_logout_url( apply_filters( 'the_permalink', get_permalink() ) ) . '" title="' . wp_kses_post( $log_out_text ) . '">',
+			// esc_attr() for the `title` attribute (was wp_kses_post() -- attribute-breakout); the
+			// %4$s use below is between tags (link text), so wp_kses_post() there is correct, unchanged.
+			'<a href="' . wp_logout_url( apply_filters( 'the_permalink', get_permalink() ) ) . '" title="' . esc_attr( $log_out_text ) . '">',
 			wp_kses_post( $log_out_text ),
 			'</a>'
 		) . '</p>',

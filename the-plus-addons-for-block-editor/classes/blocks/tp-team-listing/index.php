@@ -50,7 +50,7 @@ if ( ! function_exists( 'tpgb_tp_team_member_listing_render_callback' ) ) {
 				$team_name        = ( isset( $team_item['TName'] ) && class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val( $team_item['TName'] ) : $team_item['TName'];
 				$team_designation = ( ! empty( $team_item['TDesig'] ) ) ? $team_item['TDesig'] : '';
 				$img_id           = ( ! empty( $team_item['TImage'] ) ) ? $team_item['TImage'] : array();
-				$team_c_url       = ( isset( $team_item['CusUrl']['dynamic'] ) && class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url( $team_item['CusUrl'] ) : ( ! empty( $team_item['CusUrl']['url'] ) ? $team_item['CusUrl']['url'] : '' );
+				$team_c_url       = ( ! empty( $team_item['CusUrl']['url'] ) ? $team_item['CusUrl']['url'] : '' );
 				$team_ws_url      = ( isset( $team_item['WsUrl']['dynamic'] ) && class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url( $team_item['WsUrl'] ) : ( ! empty( $team_item['WsUrl']['url'] ) ? $team_item['WsUrl']['url'] : '' );
 				$team_fb_url      = ( isset( $team_item['FbUrl']['dynamic'] ) && class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url( $team_item['FbUrl'] ) : ( ! empty( $team_item['FbUrl']['url'] ) ? $team_item['FbUrl']['url'] : '' );
 				$team_mail_url    = ( isset( $team_item['MailUrl']['dynamic'] ) && class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) ? Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_repeat_url( $team_item['MailUrl'] ) : ( ! empty( $team_item['MailUrl']['url'] ) ? $team_item['MailUrl']['url'] : '' );
@@ -182,7 +182,7 @@ if ( ! function_exists( 'tpgb_tp_team_member_listing_render_callback' ) ) {
 							$title_html .= wp_kses_post( $team_name );
 					} else {
 								$link_attr   = ( isset( $team_item['CusUrl'] ) && class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) ? Tpgbp_Pro_Blocks_Helper::add_link_attributes( $team_item['CusUrl'] ) : '';
-								$title_html .= '<a href="' . esc_attr( $team_c_url ) . '" ' . $link_attr . '>' . wp_kses_post( $team_name ) . '</a>';
+								$title_html .= '<a href="' . esc_url( $team_c_url ) . '" ' . $link_attr . '>' . wp_kses_post( $team_name ) . '</a>';
 					}
 									$title_html .= '</' . Tp_Blocks_Helper::validate_html_tag( $title_tag ) . '>';
 				}

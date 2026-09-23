@@ -77,7 +77,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content ) { // phpcs:ign
 	$carousel_settings = '';
 	if ( 'carousel' === $layout_type ) {
 		$carousel_settings = Tp_Blocks_Helper::carousel_settings( $attributes );
-		$carousel_settings = 'data-splide=\'' . wp_json_encode( $carousel_settings ) . '\'';
+		$carousel_settings = 'data-splide=\'' . htmlspecialchars( wp_json_encode( $carousel_settings ), ENT_QUOTES, 'UTF-8' ) . '\'';
 
 		$sliderclass .= 'tpgb-carousel splide';
 		$sliderclass .= Tp_Blocks_Helper::tpgb_carousel_arrowdot_class( $attributes );

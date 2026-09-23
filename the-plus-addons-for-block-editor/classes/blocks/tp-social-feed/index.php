@@ -106,7 +106,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content ) { // phpcs
 	$fancybox_settings = '';
 	if ( 'OnFancyBox' === $popup_option ) {
 		$fancybox_settings = tpgb_social_feed_fancybox( $attributes );
-		$fancybox_settings = wp_json_encode( $fancybox_settings );
+		$fancybox_settings = htmlspecialchars( wp_json_encode( $fancybox_settings ), ENT_QUOTES, 'UTF-8' );
 	}
 
 	$social_feed .= '<div id="' . esc_attr( $block_id ) . '" class="tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . ' tpgb-social-feed tpgb-relative-block ' . esc_attr( $list_layout ) . '" data-style="' . esc_attr( $style ) . '" data-layout="' . esc_attr( $layout ) . '" data-id="' . esc_attr( $block_id ) . '" data-fid="' . esc_attr( $feed_id ) . '" data-fancy-option=\'' . $fancybox_settings . '\' data-scroll-normal=\'' . esc_attr( $normal_scroll ) . '\' >';

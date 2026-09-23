@@ -779,12 +779,21 @@ function tpgb_search( $on_load_attr = array() ) {
 
 			if ( ! empty( $tmp_post_id ) ) {
 				$query_args['post__in'] = $tmp_post_id;
+				// `orderby => relevance` (set above) is a no-op without a native `s` query var:
+				// WP_Query's relevance scoring is computed FROM the `s` search term, and this
+				// branch queries by pre-resolved post__in IDs instead. Left as `relevance`, the
+				// title/excerpt/content/name/category/tag priority already encoded in the ORDER
+				// $tmp_post_id was assembled in (title matches pushed on before content matches,
+				// see $all_data above) was being silently discarded in favor of WP_Query's
+				// fallback ordering. `post__in` tells WP_Query to preserve that exact order.
+				$query_args['orderby'] = 'post__in';
 			} else {
 				$query_args['post__in'] = array( 0 );
+				$query_args['orderby']  = 'post__in';
 			}
 		} else {
 			$query_args['s'] = $sql_content;
-
+			// Native `s` search: `orderby => relevance` set above is correct and effective here.
 		}
 	}
 	$tax_query = array();

@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nexter Blocks 5.0.6\n"
+"Project-Id-Version: Nexter Blocks 5.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-plus-addons-for-block-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-07T07:32:53+00:00\n"
+"POT-Creation-Date: 2026-09-22T11:17:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: the-plus-addons-for-block-editor\n"
@@ -81,10 +81,10 @@ msgstr ""
 msgid "Seconds"
 msgstr ""
 
-#: classes/blocks/tp-countdown/index.php:82
-#: classes/blocks/tp-countdown/index.php:88
-#: classes/blocks/tp-countdown/index.php:94
-#: classes/blocks/tp-countdown/index.php:100
+#: classes/blocks/tp-countdown/index.php:85
+#: classes/blocks/tp-countdown/index.php:91
+#: classes/blocks/tp-countdown/index.php:97
+#: classes/blocks/tp-countdown/index.php:103
 msgid "00"
 msgstr ""
 
@@ -204,32 +204,27 @@ msgstr ""
 msgid "instagram"
 msgstr ""
 
-#. translators: %s: link to the login page, wrapped in an anchor tag
-#: classes/blocks/tp-post-comment/index.php:96
+#: classes/blocks/tp-post-comment/index.php:99
 #, php-format
-msgid "You must be %s to post a comment."
-msgstr ""
-
-#: classes/blocks/tp-post-comment/index.php:97
-msgid "logged in"
+msgid "You must be %1$slogged in%2$s to post a comment."
 msgstr ""
 
 #. translators: %1$s%2$s. %3$s%4$s%5$s
-#: classes/blocks/tp-post-comment/index.php:103
+#: classes/blocks/tp-post-comment/index.php:107
 #, php-format
 msgid " %1$s%2$s. %3$s%4$s%5$s"
 msgstr ""
 
-#: classes/blocks/tp-post-comment/index.php:143
+#: classes/blocks/tp-post-comment/index.php:149
 #: assets/js/admin/blocks-listing.js:1
 msgid "Name"
 msgstr ""
 
-#: classes/blocks/tp-post-comment/index.php:147
+#: classes/blocks/tp-post-comment/index.php:153
 msgid "Email Address *"
 msgstr ""
 
-#: classes/blocks/tp-post-comment/index.php:150
+#: classes/blocks/tp-post-comment/index.php:156
 msgid "Website"
 msgstr ""
 
@@ -283,7 +278,7 @@ msgstr ""
 msgid "Button Image"
 msgstr ""
 
-#: classes/blocks/tp-search-bar/index.php:1064
+#: classes/blocks/tp-search-bar/index.php:1073
 msgid "Thumb Image"
 msgstr ""
 
@@ -709,73 +704,75 @@ msgstr ""
 msgid "Invalid CAPTCHA validation response format."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:503
+#: classes/tp-core-init-blocks.php:507
 msgid "Nexter Blocks Different sized of featured images"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:517
+#: classes/tp-core-init-blocks.php:521
 msgid "Post Listing of get Post Meta Info."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:531
+#: classes/tp-core-init-blocks.php:535
 msgid "Category list links"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:549
+#: classes/tp-core-init-blocks.php:553
 msgid "Product Data."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:735
+#: classes/tp-core-init-blocks.php:739
 msgid "Settings parameter is missing!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:740
+#: classes/tp-core-init-blocks.php:744
 msgid "Nexter Global settings updated!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:901
-#: classes/tp-core-init-blocks.php:930
-#: classes/tp-core-init-blocks.php:1091
+#: classes/tp-core-init-blocks.php:905
+#: classes/tp-core-init-blocks.php:934
+#: classes/tp-core-init-blocks.php:1095
 msgid "CSS can not be load due to permission!!!"
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1033
+#: classes/tp-core-init-blocks.php:1037
 msgid "Plus block css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1038
+#: classes/tp-core-init-blocks.php:1042
 msgid "Plus block preview css updated."
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1479
+#: classes/tp-core-init-blocks.php:1488
 msgid ", "
 msgstr ""
 
-#: classes/tp-core-init-blocks.php:1643
+#: classes/tp-core-init-blocks.php:1652
 msgid "Sale"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2762
+#: classes/tp-registered-blocks.php:2775
 msgid "Nexter Performance"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2772
+#: classes/tp-registered-blocks.php:2785
 msgid "Purge All Pages"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2783
+#: classes/tp-registered-blocks.php:2796
 msgid "Purge Current Page"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2803
+#: classes/tp-registered-blocks.php:2816
 msgid "Edit Template"
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2861
+#: classes/tp-registered-blocks.php:2836
+#: classes/tp-registered-blocks.php:2855
+#: classes/tp-registered-blocks.php:2887
 msgid "You do not have permission to perform this action."
 msgstr ""
 
-#: classes/tp-registered-blocks.php:2870
+#: classes/tp-registered-blocks.php:2896
 msgid "Invalid cache identifier."
 msgstr ""
 
@@ -6471,7 +6468,6 @@ msgid "Choose a Form Layout"
 msgstr ""
 
 #: assets/js/admin/blocks-builder.js:1
-#: classes/blocks/tp-form-block/block.json
 msgctxt "block title"
 msgid "Form"
 msgstr ""
@@ -16602,6 +16598,10 @@ msgid "Feed Type"
 msgstr ""
 
 #: assets/js/admin/blocks-social.js:1
+msgid "e.g. Creator Name - Channel"
+msgstr ""
+
+#: assets/js/admin/blocks-social.js:1
 msgid "You can now connect your Facebook account to show feeds. To connect, add Access Token below."
 msgstr ""
 
@@ -23758,11 +23758,6 @@ msgstr ""
 #: classes/blocks/tp-flipbox/block.json
 msgctxt "block description"
 msgid "This block is perfect for creating an engaging and interactive experience with your audience. You can use it to show different types of content flipping side on hover"
-msgstr ""
-
-#: classes/blocks/tp-form-block/block.json
-msgctxt "block description"
-msgid " Create user-friendly forms to collect information effortlessly."
 msgstr ""
 
 #: classes/blocks/tp-form-block/child-blocks/nxt-checkbox-button/block.json

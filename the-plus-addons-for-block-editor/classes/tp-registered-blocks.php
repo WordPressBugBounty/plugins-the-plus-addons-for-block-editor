@@ -2570,6 +2570,19 @@ class Tpgb_Library {
 				$elements = array();
 				if ( ! $this->requires_update ) {
 					$elements = $this->get_posts_metadata( self::$tpgb_post_id, '_block_css', 'blocks', $this->plus_uid . '_blocks' );
+
+					// Blocks living in a block widget area are not part of any post's
+					// content, so merge them in before the cache files are checked.
+					if ( class_exists( 'Tpgb_Widget_Blocks' ) ) {
+						$widget_blocks = Tpgb_Widget_Blocks::instance();
+						$widget_assets = $widget_blocks->get_assets();
+						if ( ! empty( $widget_assets['elements'] ) ) {
+							$elements = array_values( array_unique( array_merge( (array) $elements, $widget_assets['elements'] ) ) );
+							sort( $elements );
+						}
+						$widget_blocks->enqueue_widget_css();
+					}
+
 					if ( $this->get_caching_option() === 'separate' ) { // separate file.
 						$this->remove_files_unlink( self::$tpgb_post_type, self::$tpgb_post_id );
 					} elseif ( $this->get_caching_option() === false ) { // combine.
@@ -2815,6 +2828,14 @@ class Tpgb_Library {
 	public function tpgb_smart_perf_clear_cache() {
 		check_ajax_referer( 'nexter_admin_nonce', 'security' );
 
+		// Capability check added -- the nonce this function checks is localized to every
+		// block-editor page for any user who can access the editor (Contributor+), so any
+		// such user could trigger a site-wide cache wipe without this. Matches the sibling
+		// function tpgb_current_page_clear_cache() below, which already has this guard.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to perform this action.', 'the-plus-addons-for-block-editor' ), 403 );
+		}
+
 		// clear cache files.
 		$this->remove_dir_files( TPGB_ASSET_PATH );
 
@@ -2828,6 +2849,11 @@ class Tpgb_Library {
 	 */
 	public function tpgb_dynamic_style_cache() {
 		check_ajax_referer( 'nexter_admin_nonce', 'security' );
+
+		// Capability check added -- same reasoning as tpgb_smart_perf_clear_cache() above.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to perform this action.', 'the-plus-addons-for-block-editor' ), 403 );
+		}
 
 		// clear cache files.
 		$this->remove_dir_dynamic_style_files( TPGB_ASSET_PATH );

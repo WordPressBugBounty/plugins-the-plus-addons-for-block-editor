@@ -66,7 +66,7 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content ) { // phpc
 			$carousel_settings['sliderMode'] = 'horizontal';
 		}
 
-		$data_attr = 'data-splide=\'' . wp_json_encode( $carousel_settings ) . '\'';
+		$data_attr = 'data-splide=\'' . htmlspecialchars( wp_json_encode( $carousel_settings ), ENT_QUOTES, 'UTF-8' ) . '\'';
 	}
 
 	$read_attr = array();

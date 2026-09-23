@@ -5,16 +5,15 @@
 	"version": "0.1.0",
 	"title": "Form",
 	"category": "tpgb",
-	"description": " Create user-friendly forms to collect information effortlessly.",
+	"description": "Create user-friendly forms to collect information effortlessly.",
 	"example": {
 		"attributes": {}
 	},
 	"supports": {
 		"anchor": true,
-		"align": ["wide", "full"],
-		"inserter": true
+		"align": [ "wide", "full" ]
 	},
-	"textdomain": "the-plus-addons-for-block-editor",
+	"textdomain": "tpgbp",
 	"attributes": {
 		"block_id": {
 			"type": "string",
@@ -25,7 +24,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": " {{PLUS_WRAP}} .nxt-check-title-label, {{PLUS_WRAP}} .nxt-email-label, {{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-name-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label, {{PLUS_WRAP}} .nxt-phone-label, {{PLUS_WRAP}} .nxt-radio-title-label {color:{{lblClr}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-date-label, {{PLUS_WRAP}} .nxt-check-title-label, {{PLUS_WRAP}} .nxt-email-label, {{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-name-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label, {{PLUS_WRAP}} .nxt-phone-label, {{PLUS_WRAP}} .nxt-radio-title-label, {{PLUS_WRAP}} .nxt-time-label, {{PLUS_WRAP}} .nxt-url-label{color:{{lblClr}}}"
 				}
 			],
 			"scopy": true
@@ -37,7 +36,7 @@
 			},
 			"style": [
 				{
-					"selector": " {{PLUS_WRAP}} .nxt-check-title-label, {{PLUS_WRAP}} .nxt-email-label, {{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-name-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label, {{PLUS_WRAP}} .nxt-radio-title-label"
+					"selector": "{{PLUS_WRAP}} .nxt-date-label, {{PLUS_WRAP}} .nxt-check-title-label, {{PLUS_WRAP}} .nxt-email-label, {{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-name-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label, {{PLUS_WRAP}} .nxt-phone-label, {{PLUS_WRAP}} .nxt-radio-title-label, {{PLUS_WRAP}} .nxt-time-label, {{PLUS_WRAP}} .nxt-url-label"
 				}
 			],
 			"scopy": true
@@ -50,7 +49,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label {margin-bottom:{{lblBtmMrg}}} {{PLUS_WRAP}} .nxt-radio-box, {{PLUS_WRAP}} .nxt-check-box,{{PLUS_WRAP}} .nxt-input-container {margin-top:{{lblBtmMrg}};}"
+					"selector": "{{PLUS_WRAP}} .nxt-time-label, {{PLUS_WRAP}} .nxt-accept-input, {{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label, {{PLUS_WRAP}} .nxt-url-label, {{PLUS_WRAP}} .nxt-date-label {margin-bottom:{{lblBtmMrg}}} {{PLUS_WRAP}} .nxt-radio-box, {{PLUS_WRAP}} .nxt-check-box,{{PLUS_WRAP}} .nxt-input-container, {{PLUS_WRAP}} .nxt-input-wrapper {margin-top:{{lblBtmMrg}};}"
 				}
 			]
 		},
@@ -59,7 +58,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input:hover .nxt-email-label, {{PLUS_WRAP}} .nxt-message-input:hover .nxt-message-label, {{PLUS_WRAP}} .nxt-name-input:hover .nxt-name-label, {{PLUS_WRAP}} .nxt-number-input:hover .nxt-number-label, {{PLUS_WRAP}} .tp-form-checkbox-button:hover .nxt-check-title-label, {{PLUS_WRAP}} .tp-form-radio-button:hover .nxt-radio-title-label, {{PLUS_WRAP}} .nxt-option-container:hover .nxt-option-label {color:{{hvrLblClr}};}"
+					"selector": "{{PLUS_WRAP}} .nxt-date-input:hover .nxt-date-label, {{PLUS_WRAP}} .tp-form-checkbox-button:hover .nxt-check-title-label, {{PLUS_WRAP}} .tp-form-radio-button:hover .nxt-radio-title-label, {{PLUS_WRAP}} .nxt-email-input:hover .nxt-email-label, {{PLUS_WRAP}} .nxt-message-input:hover .nxt-message-label, {{PLUS_WRAP}} .nxt-name-input:hover .nxt-name-label, {{PLUS_WRAP}} .nxt-number-input:hover .nxt-number-label, {{PLUS_WRAP}} .nxt-option-container:hover .nxt-option-label, {{PLUS_WRAP}} .nxt-phone-input:hover .nxt-phone-label, {{PLUS_WRAP}} .tp-form-radio-button:hover .nxt-check-title-label, {{PLUS_WRAP}} .nxt-time-input:hover .nxt-time-label, {{PLUS_WRAP}} .nxt-url-input:hover .nxt-url-label {color:{{hvrLblClr}};}"
 				}
 			]
 		},
@@ -68,7 +67,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-message-richtext:focus, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext:focus, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext:focus {color: {{inpClr}};}{{PLUS_WRAP}} input:-webkit-autofill, {{PLUS_WRAP}} textarea:-webkit-autofill, {{PLUS_WRAP}} select:-webkit-autofill, {{PLUS_WRAP}} input:-webkit-autofill:hover, {{PLUS_WRAP}} input:-webkit-autofill:focus, {{PLUS_WRAP}} textarea:-webkit-autofill:hover, {{PLUS_WRAP}} textarea:-webkit-autofill:focus, {{PLUS_WRAP}} select:-webkit-autofill:hover, {{PLUS_WRAP}} select:-webkit-autofill:focus {color: {{inpClr}}; -webkit-text-fill-color: {{inpClr}} !important;}"
+					"selector": "{{PLUS_WRAP}}  .nxt-email-input .nxt-input-container .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-message-richtext:focus, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext:focus, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-input .nxt-url-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext:focus, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext:focus, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext:focus, {{PLUS_WRAP}} .nxt-url-input .nxt-url-richtext:focus, {{PLUS_WRAP}} .nxt-input-wrapper  .nxt-phone-richtext, {{PLUS_WRAP}} .nxt-input-wrapper  .nxt-country-dropdown, {{PLUS_WRAP}} .nxt-input-wrapper  .nxt-phone-richtext:focus, {{PLUS_WRAP}} .nxt-input-wrapper  .nxt-country-dropdown:focus{color:{{inpClr}};} .tp-form-block{{PLUS_WRAP}} textarea:-webkit-autofill, .tp-form-block{{PLUS_WRAP}} input:-webkit-autofill, .tp-form-block{{PLUS_WRAP}} select:-webkit-autofill, .tp-form-block{{PLUS_WRAP}} textarea:-webkit-autofill:hover, .tp-form-block{{PLUS_WRAP}} textarea:-webkit-autofill:focus, .tp-form-block{{PLUS_WRAP}} input:-webkit-autofill:hover, .tp-form-block{{PLUS_WRAP}} input:-webkit-autofill:focus, .tp-form-block{{PLUS_WRAP}} select:-webkit-autofill:hover, .tp-form-block{{PLUS_WRAP}} select:-webkit-autofill:focus {-webkit-text-fill-color: {{inpClr}} !important;}"
 				}
 			],
 			"scopy": true
@@ -78,7 +77,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext::placeholder, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext::placeholder, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext::placeholder, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext::placeholder {color:{{plcClr}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext::placeholder, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext::placeholder, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext::placeholder, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext::placeholder, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext::placeholder, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext::placeholder, {{PLUS_WRAP}} .nxt-url-input .nxt-url-richtext::placeholder, {{PLUS_WRAP}} .nxt-input-wrapper  .nxt-phone-richtext::placeholder{color:{{plcClr}}}"
 				}
 			],
 			"scopy": true
@@ -88,7 +87,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container { background-color: {{inpBg}}; } {{PLUS_WRAP}} input:-webkit-autofill, {{PLUS_WRAP}} input:-internal-autofill-previewed { background-color: transparent !important; }"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}}  .nxt-number-input .nxt-input-container, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-input .nxt-input-container, {{PLUS_WRAP}} .nxt-input-wrapper {background-color: {{inpBg}};} {{PLUS_WRAP}} input:-webkit-autofill, {{PLUS_WRAP}} input:-internal-autofill-previewed {background-color: transparent !important}"
 				}
 			]
 		},
@@ -97,7 +96,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext:hover::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-message-richtext:hover::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-name-input .nxt-input-container .nxt-name-richtext:hover::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext:hover::placeholder{color:{{hvrPlc}};}"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input:hover .nxt-email-richtext::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-message-input:hover .nxt-message-richtext::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-name-input:hover .nxt-name-richtext::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-number-input:hover .nxt-number-richtext::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-time-input:hover .nxt-time-richtext::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-date-input:hover .nxt-date-richtext::placeholder{color:{{hvrPlc}};} {{PLUS_WRAP}} .nxt-url-input:hover .nxt-url-richtext::placeholder, {{PLUS_WRAP}} .nxt-input-wrapper:hover  .nxt-phone-richtext::placeholder{color:{{hvrPlc}};}"
 				}
 			]
 		},
@@ -106,7 +105,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container:hover, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:hover, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container:hover, {{PLUS_WRAP}}  .nxt-number-input .nxt-input-container:hover {background-color: {{hvrInpBg}};}  {{PLUS_WRAP}} .nxt-email-input:hover input:-webkit-autofill, {{PLUS_WRAP}} .nxt-name-input:hover input:-webkit-autofill,  {{PLUS_WRAP}} .nxt-number-input:hover input:-webkit-autofill, {{PLUS_WRAP}} .nxt-message-input:hover input:-webkit-autofill {background-color: transparent !important}"
+					"selector": "{{PLUS_WRAP}} .nxt-name-input .nxt-input-container:hover, {{PLUS_WRAP}} .nxt-email-input .nxt-input-container:hover, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:hover, {{PLUS_WRAP}}  .nxt-number-input .nxt-input-container:hover, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext:hover, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext:hover, {{PLUS_WRAP}} .nxt-url-input .nxt-input-container:hover, {{PLUS_WRAP}} .nxt-input-wrapper:hover {background-color: {{hvrInpBg}};}  {{PLUS_WRAP}} .nxt-email-input:hover input:-webkit-autofill, {{PLUS_WRAP}}.nxt-name-input .nxt-input-container:hover input:-webkit-autofill,  {{PLUS_WRAP}} .nxt-number-input .nxt-input-container:hover input:-webkit-autofill, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:hover input:-webkit-autofill {background-color: transparent !important}"
 				}
 			]
 		},
@@ -117,7 +116,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}}.nxt-style-1 .nxt-email-input .nxt-input-container, {{PLUS_WRAP}}.nxt-style-1 .nxt-message-richtext, {{PLUS_WRAP}}.nxt-style-1 .nxt-message-input .nxt-message-richtext:focus, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}}.nxt-style-1 .nxt-number-input .nxt-input-container "
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-time-field .nxt-time-input .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-field .nxt-date-input .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container, {{PLUS_WRAP}} .nxt-input-wrapper"
 				}
 			],
 			"scopy": true
@@ -144,7 +143,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-name-input:hover .nxt-input-container, {{PLUS_WRAP}} .tp-form-email-field .nxt-email-input:hover .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input:hover .nxt-message-richtext, {{PLUS_WRAP}} .nxt-number-field .nxt-number-input:hover .nxt-number-richtext {border-color:{{hvrInpBdrClr}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-name-input:hover .nxt-input-container, {{PLUS_WRAP}} .tp-form-email-field .nxt-email-input:hover .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input:hover .nxt-message-richtext, {{PLUS_WRAP}} .nxt-time-field .nxt-time-input:hover .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-field .nxt-date-input:hover .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-field .nxt-url-input:hover .nxt-input-container, {{PLUS_WRAP}} .nxt-number-field .nxt-number-input:hover .nxt-number-richtext, {{PLUS_WRAP}} .tp-form-phone-field .nxt-input-wrapper:hover  {border-color:{{hvrInpBdrClr}}}"
 				}
 			],
 			"scopy": true
@@ -162,7 +161,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container, {{PLUS_WRAP}} .nxt-input-wrapper  {padding:{{inpPad}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container, {{PLUS_WRAP}} .nxt-phone-input .nxt-input-wrapper {padding:{{inpPad}}}"
 				}
 			]
 		},
@@ -173,7 +172,46 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-message-richtext::placeholder, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container .nxt-name-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext, {{PLUS_WRAP}} .nxt-message-richtext, {{PLUS_WRAP}} .nxt-message-richtext::placeholder, {{PLUS_WRAP}} .nxt-name-input .nxt-name-richtext, {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-input .nxt-url-richtext, {{PLUS_WRAP}} .nxt-input-wrapper  .nxt-phone-richtext, {{PLUS_WRAP}} .nxt-input-wrapper  .nxt-country-dropdown"
+				}
+			],
+			"scopy": true
+		},
+		"chkRadSz": {
+			"type": "object",
+			"default": {
+				"md": "",
+				"unit": "px"
+			},
+			"style": [
+				{
+					"selector": " {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext, {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext, {{PLUS_WRAP}} .nxt-radio-richtext .nxt-check-richtext, {{PLUS_WRAP}} .nxt-accept-richtext {width: {{chkRadSz}}; height: {{chkRadSz}}; } {{PLUS_WRAP}} .nxt-check-richtext:checked::after, {{PLUS_WRAP}} .nxt-accept-richtext:checked::after {width: calc({{chkRadSz}} - 70%); height: calc({{chkRadSz}} - 45%);   border-width: 0 calc(0.10 * {{chkRadSz}}) calc(0.10 * {{chkRadSz}}) 0; } {{PLUS_WRAP}} .nxt-radio-richtext::after, {{PLUS_WRAP}} .nxt-radio-richtext:checked::after{width: calc({{chkRadSz}} - 30%); height: calc({{chkRadSz}} - 30%);}"
+				}
+			],
+			"scopy": true
+		},
+		"chkRadBg": {
+			"type": "object",
+			"default": {
+				"openBg": 0,
+				"bgType": "color",
+				"bgDefaultColor": ""
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext, {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext,{{PLUS_WRAP}} input[type='radio']:checked {{PLUS_WRAP}} .nxt-radio-richtext .nxt-check-richtext, {{PLUS_WRAP}} .nxt-accept-input .nxt-accept-richtext"
+				}
+			],
+			"scopy": true
+		},
+		"chkRadBdr": {
+			"type": "object",
+			"default": {
+				"openBorder": 0
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext, {{PLUS_WRAP}} .nxt-accept-richtext, {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext, {{PLUS_WRAP}} input[type='radio']:checked, {{PLUS_WRAP}} input[type='radio']:checked:hover, {{PLUS_WRAP}} input[type='radio']:checked:focus, {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:checked:focus, {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:hover, {{PLUS_WRAP}} .nxt-accept-richtext, {{PLUS_WRAP}} .nxt-accept-input .nxt-accept-richtext:hover"
 				}
 			],
 			"scopy": true
@@ -197,7 +235,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-submit-button .nxt-submit:hover"
+					"selector": "{{PLUS_WRAP}} .nxt-submit-button:hover .nxt-submit"
 				}
 			],
 			"scopy": true
@@ -261,7 +299,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-submit-button .nxt-submit"
+					"selector": "{{PLUS_WRAP}} .nxt-submit"
 				}
 			],
 			"scopy": true
@@ -271,7 +309,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-submit-button .nxt-submit:hover {border-color:{{hvrBtnBdrClr}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-submit-button:hover .nxt-submit {border-color:{{hvrBtnBdrClr}}}"
 				}
 			],
 			"scopy": true
@@ -289,105 +327,9 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-submit-button .nxt-submit {border-radius:{{btnBdrRds}}}"
+					"selector": "{{PLUS_WRAP}} .nxt-submit-button, {{PLUS_WRAP}} .nxt-submit-button .nxt-submit {border-radius:{{btnBdrRds}}}"
 				}
 			]
-		},
-		"layoutType": {
-			"type": "string",
-			"default": "nxt-style-1"
-		},
-		"action": {
-			"type": "string",
-			"default": ""
-		},
-		"actionOption": {
-			"type": "string",
-			"default": "[{\"value\": \"Email\", \"label\": \"Email\"}]",
-			"scopy": true
-		},
-		"emailTo1": {
-			"type": "string",
-			"default": ""
-		},
-		"subject1": {
-			"type": "string",
-			"default": "New Form Submission"
-		},
-		"autoRespMsg": {
-			"type": "string",
-			"default": "Thank you for your message. It has been sent."
-		},
-		"frmDta": {
-			"type": "boolean",
-			"default": ""
-		},
-		"selectedLayout": {
-			"type": "string",
-			"default": ""
-		},
-		"ccEmail1": {
-			"type": "string",
-			"default": ""
-		},
-		"bccEmail1": {
-			"type": "string",
-			"default": ""
-		},
-		"emailHdg": {
-			"type": "string",
-			"default": ""
-		},
-		"frmEmail": {
-			"type": "string",
-			"default": "[nxt_email]"
-		},
-		"frmNme": {
-			"type": "string",
-			"default": "[nxt_name]"
-		},
-		"replyTo": {
-			"type": "string",
-			"default": ""
-		},
-		"chkRadSz": {
-			"type": "object",
-			"default": {
-				"md": "",
-				"unit": "px"
-			},
-			"style": [
-				{
-					"selector": " {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext, {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext, {{PLUS_WRAP}} .nxt-radio-richtext .nxt-check-richtext {width: {{chkRadSz}}; height: {{chkRadSz}}; } {{PLUS_WRAP}} .nxt-check-richtext:checked::after {width: calc({{chkRadSz}} - 70%); height: calc({{chkRadSz}} - 45%);   border-width: 0 calc(0.10 * {{chkRadSz}}) calc(0.10 * {{chkRadSz}}) 0; } {{PLUS_WRAP}} .nxt-radio-richtext::after, {{PLUS_WRAP}} .nxt-radio-richtext:checked::after {width: calc({{chkRadSz}} - 30%); height: calc({{chkRadSz}} - 30%);}"
-				}
-			],
-			"scopy": true
-		},
-		"chkRadBg": {
-			"type": "object",
-			"default": {
-				"openBg": 0,
-				"bgType": "color",
-				"bgDefaultColor": ""
-			},
-			"style": [
-				{
-					"selector": "{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext, {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext,{{PLUS_WRAP}} input[type='radio']:checked {{PLUS_WRAP}} .nxt-radio-richtext .nxt-check-richtext"
-				}
-			],
-			"scopy": true
-		},
-		"chkRadBdr": {
-			"type": "object",
-			"default": {
-				"openBorder": 0
-			},
-			"style": [
-				{
-					"selector": "{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext, {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext, {{PLUS_WRAP}} input[type='radio']:checked, {{PLUS_WRAP}} input[type='radio']:checked:hover, {{PLUS_WRAP}} input[type='radio']:checked:focus, {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:checked:focus, {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:hover"
-				}
-			],
-			"scopy": true
 		},
 		"selClr": {
 			"type": "string",
@@ -502,6 +444,23 @@
 			],
 			"scopy": true
 		},
+		"layoutType": {
+			"type": "string",
+			"default": "nxt-style-1"
+		},
+		"actionOption": {
+			"type": "string",
+			"default": "[{\"value\": \"Email\", \"label\": \"Email\"}]",
+			"scopy": true
+		},
+		"emailTo1": {
+			"type": "string",
+			"default": ""
+		},
+		"subject1": {
+			"type": "string",
+			"default": "New Form Submission"
+		},
 		"redirect": {
 			"type": "object",
 			"default": {
@@ -510,22 +469,161 @@
 				"nofollow": ""
 			}
 		},
+		"emailTo2": {
+			"type": "string",
+			"default": ""
+		},
+		"subject2": {
+			"type": "string",
+			"default": ""
+		},
+		"cApiKey": {
+			"type": "string",
+			"default": ""
+		},
+		"cApiUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"mApiKey": {
+			"type": "string",
+			"default": ""
+		},
+		"webhookurl": {
+			"type": "string",
+			"default": ""
+		},
+		"slackChnl": {
+			"type": "string",
+			"default": ""
+		},
+		"slackTkn": {
+			"type": "string",
+			"default": ""
+		},
+		"disName": {
+			"type": "string",
+			"default": ""
+		},
+		"disUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"mGrpId": {
+			"type": "string",
+			"default": ""
+		},
+		"autoRespMsg": {
+			"type": "string",
+			"default": "Thank you for your message. It has been sent."
+		},
+		"dApikey": {
+			"type": "string",
+			"default": ""
+		},
+		"dAccId": {
+			"type": "string",
+			"default": ""
+		},
+		"selectedLayout": {
+			"type": "string",
+			"default": ""
+		},
+		"convertkitformoption": {
+			"type": "string",
+			"default": ""
+		},
+		"ktApiKey": {
+			"type": "string",
+			"default": ""
+		},
+		"availableForms": {
+			"type": "string",
+			"default": ""
+		},
+		"getResApiKey": {
+			"type": "string",
+			"default": ""
+		},
+		"getRetkn": {
+			"type": "string",
+			"default": ""
+		},
+		"mailchmpApiki": {
+			"type": "string",
+			"default": ""
+		},
+		"mailchmpAud": {
+			"type": "string",
+			"default": ""
+		},
+		"brevoApiKey": {
+			"type": "string",
+			"default": ""
+		},
+		"ccEmail1": {
+			"type": "string",
+			"default": ""
+		},
+		"bccEmail1": {
+			"type": "string",
+			"default": ""
+		},
+		"emailHdg": {
+			"type": "string",
+			"default": ""
+		},
+		"frmEmail": {
+			"type": "string",
+			"default": "[nxt_email]"
+		},
+		"frmNme": {
+			"type": "string",
+			"default": "[nxt_name]"
+		},
+		"replyTo": {
+			"type": "string",
+			"default": ""
+		},
 		"metaDataOpt": {
 			"type": "array",
 			"default": "[]",
 			"scopy": true
 		},
+		"cloudSecretKey": {
+			"type": "string",
+			"default": ""
+		},
+		"ccEmail2": {
+			"type": "string",
+			"default": ""
+		},
+		"bccEmail2": {
+			"type": "string",
+			"default": ""
+		},
+		"emailHdg2": {
+			"type": "string",
+			"default": ""
+		},
+		"frmEmai2": {
+			"type": "string",
+			"default": "[nxt_email]"
+		},
+		"frmNme2": {
+			"type": "string",
+			"default": "[nxt_name]"
+		},
+		"replyTo2": {
+			"type": "string",
+			"default": ""
+		},
+		"metaDataOpt2": {
+			"type": "array",
+			"default": "[]",
+			"scopy": true
+		},
 		"formId": {
-			"type": "string",
-			"default": "",
-			"scopy": true
-		},
-		"failMsg": {
-			"type": "string",
-			"default": "",
-			"scopy": true
-		},
-		"valErrMsg": {
 			"type": "string",
 			"default": "",
 			"scopy": true
@@ -561,6 +659,16 @@
 			],
 			"scopy": true
 		},
+		"valErrMsg": {
+			"type": "string",
+			"default": "",
+			"scopy": true
+		},
+		"failMsg": {
+			"type": "string",
+			"default": "",
+			"scopy": true
+		},
 		"chkdChkRadBg": {
 			"type": "object",
 			"default": {
@@ -570,7 +678,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-radio-box input[type=radio]:checked, {{PLUS_WRAP}} input[type='radio']:checked:focus, {{PLUS_WRAP}} input[type='radio']:checked:active, {{PLUS_WRAP}} .nxt-radio-richtext .nxt-check-richtext, {{PLUS_WRAP}} .nxt-check-box>div .nxt-check-richtext:focus, {{PLUS_WRAP}} .nxt-check-box>div .nxt-check-richtext:checked, {{PLUS_WRAP}} .nxt-check-richtext:active, {{PLUS_WRAP}} .nxt-radio-richtext:focus, {{PLUS_WRAP}} .nxt-radio-richtext:active, {{PLUS_WRAP}}  .tp-form-checkbox-button .nxt-check-box>div .nxt-check-richtext:checked"
+					"selector": "{{PLUS_WRAP}} .nxt-radio-box input[type=radio]:checked, {{PLUS_WRAP}} input[type='radio']:checked:focus, {{PLUS_WRAP}} input[type='radio']:checked:active, {{PLUS_WRAP}} .nxt-check-box>div .nxt-check-richtext:checked:focus, {{PLUS_WRAP}} .nxt-check-box>div .nxt-check-richtext:checked, {{PLUS_WRAP}} .nxt-check-richtext:checked:active, {{PLUS_WRAP}} .nxt-radio-richtext:checked:focus, {{PLUS_WRAP}} .nxt-radio-richtext:checked:active, {{PLUS_WRAP}}  .tp-form-checkbox-button .nxt-check-box>div .nxt-check-richtext:checked, {{PLUS_WRAP}} .nxt-accept-richtext:checked, {{PLUS_WRAP}} .nxt-accept-input .nxt-accept-richtext:checked:focus,  {{PLUS_WRAP}} .nxt-accept-input .nxt-accept-richtext:hover:checked"
 				}
 			],
 			"scopy": true
@@ -582,7 +690,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} input[type='radio']:checked, {{PLUS_WRAP}} input[type='radio']:checked:focus, {{PLUS_WRAP}} input[type='radio']:checked:active, {{PLUS_WRAP}} .nxt-radio-richtext .nxt-check-richtext, {{PLUS_WRAP}} .nxt-check-box>div .nxt-check-richtext:focus, {{PLUS_WRAP}} .nxt-check-richtext:active, {{PLUS_WRAP}} .nxt-radio-richtext:focus, {{PLUS_WRAP}} .nxt-radio-richtext:active, {{PLUS_WRAP}}  .tp-form-checkbox-button .nxt-check-box>div .nxt-check-richtext:checked"
+					"selector": "{{PLUS_WRAP}} input[type='radio']:checked, {{PLUS_WRAP}} input[type='radio']:checked:focus, {{PLUS_WRAP}} input[type='radio']:checked:active, {{PLUS_WRAP}} .nxt-check-box>div .nxt-check-richtext:checked:focus, {{PLUS_WRAP}} .nxt-check-richtext:checked:active, {{PLUS_WRAP}} .nxt-radio-richtext:checked:focus, {{PLUS_WRAP}} .nxt-radio-richtext:checked:active, {{PLUS_WRAP}}  .tp-form-checkbox-button .nxt-check-box>div .nxt-check-richtext:checked, {{PLUS_WRAP}} .nxt-accept-richtext:checked, {{PLUS_WRAP}} .nxt-accept-input .nxt-accept-richtext:checked:focus"
 				}
 			],
 			"scopy": true
@@ -593,9 +701,19 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext::after {background-color: {{chkdChkRadClr}};} {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext::after {border-color: {{chkdChkRadClr}};} {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext:hover::after,{{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext:focus::after,{{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext:active::after {background-color: {{chkdChkRadClr}};}{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:hover::after,{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:focus::after,{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:active::after {border-color: {{chkdChkRadClr}};}"
+					"selector": "{{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext::after {background-color: {{chkdChkRadClr}};} {{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext::after {border-color: {{chkdChkRadClr}};} {{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext:hover::after,{{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext:focus::after,{{PLUS_WRAP}} .nxt-radio-box .nxt-radio-richtext:active::after {background-color: {{chkdChkRadClr}};}{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:hover::after,{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:focus::after,{{PLUS_WRAP}} .nxt-check-box > div .nxt-check-richtext:active::after, {{PLUS_WRAP}} .nxt-accept-richtext::after, {{PLUS_WRAP}} .nxt-accept-richtext:hover::after, {{PLUS_WRAP}} .nxt-accept-input .nxt-accept-richtext:focus::after, {{PLUS_WRAP}} .nxt-accept-input .nxt-accept-richtext:active::after {border-color: {{chkdChkRadClr}};}"
 				}
 			],
+			"scopy": true
+		},
+		"valErrMsg2": {
+			"type": "string",
+			"default": "",
+			"scopy": true
+		},
+		"failMsg2": {
+			"type": "string",
+			"default": "",
 			"scopy": true
 		},
 		"sucTypo": {
@@ -610,16 +728,6 @@
 			],
 			"scopy": true
 		},
-		"sucClr": {
-			"type": "string",
-			"default": "",
-			"style": [
-				{
-					"selector": "{{PLUS_WRAP}} .nxt-success-message , {{PLUS_WRAP}} .nxt-error-message {color:{{sucClr}}}"
-				}
-			],
-			"scopy": true
-		},
 		"ldrClr": {
 			"type": "string",
 			"default": "",
@@ -630,12 +738,22 @@
 			],
 			"scopy": true
 		},
+		"sucClr": {
+			"type": "string",
+			"default": "",
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-success-message , {{PLUS_WRAP}} .nxt-error-message {color:{{sucClr}}}"
+				}
+			],
+			"scopy": true
+		},
 		"actPlc": {
 			"type": "string",
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext:focus::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-message-richtext:focus::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-name-input .nxt-input-container .nxt-name-richtext:focus::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-number-input .nxt-number-richtext:focus::placeholder{color:{{actPlc}};}"
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-email-richtext:focus::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:focus::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-name-richtext:focus::placeholder {color:{{actPlc}};} {{PLUS_WRAP}} .nxt-number-input:focus-within .nxt-number-richtext::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-time-input:focus-within .nxt-time-richtext::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-date-input:focus-within .nxt-date-richtext::placeholder{color:{{actPlc}};} {{PLUS_WRAP}} .nxt-url-input:focus-within .nxt-url-richtext::placeholder, {{PLUS_WRAP}} .nxt-input-wrapper:focus-within .nxt-phone-richtext::placeholder{color:{{actPlc}};}"
 				}
 			]
 		},
@@ -643,7 +761,7 @@
 			"type": "string",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:focus-within, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container:focus-within {     background-color: {{actInpBg}};} {{PLUS_WRAP}} .nxt-input-container:focus-within input:-webkit-autofill,  {{PLUS_WRAP}} .nxt-input-container:focus-within input:-internal-autofill-selected {background-color: transparent !important}"
+					"selector": "{{PLUS_WRAP}} .nxt-name-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-email-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:focus-within, {{PLUS_WRAP}}  .nxt-number-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext:focus-within, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext:focus-within, {{PLUS_WRAP}} .nxt-url-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-input-wrapper:focus-within {background-color: {{actInpBg}};}  {{PLUS_WRAP}} .nxt-input-container:focus-within input:-webkit-autofill,  {{PLUS_WRAP}} .nxt-input-container:focus-within input:-internal-autofill-selected {background-color: transparent !important}"
 				}
 			]
 		},
@@ -652,7 +770,7 @@
 			"default": "",
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:focus-within, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container:focus-within {     border-color: {{actInpBdrClr}} !important;}"
+					"selector": " {{PLUS_WRAP}} .nxt-time-field .nxt-time-input .nxt-time-richtext:focus, {{PLUS_WRAP}} .nxt-date-field .nxt-date-input .nxt-date-richtext:focus, {{PLUS_WRAP}} .nxt-email-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:focus-within, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container:focus-within {border-color: {{actInpBdrClr}} !important;}"
 				}
 			],
 			"scopy": true
@@ -689,6 +807,20 @@
 			],
 			"scopy": true
 		},
+		"lblBg": {
+			"type": "object",
+			"default": {
+				"openBg": 0,
+				"bgType": "color",
+				"bgDefaultColor": ""
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-date-label, {{PLUS_WRAP}} .nxt-check-title-label, {{PLUS_WRAP}} .nxt-email-label, {{PLUS_WRAP}} .nxt-message-label, {{PLUS_WRAP}} .nxt-name-label, {{PLUS_WRAP}} .nxt-number-label, {{PLUS_WRAP}} .nxt-option-label, {{PLUS_WRAP}} .nxt-phone-label, {{PLUS_WRAP}} .nxt-radio-title-label, {{PLUS_WRAP}} .nxt-time-label, {{PLUS_WRAP}} .nxt-url-label"
+				}
+			],
+			"scopy": true
+		},
 		"rowGap": {
 			"type": "object",
 			"default": {
@@ -697,11 +829,11 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .form-nxt-style-1, {{PLUS_WRAP}} .nxt-simple-contact-form {row-gap:{{rowGap}};}",
+					"selector": "{{PLUS_WRAP}} .nxt-simple-contact-form.block-editor-block-list__layout, {{PLUS_WRAP}} .nxt-style-1.block-editor-block-list__layout, {{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-1, {{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-3, {{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-4 {row-gap:{{rowGap}};}",
 					"backend": true
 				},
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-form {row-gap:{{rowGap}};}",
+					"selector": "{{PLUS_WRAP}}.tp-form-block.nxt-style-2 .nxt-form, {{PLUS_WRAP}}.tp-form-block.nxt-style-3 .nxt-form, {{PLUS_WRAP}}.tp-form-block.nxt-style-4 .nxt-form, {{PLUS_WRAP}}.nxt-newsstyle-1 .nxt-form, {{PLUS_WRAP}}.nxt-newsstyle-3 .nxt-form,{{PLUS_WRAP}}.nxt-newsstyle-4 .nxt-form, {{PLUS_WRAP}}.nxt-style-1 .nxt-form {row-gap:{{rowGap}};}",
 					"backend": false
 				}
 			],
@@ -715,11 +847,11 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .form-nxt-style-1, {{PLUS_WRAP}} .nxt-simple-contact-form{column-gap:{{columnGap}};}",
+					"selector": "{{PLUS_WRAP}} .nxt-simple-contact-form.block-editor-block-list__layout, {{PLUS_WRAP}} .nxt-style-1.block-editor-block-list__layout, {{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-1, {{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-3, {{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-4 {column-gap:{{columnGap}};}",
 					"backend": true
 				},
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-form{column-gap:{{columnGap}};}",
+					"selector": "{{PLUS_WRAP}}.tp-form-block.nxt-style-2 .nxt-form, {{PLUS_WRAP}}.tp-form-block.nxt-style-3 .nxt-form, {{PLUS_WRAP}}.tp-form-block.nxt-style-4 .nxt-form, {{PLUS_WRAP}}.nxt-newsstyle-1 .nxt-form, {{PLUS_WRAP}}.nxt-newsstyle-3 .nxt-form,{{PLUS_WRAP}}.nxt-newsstyle-4 .nxt-form, {{PLUS_WRAP}}.nxt-style-1 .nxt-form {column-gap:{{columnGap}};}",
 					"backend": false
 				}
 			],
@@ -734,7 +866,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-simple-contact-form.block-editor-block-list__layout,{{PLUS_WRAP}} .form-nxt-style-1{ justify-content: {{formAlign}}; } {{PLUS_WRAP}} .nxt-success-message { text-align: {{formAlign}}; }",
+					"selector": "{{PLUS_WRAP}} .nxt-news-letter-form .nxt-style-1,{{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-1,{{PLUS_WRAP}} .nxt-news-letter-form .nxt-newsstyle-3 ,{{PLUS_WRAP}} .nxt-simple-contact-form.block-editor-block-list__layout { justify-content: {{formAlign}}; } {{PLUS_WRAP}} .nxt-success-message { text-align: {{formAlign}}; }",
 					"backend": true
 				},
 				{
@@ -749,7 +881,7 @@
 			"default": true,
 			"style": [
 				{
-					"selector": "{{PLUS_WRAP}} .nxt-check-title-label.required::after,{{PLUS_WRAP}} .nxt-email-label.required::after,{{PLUS_WRAP}} .nxt-message-label.required::after,{{PLUS_WRAP}} .nxt-name-label.required::after,{{PLUS_WRAP}} .nxt-number-label.required::after,{{PLUS_WRAP}} .nxt-option-label.required::after,{{PLUS_WRAP}} .nxt-radio-title-label.required::after { content: '*'; }"
+					"selector": "{{PLUS_WRAP}} .nxt-check-title-label.required::after, {{PLUS_WRAP}} .nxt-date-label.required::after,{{PLUS_WRAP}} .nxt-email-label.required::after,{{PLUS_WRAP}} .nxt-message-label.required::after,{{PLUS_WRAP}} .nxt-name-label.required::after,{{PLUS_WRAP}} .nxt-number-label.required::after,{{PLUS_WRAP}} .nxt-option-label.required::after,{{PLUS_WRAP}} .nxt-phone-label.required::after,{{PLUS_WRAP}} .nxt-radio-title-label.required::after,{{PLUS_WRAP}} .nxt-time-label.required::after,{{PLUS_WRAP}} .nxt-url-label.required::after { content: '*'; }"
 				}
 			],
 			"scopy": true
@@ -757,6 +889,72 @@
 		"showBlockContent": {
 			"type": "boolean",
 			"default": true
+		},
+		"inpBoxShadow": {
+			"type": "object",
+			"default": {
+				"openShadow": 0,
+				"inset": 0,
+				"horizontal": 0,
+				"vertical": 4,
+				"blur": 8,
+				"spread": 0,
+				"color": "rgba(0,0,0,0.40)"
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-email-input .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext, {{PLUS_WRAP}} .nxt-name-input .nxt-input-container, {{PLUS_WRAP}} .nxt-time-field .nxt-time-input .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-field .nxt-date-input .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-input .nxt-input-container, {{PLUS_WRAP}} .nxt-number-input .nxt-input-container, {{PLUS_WRAP}} .nxt-input-wrapper"
+				}
+			],
+			"scopy": true
+		},
+		"hvrInpBoxShadow": {
+			"type": "object",
+			"default": {
+				"openShadow": 0,
+				"inset": 0,
+				"horizontal": 0,
+				"vertical": 4,
+				"blur": 8,
+				"spread": 0,
+				"color": "rgba(0,0,0,0.40)"
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-name-input:hover .nxt-input-container, {{PLUS_WRAP}} .tp-form-email-field .nxt-email-input:hover .nxt-input-container, {{PLUS_WRAP}} .nxt-message-input:hover .nxt-message-richtext, {{PLUS_WRAP}} .nxt-time-field .nxt-time-input:hover .nxt-time-richtext, {{PLUS_WRAP}} .nxt-date-field .nxt-date-input:hover .nxt-date-richtext, {{PLUS_WRAP}} .nxt-url-field .nxt-url-input:hover .nxt-input-container, {{PLUS_WRAP}} .nxt-number-field .nxt-number-input:hover .nxt-number-richtext, {{PLUS_WRAP}} .tp-form-phone-field .nxt-input-wrapper:hover"
+				}
+			],
+			"scopy": true
+		},
+		"actInpBoxShadow": {
+			"type": "object",
+			"default": {
+				"openShadow": 0,
+				"inset": 0,
+				"horizontal": 0,
+				"vertical": 4,
+				"blur": 8,
+				"spread": 0,
+				"color": "rgba(0,0,0,0.40)"
+			},
+			"style": [
+				{
+					"selector": "{{PLUS_WRAP}} .nxt-name-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-email-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-message-input .nxt-message-richtext:focus-within, {{PLUS_WRAP}}  .nxt-number-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-time-input .nxt-time-richtext:focus-within, {{PLUS_WRAP}} .nxt-date-input .nxt-date-richtext:focus-within, {{PLUS_WRAP}} .nxt-url-input .nxt-input-container:focus-within, {{PLUS_WRAP}} .nxt-input-wrapper:focus-within"
+				}
+			],
+			"scopy": true
+		},
+		"useGlobalButtonSettings": {
+			"type": "boolean",
+			"default": false
+		},
+		"selectedButtonPreset": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonPresetBackup": {
+			"type": "object",
+			"default": {}
 		}
 	}
 }

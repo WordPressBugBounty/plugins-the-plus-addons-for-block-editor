@@ -189,6 +189,7 @@ if ( ! class_exists( 'Tpgb_Gutenberg_Loader' ) ) {
 
 			require_once TPGB_PATH . 'classes/tp-get-blocks.php';
 			require_once TPGB_PATH . 'classes/tp-core-init-blocks.php';
+			require_once TPGB_PATH . 'classes/extras/class-tpgb-widget-blocks.php';
 
 			if ( defined( 'AGNI_PLUGIN_URL' ) || class_exists( 'AgniBuilder' ) ) {
 				require_once TPGB_PATH . 'classes/extras/compatibility/class-tpag-cartify.php';

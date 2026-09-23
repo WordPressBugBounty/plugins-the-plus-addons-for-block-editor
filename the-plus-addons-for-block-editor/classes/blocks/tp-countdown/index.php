@@ -63,7 +63,10 @@ function tpgb_tp_countdown_callback( $attributes, $content ) { // phpcs:ignore G
 	$seconds_text = ( ! empty( $attributes['secondsText'] ) ) ? $attributes['secondsText'] : esc_html__( 'Seconds', 'the-plus-addons-for-block-editor' );
 
 	if ( 'normal' === $countdown_selection && ( ! empty( $show_labels ) && true === $show_labels ) ) {
-		$data_attr .= ' data-day="' . wp_kses_post( $days_text ) . '" data-hour="' . wp_kses_post( $hours_text ) . '" data-min="' . wp_kses_post( $minutes_text ) . '" data-sec="' . wp_kses_post( $seconds_text ) . '"';
+		// Attribute context: esc_attr(), not wp_kses_post() -- these land inside quoted data-* attributes,
+		// not between tags. wp_kses_post() strips HTML tags but does not encode `"`, which allowed an
+		// attribute-breakout.
+		$data_attr .= ' data-day="' . esc_attr( $days_text ) . '" data-hour="' . esc_attr( $hours_text ) . '" data-min="' . esc_attr( $minutes_text ) . '" data-sec="' . esc_attr( $seconds_text ) . '"';
 	}
 
 	if ( 'style-2' === $style ) {

@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.1
-Stable tag: 5.0.6
+Stable tag: 5.0.7
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -321,6 +321,14 @@ Nexter Blocks may connect to external services only when the related feature is 
 
 
 == Changelog ==
+
+= 5.0.7 = 22 Sep 2026
+- Added : Block Widget Areas : Nexter blocks can now be used in block widget areas (Appearance → Widgets). Blocks placed there have no parent post, so a dedicated handler generates and caches their CSS.
+- Added : Dynamic CSS API : New generate_dynamic_css_blocks() method builds block CSS from parsed block markup instead of requiring a post ID.
+- Improved : Widgets Screen : The widgets screen now loads the wp-edit-widgets editor dependencies, which were previously skipped on that screen entirely.
+- Improved : CSS Caching : Widget-area block assets are merged into the element list before cache files are checked, so widget CSS is no longer missed on first render.
+- Fixed : RTL Slider Arrows : Outer slider arrows collapsed to one side in RTL layouts. Previous and next arrows now keep their intended outside positions.
+- Fixed : Search Bar : Relevance ordering (title matches ranked first) was silently discarded when Generic Filter or ACF-field search was enabled, falling back to default date ordering instead.
 
 = 5.0.6 = 08 Sep 2026
 - Added : Form Builder : Conditional Logic — any field can watch another field and show or hide itself based on the answer, with six operators (is, is not, contains, doesn't contain, is empty, is not empty) across 12 field types, set from the block sidebar with no code.

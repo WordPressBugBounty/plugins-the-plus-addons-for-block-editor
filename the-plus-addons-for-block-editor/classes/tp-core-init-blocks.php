@@ -255,8 +255,12 @@ class Tpgb_Core_Init_Blocks {
 		global $pagenow;
 		if ( ! defined( 'TPGBP_VERSION' ) ) {
 			$scripts_dep = array( 'react', 'react-dom', 'wp-block-editor', 'wp-escape-html', 'wp-element', 'wp-wordcount', 'wp-blocks', 'wp-i18n', 'wp-plugins', 'wp-components', 'wp-api-fetch' );
-			if ( 'widgets.php' !== $pagenow && 'customize.php' !== $pagenow ) {
-				$scripts_dep = array_merge( $scripts_dep, array( 'wp-editor', 'wp-edit-post' ) );
+			if ( 'customize.php' !== $pagenow ) {
+				if ( 'widgets.php' === $pagenow ) {
+					$scripts_dep = array_merge( $scripts_dep, array( 'wp-edit-widgets' ) );
+				} else {
+					$scripts_dep = array_merge( $scripts_dep, array( 'wp-editor', 'wp-edit-post' ) );
+				}
 
 				// Core — global init, shared settings. Must load first.
 				wp_enqueue_script( 'tpgb-block-editor-js', TPGB_ASSETS_URL . 'assets/js/admin/blocks.js', $scripts_dep, TPGB_VERSION, false );
@@ -394,7 +398,7 @@ class Tpgb_Core_Init_Blocks {
 			'nexter_block_pro'       => defined( 'TPGBP_VERSION' ),
 			'adminEmail'             => current_user_can( 'manage_options' ) ? get_option( 'admin_email' ) : '',
 			'preset_import'          => $preset_import,
-			'qab'                    => apply_filters( 'nxt_qab_enable', true ),
+			'qab'                    => ( 'widgets.php' !== $pagenow ) ? apply_filters( 'nxt_qab_enable', true ) : false,
 			'site_name'              => get_bloginfo( 'name' ),
 			'isNxtAiText'            => ( ! empty( $nxt_ai_settings['geminiEnableText'] ) && ! empty( $nxt_ai_settings['geminiApiKey'] ) ) || ( ! empty( $nxt_ai_settings['chatgptEnableText'] ) && ! empty( $nxt_ai_settings['chatgptApiKey'] ) ) ? '1' : '0',
 			'isNxtAiImage'           => ( ! empty( $nxt_ai_settings['geminiEnableImage'] ) && ! empty( $nxt_ai_settings['geminiApiKey'] ) ) || ( ! empty( $nxt_ai_settings['chatgptEnableImage'] ) && ! empty( $nxt_ai_settings['chatgptApiKey'] ) ) ? '1' : '0',
@@ -1222,6 +1226,11 @@ class Tpgb_Core_Init_Blocks {
 			}
 		} elseif ( ! file_exists( $css_path ) ) {
 			$this->make_block_css_by_post_id( $post_id );
+		}
+
+		// Nexter blocks placed in a block widget area, they have no post id.
+		if ( class_exists( 'Tpgb_Widget_Blocks' ) ) {
+			Tpgb_Widget_Blocks::instance()->enqueue_widget_css();
 		}
 
 		// block templates get_block_templates.

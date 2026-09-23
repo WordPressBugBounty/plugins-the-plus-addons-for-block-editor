@@ -94,7 +94,7 @@ function tpgb_tp_flipbox_render_callback( $attributes, $content ) {
 	}
 
 	$output  = '';
-	$output .= '<div class="tpgb-flipbox tpgb-relative-block ' . esc_attr( $sliderclass ) . ' list-' . esc_attr( $layout_type ) . ' flip-box-style-1 tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . '" data-splide=\'' . wp_json_encode( $carousel_settings ) . '\'>';
+	$output .= '<div class="tpgb-flipbox tpgb-relative-block ' . esc_attr( $sliderclass ) . ' list-' . esc_attr( $layout_type ) . ' flip-box-style-1 tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . '" data-splide=\'' . htmlspecialchars( wp_json_encode( $carousel_settings ), ENT_QUOTES, 'UTF-8' ) . '\'>';
 	if ( 'listing' === $layout_type ) {
 		$output                     .= '<div class="flip-box-inner content_hover_effect ">';
 			$output                 .= '<div class="flip-box-bg-box">';

@@ -120,7 +120,7 @@ function tpgb_rtl_flip_css( $css ) {
 	);
 
 	// 7) Flip X of translate / translateX / translate3d (mirrors rtlcss). Keeps a centered
-	//    absolute element (left:50% + translateX(-50%)) correct after the left<->right swap.
+	// absolute element (left:50% + translateX(-50%)) correct after the left<->right swap.
 	$css = preg_replace_callback(
 		'/\btranslate(x|3d)?\s*\(\s*(-?[0-9.]+[a-z%]*)/i',
 		static function ( $m ) {
@@ -242,12 +242,19 @@ function tpgb_rtl_fancybox_fix() {
 	if ( ! is_rtl() ) {
 		return;
 	}
-	echo '<style id="tpgb-rtl-fancybox-fix">'
-		// Force the lightbox to a clean LTR nav. !important beats Fancybox\'s own .is-rtl rules
+	echo '<style id="tpgb-rtl-thirdparty-fix">'
+		// Fancybox: force a clean LTR nav. !important beats Fancybox\'s own .is-rtl rules
 		// (which our rtlcss twin also flipped, causing the buttons to overlap on one side).
 		. '.fancybox__container{direction:ltr}'
 		. '.fancybox__nav .f-button.is-prev{left:var(--f-button-prev-pos)!important;right:auto!important}'
 		. '.fancybox__nav .f-button.is-next{right:var(--f-button-next-pos)!important;left:auto!important}'
+		// Splide OUTER arrows: Nexter positions them at a fixed outside offset for BOTH directions
+		// (source targets .splide--ltr and .splide--rtl identically). gen-rtl wrongly flips that
+		// offset in theplus.min-rtl.css, so each arrow gets both a left and a right value and they
+		// collapse to one side. Re-assert Nexter\'s intended outer positions (prev outside-left,
+		// next outside-right) and null the opposite side so the flipped value cannot leak in.
+		. '.outer-slider-arrow .splide__arrow--prev,.outer-slider-arrow.splide--rtl .splide__arrow--prev{left:-65px!important;right:auto!important}'
+		. '.outer-slider-arrow .splide__arrow--next,.outer-slider-arrow.splide--rtl .splide__arrow--next{right:-65px!important;left:auto!important}'
 		. '</style>';
 }
 add_action( 'wp_head', 'tpgb_rtl_fancybox_fix', 100 );

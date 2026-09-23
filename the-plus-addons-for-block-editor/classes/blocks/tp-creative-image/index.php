@@ -84,7 +84,7 @@ function tpgb_tp_creative_image_callback( $settings, $content ) { // phpcs:ignor
 		$fancybox['button'] = $button;
 		// $fancybox['animationEffect'] = $settings['AnimationFancy']; // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 		// $fancybox['animationDuration'] = $settings['DurationFancy'];
-		$data_settings .= ' data-fancy-option=\'' . wp_json_encode( $fancybox ) . '\'';
+		$data_settings .= ' data-fancy-option=\'' . htmlspecialchars( wp_json_encode( $fancybox ), ENT_QUOTES, 'UTF-8' ) . '\'';
 		$data_settings .= ' data-id="' . esc_attr( $block_id ) . '"';
 	}
 

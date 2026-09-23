@@ -404,7 +404,7 @@ function tpgb_mega_menu( $attributes, $att = '' ) {
 					if ( ! empty( $m_link_filter['filter'] ) && isset( $m_link_filter['filter']['opensInNewTab'] ) && ! empty( $m_link_filter['filter']['opensInNewTab'] ) ) {
 						$mitem_attr .= ' target="_blank"';
 					}
-					$start_li .= '<a href="' . esc_attr( $mitem_url ) . '" title="' . esc_attr( $mmenu_name ) . '" data-text="' . esc_attr( $mmenu_name ) . '" aria-label="' . esc_attr( $mmenu_name ) . '"  ' . $mitem_attr . '>' . $preicon . '' . $mmenu_name . '' . $txt_label . '</a>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $mmenu_name is sanitized via filter label, $preicon and $txt_label are escaped above.
+					$start_li .= '<a href="' . esc_url( $mitem_url ) . '" title="' . esc_attr( $mmenu_name ) . '" data-text="' . esc_attr( $mmenu_name ) . '" aria-label="' . esc_attr( $mmenu_name ) . '"  ' . $mitem_attr . '>' . $preicon . '' . $mmenu_name . '' . $txt_label . '</a>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $mmenu_name is sanitized via filter label, $preicon and $txt_label are escaped above.
 				}
 			}
 

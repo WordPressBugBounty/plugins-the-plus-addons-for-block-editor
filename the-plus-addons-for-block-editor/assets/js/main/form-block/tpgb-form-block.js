@@ -750,6 +750,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 input.setAttribute("data-required", "false");
                 if (input.type === "checkbox" || input.type === "radio") {
                     input.checked = false;
+                } else if (input.tagName === "SELECT") {
+                    input.selectedIndex = 0;
                 } else {
                     input.value = "";
                 }

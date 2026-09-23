@@ -109,14 +109,33 @@ class Tpgb_Generate_Blocks_Css {
 	 * @since 1.1.3
 	 */
 	public function generate_dynamic_css( $post_id = '', $dynamic = false ) {
+		$post_id   = ( ! empty( $post_id ) ) ? $post_id : $this->is_post_id();
+		$post_data = get_post( $post_id );
+		$content   = ( isset( $post_data->post_content ) ) ? $post_data->post_content : '';
+
+		return $this->generate_dynamic_css_blocks( parse_blocks( $content ), $dynamic );
+	}
+
+	/**
+	 * Generate Dynamic Css from already parsed blocks
+	 *
+	 * Same as generate_dynamic_css(), but sourced from raw block markup instead
+	 * of a post, so content that does not live in a post (block widgets) can be
+	 * styled too.
+	 *
+	 * @param array $parse_blocks Parsed blocks.
+	 * @param bool  $dynamic Whether dynamic.
+	 * @return string
+	 * @since 5.0.7
+	 */
+	public function generate_dynamic_css_blocks( $parse_blocks = array(), $dynamic = false ) {
 		self::$all_dynamicattr                 = $dynamic;
 		self::$all_attributes                  = array();
 		self::$tpgb_button_presets_for_request = null;
 
-		$post_id      = ( ! empty( $post_id ) ) ? $post_id : $this->is_post_id();
-		$post_data    = get_post( $post_id );
-		$content      = ( isset( $post_data->post_content ) ) ? $post_data->post_content : '';
-		$parse_blocks = parse_blocks( $content );
+		if ( empty( $parse_blocks ) || ! is_array( $parse_blocks ) ) {
+			$parse_blocks = array();
+		}
 
 		foreach ( $parse_blocks as $block ) {
 			$this->parse_block_settings( $block, $dynamic );

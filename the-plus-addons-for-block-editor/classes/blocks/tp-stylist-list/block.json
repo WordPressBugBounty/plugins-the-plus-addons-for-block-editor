@@ -10,7 +10,7 @@
 		"attributes": {}
 	},
 	"supports": {
-		"align": ["wide", "full"]
+		"align": [ "wide", "full" ]
 	},
 	"textdomain": "the-plus-addons-for-block-editor",
 	"attributes": {
@@ -250,7 +250,8 @@
 		"listSpaceBetween": {
 			"type": "object",
 			"default": {
-				"md": ""
+				"md": "10",
+				"unit": "px"
 			},
 			"style": [
 				{

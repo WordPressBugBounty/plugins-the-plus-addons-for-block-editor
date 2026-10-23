@@ -535,7 +535,7 @@ function tpgb_mcp_vd_bg( string $color ): array {
  * @param int $size Font size in px.
  * @return array Typography attribute structured for the block.
  */
-function tpgb_mcp_vd_typo( int $size ): array {
+function tpgb_mcp_vd_typo( int $size, array $input = array() ): array {
 	return array(
 		'openTypography' => 1,
 		'size'           => array(
@@ -613,6 +613,12 @@ function tpgb_mcp_add_video_ability( array $input ) {
 	$post = get_post( $post_id );
 	if ( ! $post instanceof WP_Post ) {
 		return new WP_Error( 'invalid_post', __( 'Target post not found.', 'the-plus-addons-for-block-editor' ) ); }
+
+	// AB-2: refuse blocks whose markup is not a function of attributes.
+	$tpgb_mcp_guard = tpgb_mcp_guard_content_driven( $block_name );
+	if ( $tpgb_mcp_guard instanceof WP_Error ) {
+		return array( 'error' => $tpgb_mcp_guard );
+	}
 
 	$blocks = tpgb_mcp_get_blocks( $post_id );
 	if ( is_wp_error( $blocks ) ) {
@@ -719,7 +725,7 @@ function tpgb_mcp_add_video_ability( array $input ) {
 	if ( ! empty( $input['videoTitle'] ) && 'Earth from the Moon' !== $input['videoTitle'] ) {
 		$attrs['VideoTitle'] = sanitize_text_field( $input['videoTitle'] ); }
 	if ( ! empty( $input['videoTitleTypoSize'] ) ) {
-		$attrs['VideoTitleTypo'] = tpgb_mcp_vd_typo( (int) $input['videoTitleTypoSize'] ); }
+		$attrs['VideoTitleTypo'] = tpgb_mcp_vd_typo( (int) $input['videoTitleTypoSize'] , $input ); }
 	if ( ! empty( $input['titleColor'] ) && '#313131' !== $input['titleColor'] ) {
 		$attrs['TitleColor'] = sanitize_text_field( $input['titleColor'] ); }
 	if ( ! empty( $input['titleBgColor'] ) && '#ffffff' !== $input['titleBgColor'] ) {
@@ -727,7 +733,7 @@ function tpgb_mcp_add_video_ability( array $input ) {
 	if ( ! empty( $input['videoDesc'] ) ) {
 		$attrs['VideoDesc'] = tpgb_mcp_clean_text( $input['videoDesc'] ); }
 	if ( ! empty( $input['videoDescTypoSize'] ) ) {
-		$attrs['VideoDescTypo'] = tpgb_mcp_vd_typo( (int) $input['videoDescTypoSize'] ); }
+		$attrs['VideoDescTypo'] = tpgb_mcp_vd_typo( (int) $input['videoDescTypoSize'] , $input ); }
 	if ( ! empty( $input['descColor'] ) ) {
 		$attrs['DescColor'] = sanitize_text_field( $input['descColor'] ); }
 

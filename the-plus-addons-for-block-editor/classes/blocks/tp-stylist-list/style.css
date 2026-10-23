@@ -98,12 +98,8 @@
 	text-align: right;
 	align-items: flex-end
 }
-.tpgb-icon-list-items .tpgb-icon-list-item:not(:first-child) {
-	margin-top: calc(10px/2)
-}
-.tpgb-icon-list-items .tpgb-icon-list-item:not(:last-child) {
-	margin-bottom: calc(10px/2)
-}
+/* Item spacing is driven by the "Space Between" control (listSpaceBetween, default 10px).
+   The gap is generated per-block so a value of 0 correctly removes it. */
 .tpgb-stylist-list .tpgb-icon-list-items.d-flex-center .tpgb-icon-list-icon {
 	text-align: center;
 	align-self: center;

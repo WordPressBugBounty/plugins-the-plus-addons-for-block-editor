@@ -341,6 +341,9 @@ function tpgb_tp_search_bar_render_callback( $attr, $content ) { // phpcs:ignore
 	$dataattr['styleColumn']         = $rcolumn;
 	$dataattr['post_page']           = $post_count;
 	$dataattr['Postype_Def']         = $defa_postype;
+	// "No dead ends" fallback (issue #90 slice 2) -- admin-configurable per block, default on.
+	$dataattr['noResultsFallback']      = ! isset( $attr['noResultsFallback'] ) || ! empty( $attr['noResultsFallback'] );
+	$dataattr['noResultsFallbackCount'] = ! empty( $attr['noResultsFallbackCount'] ) ? (int) $attr['noResultsFallbackCount'] : 3;
 	$dataattr                        = htmlspecialchars( wp_json_encode( $dataattr ), ENT_QUOTES, 'UTF-8' );
 
 	if ( ! empty( $result_style ) && 'custom' === $result_style && isset( $attr['blockTemplate'] ) && ! empty( $attr['blockTemplate'] ) ) {
@@ -353,7 +356,7 @@ function tpgb_tp_search_bar_render_callback( $attr, $content ) { // phpcs:ignore
 		$output .= '<div class="tpgb-rental-overlay"></div>';
 	}
 
-		$output     .= '<form class="tpgb-search-form" method="get" action="' . esc_url( site_url() ) . '">';
+		$output     .= '<form role="search" class="tpgb-search-form" method="get" action="' . esc_url( site_url() ) . '">';
 			$output .= '<div class="tpgb-form-field tpgb-row">';
 	if ( empty( $input_dis ) ) {
 		$output     .= '<div class="tpgb-input-field">';
@@ -363,7 +366,7 @@ function tpgb_tp_search_bar_render_callback( $attr, $content ) { // phpcs:ignore
 		}
 			$output     .= '</div>';
 			$output     .= '<div class="tpgb-input-inner-field">';
-				$output .= '<input name="s" ' . $suggestlist . ' id="seatxt-' . esc_attr( $block_id ) . '" class="tpgb-search-input" type="text" name="search" placeholder="' . esc_attr( $placeholder ) . '" autocomplete="off" />';
+				$output .= '<input name="s" ' . $suggestlist . ' id="seatxt-' . esc_attr( $block_id ) . '" class="tpgb-search-input" type="text" aria-label="' . esc_attr( ! empty( $placeholder ) ? $placeholder : __( 'Search', 'the-plus-addons-for-block-editor' ) ) . '" placeholder="' . esc_attr( $placeholder ) . '" autocomplete="off" />';
 				$output .= $suggest;
 		if ( 'fontAwesome' === $icon_type && ! empty( $search_icon ) ) {
 						$output .= '<span class="tpgb-search-input-icon"><i class="' . esc_attr( $search_icon ) . '"></i></span>';
@@ -491,10 +494,47 @@ function tpgb_search_bar() {
 
 	if ( method_exists( 'Tpgb_Blocks_Global_Options', 'merge_options_json' ) ) {
 		$block_data = Tpgb_Blocks_Global_Options::merge_options_json( __DIR__, 'tpgb_tp_search_bar_render_callback' );
+	/*
+	 * B12-1: register_block_type() reads the snake_case 'api_version'; block.json
+	 * declares camelCase 'apiVersion', which only register_block_type_from_metadata()
+	 * maps. Scoped to tp-search-bar deliberately - do NOT move this into
+	 * merge_options_json() without a full editor regression pass on all 180 blocks.
+	 */
+	if ( isset( $block_data['apiVersion'] ) ) {
+		$block_data['api_version'] = (int) $block_data['apiVersion'];
+	}
+
 		register_block_type( $block_data['name'], $block_data );
 	}
 }
 add_action( 'init', 'tpgb_search_bar' );
+
+if ( ! function_exists( 'tpgb_search_rate_limit' ) ) {
+	/**
+	 * Per-IP rate limiter for tpgb_search()'s signature path (Nexter-Blocks #123 design item
+	 * 1). The nonce path is unthrottled, same as before this round -- it already required a
+	 * live 'tpgb-searchbar' nonce. Only requests admitted via the longer-TTL `tpgb_action_sig`
+	 * (no per-request secret) pass through this, the same shape as
+	 * Tp_Blocks_Helper::tpgb_template_content_rate_limit() and generous for the same reason: a
+	 * single results page can legitimately fire several searches in quick succession.
+	 *
+	 * @since 10.0.2
+	 * @return bool True if the request is allowed.
+	 */
+	function tpgb_search_rate_limit() {
+		$ip     = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown';
+		$key    = 'tpgb_rl_search_' . md5( $ip );
+		$max    = 60;
+		$window = 300;
+		$count  = (int) get_transient( $key );
+		if ( $count >= $max ) {
+			return false;
+		}
+		set_transient( $key, $count + 1, $window );
+		return true;
+	}
+}
+
 
 // Get Html For Select Drop Down.
 /**
@@ -509,9 +549,33 @@ function tpgb_search( $on_load_attr = array() ) {
 	$search_data = array();
 	if ( ! empty( $on_load_attr ) ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIF, Generic.CodeAnalysis.EmptyStatement.DetectedIf
 		// $search_data = $new_post['searchData']; // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-	} elseif ( ! isset( $new_post['nonce'] ) || empty( $new_post['nonce'] ) || ! wp_verify_nonce( $new_post['nonce'], 'tpgb-searchbar' ) ) {
+	} else{
+		// AJAX request (Nexter-Blocks #123, design item 1): accept either a live
+		// 'tpgb-searchbar' nonce (unchanged) or the long-TTL `tpgb_action_sig` -- the same
+		// generic read-only capability tpgb_get_template_content() accepts -- so a page served
+		// from a cache older than the nonce's ~12-24h life still works.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified explicitly below, not by check_ajax_referer().
+		$nonce_ok = isset( $new_post['nonce'] ) && ! empty( $new_post['nonce'] ) && wp_verify_nonce( $new_post['nonce'], 'tpgb-searchbar' );
 
-			die( 'Security checked!' );
+		if ( ! $nonce_ok ) {
+			$sig = isset( $_POST['tpgb_action_sig'] ) && is_string( $_POST['tpgb_action_sig'] ) ? sanitize_text_field( wp_unslash( $_POST['tpgb_action_sig'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+			if ( ! Tp_Blocks_Helper::tpgb_readonly_sig_check( $sig ) ) {
+				// Same failure shape check_ajax_referer() itself produces, so the client's
+				// generic retry-on-403 logic (tpgbAjax()) treats this handler the same as any
+				// other, without needing to know it uses a bespoke nonce action.
+				if ( wp_doing_ajax() ) {
+					wp_die( -1, 403 );
+				}
+				die( 'Security checked!' );
+			}
+
+			// Signature is valid (nonce expired but the read-only sig verified): throttle, then continue.
+			// Previously an unconditional die() here killed valid signed requests and made the rate-limit unreachable.
+			if ( ! tpgb_search_rate_limit() ) {
+				wp_send_json_error( 'Too many requests. Please try again later.' );
+			}
+		}
 	}
 
 	$result_setting = array();
@@ -593,7 +657,7 @@ function tpgb_search( $on_load_attr = array() ) {
 	$gfs_type = ! empty( $g_filter['GFSType'] ) ? sanitize_text_field( $g_filter['GFSType'] ) : 'otheroption';
 
 	$acf_enable = ! empty( $ac_filter['ACFEnable'] ) ? $ac_filter['ACFEnable'] : 0;
-	$acf_key    = ! empty( $ac_filter['ACFkey'] ) ? $ac_filter['ACFkey'] : '';
+	$acf_key    = ! empty( $ac_filter['ACFkey'] ) ? preg_replace( '/[^a-zA-Z0-9_\-]/', '', $ac_filter['ACFkey'] ) : '';
 
 	if ( 'product' === $post_type && ! class_exists( 'woocommerce' ) ) {
 		$response['error']   = 1;
@@ -735,16 +799,33 @@ function tpgb_search( $on_load_attr = array() ) {
 				}
 			}
 
-			if ( class_exists( 'acf' ) && ! empty( $acf_enable ) && ! empty( $acf_key ) ) {
-				// Use %1s placeholder for the dynamic $publish value (it's a SQL fragment, not a simple value).
-				$acf_prepare = $wpdb->prepare(
-					"SELECT {$wpdb->posts}.ID FROM {$wpdb->posts} WHERE {$wpdb->posts}.ID %1s", // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
-					$publish
-				);
-				$acf_post    = $wpdb->get_results( $acf_prepare ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			// SECURITY: the ACF key comes from the request. Verify it is a real registered ACF field
+			// and let site owners allowlist which keys are searchable -- this closes the cross-field
+			// IDOR (a client could otherwise query any ACF field on the site).
+			$acf_field_obj = ( ! empty( $acf_key ) && function_exists( 'acf_get_field' ) ) ? acf_get_field( $acf_key ) : false;
+			$acf_allowed   = (bool) apply_filters( 'tpgb_searchbar_acf_key_allowed', ! empty( $acf_field_obj ), $acf_key );
+			if ( class_exists( 'acf' ) && ! empty( $acf_enable ) && ! empty( $acf_key ) && $acf_allowed && ! empty( $acf_field_obj['key'] ) ) {
+				// DoS: scope the candidate scan by post_type and cap it, instead of looping every
+				// published post on the site (an unbounded N+1 that one request could amplify).
+				// Mirror the main search's post_type scoping exactly so results are not narrowed:
+				// a specific type when set, otherwise the same post/page/product default.
+				$acf_scan_limit = (int) apply_filters( 'tpgb_searchbar_acf_scan_limit', 1000 );
+				if ( ! empty( $post_type ) ) {
+					$acf_prepare = $wpdb->prepare(
+						"SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_type = %s LIMIT %d",
+						$post_type,
+						$acf_scan_limit
+					);
+				} else {
+					$acf_prepare = $wpdb->prepare(
+						"SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish' AND post_type IN ('post','page','product') LIMIT %d",
+						$acf_scan_limit
+					);
+				}
+				$acf_post    = $wpdb->get_results( $acf_prepare ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$get_data    = $acf_field_obj['key'];
 				foreach ( $acf_post as $key => $one ) {
 					$post_id  = ! empty( $one->ID ) ? $one->ID : '';
-					$get_data = acf_get_field( $acf_key )['key'];
 					$ac_fone  = get_field( $get_data, $post_id );
 					if ( ! empty( $ac_fone ) ) {
 						$acf_array = explode( '|', $ac_fone );
@@ -779,21 +860,12 @@ function tpgb_search( $on_load_attr = array() ) {
 
 			if ( ! empty( $tmp_post_id ) ) {
 				$query_args['post__in'] = $tmp_post_id;
-				// `orderby => relevance` (set above) is a no-op without a native `s` query var:
-				// WP_Query's relevance scoring is computed FROM the `s` search term, and this
-				// branch queries by pre-resolved post__in IDs instead. Left as `relevance`, the
-				// title/excerpt/content/name/category/tag priority already encoded in the ORDER
-				// $tmp_post_id was assembled in (title matches pushed on before content matches,
-				// see $all_data above) was being silently discarded in favor of WP_Query's
-				// fallback ordering. `post__in` tells WP_Query to preserve that exact order.
-				$query_args['orderby'] = 'post__in';
 			} else {
 				$query_args['post__in'] = array( 0 );
-				$query_args['orderby']  = 'post__in';
 			}
 		} else {
 			$query_args['s'] = $sql_content;
-			// Native `s` search: `orderby => relevance` set above is correct and effective here.
+
 		}
 	}
 	$tax_query = array();
@@ -898,6 +970,38 @@ function tpgb_search( $on_load_attr = array() ) {
 	$response['post_count']  = $total_find;
 	$response['total_count'] = $total_find;
 
+	// "No dead ends" fallback (issue #90 slice 2) -- admin-configurable per block, default on.
+	// Admin-configurable (block.json noResultsFallback/-Count, default on/3): site owners
+	// can disable this per block, or change how many posts to suggest, from the block's own
+	// Inspector Controls (edit.js, "Show Suggestions When No Results Found").
+	$response['fallback_posts'] = array();
+	$response['fallback_term']  = '';
+	$fallback_enabled           = ! isset( $new_post['noResultsFallback'] ) || '0' !== $new_post['noResultsFallback'];
+	if ( $fallback_enabled && 0 === $total_find && ! empty( $new_post['text'] ) ) {
+		$response['fallback_term'] = sanitize_text_field( wp_unslash( $new_post['text'] ) );
+		$fallback_count            = ! empty( $new_post['noResultsFallbackCount'] ) ? max( 1, min( 10, (int) $new_post['noResultsFallbackCount'] ) ) : 3;
+		$fallback_post_type        = ( ! empty( $post_type ) && 'any' !== $post_type ) ? $post_type : 'post';
+		$fallback_query            = new WP_Query(
+			array(
+				'post_type'      => $fallback_post_type,
+				'post_status'    => 'publish',
+				'posts_per_page' => $fallback_count,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'no_found_rows'  => true,
+			)
+		);
+		if ( ! empty( $fallback_query->posts ) ) {
+			foreach ( $fallback_query->posts as $fallback_post ) {
+				$response['fallback_posts'][] = array(
+					'title' => esc_html( get_the_title( $fallback_post->ID ) ),
+					'link'  => esc_url( get_permalink( $fallback_post->ID ) ),
+				);
+			}
+		}
+		wp_reset_postdata();
+	}
+
 	if ( 'pagination' === $pagestyle && $response['limit_query'] < $response['post_count'] ) {
 		$response['pagination'] = '';
 		$pcounter               = ! empty( $result_data['Pcounter'] ) ? $result_data['Pcounter'] : 0;
@@ -1001,7 +1105,13 @@ function tpgb_search( $on_load_attr = array() ) {
 			}
 		} else {
 			$search_reus_error      = '<div class="tpgb-ser-item tpgb-trans-linear ' . esc_attr( $style_column ) . '">';
-				$search_reus_error .= 'You have ' . esc_html( $total_find ) . ' result(s) but select reusable block for layout';
+				$search_reus_error .= esc_html(
+					sprintf(
+						/* translators: %d: number of search results found. */
+						_n( 'You have %d result but select reusable block for layout', 'You have %d results but select reusable block for layout', $total_find, 'the-plus-addons-for-block-editor' ),
+						$total_find
+					)
+				);
 			$search_reus_error     .= '</div>';
 
 			$response['posts'][ $ci ] = $search_reus_error;

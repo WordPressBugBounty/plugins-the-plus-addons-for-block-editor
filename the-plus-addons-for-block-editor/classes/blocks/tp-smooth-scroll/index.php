@@ -49,7 +49,7 @@ function tpgb_tp_smooth_scroll_render_callback( $attributes ) {
 
 	$data_attr = wp_json_encode( $data_attr );
 
-	$output .= '<div class="tpgb-smooth-scroll tpgb-relative-block tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . ' " data-scrollAttr= \'' . $data_attr . '\' >';
+	$output .= '<div class="tpgb-smooth-scroll tpgb-relative-block tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . ' " data-scrollAttr= \'' . htmlspecialchars( $data_attr, ENT_QUOTES, 'UTF-8' ) . '\' >';
 
 	$output .= '</div>';
 

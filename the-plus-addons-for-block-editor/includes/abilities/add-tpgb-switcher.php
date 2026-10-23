@@ -436,7 +436,7 @@ function tpgb_mcp_swt_bg( string $color ): array {
  * @param int $size Font size in px.
  * @return array Typography attribute structured for the block.
  */
-function tpgb_mcp_swt_typo( int $size ): array {
+function tpgb_mcp_swt_typo( int $size, array $input = array() ): array {
 	return array(
 		'openTypography' => 1,
 		'size'           => array(
@@ -515,6 +515,12 @@ function tpgb_mcp_add_switcher_ability( array $input ) {
 	if ( ! $post instanceof WP_Post ) {
 		return new WP_Error( 'invalid_post', __( 'Target post not found.', 'the-plus-addons-for-block-editor' ) ); }
 
+	// AB-2: refuse blocks whose markup is not a function of attributes.
+	$tpgb_mcp_guard = tpgb_mcp_guard_content_driven( $block_name );
+	if ( $tpgb_mcp_guard instanceof WP_Error ) {
+		return array( 'error' => $tpgb_mcp_guard );
+	}
+
 	$blocks = tpgb_mcp_get_blocks( $post_id );
 	if ( is_wp_error( $blocks ) ) {
 		return $blocks; }
@@ -574,19 +580,19 @@ function tpgb_mcp_add_switcher_ability( array $input ) {
 
 	/* ── Label typography ─────────────────────────────────────────────── */
 	if ( ! empty( $input['label1TypoSize'] ) ) {
-		$attrs['label1Typo'] = tpgb_mcp_swt_typo( (int) $input['label1TypoSize'] ); }
+		$attrs['label1Typo'] = tpgb_mcp_swt_typo( (int) $input['label1TypoSize'] , $input ); }
 	if ( ! empty( $input['label2TypoSize'] ) ) {
-		$attrs['label2Typo'] = tpgb_mcp_swt_typo( (int) $input['label2TypoSize'] ); }
+		$attrs['label2Typo'] = tpgb_mcp_swt_typo( (int) $input['label2TypoSize'] , $input ); }
 
 	/* ── Description ──────────────────────────────────────────────────── */
 	if ( ! empty( $input['desc1Color'] ) ) {
 		$attrs['desc1Color'] = sanitize_text_field( $input['desc1Color'] ); }
 	if ( ! empty( $input['desc1TypoSize'] ) ) {
-		$attrs['desc1Typo'] = tpgb_mcp_swt_typo( (int) $input['desc1TypoSize'] ); }
+		$attrs['desc1Typo'] = tpgb_mcp_swt_typo( (int) $input['desc1TypoSize'] , $input ); }
 	if ( ! empty( $input['desc2Color'] ) ) {
 		$attrs['desc2Color'] = sanitize_text_field( $input['desc2Color'] ); }
 	if ( ! empty( $input['desc2TypoSize'] ) ) {
-		$attrs['desc2Typo'] = tpgb_mcp_swt_typo( (int) $input['desc2TypoSize'] ); }
+		$attrs['desc2Typo'] = tpgb_mcp_swt_typo( (int) $input['desc2TypoSize'] , $input ); }
 
 	/* ── Icons ────────────────────────────────────────────────────────── */
 	if ( ! empty( $input['enableIcons'] ) ) {

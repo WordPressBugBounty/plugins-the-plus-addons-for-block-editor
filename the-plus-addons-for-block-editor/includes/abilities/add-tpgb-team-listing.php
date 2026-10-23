@@ -483,7 +483,7 @@ function tpgb_mcp_tm_bg( string $color ): array {
  * @param int $size Font size in px.
  * @return array Typography attribute structured for the block.
  */
-function tpgb_mcp_tm_typo( int $size ): array {
+function tpgb_mcp_tm_typo( int $size, array $input = array() ): array {
 	return array(
 		'openTypography' => 1,
 		'size'           => array(
@@ -574,6 +574,12 @@ function tpgb_mcp_add_team_listing_ability( array $input ) {
 	$post = get_post( $post_id );
 	if ( ! $post instanceof WP_Post ) {
 		return new WP_Error( 'invalid_post', __( 'Target post not found.', 'the-plus-addons-for-block-editor' ) ); }
+
+	// AB-2: refuse blocks whose markup is not a function of attributes.
+	$tpgb_mcp_guard = tpgb_mcp_guard_content_driven( $block_name );
+	if ( $tpgb_mcp_guard instanceof WP_Error ) {
+		return array( 'error' => $tpgb_mcp_guard );
+	}
 
 	$blocks = tpgb_mcp_get_blocks( $post_id );
 	if ( is_wp_error( $blocks ) ) {
@@ -668,7 +674,7 @@ function tpgb_mcp_add_team_listing_ability( array $input ) {
 
 	/* ── Title style ──────────────────────────────────────────────────── */
 	if ( ! empty( $input['titleTypoSize'] ) ) {
-		$attrs['TitleTypo'] = tpgb_mcp_tm_typo( (int) $input['titleTypoSize'] ); }
+		$attrs['TitleTypo'] = tpgb_mcp_tm_typo( (int) $input['titleTypoSize'] , $input ); }
 	if ( ! empty( $input['titleColor'] ) ) {
 		$attrs['TNcolor'] = sanitize_text_field( $input['titleColor'] ); }
 	if ( ! empty( $input['titleColorHover'] ) ) {
@@ -676,7 +682,7 @@ function tpgb_mcp_add_team_listing_ability( array $input ) {
 
 	/* ── Designation style ────────────────────────────────────────────── */
 	if ( ! empty( $input['designationTypoSize'] ) ) {
-		$attrs['TextTypo'] = tpgb_mcp_tm_typo( (int) $input['designationTypoSize'] ); }
+		$attrs['TextTypo'] = tpgb_mcp_tm_typo( (int) $input['designationTypoSize'] , $input ); }
 	if ( ! empty( $input['designationColor'] ) ) {
 		$attrs['TextNCr'] = sanitize_text_field( $input['designationColor'] ); }
 	if ( ! empty( $input['designationColorHover'] ) ) {

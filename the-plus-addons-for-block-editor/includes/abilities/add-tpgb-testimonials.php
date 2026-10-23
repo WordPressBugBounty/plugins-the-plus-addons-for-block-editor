@@ -512,7 +512,7 @@ function tpgb_mcp_ts_bg( string $color ): array {
  * @param int $size Font size in px.
  * @return array Typography attribute structured for the block.
  */
-function tpgb_mcp_ts_typo( int $size ): array {
+function tpgb_mcp_ts_typo( int $size, array $input = array() ): array {
 	return array(
 		'openTypography' => 1,
 		'size'           => array(
@@ -591,6 +591,12 @@ function tpgb_mcp_add_testimonials_ability( array $input ) {
 	if ( ! $post instanceof WP_Post ) {
 		return new WP_Error( 'invalid_post', __( 'Target post not found.', 'the-plus-addons-for-block-editor' ) ); }
 
+	// AB-2: refuse blocks whose markup is not a function of attributes.
+	$tpgb_mcp_guard = tpgb_mcp_guard_content_driven( $block_name );
+	if ( $tpgb_mcp_guard instanceof WP_Error ) {
+		return array( 'error' => $tpgb_mcp_guard );
+	}
+
 	$blocks = tpgb_mcp_get_blocks( $post_id );
 	if ( is_wp_error( $blocks ) ) {
 		return $blocks; }
@@ -664,7 +670,7 @@ function tpgb_mcp_add_testimonials_ability( array $input ) {
 	if ( ! empty( $input['readLessText'] ) && 'Read Less' !== $input['readLessText'] ) {
 		$attrs['redlesTxt'] = sanitize_text_field( $input['readLessText'] ); }
 	if ( ! empty( $input['readBtnTypoSize'] ) && 14 !== intval( $input['readBtnTypoSize'] ) ) {
-		$attrs['readTypo'] = tpgb_mcp_ts_typo( (int) $input['readBtnTypoSize'] ); }
+		$attrs['readTypo'] = tpgb_mcp_ts_typo( (int) $input['readBtnTypoSize'] , $input ); }
 	if ( ! empty( $input['readColor'] ) && '#8072FC' !== $input['readColor'] ) {
 		$attrs['readColor'] = sanitize_text_field( $input['readColor'] ); }
 	if ( ! empty( $input['readColorHover'] ) && '#FF5A6E' !== $input['readColorHover'] ) {
@@ -672,7 +678,7 @@ function tpgb_mcp_add_testimonials_ability( array $input ) {
 
 	/* ── Title ────────────────────────────────────────────────────────── */
 	if ( ! empty( $input['titleTypoSize'] ) ) {
-		$attrs['titleTypo'] = tpgb_mcp_ts_typo( (int) $input['titleTypoSize'] ); }
+		$attrs['titleTypo'] = tpgb_mcp_ts_typo( (int) $input['titleTypoSize'] , $input ); }
 	if ( ! empty( $input['titleColor'] ) ) {
 		$attrs['titleNormalColor'] = sanitize_text_field( $input['titleColor'] ); }
 	if ( ! empty( $input['titleColorHover'] ) ) {
@@ -680,7 +686,7 @@ function tpgb_mcp_add_testimonials_ability( array $input ) {
 
 	/* ── Author title ─────────────────────────────────────────────────── */
 	if ( ! empty( $input['authorTitleTypoSize'] ) ) {
-		$attrs['AuthortitleTypo'] = tpgb_mcp_ts_typo( (int) $input['authorTitleTypoSize'] ); }
+		$attrs['AuthortitleTypo'] = tpgb_mcp_ts_typo( (int) $input['authorTitleTypoSize'] , $input ); }
 	if ( ! empty( $input['authorTitleColor'] ) ) {
 		$attrs['AuthortitleNormalColor'] = sanitize_text_field( $input['authorTitleColor'] ); }
 	if ( ! empty( $input['authorTitleColorHover'] ) ) {
@@ -688,7 +694,7 @@ function tpgb_mcp_add_testimonials_ability( array $input ) {
 
 	/* ── Designation ──────────────────────────────────────────────────── */
 	if ( ! empty( $input['desigTypoSize'] ) ) {
-		$attrs['DesTypo'] = tpgb_mcp_ts_typo( (int) $input['desigTypoSize'] ); }
+		$attrs['DesTypo'] = tpgb_mcp_ts_typo( (int) $input['desigTypoSize'] , $input ); }
 	if ( ! empty( $input['desigColor'] ) ) {
 		$attrs['DesNormalColor'] = sanitize_text_field( $input['desigColor'] ); }
 	if ( ! empty( $input['desigColorHover'] ) ) {
@@ -696,7 +702,7 @@ function tpgb_mcp_add_testimonials_ability( array $input ) {
 
 	/* ── Content ──────────────────────────────────────────────────────── */
 	if ( ! empty( $input['contentTypoSize'] ) ) {
-		$attrs['contentTypo'] = tpgb_mcp_ts_typo( (int) $input['contentTypoSize'] ); }
+		$attrs['contentTypo'] = tpgb_mcp_ts_typo( (int) $input['contentTypoSize'] , $input ); }
 	if ( ! empty( $input['contentColor'] ) ) {
 		$attrs['contentNormalColor'] = sanitize_text_field( $input['contentColor'] ); }
 	if ( ! empty( $input['contentColorHover'] ) ) {

@@ -30,5 +30,5 @@ if ( 'words' === $excerpt_by_limit ) {
 }
 ?>
 <?php if ( ! empty( $excerpt ) ) { ?>
-	<div class="tpgb-post-excerpt tpgb-d-block tpgb-dynamic-tran"><p><?php echo $excerpt; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $excerpt. ?></p></div>
+	<div class="tpgb-post-excerpt tpgb-d-block tpgb-dynamic-tran"><p><?php echo wp_kses_post( $excerpt ); ?></p></div>
 <?php } ?>

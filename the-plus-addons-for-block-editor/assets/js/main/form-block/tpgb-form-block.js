@@ -1,3 +1,19 @@
+/**
+ * FB-4: visitor-facing form messages were hardcoded English, so a translated
+ * site showed English exactly when the visitor made a mistake. Strings are
+ * resolved from window.tpgbFormL10n (printed translated by PHP) and fall back
+ * to the original English if that object is absent.
+ */
+function tpgbFormText( key, fallback ) {
+	var bag = window.tpgbFormL10n || {};
+	if ( bag && Object.prototype.hasOwnProperty.call( bag, key ) && bag[ key ] ) {
+		return bag[ key ];
+	}
+	if ( window.wp && window.wp.i18n && 'function' === typeof window.wp.i18n.__ ) {
+		return window.wp.i18n.__( fallback, 'the-plus-addons-for-block-editor' );
+	}
+	return fallback;
+}
 document.addEventListener("DOMContentLoaded", function () {
     const formBlocks = document.querySelectorAll(".tp-form-block");
     formBlocks.forEach((formBlock) => {
@@ -19,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     errorShow.getAttribute("data-error-message");
                 if (!emailValue) {
                     errorShow.textContent =
-                        customErrorMessage || "This field is required.";
+                        customErrorMessage || tpgbFormText( 'required', "This field is required." );
                     return false;
                 }
 
@@ -27,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!emailRegex.test(emailValue)) {
                     errorShow.textContent =
                         customErrorMessage ||
-                        "Please enter a valid email address.";
+                        tpgbFormText( 'email', "Please enter a valid email address." );
                     return false;
                 }
 
@@ -48,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     errorShow.getAttribute("data-error-message");
                 if (!messageValue) {
                     errorShow.textContent =
-                        customErrorMessage || "This field is required.";
+                        customErrorMessage || tpgbFormText( 'required', "This field is required." );
                     return false;
                 }
                 errorShow.textContent = "";
@@ -90,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     isChecked = Array.from(checkboxes).some((cb) => cb.checked);
                 }
 
-                let customErrorMessage = "This field is required.";
+                let customErrorMessage = tpgbFormText( 'required', "This field is required." );
                 if (errorShow && typeof errorShow.getAttribute === "function") {
                     const msg = errorShow.getAttribute("data-error-message");
                     if (msg) {
@@ -504,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
 
                     if (!actionOption || actionOption.length === 0) {
-                        showMessage("No form action is selected.", true);
+                        showMessage(tpgbFormText( 'noAction', "No form action is selected." ), true);
                         isSubmitting = false;
                         return;
                     }
@@ -523,16 +539,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             buttonSvg ? (buttonSvg.style.opacity = "0") : "";
                             loaderSpan.style.opacity = "1";
 
-                            fetch(tpgb_config.ajax_url, {
-                                method: "POST",
+                            tpgbAjax({
                                 body: formData,
-                                credentials: "same-origin",
+                                nonceField: "nonce",
+                                nonceKind: "addons",
                                 headers: {
                                     "X-WP-Nonce": tpgb_config.tpgb_nonce,
                                 },
-                            })
-                                .then((response) => response.json())
-                                .then((responseData) => {
+                                onSuccess: (responseData) => {
                                     isSubmitting = false;
                                     loaderSpan.style.opacity = "0";
                                     buttonSvg
@@ -551,7 +565,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 .getAttribute(
                                                     "data-success-message"
                                                 ) ||
-                                            "Your submission was successful.";
+                                            tpgbFormText( 'success', "Your submission was successful." );
                                         showMessage(successMessage, false);
                                         // Reset all form fields
                                         const formFields =
@@ -571,7 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     } else {
                                         const errorMessage =
                                             responseData.data ||
-                                            "Unknown error occurred.";
+                                            tpgbFormText( 'unknown', "Unknown error occurred." );
                                         showMessage(errorMessage, true);
                                         loaderSpan.style.opacity = "0";
                                         buttonSvg
@@ -581,8 +595,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                             ? (buttonTextstyle.opacity = "1")
                                             : "";
                                     }
-                                })
-                                .catch((error) => {
+                                },
+                                onError: (error) => {
                                     loaderSpan.style.opacity = "0";
                                     buttonSvg
                                         ? (buttonSvgstyle.opacity = "1")
@@ -595,7 +609,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                         true
                                     );
                                     isSubmitting = false;
-                                });
+                                },
+                            });
                         }
                         setTimeout(() => {
                             if (redirect && isValidURL(redirect)) {
@@ -735,6 +750,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         input.removeAttribute("data-required");
                     } else {
                         input.setAttribute("data-required", req);
+                        input.required = req === "true";
                     }
                     original.delete(input);
                 });
@@ -748,6 +764,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     original.set(input, input.getAttribute("data-required"));
                 }
                 input.setAttribute("data-required", "false");
+                input.required = false;
                 if (input.type === "checkbox" || input.type === "radio") {
                     input.checked = false;
                 } else if (input.tagName === "SELECT") {
@@ -773,3 +790,139 @@ document.addEventListener("DOMContentLoaded", function () {
         apply();
     });
 });
+
+/**
+ * Form field accessibility layer.
+ *
+ * EF-1 - no form input carried an id, which made error association structurally
+ *   impossible (aria-describedby had nothing to point at).
+ * FB-1 - required state was communicated only by a custom data-required attribute
+ *   and a CSS ::after asterisk; no `required`, no aria-required.
+ * FB-2 - validation errors were written into a span with no link to the field and
+ *   no aria-invalid, so assistive tech read the input as valid.
+ * FB-8 - visible <label> elements were emitted without `for`, so four of five
+ *   fields had no programmatically associated label.
+ * FB-3 - nothing moved focus to the first invalid field on a failed submit.
+ *
+ * Applied to the rendered DOM on purpose: forms saved by any earlier version are
+ * upgraded in place. save.js is untouched, so no block deprecation is needed and
+ * no existing form is invalidated.
+ */
+( function () {
+	var seq = 0;
+	function uid( p ) {
+		seq += 1;
+		return p + '-' + seq + '-' + Math.random().toString( 36 ).slice( 2, 7 );
+	}
+
+	function enhanceField( control ) {
+		if ( ! control || '1' === control.getAttribute( 'data-tpgb-a11y' ) ) {
+			return;
+		}
+		var type = ( control.getAttribute( 'type' ) || '' ).toLowerCase();
+		if ( 'hidden' === type || 'submit' === type || 'button' === type ) {
+			return;
+		}
+
+		// the field wrapper: nearest ancestor that also holds the label / error span
+		var box = control.closest( '[class*="-input"]' ) || control.parentElement;
+		var hop = 0;
+		while ( box && hop < 4 && ! box.querySelector( '[data-error-message]' ) && ! box.querySelector( 'label' ) ) {
+			box = box.parentElement;
+			hop += 1;
+		}
+		if ( ! box ) {
+			return;
+		}
+
+		if ( ! control.id ) {
+			control.id = uid( 'tpgb-field' );
+		}
+
+		// FB-8: associate the visible label that was emitted without `for`
+		var labels = box.querySelectorAll( 'label:not([for])' );
+		if ( 1 === labels.length && ( ! control.labels || ! control.labels.length ) ) {
+			labels[ 0 ].setAttribute( 'for', control.id );
+		}
+
+		// FB-1: mirror the custom data-required onto the real attributes
+		var req = control.getAttribute( 'data-required' );
+		if ( req && 'false' !== req ) {
+			if ( ! control.hasAttribute( 'required' ) ) {
+				control.setAttribute( 'required', 'required' );
+			}
+			control.setAttribute( 'aria-required', 'true' );
+		}
+
+		// EF-1 + FB-2: give the error node an id and point the input at it
+		var err = box.querySelector( '[data-error-message]' );
+		if ( err ) {
+			if ( ! err.id ) {
+				err.id = uid( 'tpgb-err' );
+			}
+			var described = ( control.getAttribute( 'aria-describedby' ) || '' ).split( /\s+/ ).filter( Boolean );
+			if ( described.indexOf( err.id ) === -1 ) {
+				described.push( err.id );
+				control.setAttribute( 'aria-describedby', described.join( ' ' ) );
+			}
+			// announce the message when it appears, and mirror it onto aria-invalid
+			if ( ! err.getAttribute( 'role' ) ) {
+				err.setAttribute( 'role', 'alert' );
+				err.setAttribute( 'aria-live', 'polite' );
+			}
+			var sync = function () {
+				var bad = '' !== ( err.textContent || '' ).trim();
+				control.setAttribute( 'aria-invalid', bad ? 'true' : 'false' );
+			};
+			sync();
+			if ( window.MutationObserver ) {
+				new window.MutationObserver( sync ).observe( err, { childList: true, characterData: true, subtree: true } );
+			}
+		}
+
+		control.setAttribute( 'data-tpgb-a11y', '1' );
+	}
+
+	function enhanceForm( form ) {
+		Array.prototype.forEach.call( form.querySelectorAll( 'input, textarea, select' ), enhanceField );
+
+		if ( '1' === form.getAttribute( 'data-tpgb-a11y-form' ) ) {
+			return;
+		}
+		// FB-3: on a failed submit, take the user to the first field that failed
+		form.addEventListener( 'submit', function () {
+			window.setTimeout( function () {
+				var errs = form.querySelectorAll( '[data-error-message]' );
+				for ( var i = 0; i < errs.length; i++ ) {
+					if ( '' !== ( errs[ i ].textContent || '' ).trim() ) {
+						var id = errs[ i ].id;
+						var target = id ? form.querySelector( '[aria-describedby~="' + id + '"]' ) : null;
+						if ( target && 'function' === typeof target.focus ) {
+							target.focus();
+							if ( target.scrollIntoView ) {
+								target.scrollIntoView( { block: 'center', behavior: 'smooth' } );
+							}
+						}
+						return;
+					}
+				}
+			}, 60 );
+		} );
+		form.setAttribute( 'data-tpgb-a11y-form', '1' );
+	}
+
+	function tpgbFormA11y( scope ) {
+		var root = scope || document;
+		if ( ! root || ! root.querySelectorAll ) {
+			return;
+		}
+		Array.prototype.forEach.call( root.querySelectorAll( '.tp-form-block form, form.nxt-form, .tp-form-block' ), function ( node ) {
+			enhanceForm( 'FORM' === node.tagName ? node : node );
+		} );
+	}
+
+	window.tpgbFormA11y = tpgbFormA11y;
+	document.addEventListener( 'DOMContentLoaded', function () {
+		tpgbFormA11y( document );
+	} );
+}() );

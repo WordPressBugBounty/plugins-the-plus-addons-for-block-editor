@@ -101,9 +101,10 @@ function tpgb_tp_post_meta_render_callback( $attr, $content ) {
 		if ( ! empty( $comments_count ) ) {
 			$count = $comments_count->total_comments;
 		}
+		$count = (int) $count;
 		if ( 0 === $count ) {
 			$comment_text = esc_html__( 'No Comments', 'the-plus-addons-for-block-editor' );
-		} elseif ( $count > 0 ) {
+		} else {
 			$comment_text = 'Comments(' . $count . ')';
 		}
 		$comment_prefix  = ( ! empty( $attr['commentPrefix'] ) ) ? '<span class="tpgb-meta-comment-label">' . wp_kses_post( $attr['commentPrefix'] ) . '</span>' : '';
@@ -139,9 +140,9 @@ function tpgb_tp_post_meta_render_callback( $attr, $content ) {
 		$minutes_to_read      = max( 1, (int) round( tpgb_word_count( $content, $word_count_type ) / $average_reading_rate ) );
 
 		$minutes_to_read_string = sprintf(
-			/* translators: %s: the number of minutes to read the post */
-			_n( '%s minute', '%s minutes', $minutes_to_read, 'the-plus-addons-for-block-editor' ),
-			$minutes_to_read
+			/** translators: %s: the number of minutes to read the post. */ // phpcs:ignore Generic.Commenting.DocComment.ShortNotCapital,Generic.Commenting.DocComment.LongNotCapital,Generic.Commenting.DocComment.MissingShort
+			_n( '%s minute', '%s minutes', $minutes_to_read, 'the-plus-addons-for-block-editor' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+			$minutes_to_read,
 		);
 
 		$post_read .= '<span class="tpgb-meta-read" >';

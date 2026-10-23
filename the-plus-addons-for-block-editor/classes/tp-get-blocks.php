@@ -146,7 +146,17 @@ class Tpgb_Get_Blocks {
 				}
 			}
 		}
-		return $ref_id;
+
+		// Patterns nest, so $ref_id can be arbitrarily deep. Every caller needs a flat list of IDs;
+		// a nested array into header_init_css_js() is a fatal TypeError on PHP 8.
+		$flat = array();
+		array_walk_recursive(
+			$ref_id,
+			function ( $id ) use ( &$flat ) {
+				$flat[] = $id;
+			}
+		);
+		return $flat;
 	}
 
 	/**

@@ -98,7 +98,7 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content ) {
 			}
 
 			$nav_loop     .= '<div class="tpgb-tab-li">';
-				$nav_loop .= '<div id="' . ( ! empty( $item['uniqueId'] ) ? esc_attr( $item['uniqueId'] ) : 'tpag-tab-title-' . esc_attr( $block_id ) . esc_attr( $j ) ) . '" class="tpgb-tab-header tpgb-trans-linear ' . esc_attr( $active ) . '" data-tab="' . esc_attr( $j ) . '" role="tab" aria-controls="' . ( ! empty( $item['uniqueId'] ) ? esc_attr( $item['uniqueId'] ) : 'tpag-tab-title-' . esc_attr( $block_id ) . esc_attr( $j ) ) . '">';
+				$nav_loop .= '<div id="' . ( ! empty( $item['uniqueId'] ) ? esc_attr( $item['uniqueId'] ) : 'tpag-tab-title-' . esc_attr( $block_id ) . esc_attr( $j ) ) . '" class="tpgb-tab-header tpgb-trans-linear ' . esc_attr( $active ) . '" data-tab="' . esc_attr( $j ) . '" role="tab" aria-controls="tpag-tab-content-' . esc_attr( $block_id ) . esc_attr( $j ) . '">';
 			if ( ! empty( $item['innerIcon'] ) ) {
 				$nav_loop .= '<span class="tab-icon-wrap">';
 				if ( 'font_awesome' === $item['iconFonts'] ) {
@@ -190,6 +190,16 @@ function tpgb_tp_tabs_tours_render_callback( $attributes, $content ) {
  */
 function tpgb_tp_tabs_tours() {
 	$block_data = Tpgb_Blocks_Global_Options::merge_options_json( __DIR__, 'tpgb_tp_tabs_tours_render_callback' );
+	/*
+	 * B12-1: register_block_type() reads the snake_case 'api_version'; block.json
+	 * declares camelCase 'apiVersion', which only register_block_type_from_metadata()
+	 * maps. Scoped to tp-tabs-tours deliberately - do NOT move this into
+	 * merge_options_json() without a full editor regression pass on all 180 blocks.
+	 */
+	if ( isset( $block_data['apiVersion'] ) ) {
+		$block_data['api_version'] = (int) $block_data['apiVersion'];
+	}
+
 	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_tabs_tours' );

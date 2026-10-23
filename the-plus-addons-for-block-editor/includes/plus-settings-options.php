@@ -117,10 +117,10 @@ class Tpgb_Gutenberg_Settings_Options {
 		if ( defined( 'TPGBP_VERSION' ) ) {
 			$options            = get_option( 'tpgb_white_label' );
 			$this->setting_name = ( isset( $options['brand_name'] ) && ! empty( $options['brand_name'] ) ) ? $options['brand_name'] : ( ! empty( $options['tpgb_plugin_name'] ) ? $options['tpgb_plugin_name'] : __( 'Nexter', 'the-plus-addons-for-block-editor' ) );
-			$this->setting_logo = ( isset( $options['theme_logo'] ) && ! empty( $options['theme_logo'] ) ) ? $options['theme_logo'] : ( isset( $options['tpgb_plus_logo'] ) && ! empty( $options['tpgb_plus_logo'] ) ? $options['tpgb_plus_logo'] : esc_url( TPGB_URL . 'dashboard/assets/svg/nexter-logo.svg' ) );
+			$this->setting_logo = ( isset( $options['theme_logo'] ) && ! empty( $options['theme_logo'] ) ) ? $options['theme_logo'] : ( isset( $options['tpgb_plus_logo'] ) && ! empty( $options['tpgb_plus_logo'] ) ? $options['tpgb_plus_logo'] : esc_url( TPGB_URL . 'dashboard/assets/svg/navbox/nexter-logo.svg' ) );
 		} else {
 			$this->setting_name = esc_html__( 'Nexter', 'the-plus-addons-for-block-editor' );
-			$this->setting_logo = esc_url( TPGB_URL . 'dashboard/assets/svg/nexter-logo.svg' );
+			$this->setting_logo = esc_url( TPGB_URL . 'dashboard/assets/svg/navbox/nexter-logo.svg' );
 		}
 
 		$this->block_listout();
@@ -342,8 +342,8 @@ class Tpgb_Gutenberg_Settings_Options {
 			__( 'Code Snippets', 'the-plus-addons-for-block-editor' ),
 			__( 'Code Snippets', 'the-plus-addons-for-block-editor' ),
 			'manage_options',
-			'nxt_code_snippets',
-			array( $this, 'nexter_code_snippet_display' ),
+			'nexter_welcome#/code_snippets',
+			array( $this, 'nexter_ext_dashboard' ),
 		);
 		add_submenu_page(
 			'nexter_welcome',
@@ -379,8 +379,8 @@ class Tpgb_Gutenberg_Settings_Options {
 		if ( ! defined( 'TPGBP_VERSION' ) ) {
 			add_submenu_page(
 				'nexter_welcome',
-				esc_html__( 'Get Pro Nexter', 'the-plus-addons-for-block-editor' ),
-				esc_html__( 'Get Pro Nexter', 'the-plus-addons-for-block-editor' ),
+				esc_html__( 'Get Nexter Pro', 'the-plus-addons-for-block-editor' ),
+				esc_html__( 'Get Nexter Pro', 'the-plus-addons-for-block-editor' ),
 				'manage_options',
 				esc_url( 'https://nexterwp.com/pricing/?utm_source=wpbackend&utm_medium=blocks&utm_campaign=nextersettings' )
 			);
@@ -504,7 +504,7 @@ class Tpgb_Gutenberg_Settings_Options {
 
 			wp_enqueue_style( 'nxt-code-snippet-style', TPGB_URL . 'dashboard/code-snippets/index.css', array(), TPGB_VERSION, 'all' );
 
-			wp_enqueue_script( 'nxt-code-snippet', TPGB_URL . 'dashboard/code-snippets/index.js', array(), TPGB_VERSION, true );
+			wp_enqueue_script( 'nxt-code-snippet', TPGB_URL . 'dashboard/code-snippets/index.js', array( 'react', 'react-dom', 'react-jsx-runtime', 'wp-i18n', 'wp-dom-ready' ), TPGB_VERSION, true );
 
 			// Attach JavaScript translations.
 			wp_set_script_translations(
@@ -525,12 +525,55 @@ class Tpgb_Gutenberg_Settings_Options {
 	}
 
 	/**
+	 * The white-label name in force for each product, for the dashboard's lists and menu.
+	 * White label is a Pro feature, so a product's name is only sent while its Pro plugin is
+	 * active; the Pro name wins, then the Free one, and empty means "use the stock name".
+	 */
+	public function nxt_wl_product_names() {
+		$names = array(
+			'blocks'    => '',
+			'extension' => '',
+		);
+
+		$blk = get_option( 'tpgb_white_label' );
+		if ( defined( 'TPGBP_VERSION' ) && is_array( $blk ) ) {
+			$name            = ! empty( $blk['tpgb_plugin_name'] ) ? $blk['tpgb_plugin_name'] : ( ! empty( $blk['tpgb_free_plugin_name'] ) ? $blk['tpgb_free_plugin_name'] : '' );
+			$names['blocks'] = sanitize_text_field( $name );
+		}
+
+		$ext = get_option( 'nexter_white_label' );
+		if ( defined( 'NXT_PRO_EXT' ) && is_array( $ext ) ) {
+			$name               = ! empty( $ext['nxt_pro_plugin_name'] ) ? $ext['nxt_pro_plugin_name'] : ( ! empty( $ext['nxt_free_plugin_name'] ) ? $ext['nxt_free_plugin_name'] : '' );
+			$names['extension'] = sanitize_text_field( $name );
+		}
+
+		return $names;
+	}
+
+	/**
+	 * The build's own content hash is the asset version, so a rebuilt bundle is fetched even when
+	 * the plugin version has not changed; the plugin version is the fallback.
+	 *
+	 * @since 2.0.0
+	 */
+	public function tpgb_dash_asset_version() {
+		$ver_file = TPGB_PATH . 'dashboard/build/index.asset.php';
+		if ( file_exists( $ver_file ) ) {
+			$ver_asset = include $ver_file;
+			if ( is_array( $ver_asset ) && ! empty( $ver_asset['version'] ) ) {
+				return $ver_asset['version'];
+			}
+		}
+		return TPGB_VERSION;
+	}
+
+	/**
 	 * Enqueue Styles admin area.
 	 *
 	 * @since 2.0.0
 	 */
 	public function tpgb_dash_enqueue_style() {
-		wp_enqueue_style( 'tpgb-dash-style', TPGB_URL . 'dashboard/build/index.css', array(), TPGB_VERSION, 'all' );
+		wp_enqueue_style( 'tpgb-dash-style', TPGB_URL . 'dashboard/build/index.css', array(), $this->tpgb_dash_asset_version(), 'all' );
 	}
 
 	/**
@@ -587,6 +630,17 @@ class Tpgb_Gutenberg_Settings_Options {
 				$uichemy = true;
 			} else {
 				$uichemyactive = true;
+			}
+		}
+
+		// Sticky Header Effects for Elementor, listed under More Products and on Home.
+		$she_addon = false;
+		$sheactive = false;
+		if ( isset( $pluginslist['sticky-header-effects-for-elementor/sticky-header-effects-for-elementor.php'] ) ) {
+			if ( is_plugin_active( 'sticky-header-effects-for-elementor/sticky-header-effects-for-elementor.php' ) ) {
+				$she_addon = true;
+			} else {
+				$sheactive = true;
 			}
 		}
 
@@ -706,6 +760,7 @@ class Tpgb_Gutenberg_Settings_Options {
 				'pluginVer'                    => TPGB_VERSION,
 				'uichemy'                      => $uichemy,
 				'nextheme'                     => $nxtheme,
+				'wlProductNames'               => $this->nxt_wl_product_names(),
 				'nexterThemeIntall'            => $nxtheme,
 				'nexterCustLink'               => admin_url( 'customize.php' ),
 				'whiteLabel'                   => get_option( 'tpgb_white_label' ),
@@ -727,10 +782,24 @@ class Tpgb_Gutenberg_Settings_Options {
 				'shareAnalytics'               => (int) get_site_option( 'posimyth_nexter_share_analytics', 0 ),
 				'shareAnalyticsDocs'           => 'https://nexterwp.com/docs/data-sharing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=datasharingsettings',
 				'shareAnalyticsDocsOnboarding' => 'https://nexterwp.com/docs/data-sharing/?utm_source=wpbackend&utm_medium=admin&utm_campaign=datasharingonboarding',
+				'sheAddon'                     => $she_addon,
+				'sheactive'                    => $sheactive,
 			);
 		}
 
-		wp_enqueue_script( 'nexter-dashscript', TPGB_URL . 'dashboard/build/index.js', array( 'react', 'react-dom', 'wp-i18n', 'wp-dom-ready', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-editor' ), TPGB_VERSION, true );
+		/*
+		 * The build lists what it imports (lodash, the JSX runtime) in index.asset.php; merge it in so
+		 * the bundle never loads before a dependency it needs.
+		 */
+		$dash_deps  = array( 'react', 'react-dom', 'wp-i18n', 'wp-dom-ready', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-editor' );
+		$dash_asset = TPGB_PATH . 'dashboard/build/index.asset.php';
+		if ( file_exists( $dash_asset ) ) {
+			$asset = include $dash_asset;
+			if ( is_array( $asset ) && ! empty( $asset['dependencies'] ) ) {
+				$dash_deps = array_values( array_unique( array_merge( $dash_deps, $asset['dependencies'] ) ) );
+			}
+		}
+		wp_enqueue_script( 'nexter-dashscript', TPGB_URL . 'dashboard/build/index.js', $dash_deps, $this->tpgb_dash_asset_version(), true );
 
 		wp_localize_script(
 			'nexter-dashscript',
@@ -879,7 +948,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			global $wp_filesystem;
 
 			// Install the theme.
-			$theme = wp_remote_get( $theme_zip_url );
+			$theme = wp_remote_get( $theme_zip_url, array( 'timeout' => 60 ) );
 			if ( ! function_exists( 'WP_Filesystem' ) ) {
 				require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/file.php' );
 			}
@@ -2287,69 +2356,6 @@ class Tpgb_Gutenberg_Settings_Options {
 	}
 
 	/**
-	 * Code Snippet Render html
-	 *
-	 * @since  1.0.0
-	 */
-	public function nexter_code_snippet_display() {
-		$features = array(
-			__( 'Replace multiple small plugins with a single, unified snippet manager', 'the-plus-addons-for-block-editor' ),
-			__( 'Add PHP, HTML, CSS safely without editing theme or core files', 'the-plus-addons-for-block-editor' ),
-			__( 'Apply snippets site-wide or on specific pages, posts, or conditions', 'the-plus-addons-for-block-editor' ),
-			__( 'Stay protected with built-in validation, version control & rollback', 'the-plus-addons-for-block-editor' ),
-			__( 'Keep your site fast, only active snippets are loaded', 'the-plus-addons-for-block-editor' ),
-			__( 'Import or Organise snippets from our 1000+ Cloud Snippets Library', 'the-plus-addons-for-block-editor' ),
-			__( 'Preview, test, and toggle snippets without affecting live visitors', 'the-plus-addons-for-block-editor' ),
-		);
-
-		include_once ABSPATH . 'wp-admin/includes/plugin.php';
-		$pluginslist = get_plugins();
-
-		$extensioninstall  = false;
-		$extensionactivate = false;
-		if ( isset( $pluginslist['nexter-extension/nexter-extension.php'] ) && ! empty( $pluginslist['nexter-extension/nexter-extension.php'] ) ) {
-			if ( is_plugin_active( 'nexter-extension/nexter-extension.php' ) ) {
-				$extensioninstall = true;
-			} else {
-				$extensionactivate = true;
-			}
-		}
-
-		echo '<div id="nexter-code-snippets">
-            <div class="nxt-code-heading-title">' . esc_html__( 'Code Snippets', 'the-plus-addons-for-block-editor' ) . '</div>
-            <section class="nxt-install-ext-sec">
-                <div class="nxt-ins-ext-cover">
-                    <div class="nxt-ins-ext-inner">
-                        <span class="badge">' . esc_html__( 'Code Snippets', 'the-plus-addons-for-block-editor' ) . '</span>
-                        <h1 class="nxt-ins-heading">' . esc_html__( 'Add Custom PHP, HTML, CSS & JS Code to WordPress - No Child Theme or Extra Plugins Needed', 'the-plus-addons-for-block-editor' ) . '</h1>
-                        <p class="nxt-ins-desc">' . esc_html__( 'Skip the pain of editing core files or juggling dozens of mini plugins. Nexter Code Snippets lets you safely add and manage custom PHP, HTML, CSS right inside your dashboard, no child theme required. Build smarter, cleaner sites with total control and zero risk to performance.', 'the-plus-addons-for-block-editor' ) . '</p>
-                        <div class="nxt-ins-btns">
-                            <button class="nxt-inst-ext-btn ins-btn-primary">' . ( ! empty( $extensionactivate ) ? esc_html__( 'Activate Nexter Extensions', 'the-plus-addons-for-block-editor' ) : esc_html__( 'Install Nexter Extensions', 'the-plus-addons-for-block-editor' ) ) . '</button>
-                            <a href="https://nexterwp.com/nexter-extension/features/#code%20snippets?utm_source=wpbackend&utm_medium=dashboard&utm_campaign=nextersettings" rel="noopener noreferrer" target="_blank" class="ins-btn-outline">' . esc_html__( 'Explore All Features', 'the-plus-addons-for-block-editor' ) . '</a>
-                        </div>
-                        <ul class="nxt-feature-list">';
-
-		foreach ( $features as $feature ) {
-			echo '<li>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" fill="none" viewBox="0 0 14 15">
-                                    <path fill="#1717cc" d="M6.373.505a7.13 7.13 0 0 0-3.7 1.474c-.535.41-1.228 1.183-1.628 1.813a9.6 9.6 0 0 0-.63 1.29c-.135.367-.28.931-.351 1.367-.085.534-.085 1.547 0 2.081a6.9 6.9 0 0 0 .65 2.04c.361.738.736 1.26 1.34 1.866a6.5 6.5 0 0 0 1.866 1.34 7 7 0 0 0 2.042.649c.534.084 1.548.084 2.083 0a7 7 0 0 0 2.041-.65 6.5 6.5 0 0 0 1.867-1.339 6.5 6.5 0 0 0 1.34-1.865c.241-.49.362-.81.493-1.304C13.96 8.61 14 8.251 14 7.49c0-.762-.041-1.12-.214-1.778a6.3 6.3 0 0 0-.493-1.304 6.5 6.5 0 0 0-1.34-1.865 6.5 6.5 0 0 0-1.867-1.34A6.8 6.8 0 0 0 8.058.56C7.655.497 6.756.467 6.373.505"/>
-                                    <path fill="#fff" d="M10.673 4.482c.137.044.348.249.406.4a.76.76 0 0 1-.017.561c-.088.178-4.599 4.654-4.802 4.766a.66.66 0 0 1-.624-.003c-.116-.06-2.193-1.92-2.547-2.279a.68.68 0 0 1-.205-.506c.005-.414.31-.693.72-.666.1.008.22.033.267.06.074.036 1.458 1.282 1.907 1.712l.129.126 2.05-2.046c1.126-1.123 2.086-2.062 2.135-2.087a.7.7 0 0 1 .58-.038"/>
-                                </svg>
-                                ' . esc_html( $feature ) . '
-                            </li>';
-		}
-
-				echo '</ul>
-                    </div>
-                    <div class="nxt-ins-ext-img">
-                        <img src="' . esc_url( TPGB_URL . 'dashboard/assets/images/install-nexter-extension.png' ) . '" alt="' . esc_attr__( 'Nexter Extension', 'the-plus-addons-for-block-editor' ) . '" />
-                    </div>
-                </div>
-            </section>
-        </div>';
-	}
-
-	/**
 	 * Theme Builder Render html
 	 *
 	 * @since  1.0.0
@@ -2540,6 +2546,7 @@ class Tpgb_Gutenberg_Settings_Options {
 			$all_block   = get_option( $action_page );
 
 			if ( is_array( $block_scan ) ) {
+				$update_block = array();
 				foreach ( $block_scan as $key => $val ) {
 					if ( 1 === $val ) {
 						$update_block[] = $key;
@@ -2560,6 +2567,13 @@ class Tpgb_Gutenberg_Settings_Options {
 	 * @since 4.0.7
 	 */
 	public function nxt_wdk_widget_ajax_callback() { // phpcs:ignore Squiz.Commenting.FunctionComment
+
+		// The capability used to be enforced only inside the `nxt_wdk_widget_ajax_call` filter callback (Nexter's own,
+		// tp_nxt_wdkit_widget_ajax_call(); another plugin can hook the same filter). Check it here too so this
+		// admin-ajax entry point never depends on who answers the filter (docs/ROUND2-SECURITY.md).
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'content' => __( 'Insufficient permissions.', 'the-plus-addons-for-block-editor' ) ), 403 );
+		}
 
 		if ( ! class_exists( 'nxt_Wdk_Widget_Api' ) ) {
 			require_once TPGB_PATH . 'classes/extras/tpgb-wdk-widgets-api.php'; // Adjust this path/constant to match where this file actually lives in your plugin.

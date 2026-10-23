@@ -587,7 +587,7 @@
 		},
 		"metaDataOpt": {
 			"type": "array",
-			"default": "[]",
+			"default": [],
 			"scopy": true
 		},
 		"cloudSecretKey": {
@@ -620,7 +620,7 @@
 		},
 		"metaDataOpt2": {
 			"type": "array",
-			"default": "[]",
+			"default": [],
 			"scopy": true
 		},
 		"formId": {

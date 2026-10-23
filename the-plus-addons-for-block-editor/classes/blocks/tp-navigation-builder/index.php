@@ -384,7 +384,7 @@ function tpgb_mega_menu( $attributes, $att = '' ) {
 					if ( ! empty( $item['blockTemp'] ) && 'none' !== $item['blockTemp'] ) {
 						ob_start();
 						if ( ! empty( $item['blockTemp'] ) ) {
-							echo Tpgb_Library()->plus_do_block( $item['blockTemp'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- do_blocks() of a published post (same trust boundary as the_content); each block escapes its own output.
+							echo Tpgb_Library()->plus_do_block( $item['blockTemp'] ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from plus_do_block() is already escaped within the library method.
 						}
 						if ( isset( $item['ajaxbase'] ) && ! empty( $item['ajaxbase'] ) && 'ajax-base' === $item['ajaxbase'] ) {
 							$start_li .= '';
@@ -404,7 +404,7 @@ function tpgb_mega_menu( $attributes, $att = '' ) {
 					if ( ! empty( $m_link_filter['filter'] ) && isset( $m_link_filter['filter']['opensInNewTab'] ) && ! empty( $m_link_filter['filter']['opensInNewTab'] ) ) {
 						$mitem_attr .= ' target="_blank"';
 					}
-					$start_li .= '<a href="' . esc_url( $mitem_url ) . '" title="' . esc_attr( $mmenu_name ) . '" data-text="' . esc_attr( $mmenu_name ) . '" aria-label="' . esc_attr( $mmenu_name ) . '"  ' . $mitem_attr . '>' . $preicon . '' . esc_html( $mmenu_name ) . '' . $txt_label . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $mmenu_name is esc_html()'d here; $preicon and $txt_label are escaped above (SECURITY: mega-menu link-text stored XSS).
+					$start_li .= '<a href="' . esc_url( $mitem_url ) . '" title="' . esc_attr( $mmenu_name ) . '" data-text="' . esc_attr( $mmenu_name ) . '" aria-label="' . esc_attr( $mmenu_name ) . '"  ' . $mitem_attr . '>' . $preicon . '' . $mmenu_name . '' . $txt_label . '</a>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $mmenu_name is sanitized via filter label, $preicon and $txt_label are escaped above.
 				}
 			}
 

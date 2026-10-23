@@ -36,7 +36,7 @@ if ( ! empty( $created_time ) ) {
 							<a href="' . ( ( is_array( $video_url ) && isset( $video_url[0]['link'] ) && ! empty( $video_url[0]['link'] ) ) ? esc_url( $video_url[0]['link'] ) : esc_url( $video_url ) ) . '"  target="_blank" rel="noopener noreferrer" alt="' . esc_attr__( 'Post URL', 'the-plus-addons-for-block-editor' ) . '">' . wp_kses_post( $created_time ) . '</a></div>';
 }
 			echo '</div>';
-if ( isset( $iconlogo ) && ( ( ! empty( $social_icon ) && 'style-3' !== $style ) || ( empty( $image_url ) && 'style-3' === $style ) ) ) { // phpcs:ignore Generic.CodeAnalysis.RequireExplicitBooleanOperatorPrecedence.MissingParentheses
+if ( isset( $iconlogo ) && ( ! empty( $social_icon ) && 'style-3' !== $style ) || ( empty( $image_url ) && 'style-3' === $style ) ) { // phpcs:ignore Generic.CodeAnalysis.RequireExplicitBooleanOperatorPrecedence.MissingParentheses
 	echo wp_kses_post( $iconlogo );
 }
 		echo '</div>';

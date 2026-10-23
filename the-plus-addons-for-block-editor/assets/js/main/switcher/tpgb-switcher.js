@@ -17,36 +17,16 @@ function tpswitcherInit(doc){
                 inpSwi = sw.querySelector(".switch-toggle"),
                 swBlockId = sw.getAttribute('data-id');
 
-            // A11y: reflect the active side on the role="button" toggles.
-            function setPressed(active){
-                if(switch_1_toggle){ switch_1_toggle.setAttribute('aria-pressed', active ? 'false' : 'true'); }
-                if(switch_2_toggle){ switch_2_toggle.setAttribute('aria-pressed', active ? 'true' : 'false'); }
-            }
-            setPressed(false);
-
-            // A11y: activate role="button" toggles with Enter/Space via keyboard.
-            [switch_1_toggle, switch_2_toggle, switch_toggle].forEach(function(btn){
-                if(btn){
-                    btn.addEventListener('keydown', function(ev){
-                        if(ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Spacebar'){
-                            ev.preventDefault();
-                            btn.click();
-                        }
-                    });
-                }
-            });
-
             let gtCclass = localStorage.getItem(swBlockId);
             if(gtCclass && gtCclass == 'switch-2'){
                 sc1.style.display = 'none';
                 sc2.style.display = 'block';
-
+                
                 if(inpSwi){ inpSwi.checked = true;  }
                 if(sTgl.classList.contains('inactive')){
                     sTgl.classList.remove('inactive');
                     sTgl.classList.add('active');
                 }
-                setPressed(true);
                 switcerSlider(sw)
             }
             
@@ -79,13 +59,12 @@ function tpswitcherInit(doc){
                         sTgl.classList.add('active');
                         sTgl.classList.remove('inactive');
                     }
-
-                    setPressed(sTgl.classList.contains('active'));
+            
                     switcerSlider(sw)
                 });
             }
 
-
+            
             if(switch_1_toggle !== null){
                 switch_1_toggle.addEventListener('click', ()=>{
                     sc1.style.display = 'block';
@@ -94,14 +73,13 @@ function tpswitcherInit(doc){
                     if(localStorage.getItem(swBlockId)){
                         localStorage.removeItem(swBlockId);
                     }
-
+            
                     if(inpSwi){ inpSwi.checked = false;  }
                     if(sTgl.classList.contains('active')){
                         sTgl.classList.remove('active');
                         sTgl.classList.add('inactive');
                     }
-
-                    setPressed(false);
+            
                     switcerSlider(sw)
                 });
             }
@@ -119,8 +97,7 @@ function tpswitcherInit(doc){
                         sTgl.classList.remove('inactive');
                         sTgl.classList.add('active');
                     }
-
-                    setPressed(true);
+            
                     switcerSlider(sw)
                 });
             }

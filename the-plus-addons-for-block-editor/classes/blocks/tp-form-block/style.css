@@ -493,13 +493,3 @@
 	box-shadow: 0 0 0 1000px transparent inset !important;
 	transition: background-color 9999s ease-in-out 0s !important;
 }
-
-/* FB-9 (WCAG 2.4.7): the rules above remove the focus indicator on :focus with
-   no replacement. :focus-visible restores a visible ring for keyboard users only -
-   pointer interaction is unaffected. */
-.tp-form-block :is(input,textarea,select,button):focus-visible,
-.nxt-form :is(input,textarea,select,button):focus-visible {
-	outline: 2px solid currentColor;
-	outline-offset: 2px;
-	box-shadow: 0 0 0 3px rgba(0,0,0,.12);
-}

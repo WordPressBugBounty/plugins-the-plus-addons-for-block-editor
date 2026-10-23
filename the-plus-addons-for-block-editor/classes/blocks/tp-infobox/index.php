@@ -62,7 +62,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content ) { // phpcs:ign
 	$svgfill_hover_color = ( ! empty( $attributes['svgfillHoverColor'] ) ) ? $attributes['svgfillHoverColor'] : 'none';
 	$svg_dura            = ( ! empty( $attributes['svgDura'] ) ) ? $attributes['svgDura'] : 90;
 
-	$title_type = ( ! empty( $attributes['titleType'] ) ) ? $attributes['titleType'] : 'h3';
+	$title_type = ( ! empty( $attributes['titleType'] ) ) ? $attributes['titleType'] : 'div';
 	$desc_type  = ( ! empty( $attributes['descType'] ) ) ? $attributes['descType'] : 'div';
 
 	$show_arrows     = ( ! empty( $attributes['showArrows'] ) ) ? $attributes['showArrows'] : array( 'md' => false );
@@ -153,7 +153,7 @@ function tpgb_tp_infobox_render_callback( $attributes, $content ) { // phpcs:ign
 				$get_icon .= '<div class="service-icon-wrap tpgb-trans-linear">';
 		if ( 'icon' === $icon_type ) {
 			$get_icon .= '<span class="service-icon tpgb-trans-linear ' . esc_attr( $icon_shine_show ) . ' icon-' . esc_attr( $iconstyle_type ) . '">';
-			$get_icon .= '<i class="' . esc_attr( $icon_name ) . '" aria-hidden="true"></i>';
+			$get_icon .= '<i class="' . esc_attr( $icon_name ) . '"></i>';
 			$get_icon .= '</span>';
 		} elseif ( 'image' === $icon_type ) {
 			$get_icon .= $img_src;
@@ -386,12 +386,8 @@ function tpgb_getCInfobox( $attributes ) { // phpcs:ignore WordPress.NamingConve
 	$svgstro_color = ( ! empty( $attributes['svgstroColor'] ) ) ? $attributes['svgstroColor'] : '';
 	$svgfill_color = ( ! empty( $attributes['svgfillColor'] ) ) ? $attributes['svgfillColor'] : 'none';
 	$svg_dura      = ( ! empty( $attributes['svgDura'] ) ) ? $attributes['svgDura'] : 90;
-	// Same defaults as tpgb_tp_infobox_render_callback(): without these the child SVG icon's hover colours
-	// were always empty (undefined variables) instead of the configured ones.
-	$svgstro_hover_color = ( ! empty( $attributes['svgstroHoverColor'] ) ) ? $attributes['svgstroHoverColor'] : '';
-	$svgfill_hover_color = ( ! empty( $attributes['svgfillHoverColor'] ) ) ? $attributes['svgfillHoverColor'] : 'none';
 
-	$title_type = ( ! empty( $attributes['titleType'] ) ) ? $attributes['titleType'] : 'h3';
+	$title_type = ( ! empty( $attributes['titleType'] ) ) ? $attributes['titleType'] : 'div';
 	$desc_type  = ( ! empty( $attributes['descType'] ) ) ? $attributes['descType'] : 'div';
 
 	$iconstyle_type      = ( ! empty( $attributes['iconstyleType'] ) ) ? $attributes['iconstyleType'] : 'none';
@@ -492,7 +488,7 @@ function tpgb_getCInfobox( $attributes ) { // phpcs:ignore WordPress.NamingConve
 					$get_c_icon .= '<div class="service-icon-wrap tpgb-trans-linear">';
 				if ( 'icon' === $item['iconType'] ) {
 					$get_c_icon .= '<span class="service-icon tpgb-trans-linear ' . esc_attr( $icon_shine_show ) . ' icon-' . esc_attr( $iconstyle_type ) . '">';
-					$get_c_icon .= '<i class="' . esc_attr( $item['IconName'] ) . '" aria-hidden="true"></i>';
+					$get_c_icon .= '<i class="' . esc_attr( $item['IconName'] ) . '"></i>';
 					$get_c_icon .= '</span>';
 				} elseif ( 'image' === $item['iconType'] ) {
 					$get_c_icon .= $img_c_src;
@@ -524,7 +520,7 @@ function tpgb_getCInfobox( $attributes ) { // phpcs:ignore WordPress.NamingConve
 					if ( 'before' === $car_btn_icon_position ) {
 						if ( 'icon' === $car_btn_icon_type ) {
 							$get_cbutton     .= '<span class="btn-icon  button-' . esc_attr( $car_btn_icon_position ) . '">';
-								$get_cbutton .= '<i class="' . esc_attr( $car_btn_icon_name ) . '" aria-hidden="true"></i>';
+								$get_cbutton .= '<i class="' . esc_attr( $car_btn_icon_name ) . '"></i>';
 							$get_cbutton     .= '</span>';
 						}
 						$get_cbutton .= $get_btn_text;
@@ -533,7 +529,7 @@ function tpgb_getCInfobox( $attributes ) { // phpcs:ignore WordPress.NamingConve
 						$get_cbutton .= $get_btn_text;
 						if ( 'icon' === $car_btn_icon_type ) {
 							$get_cbutton     .= '<span class="btn-icon  button-' . esc_attr( $car_btn_icon_position ) . '">';
-								$get_cbutton .= '<i class="' . esc_attr( $car_btn_icon_name ) . '" aria-hidden="true"></i>';
+								$get_cbutton .= '<i class="' . esc_attr( $car_btn_icon_name ) . '"></i>';
 							$get_cbutton     .= '</span>';
 						}
 					}
@@ -543,11 +539,11 @@ function tpgb_getCInfobox( $attributes ) { // phpcs:ignore WordPress.NamingConve
 
 					$get_cbutton .= '<span class="button-arrow">';
 					if ( 'style-7' === $car_btn_style ) {
-						$get_cbutton .= '<span class="btn-right-arrow"><i class="fas fa-chevron-right" aria-hidden="true"></i></span>';
+						$get_cbutton .= '<span class="btn-right-arrow"><i class="fas fa-chevron-right"></i></span>';
 					}
 					if ( 'style-9' === $car_btn_style ) {
-						$get_cbutton .= '<i class="btn-show fas fa-chevron-right" aria-hidden="true"></i>';
-						$get_cbutton .= '<i class="btn-hide fas fa-chevron-right" aria-hidden="true"></i>';
+						$get_cbutton .= '<i class="btn-show fas fa-chevron-right"></i>';
+						$get_cbutton .= '<i class="btn-hide fas fa-chevron-right"></i>';
 					}
 					$get_cbutton .= '</span>';
 				}
@@ -694,18 +690,6 @@ function tpgb_getCInfobox( $attributes ) { // phpcs:ignore WordPress.NamingConve
  */
 function tpgb_tp_infobox() {
 	$block_data = Tpgb_Blocks_Global_Options::merge_options_json( __DIR__, 'tpgb_tp_infobox_render_callback', true, true, true );
-
-	/*
-	 * B12-1: register_block_type() reads the snake_case 'api_version'; block.json
-	 * declares camelCase 'apiVersion', which only register_block_type_from_metadata()
-	 * maps. Map it here so this block registers at the API version it declares.
-	 * Scoped to tp-infobox deliberately - do NOT move into merge_options_json()
-	 * without a full editor regression pass across all 180 blocks.
-	 */
-	if ( isset( $block_data['apiVersion'] ) ) {
-		$block_data['api_version'] = (int) $block_data['apiVersion'];
-	}
-
 	register_block_type( $block_data['name'], $block_data );
 }
 add_action( 'init', 'tpgb_tp_infobox' );

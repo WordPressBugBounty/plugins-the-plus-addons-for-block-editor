@@ -130,7 +130,7 @@ function tpgb_social_embed_render_callback( $attributes, $content ) { // phpcs:i
 
 				$output     .= '<blockquote class="twitter-tweet" data-theme="' . esc_attr( $tw_color ) . '" data-width="' . esc_attr( $twwidth ) . '" data-cards="' . esc_attr( $tw_cards ) . '" data-align="' . esc_attr( $tw_align ) . '" data-conversation="' . esc_attr( $twconver ) . '" >';
 					$output .= '<p lang="en" dir="ltr">' . wp_kses_post( $tw_massage ) . '</p>';
-					$output .= '<a href="' . esc_url( $tw_u_rl ) . '"></a>';
+					$output .= '<a href="' . esc_attr( $tw_u_rl ) . '"></a>';
 				$output     .= '</blockquote>';
 			}
 		}
@@ -233,7 +233,6 @@ function tpgb_social_embed_render_callback( $attributes, $content ) { // phpcs:i
 		$i_g_type = ( ! empty( $attributes['iGType'] ) ) ? $attributes['iGType'] : 'posts';
 		$i_g_id   = ( ! empty( $attributes['iGId'] ) ) ? $attributes['iGId'] : 'CGAvnLcA3zb';
 		$ig_cap   = ( empty( $attributes['iGCaptione'] ) ) ? 'data-instgrm-captioned' : '';
-		$ig_id    = '';
 
 		if ( 'posts' === $i_g_type ) {
 			$ig_id = 'p/' . esc_attr( $i_g_id );
@@ -269,7 +268,6 @@ function tpgb_social_embed_render_callback( $attributes, $content ) { // phpcs:i
 		$iframe_title      = ( ! empty( $attributes['iframeTitle'] ) ) ? esc_attr( $attributes['iframeTitle'] ) : esc_attr__( 'Social Youtube', 'the-plus-addons-for-block-editor' );
 
 		$yt_parameters = 'autoplay=' . esc_attr( $yt_autoplay ) . '&mute=' . esc_attr( $yt_muted ) . '&controls=' . esc_attr( $yt_controls ) . '&disablekb=' . esc_attr( $yt_disablekb ) . '&fs=' . esc_attr( $yt_fs ) . '&modestbranding=' . esc_attr( $yt_modestbranding ) . '&loop=' . esc_attr( $yt_loop ) . '&rel=' . esc_attr( $yt_rel ) . '&playsinline=' . esc_attr( $yt_playsinline ) . '&start=' . esc_attr( $yt_s_time ) . '&end=' . esc_attr( $yt_e_time ) . '&hl=' . esc_attr( $ytlanguage );
-		$yt_src        = '';
 
 		if ( 'ytSV' === $yt_type ) {
 			$yt_video_id = ( ! empty( $attributes['ytVideoId'] ) ) ? $attributes['ytVideoId'] : '';
@@ -329,7 +327,7 @@ function tpgb_social_embed_render_callback( $attributes, $content ) { // phpcs:i
 					$output .= '<iframe class="tpgb-gmap-embed" src="https://www.google.com/maps/embed/v1/search?key=' . esc_attr( $g_accesstoken ) . '&q=' . esc_attr( $g_search_text ) . '&zoom=' . esc_attr( $map_zoom ) . '&maptype=' . esc_attr( $map_views ) . '&language=En" height="' . esc_attr( $g_m_height ) . '" loading="lazy" allowfullscreen title="' . $iframe_title . '"></iframe>';
 				}
 			} else {
-				$output .= esc_html__( 'Enter Access Token', 'the-plus-addons-for-block-editor' );
+				$output .= 'Enter Access Token';
 			}
 		}
 	}

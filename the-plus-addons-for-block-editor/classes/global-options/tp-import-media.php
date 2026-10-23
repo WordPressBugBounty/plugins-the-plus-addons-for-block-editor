@@ -66,7 +66,7 @@ class Tpgb_Import_Images {
 		// Extract the file name and extension from the url.
 		$file_name = basename( $attachment['url'] );
 
-		$file_content = wp_remote_retrieve_body( wp_safe_remote_get( $attachment['url'], array( 'timeout' => 15 ) ) );
+		$file_content = wp_remote_retrieve_body( wp_safe_remote_get( $attachment['url'] ) );
 
 		if ( empty( $file_content ) ) {
 			return false;

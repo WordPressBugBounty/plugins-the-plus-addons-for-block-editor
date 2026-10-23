@@ -1,7 +1,3 @@
-
-window.tpgbPrefersReducedMotion = window.tpgbPrefersReducedMotion || function () {
-    return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-};
 function numscrollerfun() {
     function numberRoller(g) {
         var element = document.querySelector(".roller-title-number-" + g);
@@ -10,12 +6,6 @@ function numscrollerfun() {
         var delay = parseFloat(element.getAttribute("data-delay"));
         var increment = parseFloat(element.getAttribute("data-increment"));
         var numeration = element.getAttribute("data-numeration");
-
-         if (window.tpgbPrefersReducedMotion()) {
-            // Skip the incremental count-up animation; show the final value immediately.
-            element.innerHTML = formatNumber(max, numeration);
-            return;
-        }
         
         numberRoll(g, min, max, increment, 1000 * delay / (max - min), numeration);
     }

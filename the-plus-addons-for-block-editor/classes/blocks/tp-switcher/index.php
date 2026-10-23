@@ -49,7 +49,7 @@ function tpgb_switcher_render_callback( $attributes, $content ) {
 	$output                     .= '<div class="tpgb-switcher tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . '">';
 		$output                 .= '<div class="tpgb-switch-wrap" data-id="' . esc_attr( $block_id ) . '">';
 			$output             .= '<div class="switch-toggle-wrap switch-' . esc_attr( $switch_style ) . ' ' . esc_attr( $switchalign ) . ' inactive">';
-				$output         .= '<div class="switch-1 ' . esc_attr( $sotriclass ) . '" role="button" tabindex="0" aria-pressed="false">';
+				$output         .= '<div class="switch-1 ' . esc_attr( $sotriclass ) . '">';
 					$output     .= '<div class="switch-label">';
 						$output .= wp_kses_post( $title1 );
 					$output     .= '</div>';
@@ -62,7 +62,7 @@ function tpgb_switcher_render_callback( $attributes, $content ) {
 			$output     .= '</label>';
 		$output         .= '</div>';
 	}
-				$output         .= '<div class="switch-2 ' . esc_attr( $sttriclass ) . '" role="button" tabindex="0" aria-pressed="false">';
+				$output         .= '<div class="switch-2 ' . esc_attr( $sttriclass ) . '">';
 					$output     .= '<div class="switch-label">';
 						$output .= wp_kses_post( $title2 );
 					$output     .= '</div>';

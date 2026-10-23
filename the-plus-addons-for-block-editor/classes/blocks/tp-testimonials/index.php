@@ -116,7 +116,6 @@ function tpgb_tp_testimonials_render_callback( $attributes, $content ) { // phpc
 							$item_content .= wp_kses_post( $item['content'] );
 						$item_content     .= '</div>';
 					} else {
-						$excerpt = '';
 						if ( 'words' === $desc_by_limit ) {
 							$total           = explode( ' ', $item['content'] );
 							$limit_words     = explode( ' ', $item['content'], $desc_limit );

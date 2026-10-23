@@ -591,7 +591,7 @@ function tpgb_mcp_sl2_bg( string $color ): array {
  * @param int $size Font size in px.
  * @return array Typography attribute structured for the block.
  */
-function tpgb_mcp_sl2_typo( int $size, array $input = array() ): array {
+function tpgb_mcp_sl2_typo( int $size ): array {
 	return array(
 		'openTypography' => 1,
 		'size'           => array(
@@ -669,12 +669,6 @@ function tpgb_mcp_add_stylist_list_ability( array $input ) {
 	$post = get_post( $post_id );
 	if ( ! $post instanceof WP_Post ) {
 		return new WP_Error( 'invalid_post', __( 'Target post not found.', 'the-plus-addons-for-block-editor' ) ); }
-
-	// AB-2: refuse blocks whose markup is not a function of attributes.
-	$tpgb_mcp_guard = tpgb_mcp_guard_content_driven( $block_name );
-	if ( $tpgb_mcp_guard instanceof WP_Error ) {
-		return array( 'error' => $tpgb_mcp_guard );
-	}
 
 	$blocks = tpgb_mcp_get_blocks( $post_id );
 	if ( is_wp_error( $blocks ) ) {
@@ -759,7 +753,7 @@ function tpgb_mcp_add_stylist_list_ability( array $input ) {
 				'unit' => 'px',
 			); }
 		if ( ! empty( $input['toggleTypoSize'] ) ) {
-			$attrs['toggleTypo'] = tpgb_mcp_sl2_typo( (int) $input['toggleTypoSize'] , $input ); }
+			$attrs['toggleTypo'] = tpgb_mcp_sl2_typo( (int) $input['toggleTypoSize'] ); }
 	}
 
 	/* ── Icon style ───────────────────────────────────────────────────── */
@@ -821,7 +815,7 @@ function tpgb_mcp_add_stylist_list_ability( array $input ) {
 
 	/* ── Text style ───────────────────────────────────────────────────── */
 	if ( ! empty( $input['textTypoSize'] ) ) {
-		$attrs['textTypo'] = tpgb_mcp_sl2_typo( (int) $input['textTypoSize'] , $input ); }
+		$attrs['textTypo'] = tpgb_mcp_sl2_typo( (int) $input['textTypoSize'] ); }
 	if ( ! empty( $input['textColor'] ) ) {
 		$attrs['textNormalColor'] = sanitize_text_field( $input['textColor'] ); }
 	if ( ! empty( $input['textColorHover'] ) ) {
@@ -854,7 +848,7 @@ function tpgb_mcp_add_stylist_list_ability( array $input ) {
 	if ( ! empty( $input['pinAlignment'] ) && 'right' !== $input['pinAlignment'] ) {
 		$attrs['pinAlignment'] = sanitize_text_field( $input['pinAlignment'] ); }
 	if ( ! empty( $input['pinTypoSize'] ) ) {
-		$attrs['pinTypo'] = tpgb_mcp_sl2_typo( (int) $input['pinTypoSize'] , $input ); }
+		$attrs['pinTypo'] = tpgb_mcp_sl2_typo( (int) $input['pinTypoSize'] ); }
 	if ( ! empty( $input['pinShadow'] ) ) {
 		$attrs['pinBoxShadow'] = tpgb_mcp_sl2_bshadow( $input['pinShadow'] ); }
 	if ( ! empty( $input['pinBRadius'] ) ) {

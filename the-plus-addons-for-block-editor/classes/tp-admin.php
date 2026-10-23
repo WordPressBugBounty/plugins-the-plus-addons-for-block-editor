@@ -407,8 +407,7 @@ if ( ! class_exists( 'Tpgb_Admin' ) ) {
 		 */
 		public function admin_enqueue_css_js( $hook ) {
 
-			$tpgb_media_screens = array( 'toplevel_page_nexter_welcome', 'post.php', 'post-new.php' );
-			if ( in_array( $hook, $tpgb_media_screens, true ) && ! did_action( 'wp_enqueue_media' ) ) {
+			if ( ! did_action( 'wp_enqueue_media' ) ) {
 				wp_enqueue_media();
 			}
 			wp_enqueue_style( 'tpgb-admin-css', TPGB_URL . 'assets/css/admin/tpgb-admin.css', array(), TPGB_VERSION, false );

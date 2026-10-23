@@ -71,8 +71,7 @@ function tpgb_breadcrumbs_callback( $attributes, $content ) { // phpcs:ignore Ge
 		}
 	}
 
-	$css_class         = '';
-	$bred_style_class  = '';
+	$css_class = '';
 	if ( 'style-1' === $style ) {
 		$bred_style_class = 'bred_style_1';
 	} elseif ( 'style-2' === $style ) {
@@ -84,14 +83,6 @@ function tpgb_breadcrumbs_callback( $attributes, $content ) { // phpcs:ignore Ge
 	$css_class .= ( ! empty( $attributes['bredAlign']['xs'] ) ) ? ' bred-mobile-' . esc_attr( $attributes['bredAlign']['xs'] ) : '';
 
 	$home_title = $attributes['homeTitle'];
-
-	// Resolve a Dynamic Field set on the Home Title (Pro). Without this the raw
-	// <span data-tpgb-dynamic='...'> markup would print on the frontend.
-	if ( is_string( $home_title )
-		&& false !== strpos( $home_title, 'data-tpgb-dynamic' )
-		&& class_exists( 'Tpgbp_Pro_Blocks_Helper' ) ) {
-		$home_title = Tpgbp_Pro_Blocks_Helper::tpgb_dynamic_val( $home_title );
-	}
 
 	$bd_toggle_home   = ( ! empty( $attributes['bdToggleHome'] ) ) ? true : false;
 	$bd_toggle_parent = ( ! empty( $attributes['bdToggleParent'] ) ) ? true : false;

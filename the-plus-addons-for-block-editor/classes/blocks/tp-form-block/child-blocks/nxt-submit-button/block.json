@@ -7,9 +7,9 @@
 	"category": "tpgb",
 	"description": "Add a Submit Button into your form.",
 	"example": { "attributes": {} },
-	"supports": { "anchor": true, "align": [ "wide", "full" ] },
+	"supports": { "anchor": true, "align": ["wide", "full"] },
 	"textdomain": "the-plus-addons-for-block-editor",
-	"ancestor": [ "tpgb/tp-form-block" ],
+	"ancestor": ["tpgb/tp-form-block"],
 	"attributes": {
 		"block_id": { "type": "string", "default": "" },
 		"labelss": { "type": "string", "default": "Submit" },
@@ -17,7 +17,7 @@
 		"ButtonIcon": { "type": "string", "default": "" },
 		"ButtonImage": { "type": "object", "default": { "url": "", "Id": "" } },
 		"btnAlign": {
-			"type": "string",
+			"type": "object",
 			"default": "left",
 			"style": [
 				{
@@ -122,7 +122,7 @@
 		},
 		"svgIcon": {
 			"type": "object",
-			"default": {}
+			"default": []
 		},
 		"headSvgColor": {
 			"type": "string",

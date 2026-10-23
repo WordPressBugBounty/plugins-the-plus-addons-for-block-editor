@@ -136,7 +136,7 @@
         },
         "titleTag": {
             "type": "string",
-            "default": "h2"
+            "default": "h3"
         },
         "titleByLimit": {
             "type": "string",
@@ -1341,7 +1341,6 @@
                                 ],
                                 "selector": "{{PLUS_WRAP}}.tpgb-post-listing.dynamic-style-6 .tpgb-content-bottom .tpgb-post-title{ align-self: start; }"
                             }
-                            
                         ]
                     },
                     "layAlign": {

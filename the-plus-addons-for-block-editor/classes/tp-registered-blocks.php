@@ -603,7 +603,6 @@ function tpgb_registered_blocks() {
 		),
 		TPGB_CATEGORY . '/tp-form-block'              => array(
 			'css' => array(
-				$tpgb_free . 'assets/js/main/general/tpgb-ajax-load.min.js',
 				$tpgb_free . 'classes/blocks/tp-form-block/style.css',
 			),
 			'js'  => array(
@@ -943,7 +942,6 @@ function tpgb_registered_blocks() {
 				$tpgb_free . 'classes/blocks/tp-search-bar/style.css',
 			),
 			'js'  => array(
-				$tpgb_free . 'assets/js/main/general/tpgb-ajax-load.min.js',
 				$tpgb_free . 'assets/js/main/common-created/tpgb-slidetoggle-block.min.js',
 				$tpgb_free . 'assets/js/main/search-bar/tpgb-search-bar.min.js',
 			),
@@ -2288,9 +2286,8 @@ class Tpgb_Library {
 			$load_localize,
 			'tpgb_config',
 			array(
-				'ajax_url'        => esc_url( admin_url( 'admin-ajax.php' ) ),
-				'tpgb_nonce'      => wp_create_nonce( 'tpgb-addons' ),
-				'tpgb_action_sig' => is_callable( array( 'Tp_Blocks_Helper', 'tpgb_readonly_sig' ) ) ? Tp_Blocks_Helper::tpgb_readonly_sig() : '',
+				'ajax_url'   => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'tpgb_nonce' => wp_create_nonce( 'tpgb-addons' ),
 			)
 		);
 	}
@@ -2471,11 +2468,6 @@ class Tpgb_Library {
 			// First time load footer css and js.
 			$this->enqueue_css_js( $elements, true );
 
-			// Load FontAwesome only when this page actually renders a Nexter block.
-			if ( ! empty( $elements ) ) {
-				$this->maybe_enqueue_fontawesome();
-			}
-
 			$this->update_posts_metadata( self::$tpgb_post_id, '_block_css', 'blocks', $elements );
 			$this->update_posts_metadata( self::$tpgb_post_id, '_block_css', 'version', time(), true );
 		}
@@ -2608,7 +2600,7 @@ class Tpgb_Library {
 				}
 
 				if ( ( ! $this->requires_update && $this->get_caching_option() === 'separate' ) || $this->get_caching_option() === false ) {
-					$this->enqueue_global_css( ! $this->requires_update );
+					$this->enqueue_global_css();
 				}
 
 				if ( is_admin_bar_showing() && $this->get_caching_option() === false ) {
@@ -2630,58 +2622,19 @@ class Tpgb_Library {
 	}
 
 	/**
-	 * Enqueue FontAwesome icon css on frontend.
-	 *
-	 * Respects the existing fontawesome_load / fontawesome_pro_kit opt-out & opt-in
-	 * settings. Callers gate this on the page actually rendering a Nexter block so
-	 * the 57KB file is not loaded site-wide on pages with no icons.
-	 *
-	 * @since 10.0.0
-	 */
-	public function maybe_enqueue_fontawesome() {
-		$fontawesome_load = Tp_Blocks_Helper::get_extra_option( 'fontawesome_load' );
-		$fontawesome_pro  = Tp_Blocks_Helper::get_extra_option( 'fontawesome_pro_kit' );
-
-		if ( ( empty( $fontawesome_load ) || 'enable' === $fontawesome_load || empty( $fontawesome_pro ) || ! defined( 'TPGBP_VERSION' ) ) && 'disable' !== $fontawesome_load ) {
-			wp_enqueue_style( 'tpgb-fontawesome', TPGB_URL . 'assets/css/extra/fontawesome.min.css', array(), TPGB_VERSION );
-		}
-	}
-
-	/**
 	 * Enqueue Global Css
 	 *
-	 * @param bool $load_fa Whether to load FontAwesome icons.
 	 * @since 2.0.0
 	 */
-	public function enqueue_global_css( $load_fa = true ) {
+	public function enqueue_global_css() {
 		$plus_version = $this->get_enqueue_version( self::$tpgb_post_id );
-
-		// fontawesome icon load frontend (only when the page renders Nexter blocks).
-		if ( $load_fa ) {
-			$this->maybe_enqueue_fontawesome();
-		}
-
-		$global_block_style = Tp_Blocks_Helper::get_extra_opt_enabled();
-
-		$check_gfontandcss_load = get_option( 'tpgb_connection_data' );
-
-		/* Disable Global CSS Here */
-		if ( ! empty( $check_gfontandcss_load ) && isset( $check_gfontandcss_load['gbl_css'] ) && 'disable' === $check_gfontandcss_load['gbl_css'] && ! empty( $global_block_style ) && ! in_array( 'tp-global-block-style', $global_block_style, true ) ) {
-			return;
-		}
 
 		// fontawesome icon load frontend.
 		$fontawesome_load   = Tp_Blocks_Helper::get_extra_option( 'fontawesome_load' );
 		$fontawesome_pro    = Tp_Blocks_Helper::get_extra_option( 'fontawesome_pro_kit' );
 		$global_block_style = Tp_Blocks_Helper::get_extra_opt_enabled();
 		if ( ( empty( $fontawesome_load ) || 'enable' === $fontawesome_load || empty( $fontawesome_pro ) || ! defined( 'TPGBP_VERSION' ) ) && 'disable' !== $fontawesome_load ) {
-			// Core (solid + regular) always loads -- narrowing that set isn't safe, see
-			// Tp_Blocks_Helper::tpgb_needs_fontawesome_brands(). Only the separate brands
-			// family is gated on whether this page actually uses a brand icon.
-			wp_enqueue_style( 'tpgb-fontawesome', TPGB_URL . 'assets/css/extra/fontawesome-core.min.css', array(), TPGB_VERSION );
-			if ( Tp_Blocks_Helper::tpgb_needs_fontawesome_brands( self::$tpgb_post_id ) ) {
-				wp_enqueue_style( 'tpgb-fontawesome-brands', TPGB_URL . 'assets/css/extra/fontawesome-brands.min.css', array( 'tpgb-fontawesome' ), TPGB_VERSION );
-			}
+			wp_enqueue_style( 'tpgb-fontawesome', TPGB_URL . 'assets/css/extra/fontawesome.min.css', array(), TPGB_VERSION );
 		}
 
 		$check_gfontandcss_load = get_option( 'tpgb_connection_data' );
@@ -2875,8 +2828,10 @@ class Tpgb_Library {
 	public function tpgb_smart_perf_clear_cache() {
 		check_ajax_referer( 'nexter_admin_nonce', 'security' );
 
-		// Capability check: the nonce is localized to every block-editor page (Contributor+), so without
-		// this guard any such user could trigger a site-wide cache wipe (SECURITY finding #2).
+		// Capability check added -- the nonce this function checks is localized to every
+		// block-editor page for any user who can access the editor (Contributor+), so any
+		// such user could trigger a site-wide cache wipe without this. Matches the sibling
+		// function tpgb_current_page_clear_cache() below, which already has this guard.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( esc_html__( 'You do not have permission to perform this action.', 'the-plus-addons-for-block-editor' ), 403 );
 		}
@@ -2895,7 +2850,7 @@ class Tpgb_Library {
 	public function tpgb_dynamic_style_cache() {
 		check_ajax_referer( 'nexter_admin_nonce', 'security' );
 
-		// Capability check (same reasoning as tpgb_smart_perf_clear_cache above) -- SECURITY finding #2.
+		// Capability check added -- same reasoning as tpgb_smart_perf_clear_cache() above.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( esc_html__( 'You do not have permission to perform this action.', 'the-plus-addons-for-block-editor' ), 403 );
 		}
@@ -2913,13 +2868,6 @@ class Tpgb_Library {
 	 */
 	public function tpgb_backend_clear_cache() {
 		check_ajax_referer( 'tpgb-addons', 'security' );
-
-		// Capability check: `tpgb-addons` is localized to every front-end page, so any logged-in user
-		// (Subscriber+) could otherwise wipe the backend cache. Same guard as the sibling cache actions
-		// (SECURITY finding #2).
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'You do not have permission to perform this action.', 'the-plus-addons-for-block-editor' ), 403 );
-		}
 
 		// clear cache files.
 		$this->remove_backend_dir_files();

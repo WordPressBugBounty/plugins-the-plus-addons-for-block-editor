@@ -170,9 +170,8 @@ class Nxt_AI_Image_Variations {
 			}
 
 			$img_data = base64_decode( $matches[2] ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
-		} elseif ( filter_var( $image, FILTER_VALIDATE_URL ) && in_array( wp_parse_url( $image, PHP_URL_SCHEME ), array( 'http', 'https' ), true ) ) {
-			// FILTER_VALIDATE_URL accepts any scheme (file://, php://, ftp://, gopher://): only ever fetch http(s).
-			$img_data = @file_get_contents( $image ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.NoSilencedErrors.Discouraged -- admin-only REST route (manage_options); scheme restricted to http(s) just above.
+		} elseif ( filter_var( $image, FILTER_VALIDATE_URL ) ) {
+			$img_data = @file_get_contents( $image ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.NoSilencedErrors.Discouraged
 
 			if ( false === $img_data ) {
 				return new WP_Error( 'fetch_failed', 'Failed to fetch image from URL' );

@@ -582,15 +582,6 @@ Generate the content now:";
 	}
 
 	/**
-	 * Explicit constructor.
-	 *
-	 * The REST callback below is named nxt_ai_integration(), the class name. On PHP 7.x a method named
-	 * like its class is the (PHP 4 style) constructor, so `new self()` called it with no args → ArgumentCountError.
-	 * Declaring __construct() makes PHP treat it as an ordinary method. No effect on PHP 8+.
-	 */
-	public function __construct() {}
-
-	/**
 	 * Get instance.
 	 *
 	 * @return mixed The result.

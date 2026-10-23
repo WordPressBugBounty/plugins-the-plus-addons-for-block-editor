@@ -1,9 +1,14 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+<?php
 /**
  * TPGB Core Plugin.
  *
  * @package TPGB
  */
+
+// phpcs:disable Squiz.PHP.DisallowMultipleAssignments.Found
+// phpcs:disable Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure
+// phpcs:disable WordPress.Files.FileName
+// phpcs:disable Squiz.PHP.CommentedOutCode.Found
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -69,7 +74,7 @@ class Tp_Blocks_Helper {
 	}
 
 	/**
-	 * Load Custom Css and Js
+	Load Custom Css and Js
 	 *
 	 * @since 1.0.0
 	 */
@@ -206,51 +211,6 @@ class Tp_Blocks_Helper {
 	}
 
 	/**
-	 * Whether a post plausibly renders a Font Awesome BRAND icon (facebook, twitter,
-	 * etc.), used to decide whether assets/css/extra/fontawesome-brands.min.css needs
-	 * to be enqueued on top of the always-loaded fontawesome-core.min.css.
-	 *
-	 * @param int|string $post_id Post ID.
-	 * @return bool True if fontawesome-brands.min.css should be enqueued.
-	 */
-	public static function tpgb_needs_fontawesome_brands( $post_id ) {
-		if ( empty( $post_id ) ) {
-			return true;
-		}
-
-		if ( has_block( 'tpgb/tp-social-icons', $post_id ) || has_block( 'tpgb/tp-navigation-builder', $post_id ) ) {
-			return true;
-		}
-
-		if ( has_block( 'core/block', $post_id ) || has_block( 'core/template-part', $post_id ) || has_block( 'core/pattern', $post_id ) ) {
-			return true;
-		}
-
-		$content = get_post_field( 'post_content', $post_id );
-		if ( empty( $content ) ) {
-			return true;
-		}
-
-		if ( preg_match( '/\bfab\b/', $content ) ) {
-			return true;
-		}
-
-		static $brand_pattern = null;
-		if ( null === $brand_pattern ) {
-			$brand_names   = TPGB_PATH . 'classes/generated/fontawesome-brand-icons.php';
-			$brand_names   = file_exists( $brand_names ) ? include $brand_names : array();
-			$brand_pattern = ! empty( $brand_names ) && is_array( $brand_names )
-				? '/\bfa-(?:' . implode( '|', array_map( 'preg_quote', $brand_names, array_fill( 0, count( $brand_names ), '/' ) ) ) . ')\b/'
-				: false;
-		}
-		if ( false === $brand_pattern ) {
-			return true;
-		}
-
-		return (bool) preg_match( $brand_pattern, $content );
-	}
-
-	/**
 	 * Init Block Load.
 	 *
 	 * @since 1.0.0
@@ -366,9 +326,6 @@ class Tp_Blocks_Helper {
 					}
 
 					if ( ! empty( $block_id ) && 'tp-form-block' === $block_id ) {
-						// Enable/require list: include_block() requires
-						// classes/blocks/<entry>/index.php, so each entry MUST be the
-						// child's directory PATH, not its flat registered block name.
 						$form_child = array(
 							'tp-form-block/child-blocks/nxt-name-field',
 							'tp-form-block/child-blocks/nxt-number-field',
@@ -386,15 +343,6 @@ class Tp_Blocks_Helper {
 							'tp-form-block/child-blocks/nxt-phone-field',
 							'tp-form-block/child-blocks/nxt-form-step',
 						);
-
-						// FB-5 / Pro #55: these two shipped but were never in the require
-						// list, so they never registered. include_block() resolves Pro-or-Free
-						// and returns false when neither edition has the directory. Filter-gated
-						// so an operator can restore the pre-fix unregistered state.
-						if ( apply_filters( 'tpgb_wire_security_hidden_form_fields', true ) ) {
-							$form_child[] = 'tp-form-block/child-blocks/nxt-security-field';
-							$form_child[] = 'tp-form-block/child-blocks/nxt-hidden-field';
-						}
 
 						foreach ( $form_child as $block ) {
 							self::$get_load_block[] = $block;
@@ -451,30 +399,21 @@ class Tp_Blocks_Helper {
 			}
 			if ( ! in_array( 'tp-form-block', $enable_normal_blocks, true ) ) {
 				$form_child = array(
-					'tp-form-name-field',
-					'tp-form-number-field',
-					'tp-form-email-field',
-					'tp-form-message-field',
-					'tp-form-submit-button',
-					'tp-form-option-field',
-					'tp-form-radio-button',
-					'tp-form-checkbox-button',
+					'tp-form-block/child-blocks/nxt-name-field',
+					'tp-form-block/child-blocks/nxt-number-field',
+					'tp-form-block/child-blocks/nxt-email-field',
+					'tp-form-block/child-blocks/nxt-message-field',
+					'tp-form-block/child-blocks/nxt-submit-button',
+					'tp-form-block/child-blocks/nxt-option-field',
+					'tp-form-block/child-blocks/nxt-radio-button',
+					'tp-form-block/child-blocks/nxt-checkbox-button',
 
-					'tp-form-url-field',
-					'tp-form-acceptance-button',
-					'tp-form-time-field',
-					'tp-form-date-field',
-					'tp-form-phone-field',
-					'tp-form-step',
+					'tp-form-block/child-blocks/nxt-url-field',
+					'tp-form-block/child-blocks/nxt-acceptance-button',
+					'tp-form-block/child-blocks/nxt-time-field',
+					'tp-form-block/child-blocks/nxt-date-field',
+					'tp-form-block/child-blocks/nxt-phone-field',
 				);
-
-				// Disable list feeds blocks.deactivate.js via getBlockType( category + '/' + entry ),
-				// so these must be the flat registered block names, not directory paths.
-				if ( apply_filters( 'tpgb_wire_security_hidden_form_fields', true ) ) {
-					$form_child[] = 'tp-security-field';
-					$form_child[] = 'tp-form-hidden-field';
-				}
-
 				foreach ( $form_child as $block ) {
 					$deactivate_block[] = $block;
 				}
@@ -490,6 +429,7 @@ class Tp_Blocks_Helper {
 					$deactivate_block[] = 'tp-repeater-layout';
 					$deactivate_block[] = 'tp-dynamic-heading';
 				}
+
 				if ( ! in_array( 'tp-search-filter', $enable_normal_blocks, true ) ) {
 					$deactivate_block = array_merge( $deactivate_block, $filter_types );
 				}
@@ -550,6 +490,7 @@ class Tp_Blocks_Helper {
 						self::$get_load_block[] = 'tp-dynamic-heading';
 						$this->include_block( 'tp-dynamic-heading' );
 					}
+
 					if ( ! empty( $block_id ) && 'tp-search-filter' === $block_id ) {
 						foreach ( $filter_types as $filter ) {
 							$block_name             = "tp-search-filter/{$filter}";
@@ -780,6 +721,7 @@ class Tp_Blocks_Helper {
 			if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
 				$options[0] = array( '', esc_html__( 'Select Ninja Form', 'the-plus-addons-for-block-editor' ) );
 				foreach ( $contact_forms as $form ) {
+					// $options[ $form->get_id() ] = $form->get_setting( 'title' ); // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 					$options[] = array( $form->get_id(), $form->get_setting( 'title' ) );
 				}
 			}
@@ -807,6 +749,7 @@ class Tp_Blocks_Helper {
 			if ( ! empty( $contact_forms ) && ! is_wp_error( $contact_forms ) ) {
 				$options[0] = array( '', esc_html__( 'Select a WPForm', 'the-plus-addons-for-block-editor' ) );
 				foreach ( $contact_forms as $post ) {
+					// $options[ $post->ID ] = $post->post_title; // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 					$options[] = array( $post->ID, $post->post_title );
 				}
 			}
@@ -1519,18 +1462,17 @@ class Tp_Blocks_Helper {
 		return $crumbs_output;
 	}
 
-	/**
-	 * Get Taxonomies Slug
-	 *
+	/*
+	Get Taxonomie  Slug
 	 * @since 1.1.0
 	 */
-	public static function tpgb_get_post_taxonomies() {
+	public static function tpgb_get_post_taxonomies() { // phpcs:ignore Squiz.Commenting.FunctionComment
 		$args       = array(
 			'public'  => true,
 			'show_ui' => true,
 		);
 		$output     = 'objects'; // or objects.
-		$operator   = 'and'; // Operator: 'and' or 'or'.
+		$operator   = 'and'; // 'and' or 'or' // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 		$cat_list   = array();
 		$cat_list[] = array( '', 'None' );
 		$taxonomies = get_taxonomies( $args, $output, $operator );
@@ -1693,7 +1635,6 @@ class Tp_Blocks_Helper {
 				$settings['autoScroll']['speed'] = 1;
 			}
 			$settings['lazyLoad']                   = 'nearby';
-			$settings['rewind']                     = true;
 			$settings['autoScroll']['pauseOnHover'] = isset( $attr['slideHoverPause'] ) ? $attr['slideHoverPause'] : false;
 		}
 
@@ -1783,22 +1724,22 @@ class Tp_Blocks_Helper {
 		$slide_hover_arrows = ( ! empty( $attr['slideHoverArrows'] ) ) ? $attr['slideHoverArrows'] : false;
 		$slide_hover_dots   = ( ! empty( $attr['slideHoverDots'] ) ) ? $attr['slideHoverDots'] : false;
 
-		$slider_class = '';
+		$sliderclass = '';
 
 		if ( true === $slide_hover_dots && ( ( isset( $show_dots['md'] ) && ! empty( $show_dots['md'] ) ) || ( isset( $show_dots['sm'] ) && ! empty( $show_dots['sm'] ) ) || ( isset( $show_dots['xs'] ) && ! empty( $show_dots['xs'] ) ) ) ) {
-			$slider_class .= ' hover-slider-dots';
+			$sliderclass .= ' hover-slider-dots';
 		}
 		if ( true === $outer_arrows && ( ( isset( $show_arrows['md'] ) && ! empty( $show_arrows['md'] ) ) || ( isset( $show_arrows['sm'] ) && ! empty( $show_arrows['sm'] ) ) || ( isset( $show_arrows['xs'] ) && ! empty( $show_arrows['xs'] ) ) ) ) {
-			$slider_class .= ' outer-slider-arrow';
+			$sliderclass .= ' outer-slider-arrow';
 		}
 		if ( true === $slide_hover_arrows && ( ( isset( $show_arrows['md'] ) && ! empty( $show_arrows['md'] ) ) || ( isset( $show_arrows['sm'] ) && ! empty( $show_arrows['sm'] ) ) || ( isset( $show_arrows['xs'] ) && ! empty( $show_arrows['xs'] ) ) ) ) {
-			$slider_class .= ' hover-slider-arrow';
+			$sliderclass .= ' hover-slider-arrow';
 		}
 		if ( ( isset( $show_dots['md'] ) && ! empty( $show_dots['md'] ) ) || ( isset( $show_dots['sm'] ) && ! empty( $show_dots['sm'] ) ) || ( isset( $show_dots['xs'] ) && ! empty( $show_dots['xs'] ) ) ) {
-			$slider_class .= ' dots-' . esc_attr( $dots_style );
+			$sliderclass .= ' dots-' . esc_attr( $dots_style );
 		}
 
-		return $slider_class;
+		return $sliderclass;
 	}
 
 	/**
@@ -1906,13 +1847,11 @@ class Tp_Blocks_Helper {
 		return false;
 	}
 
-	/**
+	/*
 	 * Check Html Tag
-	 *
 	 * @since 1.2.1
-	 * @return array The allowed HTML tags.
 	 */
-	public static function tpgb_html_tag_check() {
+	public static function tpgb_html_tag_check() { // phpcs:ignore Squiz.Commenting.FunctionComment
 		return array(
 			'div',
 			'h1',
@@ -1947,13 +1886,11 @@ class Tp_Blocks_Helper {
 		return in_array( strtolower( $check_tag ), self::tpgb_html_tag_check(), true ) ? $check_tag : 'div';
 	}
 
-	/**
+	/** // phpcs:ignore Squiz.Commenting.FunctionComment, Generic.Commenting.DocComment.ShortNotCapital,Generic.Commenting.DocComment.LongNotCapital,Generic.Commenting.DocComment.MissingShort
 	 * Add Link Custom Attribute
 	 *
 	 * @since 1.3.1
-	 * @param array  $fieldname The fieldname.
-	 * @param string $separator The separator.
-	 * @return string The HTML attributes string.
+	 * @param array $fieldname The fieldname.
 	 */
 	public static function add_link_attributes( $fieldname = array(), $separator = ',' ) {
 		if ( ! empty( $fieldname ) && is_array( $fieldname ) && isset( $fieldname['attr'] ) && ! empty( $fieldname['attr'] ) ) {
@@ -2168,70 +2105,12 @@ class Tp_Blocks_Helper {
 	}
 
 	/**
-	 * Lifetime, in whole UTC days, of the generic read-only-AJAX signature
-	 * (tpgb_readonly_sig()). Long on purpose (Nexter-Blocks #123): it is printed into the same
-	 * cacheable HTML as the nonce, but exists precisely so a cached page older than the
-	 * nonce's ~12-24h life can still authorize a read-only call. It is not the only backstop --
-	 * `tpgbAjax()`'s retry-on-403 covers a cache older than even this -- but a longer signature
-	 * TTL means most stale-cache hits never need the extra round trip at all.
-	 *
-	 * @since 10.0.2
-	 * @return int Days, at least 1.
-	 */
-	private static function tpgb_readonly_sig_ttl_days() {
-		return max( 1, (int) apply_filters( 'tpgb_readonly_sig_ttl_days', 14 ) );
-	}
-
-	/**
-	 * Per-IP throttle for the public form-submit endpoints.
-	 *
-	 * @param string $bucket Bucket name.
-	 * @param int    $max    Max submissions per window.
-	 * @param int    $window Window length in seconds.
-	 * @return bool True when the request is within the limit.
-	 */
-	public function tpgb_form_within_rate_limit( $bucket = 'form', $max = 30, $window = 600 ) {
-		/**
-		 * Filters the form submission rate limit.
-		 *
-		 * Return an array( max, window_seconds ). Set max to 0 to disable.
-		 *
-		 * @param array  $limit  array( $max, $window ).
-		 * @param string $bucket Bucket name.
-		 */
-		list( $max, $window ) = (array) apply_filters( 'tpgb_form_rate_limit', array( $max, $window ), $bucket );
-
-		$max = (int) $max;
-		if ( $max < 1 ) {
-			return true;
-		}
-
-		$ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown';
-		$key   = 'tpgb_frl_' . $bucket . '_' . md5( $ip );
-		$count = (int) get_transient( $key );
-
-		if ( $count >= $max ) {
-			return false;
-		}
-
-		set_transient( $key, $count + 1, (int) $window );
-		return true;
-	}
-
-	/**
 	 * Form Action Ajax
 	 *
 	 *  @Array
 	 */
 	public function nxt_form_action_callback() {
 		check_ajax_referer( 'tpgb-addons', 'nonce' );
-
-		// SB-2: throttle this public endpoint so a replayed nonce cannot be used
-		// to loop submissions and mail the site owner repeatedly.
-		if ( ! $this->tpgb_form_within_rate_limit( 'form_free' ) ) {
-			wp_send_json_error( __( 'Too many submissions. Please try again later.', 'the-plus-addons-for-block-editor' ) );
-		}
-
 		$response          = array(
 			'success' => true,
 			'data'    => '',
@@ -2364,6 +2243,8 @@ class Tp_Blocks_Helper {
 
 						$full_message .= esc_html( $label ) . ': ' . esc_html( $value ) . '<br>';
 					}
+
+					// $full_message .= "</ul>"; // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 				} else {
 					$full_message .= '<p><em>No metadata options provided.</em></p>';
 				}
@@ -2484,7 +2365,6 @@ class Tp_Blocks_Helper {
 		return trailingslashit( $upload_dir['baseurl'] );
 	}
 
-
 	/**
 	 * GSAP Attributes Function (Pro feature - use tpgb_global_gsap_attributes filter)
 	 *
@@ -2495,38 +2375,6 @@ class Tp_Blocks_Helper {
 		if ( has_filter( 'tpgb_global_gsap_attributes' ) ) {
 			return apply_filters( 'tpgb_global_gsap_attributes', '', $attr );
 		}
-	}
-
-	/**
-	 * HMAC (first 32 hex chars) for the generic read-only-AJAX capability, bound to this site
-	 * and an expiry day only -- not to a specific action or resource. It authorizes "this
-	 * request came from our own printed page HTML", the same trust a same-origin nonce would
-	 * carry; the action-specific rate limiters (tpgb_template_content_rate_limit() and its
-	 * siblings) remain the abuse control, unchanged. Keyed with wp_salt( 'nonce' ), the same
-	 * key family as tpgb_embed_mac() -- a different message prefix, so the two can never be
-	 * replayed for each other.
-	 *
-	 * @since 10.0.2
-	 * @param int $exp_day UTC day number the signature expires at the end of.
-	 * @return string 32 lowercase hex characters.
-	 */
-	private static function tpgb_readonly_mac( $exp_day ) {
-		$message = 'tpgb-readonly-ajax|v1|' . get_current_blog_id() . '|' . (int) $exp_day;
-		return substr( hash_hmac( 'sha256', $message, wp_salt( 'nonce' ) ), 0, 32 );
-	}
-
-	/**
-	 * Mint the generic read-only-AJAX signature printed into `tpgb_config.tpgb_action_sig`
-	 * (Nexter-Blocks #123, design proposal item 1). A pure function of (site, UTC day):
-	 * nothing is stored, and every render inside one UTC day emits an identical value, so page
-	 * caches stay byte-stable.
-	 *
-	 * @since 10.0.2
-	 * @return string "{expDay}-{mac}".
-	 */
-	public static function tpgb_readonly_sig() {
-		$exp_day = (int) floor( time() / DAY_IN_SECONDS ) + self::tpgb_readonly_sig_ttl_days();
-		return $exp_day . '-' . self::tpgb_readonly_mac( $exp_day );
 	}
 }
 

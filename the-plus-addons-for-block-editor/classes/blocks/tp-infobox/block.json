@@ -10,17 +10,9 @@
 		"attributes": {}
 	},
 	"supports": {
-		"align": [ "wide", "full" ]
+		"align": ["wide", "full"]
 	},
-	"usesContext": [
-		"postId",
-		"postType",
-		"queryId",
-		"tpgb/dynamicSubFieldData",
-		"tpgb/dynamicRowIndex",
-		"tpgb/dynamicPost",
-		"tpgb/dynamicRepField"
-	],
+	"usesContext": ["postId", "postType", "queryId", "tpgb/dynamicSubFieldData", "tpgb/dynamicRowIndex", "tpgb/dynamicPost", "tpgb/dynamicRepField"],
 	"textdomain": "the-plus-addons-for-block-editor",
 	"attributes": {
 		"block_id": {
@@ -121,11 +113,11 @@
 		},
 		"imageName": {
 			"type": "object",
-			"default": {}
+			"default": []
 		},
 		"svgIcon": {
 			"type": "object",
-			"default": {}
+			"default": []
 		},
 		"imageSize": {
 			"type": "string",
@@ -298,7 +290,7 @@
 		},
 		"titleType": {
 			"type": "string",
-			"default": "h3",
+			"default": "div",
 			"scopy": true
 		},
 		"titleTypo": {
@@ -1541,7 +1533,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "square", "rounded" ]
+							"value": ["square", "rounded"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner .icon-square,{{PLUS_WRAP}} .info-box-inner .icon-rounded"
@@ -1563,7 +1555,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "square", "rounded" ]
+							"value": ["square", "rounded"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner .icon-square,{{PLUS_WRAP}} .info-box-inner .icon-rounded{ border-color: {{iconBdrNmlColor}}; }"
@@ -1588,7 +1580,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "square", "rounded" ]
+							"value": ["square", "rounded"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner .icon-square,{{PLUS_WRAP}} .info-box-inner .icon-rounded{ border-width: {{iconBWidth}}; }"
@@ -1610,7 +1602,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "square", "rounded" ]
+							"value": ["square", "rounded"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner:hover .icon-square,{{PLUS_WRAP}} .info-box-inner:hover .icon-rounded{ border-color: {{iconBdrHvrColor}}; }"
@@ -1640,7 +1632,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "square", "rounded" ]
+							"value": ["square", "rounded"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner .service-icon"
@@ -1670,7 +1662,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "square", "rounded" ]
+							"value": ["square", "rounded"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner:hover .service-icon"
@@ -1699,7 +1691,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "hexagon", "pentagon", "square-rotate" ]
+							"value": ["hexagon", "pentagon", "square-rotate"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner .service-icon-wrap"
@@ -1728,7 +1720,7 @@
 						{
 							"key": "iconstyleType",
 							"relation": "==",
-							"value": [ "hexagon", "pentagon", "square-rotate" ]
+							"value": ["hexagon", "pentagon", "square-rotate"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .info-box-inner:hover .service-icon-wrap"
@@ -1758,7 +1750,7 @@
 						{
 							"key": "styleType",
 							"relation": "==",
-							"value": [ "style-1", "style-2" ]
+							"value": ["style-1", "style-2"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}}.tpgb-infobox.info-box-style-1 .icon-overlay .m-r-16 , {{PLUS_WRAP}}.tpgb-infobox.info-box-style-2 .icon-overlay .m-l-16 { top: {{iconAdjust}};} "
@@ -2020,7 +2012,7 @@
 						{
 							"key": "styleType",
 							"relation": "==",
-							"value": [ "style-1", "style-2" ]
+							"value": ["style-1", "style-2"]
 						},
 						{
 							"key": "imgOverlay",
@@ -2388,7 +2380,7 @@
 						{
 							"key": "contenthoverEffect",
 							"relation": "==",
-							"value": [ "float_shadow", "grow_shadow" ]
+							"value": ["float_shadow", "grow_shadow"]
 						}
 					],
 					"selector": "{{PLUS_WRAP}} .cnt_hvr_float_shadow:before{background: -webkit-radial-gradient(center, ellipse, {{shadowColor}} 0%, rgba(60, 60, 60, 0) 70%);background: radial-gradient(ellipse at 50% 150%,{{shadowColor}} 0%, rgba(60, 60, 60, 0) 70%); } {{PLUS_WRAP}} .cnt_hvr_radial:before{background: -webkit-radial-gradient(center, ellipse at 50% 150%, {{shadowColor}} 0%, rgba(60, 60, 60, 0) 70%);background: radial-gradient(ellipse at 50% 150%,{{shadowColor}} 0%, rgba(60, 60, 60, 0) 70%); } {{PLUS_WRAP}} .cnt_hvr_radial:after {background: -webkit-radial-gradient(50% -50%, ellipse, {{shadowColor}} 0%, rgba(0, 0, 0, 0) 80%);background: radial-gradient(ellipse at 50% -50%, {{shadowColor}} 0%, rgba(0, 0, 0, 0) 80%);} {{PLUS_WRAP}} .cnt_hvr_grow_shadow:hover {-webkit-box-shadow: 0 10px 10px -10px {{shadowColor}};-moz-box-shadow: 0 10px 10px -10px {{shadowColor}};box-shadow: 0 10px 10px -10px {{shadowColor}};}"
@@ -2415,7 +2407,7 @@
 						{
 							"key": "dotsStyle",
 							"relation": "==",
-							"value": [ "style-2", "style-3", "style-4", "style-5", "style-7" ]
+							"value": ["style-2", "style-3", "style-4", "style-5", "style-7"]
 						},
 						{
 							"key": "showDots",
@@ -2437,7 +2429,7 @@
 						{
 							"key": "dotsStyle",
 							"relation": "==",
-							"value": [ "style-2", "style-4", "style-6" ]
+							"value": ["style-2", "style-4", "style-6"]
 						},
 						{
 							"key": "showDots",
@@ -2459,7 +2451,7 @@
 						{
 							"key": "dotsStyle",
 							"relation": "==",
-							"value": [ "style-2", "style-4", "style-5", "style-7" ]
+							"value": ["style-2", "style-4", "style-5", "style-7"]
 						},
 						{
 							"key": "showDots",

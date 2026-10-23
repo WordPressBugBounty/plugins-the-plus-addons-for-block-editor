@@ -90,20 +90,16 @@ function tpgbeventCall(e){
 
 function tpgb_pattern_ajax(selector = '' , postId){
     selector.classList.add('tpgbonAjax');
-    
+    var request = new XMLHttpRequest();
 
-    var actionSig = (typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_action_sig) ? tpgb_config.tpgb_action_sig : '';
-    var body = 'action=tpgb_get_template_content&tpgb_nonce=' + ((typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_nonce) ? tpgb_config.tpgb_nonce : '')
-        + '&postid=' + postId
-        + '&tpgb_action_sig=' + encodeURIComponent(actionSig);
-
-    tpgbAjax({
-        body: body,
-        nonceField: 'tpgb_nonce',
-        nonceKind: 'addons',
-        onSuccess: function (response) {
-            if (response && response.success == true) {
-                var cntselec = document.querySelectorAll('.tpgb-load-'+postId+'-content');
+    request.open('POST', tpgb_config.ajax_url, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
+    request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+            
+            var response = JSON.parse(request.response);
+            if(response.success == true){
+                cntselec = document.querySelectorAll('.tpgb-load-'+postId+'-content');
                 if(cntselec.length ){
                     cntselec.forEach(function(cnt) {
                         if(!cnt.classList.contains("tpgbtemloaded")){
@@ -126,150 +122,9 @@ function tpgb_pattern_ajax(selector = '' , postId){
                 
             }
         }
-    });
+    };
+    request.send('action=tpgb_get_template_content&tpgb_nonce=' + tpgb_config.tpgb_nonce+'&postid='+postId+'');
 }
-
-/**
- * tpgbAjax() -- shared retry-on-stale-nonce AJAX transport (Nexter-Blocks #123).
- *
- * A page served from a page cache / CDN older than the printed nonce's ~12-24h life carries a
- * dead nonce; every public ajax handler answered 403/-1 with no way to recover short of a full
- * reload. This wraps `fetch()` (the transport this codebase's own form-block submit already
- * uses): on a 403 status or a WordPress "invalid nonce" body (`-1` or `0`), it fetches exactly
- * one fresh nonce pair from the nopriv `tpgb_nonce_refresh` endpoint, substitutes it into the
- * SAME request body, and retries once. A second failure is reported as a normal error -- this
- * never loops.
- *
- * Contract, so Pro's handlers can wire to this unchanged:
- *   tpgbAjax({
- *     url:        string, optional, defaults to tpgb_config.ajax_url
- *     method:     string, optional, defaults to 'POST'
- *     body:       string ('key=value&key=value', url-encoded) OR a FormData instance -- either
- *                 way it must already contain `action=...` and the nonce field named by
- *                 `nonceField`.
- *     headers:    object, optional, extra request headers (merged in; a string body always
- *                 gets 'Content-Type: application/x-www-form-urlencoded' added automatically).
- *     nonceField: string, required -- the key in `body` whose value is the nonce to replace on
- *                 retry (e.g. 'tpgb_nonce', 'nonce').
- *     nonceKind:  string, optional, one of 'addons' (default) | 'searchbar' -- selects which
- *                 value tpgb_nonce_refresh's response supplies for the retry: 'tpgb_nonce' for
- *                 'addons', 'searchbar_nonce' for 'searchbar'.
- *     onSuccess:  function(parsedJsonOrRawText, response), called once, on the final response.
- *     onError:    function(responseOrError), called once, only if both the original request and
- *                 the single retry fail (or fail to reach the server).
- *   })
- *
- * tpgb_nonce_refresh response shape (also documented in
- * Tp_Blocks_Helper::tpgb_nonce_refresh_callback()):
- *   { success: true, data: { tpgb_nonce: '<fresh tpgb-addons nonce>', searchbar_nonce: '<fresh tpgb-searchbar nonce>' } }
- */
-// This file can legitimately be enqueued under two different script handles on the same page
-// (the conditional lazy-load bundle and, now, a hard dependency of the form/search blocks) --
-// guarded so a second inclusion never resets an in-flight `_tpgbNonceRefreshPromise`.
-if (typeof window.tpgbAjax !== 'function') {
-function tpgbAjax(opts) {
-    opts = opts || {};
-    var url        = opts.url || ((typeof tpgb_config !== 'undefined' && tpgb_config.ajax_url) ? tpgb_config.ajax_url : '');
-    var method     = opts.method || 'POST';
-    var headers    = opts.headers || {};
-    var nonceField = opts.nonceField || 'tpgb_nonce';
-    var nonceKind  = opts.nonceKind || 'addons';
-    var onSuccess  = (typeof opts.onSuccess === 'function') ? opts.onSuccess : function () {};
-    var onError    = (typeof opts.onError === 'function') ? opts.onError : function () {};
-
-    function parse(raw) {
-        try {
-            return JSON.parse(raw);
-        } catch (e) {
-            return raw;
-        }
-    }
-
-    function withNonce(body, value) {
-        if (typeof FormData !== 'undefined' && body instanceof FormData) {
-            body.set(nonceField, value);
-            return body;
-        }
-        var str = String(body || '');
-        var re  = new RegExp('(^|&)' + nonceField + '=([^&]*)');
-        return re.test(str)
-            ? str.replace(re, function (m, p1) { return p1 + nonceField + '=' + encodeURIComponent(value); })
-            : str + (str ? '&' : '') + nonceField + '=' + encodeURIComponent(value);
-    }
-
-    function fetchOpts(body) {
-        var merged = { method: method, credentials: 'same-origin', headers: {} };
-        for (var k in headers) {
-            if (Object.prototype.hasOwnProperty.call(headers, k)) {
-                merged.headers[k] = headers[k];
-            }
-        }
-        var isFormData = (typeof FormData !== 'undefined') && (body instanceof FormData);
-        if (!isFormData) {
-            merged.headers['Content-Type'] = 'application/x-www-form-urlencoded;';
-        }
-        merged.body = body;
-        return merged;
-    }
-
-    function attempt(body, isRetry) {
-        fetch(url, fetchOpts(body)).then(function (response) {
-            if (response.status === 403 && !isRetry) {
-                return retryAfterRefresh(body);
-            }
-            return response.text().then(function (raw) {
-                var trimmed = (raw || '').trim();
-                if (!isRetry && (trimmed === '-1' || trimmed === '0')) {
-                    return retryAfterRefresh(body);
-                }
-                if (response.ok) {
-                    onSuccess(parse(raw), response);
-                } else {
-                    onError(response);
-                }
-            });
-        }).catch(function (err) {
-            onError(err);
-        });
-    }
-
-    function retryAfterRefresh(originalBody) {
-        tpgbRefreshNonceAndRetry(nonceKind, function (freshValue) {
-            attempt(freshValue ? withNonce(originalBody, freshValue) : originalBody, true);
-        });
-    }
-
-    attempt(opts.body, false);
-}
-
-// One in-flight tpgb_nonce_refresh call is shared by every concurrent caller (e.g. several
-// lazy-load triggers going stale at once never fire more than one refresh request).
-var _tpgbNonceRefreshPromise = null;
-function tpgbRefreshNonceAndRetry(nonceKind, cb) {
-    if (!_tpgbNonceRefreshPromise) {
-        var url = (typeof tpgb_config !== 'undefined' && tpgb_config.ajax_url) ? tpgb_config.ajax_url : '';
-        _tpgbNonceRefreshPromise = fetch(url, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded;' },
-            body: 'action=tpgb_nonce_refresh',
-        })
-            .then(function (response) { return response.json(); })
-            .catch(function () { return null; })
-            .then(function (parsed) {
-                _tpgbNonceRefreshPromise = null;
-                var data = (parsed && parsed.success && parsed.data) ? parsed.data : null;
-                if (data && typeof tpgb_config !== 'undefined' && data.tpgb_nonce) {
-                    tpgb_config.tpgb_nonce = data.tpgb_nonce;
-                }
-                return data;
-            });
-    }
-    _tpgbNonceRefreshPromise.then(function (data) {
-        cb(data ? (nonceKind === 'searchbar' ? data.searchbar_nonce : data.tpgb_nonce) : null);
-    });
-}
-} // end typeof window.tpgbAjax !== 'function' guard
 
 function tpgb_trigger_hook(ele){
 

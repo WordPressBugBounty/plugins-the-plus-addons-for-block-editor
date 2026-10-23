@@ -330,7 +330,7 @@ function tpgb_button_render_callback( $attributes, $content ) { // phpcs:ignore 
 	$aria_label_t    = ( ! empty( $aria_label ) ) ? esc_attr( $aria_label ) : ( ( ! empty( $btn_text ) ) ? esc_attr( $btn_text ) : esc_attr__( 'Button', 'the-plus-addons-for-block-editor' ) );
 	$output         .= '<div class="tpgb-plus-button tpgb-relative-block tpgb-block-' . esc_attr( $block_id ) . ' button-' . esc_attr( $style_type ) . ' ' . esc_attr( $icon_hover ) . ' ' . esc_attr( $block_class ) . ' ">';
 		$output     .= '<div class="animted-content-inner' . esc_attr( $content_hvr_class ) . '">';
-			$output .= '<a ' . $extr_attr . ' class="button-link-wrap ' . esc_attr( $translin ) . ' ' . esc_attr( $i_shake_animate ) . ' ' . esc_attr( $s23_vrtcl_cntr ) . ' ' . ( ! empty( $fancy_box ) ? ' tpgb-fancy-popup' : '' ) . ' " role="button" aria-label="' . $aria_label_t . '" data-hover="' . esc_attr( $hover_text ) . '" ' . $link_attr . '>'; // esc_attr(): attribute context, wp_kses_post() does not encode quotes (XSS finding #1).
+			$output .= '<a ' . $extr_attr . ' class="button-link-wrap ' . esc_attr( $translin ) . ' ' . esc_attr( $i_shake_animate ) . ' ' . esc_attr( $s23_vrtcl_cntr ) . ' ' . ( ! empty( $fancy_box ) ? ' tpgb-fancy-popup' : '' ) . ' " role="button" aria-label="' . $aria_label_t . '" data-hover="' . esc_attr( $hover_text ) . '" ' . $link_attr . '>'; // esc_attr(), not wp_kses_post() -- attribute context.
 	if ( 'style-17' !== $style_type && 'style-23' !== $style_type ) {
 		$output .= '<span>' . $get_button_source . '</span>';
 	}

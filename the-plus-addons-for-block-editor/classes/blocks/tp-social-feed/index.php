@@ -18,6 +18,17 @@ function tpgb_tp_social_feed() {
 
 	if ( method_exists( 'Tpgb_Blocks_Global_Options', 'merge_options_json' ) ) {
 		$block_data = Tpgb_Blocks_Global_Options::merge_options_json( __DIR__, 'tpgb_tp_social_feed_render_callback', true, false, true );
+
+		/*
+		 * B12-1: register_block_type() reads the snake_case 'api_version'; block.json
+		 * declares camelCase 'apiVersion', which only register_block_type_from_metadata()
+		 * maps. Scoped to tp-social-feed deliberately - do NOT move this into
+		 * merge_options_json() without a full editor regression pass on all 180 blocks.
+		 */
+		if ( isset( $block_data['apiVersion'] ) ) {
+			$block_data['api_version'] = (int) $block_data['apiVersion'];
+		}
+
 		register_block_type( $block_data['name'], $block_data );
 	}
 }
@@ -33,7 +44,7 @@ add_action( 'init', 'tpgb_tp_social_feed' );
 function tpgb_tp_social_feed_render_callback( $attributes, $content ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 	$social_feed  = '';
 	$block_id     = ( ! empty( $attributes['block_id'] ) ) ? $attributes['block_id'] : uniqid( 'title' );
-	$feed_id      = ( ! empty( $attributes['feed_id'] ) ) ? $attributes['feed_id'] : uniqid( 'feed' );
+	$feedb_id     = ( ! empty( $attributes['feed_id'] ) ) ? $attributes['feed_id'] : uniqid( 'feed' );
 	$layout       = ( ! empty( $attributes['layout'] ) ) ? $attributes['layout'] : 'grid';
 	$style        = ( ! empty( $attributes['style'] ) ) ? $attributes['style'] : 'style-1';
 	$rsocialfeed  = ( ! empty( $attributes['AllReapeter'] ) ) ? $attributes['AllReapeter'] : array();
@@ -109,7 +120,7 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content ) { // phpcs
 		$fancybox_settings = htmlspecialchars( wp_json_encode( $fancybox_settings ), ENT_QUOTES, 'UTF-8' );
 	}
 
-	$social_feed .= '<div id="' . esc_attr( $block_id ) . '" class="tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . ' tpgb-social-feed tpgb-relative-block ' . esc_attr( $list_layout ) . '" data-style="' . esc_attr( $style ) . '" data-layout="' . esc_attr( $layout ) . '" data-id="' . esc_attr( $block_id ) . '" data-fid="' . esc_attr( $feed_id ) . '" data-fancy-option=\'' . $fancybox_settings . '\' data-scroll-normal=\'' . esc_attr( $normal_scroll ) . '\' >';
+	$social_feed .= '<div id="' . esc_attr( $block_id ) . '" class="tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . ' tpgb-social-feed tpgb-relative-block ' . esc_attr( $list_layout ) . '" data-style="' . esc_attr( $style ) . '" data-layout="' . esc_attr( $layout ) . '" data-id="' . esc_attr( $block_id ) . '" data-fid="' . esc_attr( $feedb_id ) . '" data-fancy-option=\'' . $fancybox_settings . '\' data-scroll-normal=\'' . esc_attr( $normal_scroll ) . '\' >';
 
 		$fancy_box_js = '';
 	if ( 'OnFancyBox' === $popup_option ) {
@@ -138,11 +149,11 @@ function tpgb_tp_social_feed_render_callback( $attributes, $content ) { // phpcs
 		}
 		$feed_index = array_column( $final_data, 'Feed_Index' );
 		array_multisort( $feed_index, SORT_ASC, $final_data );
-		set_transient( "SF-Performance-$feed_id", $final_data, $refresh_time );
+		set_transient( "SF-Performance-$feedb_id", $final_data, $refresh_time );
 		set_transient( "SF-Performance-$block_id", $final_data, $refresh_time );
 		set_transient( "SF-free-backup-$block_id", $final_data, 0 );
 	} else {
-		$final_data = get_transient( "SF-Performance-$feed_id" );
+		$final_data = get_transient( "SF-Performance-$feedb_id" );
 
 		if ( false === $final_data || empty( $final_data ) ) {
 			$final_data = get_transient( "SF-Performance-$block_id" );
@@ -393,7 +404,7 @@ function tpgb_api_call( $api, $ssl = true ) {
 	$args = array(
 		'method'    => 'GET',
 		'timeout'   => 30,
-		'sslverify' => $ssl,
+		'sslverify' => true, // Force TLS verification ON: these requests carry an access token, so never allow the attribute to disable it.
 	);
 
 	$url = wp_remote_get( $api, $args );
@@ -421,8 +432,17 @@ function tpgb_feed_Post_time( $datetime, $full = false ) { // phpcs:ignore WordP
 	$ago  = new DateTime( $datetime );
 	$diff = $now->diff( $ago );
 
-	$diff->w  = floor( $diff->d / 7 );
-	$diff->d -= $diff->w * 7;
+	// DateInterval has no $w property; assigning one is a "creation of dynamic property" deprecation on PHP 8.2+.
+	$weeks = (int) floor( $diff->d / 7 );
+	$units = array(
+		'y' => $diff->y,
+		'm' => $diff->m,
+		'w' => $weeks,
+		'd' => $diff->d - $weeks * 7,
+		'h' => $diff->h,
+		'i' => $diff->i,
+		's' => $diff->s,
+	);
 
 	$string = array(
 		'y' => 'year',
@@ -434,12 +454,13 @@ function tpgb_feed_Post_time( $datetime, $full = false ) { // phpcs:ignore WordP
 		's' => 'second',
 	);
 	foreach ( $string as $k => &$v ) {
-		if ( $diff->$k ) {
-			$v = $diff->$k . ' ' . $v . ( $diff->$k > 1 ? 's' : '' );
+		if ( $units[ $k ] ) {
+			$v = $units[ $k ] . ' ' . $v . ( $units[ $k ] > 1 ? 's' : '' );
 		} else {
 			unset( $string[ $k ] );
 		}
 	}
+	unset( $v );
 
 	if ( ! $full ) {
 		$string = array_slice( $string, 0, 1 );
@@ -515,7 +536,7 @@ function tpgb_SF_Error_handler( $error_data, $rkey = '', $select_feed = '', $ico
 		'ErrorClass'  => 'error-class',
 		'socialIcon'  => $icon,
 		'CreatedTime' => "<b>{$select_feed}</b>",
-		'Description' => ! empty( $error['message'] ) ? $error['message'] : 'Something Wrong',
+		'Description' => ! empty( $error['message'] ) ? $error['message'] : __( 'Something Wrong', 'the-plus-addons-for-block-editor' ),
 		'UserName'    => ! empty( $error['HTTP_CODE'] ) ? 'Error Code : ' . $error['HTTP_CODE'] : 400,
 		'UserImage'   => TPGB_ASSETS_URL . 'assets/images/tpgb-placeholder.jpg',
 		'selectType'  => $select_feed,

@@ -141,6 +141,7 @@ function searchbarInit(){
                 });
 
                 var timeoutID = null;
+                var lastQuerySig = null;
                 sb.addEventListener("change", handleInputChange);
                 sb.addEventListener("keyup", handleInputChange);
 
@@ -159,8 +160,17 @@ function searchbarInit(){
                             tajaxload = sb.querySelector(".tpgb-ajx-loading"),
                             serInArrow = sb.querySelector(".tpgb-dd-icon");
                             let timerLd = (eventType === "keyup") ? 1000 : 300;
+                        let querySig = serText + '|' + post + '|' + cat1 + '|' + cat2;
                         clearTimeout(timeoutID);
                         timeoutID = setTimeout(function() {
+                            // Skip a duplicate identical search (e.g. keyup then change/blur fire the same query).
+                            if (querySig === lastQuerySig) {
+                                if (tajaxload) {
+                                    tajaxload.style.display = "none";
+                                }
+                                return;
+                            }
+                            lastQuerySig = querySig;
                             if (tCloseBtn) {
                                 tCloseBtn.style.display = "none";
                             }
@@ -177,7 +187,7 @@ function searchbarInit(){
 
                 function tpgb_block_searchbar(search) {
                     let serText = (sb.querySelector("input[name=s]")) ? sb.querySelector("input[name=s]").value : '';
-                        resultsinnerList.innerHTML = '';
+                        // Keep current results visible until the new response replaces them (avoids a blank flicker between keystrokes).
                         let serPeg = searchheader.querySelector('.tpgb-search-pagina');
                         if(serPeg){
                             serPeg.innerHTML = '';
@@ -206,18 +216,45 @@ function searchbarInit(){
                         searchData: formDataObject
                     };
 
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", ((tpgb_config && tpgb_config.ajax_url) ? tpgb_config.ajax_url : tpgb_load.ajaxUrl), true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
+                    function tpgbSearchAfterResponse() {
+                        var getinput = document.querySelectorAll('.tpgb-search-input');
+                        if (getinput.length > 0) {
+                            getinput.forEach(function (el) {
+                                setTimeout(function () {
+                                    el.blur();
+                                }, 500);
+                            });
+                        }
 
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4) {
-                            if (xhr.status === 200) {
-                                var response = JSON.parse(xhr.responseText);
+                        setTimeout(function () {
+                            var tCloseBtn = sb.querySelector('.tpgb-close-btn');
+                            var tajaxload = sb.querySelector('.tpgb-ajx-loading');
+                            if (tajaxload) {
+                                tajaxload.style.cssText = "display:none";
+                            }
+                            if (tCloseBtn) {
+                                tCloseBtn.style.cssText = "display:flex";
+                            }
+                        }, 500);
+                        tp_Close_result();
+                    }
+
+                    // noResultsFallback/-Count (issue #90 slice 2 admin toggle) come from the block's
+                    // own data-ajax_search config, same source as every other field on this line.
+                    tpgbAjax({
+                        body: 'action=tpgb_search&nonce='+ajaxsearch.nonce+'&text='+serText+'&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&noResultsFallback='+(ajaxsearch.noResultsFallback ? '1' : '0')+'&noResultsFallbackCount='+(ajaxsearch.noResultsFallbackCount || 3)+'&data='+JSON.stringify(AjaxData)+'&tpgb_action_sig='+encodeURIComponent((typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_action_sig) ? tpgb_config.tpgb_action_sig : ''),
+                        nonceField: 'nonce',
+                        nonceKind: 'searchbar',
+                        onError: function (err) {
+                            console.error('Error:', err);
+                            tpgbSearchAfterResponse();
+                        },
+                        onSuccess: function (response) {
                                 var ErrorHtml = sb.querySelectorAll('.tpgb-search-error');
                                 var Headerclass = sb.querySelector('.tpgb-search-header');
 
                                 if (response.error && ErrorHtml.length > 0) {
+                                    resultsinnerList.innerHTML = '';
                                     ErrorHtml[0].style.cssText = "display:block";
                                     ErrorHtml[0].innerHTML = response.message;
                                     Headerclass.style.cssText = "display:none";
@@ -285,40 +322,44 @@ function searchbarInit(){
                                         }
                                     }
                                 } else {
-                                    ErrorHtml[0].style.cssText = "display:block";
-                                    ErrorHtml[0].innerHTML = errorMessage;
-                                    Headerclass.style.cssText = "display:none";
-                                    slideDownP(searcharea, 100);
-                                    return;
-                                }
-                            } else {
-                                console.error('Error:', xhr.status);
-                            }
+                                    var fallbackPosts = (responseData && responseData.fallback_posts) ? responseData.fallback_posts : [];
+                                    if (fallbackPosts.length > 0) {
+                                        var escFb = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+                                        var fbTerm = responseData.fallback_term ? escFb(responseData.fallback_term) : '';
+                                        var fbHtml = '<div class="tpgb-search-fallback">';
+                                        fbHtml += '<div class="tpgb-search-fallback-title">' + errorMessage + (fbTerm ? ' <span class="tpgb-search-fallback-term">"' + fbTerm + '"</span>' : '') + '</div>';
+                                        fbHtml += '<ul class="tpgb-search-fallback-list">';
+                                        for (var fp = 0; fp < fallbackPosts.length; fp++) {
+                                            fbHtml += '<li class="tpgb-search-fallback-item"><a href="' + fallbackPosts[fp].link + '">' + fallbackPosts[fp].title + '</a></li>';
+                                        }
+                                        fbHtml += '</ul></div>';
 
-                            var getinput = document.querySelectorAll('.tpgb-search-input');
-                            if (getinput.length > 0) {
-                                getinput.forEach(function (el) {
-                                    setTimeout(function () {
-                                        el.blur();
-                                    }, 500);
-                                });
-                            }
+                                        ErrorHtml[0].style.cssText = "display:none";
+                                        Headerclass.style.cssText = "display:flex";
+                                        resultsinnerList.innerHTML = fbHtml;
 
-                            setTimeout(function () {
-                                var tCloseBtn = sb.querySelector('.tpgb-close-btn');
-                                var tajaxload = sb.querySelector('.tpgb-ajx-loading');
-                                if (tajaxload) {
-                                    tajaxload.style.cssText = "display:none";
+                                        if (Rsetting.TotalResult) {
+                                            var fbCountEl = searchheader.querySelector('.tpgb-search-resultcount');
+                                            if (fbCountEl) { fbCountEl.innerHTML = ''; }
+                                        }
+                                        var fbPagina = sb.querySelector('.tpgb-search-pagina');
+                                        if (fbPagina) { fbPagina.innerHTML = ''; }
+                                        var fbLoadmore = sb.querySelector('.tpgb-load-more');
+                                        if (fbLoadmore) { fbLoadmore.innerHTML = ''; }
+
+                                        slideDownP(searcharea, 100);
+                                    } else {
+                                        resultsinnerList.innerHTML = '';
+                                        ErrorHtml[0].style.cssText = "display:block";
+                                        ErrorHtml[0].innerHTML = errorMessage;
+                                        Headerclass.style.cssText = "display:none";
+                                        slideDownP(searcharea, 100);
+                                        return;
+                                    }
                                 }
-                                if (tCloseBtn) {
-                                    tCloseBtn.style.cssText = "display:flex";
-                                }
-                            }, 500);
-                            tp_Close_result();
+                             tpgbSearchAfterResponse();
                         }
-                    };
-
-                      xhr.send('action=tpgb_search&nonce='+ajaxsearch.nonce+'&text='+serText+'&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(AjaxData));
+                    });
                 }
 
 
@@ -334,6 +375,7 @@ function searchbarInit(){
                             if(input){
                                 input.value='';
                             }
+                            lastQuerySig = null;
                             e.currentTarget.style.display = 'none';
 
                             slideUpP(Area);
@@ -349,6 +391,7 @@ function searchbarInit(){
                     sb.addEventListener('keyup', (e)=>{
                         if (e.key === "Escape") {
                             input.value='';
+                            lastQuerySig = null;
                             slideUpP(Area);
                             closebtn.style.cssText = "display:none";
                         }
@@ -380,15 +423,11 @@ function tp_loadmore_ajax(responseData, ajaxData, pagesetting, main, ajaxsearch)
                 xhr.open('POST', (tpgb_config && tpgb_config.ajax_url) ? tpgb_config.ajax_url : tpgb_load.ajaxUrl);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-                // xhr.onreadystatechange = function() {
-                    if (xhr.readyState) {
-                        loadclass.textContent = pagesetting.loadingtxt;
-                    }
-                // };
-
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        var loadRes = JSON.parse(xhr.responseText);
+                tpgbAjax({
+                body: 'action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PostCount.length+'&loadNumpost='+pagesetting.loadnumber+'&tpgb_action_sig='+encodeURIComponent((typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_action_sig) ? tpgb_config.tpgb_action_sig : ''),
+                nonceField: 'nonce',
+                nonceKind: 'searchbar',
+                onSuccess: function (loadRes) {
                         loadclass.textContent = pagesetting.loadbtntxt;
 
                         var posts = loadRes.data.posts,
@@ -415,16 +454,11 @@ function tp_loadmore_ajax(responseData, ajaxData, pagesetting, main, ajaxsearch)
                             var parentLoad = loadclass.parentNode;
                             parentLoad.innerHTML += '<div class="tpgb-post-loaded">' + pagesetting.loadedtxt + '</div>';
                         }
-                    } else {
-                        console.error('Request failed. Status: ' + xhr.status);
-                    }
-                };
-
-                xhr.onerror = function() {
-                    console.error('Request failed');
-                };
-
-            xhr.send('action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PostCount.length+'&loadNumpost='+pagesetting.loadnumber);
+                    },
+                onError: function (err) {
+                    console.error('Request failed', err);
+                }
+            });
 
         });
     }
@@ -472,12 +506,11 @@ function tp_lazymore_ajax(ajaxData, pagesetting, main, ajaxsearch) {
                 return;
             }
             lazyFeed_click.dataset.requestRunning = 'true';
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', (tpgb_config && tpgb_config.ajax_url) ? tpgb_config.ajax_url : tpgb_load.ajaxUrl, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-                if (xhr.status === 200 && xhr.status < 400) {
-                    var loadRes = JSON.parse(xhr.responseText);
+             tpgbAjax({
+                body: 'action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PostCount.length+'&loadNumpost='+pagesetting.loadnumber+'&tpgb_action_sig='+encodeURIComponent((typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_action_sig) ? tpgb_config.tpgb_action_sig : ''),
+                nonceField: 'nonce',
+                nonceKind: 'searchbar',
+                onSuccess: function (loadRes) {
 
                     let posts = loadRes.data.posts,
                         totalcount = loadRes.data.total_count,
@@ -503,10 +536,12 @@ function tp_lazymore_ajax(ajaxData, pagesetting, main, ajaxsearch) {
                             }, 1000)
                         }
                     }
+                    lazyFeed_click.dataset.requestRunning = 'false';
+                },
+                onError: function () {
+                    lazyFeed_click.dataset.requestRunning = 'false';
                 }
-                lazyFeed_click.dataset.requestRunning = 'false';
-            };
-            xhr.send('action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PostCount.length+'&loadNumpost='+pagesetting.loadnumber);
+            });
         }
     }
 }
@@ -561,16 +596,13 @@ function tp_pagination_ajax(pageColumn, ajaxData, pagesetting, main, ajaxsearch)
                             }
                         }
 
-                    var xhr = new XMLHttpRequest();
-
-                    // Open the request
-                    xhr.open('POST', (tpgb_config && tpgb_config.ajax_url) ? tpgb_config.ajax_url : tpgb_load.ajaxUrl, true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    loadclass.textContent = pagesetting.loadingtxt;
                     // Set up event listeners
-                    xhr.onload = function() {
-                       
-                        if (xhr.status === 200) {
-                            var res2 = JSON.parse(xhr.responseText);
+                     tpgbAjax({
+                        body: 'action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PpostCount.length+'&tpgb_action_sig='+encodeURIComponent((typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_action_sig) ? tpgb_config.tpgb_action_sig : ''),
+                        nonceField: 'nonce',
+                        nonceKind: 'searchbar',
+                        onSuccess: function (res2) {
                             var posts = res2.data.posts;
                             var listItemHtml = '';
 
@@ -581,15 +613,11 @@ function tp_pagination_ajax(pageColumn, ajaxData, pagesetting, main, ajaxsearch)
                             ajaxclass.innerHTML += listItemHtml;
                             Innerclass.style.cssText = "transform: translateX(" + -(Position) + "%)";
                             tp_pagination_hidden(pageColumn, main);
-                        } else {
-                            // Handle error
-                            console.error('Request failed with status:', xhr.status);
+                       },
+                        onError: function (err) {
+                            console.error('Request failed:', err);
                         }
-                    };
-
-                    // Send the request
-                    xhr.send('action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PpostCount.length);
-
+ });
             });
         });
     }
@@ -637,14 +665,11 @@ function tp_pagination_ajax(pageColumn, ajaxData, pagesetting, main, ajaxsearch)
                 }
             }
 
-            var xhr = new XMLHttpRequest();
-            // Open the request
-            xhr.open('POST', (tpgb_config && tpgb_config.ajax_url) ? tpgb_config.ajax_url : tpgb_load.ajaxUrl, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            // Set up event listeners
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var nextres = JSON.parse(xhr.responseText);
+             tpgbAjax({
+                body: 'action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PpostCount.length+'&tpgb_action_sig='+encodeURIComponent((typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_action_sig) ? tpgb_config.tpgb_action_sig : ''),
+                nonceField: 'nonce',
+                nonceKind: 'searchbar',
+                onSuccess: function (nextres) {
                     var posts = nextres.data.posts;
                     var listItemHtml = '';
 
@@ -655,14 +680,12 @@ function tp_pagination_ajax(pageColumn, ajaxData, pagesetting, main, ajaxsearch)
                     ajaxclass.innerHTML += listItemHtml;
                     Innerclass.style.cssText = "transform: translateX(" + Position + "%)";
                     tp_pagination_hidden(pageColumn, main);
-                } else {
-                    // Handle error
-                    console.error('Request failed with status:', xhr.status);
-                }
-            };
-
-            // Send the request
-            xhr.send('action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PpostCount.length);
+                
+                },
+                 onError: function (err) {
+                    console.error('Request failed:', err);
+            }
+              });
 
         });
     }
@@ -710,13 +733,11 @@ function tp_pagination_ajax(pageColumn, ajaxData, pagesetting, main, ajaxsearch)
                 }
             }
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', (tpgb_config && tpgb_config.ajax_url) ? tpgb_config.ajax_url : tpgb_load.ajaxUrl, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            // Set up event listeners
-            xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        var Prevres = JSON.parse(xhr.responseText);
+            tpgbAjax({
+                body: 'action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PpostCount.length+'&tpgb_action_sig='+encodeURIComponent((typeof tpgb_config !== 'undefined' && tpgb_config.tpgb_action_sig) ? tpgb_config.tpgb_action_sig : ''),
+                nonceField: 'nonce',
+                nonceKind: 'searchbar',
+                onSuccess: function (Prevres) {
                         var posts = Prevres.data.posts;
                         var listItemHtml = '';
 
@@ -727,14 +748,11 @@ function tp_pagination_ajax(pageColumn, ajaxData, pagesetting, main, ajaxsearch)
                         ajaxclass.innerHTML += listItemHtml;
                         Innerclass.style.cssText = "transform: translateX(" + Position + "%)";
                         tp_pagination_hidden(pageColumn, main);
-                    } else {
-                        // Handle error
-                        console.error('Request failed with status:', xhr.status);
-                    }
-            };
-
-            // Send the request
-            xhr.send('action=tpgb_search&nonce='+ajaxsearch.nonce+'&text=&postper='+ajaxsearch.post_page+'&styleColumn='+ajaxsearch.styleColumn+'&style='+ajaxsearch.style+'&tempId='+ajaxsearch.tempid+'&data='+JSON.stringify(ajaxData)+'&offset='+PpostCount.length);
+                    },
+                onError: function (err) {
+                    console.error('Request failed:', err);
+                }
+            });
 
         });
     }

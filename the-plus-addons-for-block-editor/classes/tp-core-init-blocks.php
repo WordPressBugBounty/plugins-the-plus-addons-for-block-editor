@@ -874,9 +874,11 @@ class Tpgb_Core_Init_Blocks {
 
 			$params     = $request->get_params();
 			$is_preview = isset( $params['is_preview'] ) ? $params['is_preview'] : false;
-			$post_id    = (int) sanitize_text_field( $params['post_id'] );
+			// post_id / is_global / is_block / block_css were read bare: a client that omitted one (a broken integration, a
+			// probe) got an "Undefined array key" warning per key on PHP 8.
+			$post_id = isset( $params['post_id'] ) ? (int) sanitize_text_field( $params['post_id'] ) : 0;
 
-			if ( $params['is_global'] ) {
+			if ( ! empty( $params['is_global'] ) ) {
 				$global_css     = ( ! empty( $params['global_css'] ) ) ? $params['global_css'] : '';
 				$globalfilename = 'plus-global.css';
 
@@ -906,8 +908,8 @@ class Tpgb_Core_Init_Blocks {
 					}
 				}
 			}
-			if ( $params['is_block'] ) {
-				$block_css  = $params['block_css'];
+			if ( ! empty( $params['is_block'] ) ) {
+				$block_css  = isset( $params['block_css'] ) ? $params['block_css'] : '';
 				$filename   = "plus-css-{$post_id}.css";
 				$upload_dir = wp_upload_dir();
 				$dir        = trailingslashit( $upload_dir['basedir'] ) . 'theplus_gutenberg/';

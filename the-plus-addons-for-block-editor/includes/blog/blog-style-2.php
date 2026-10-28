@@ -16,7 +16,7 @@ if ( ! empty( $layout ) && 'metro' === $layout ) {
 	$featured_image = wp_get_attachment_url( $thumbnail_id );
 
 	if ( ! empty( $featured_image ) ) {
-		$bg_attr = 'style="background:url(' . $featured_image . ');"';
+		$bg_attr = 'style="background:url(' . esc_url( $featured_image ) . ');"';
 	}
 }
 	// end.
@@ -66,8 +66,8 @@ if ( ! empty( $layout ) && 'metro' === $layout ) {
 	</div>
 	<?php if ( 'metro' === $layout ) { ?>
 		<div class="tpgb-post-featured-img tpgb-dynamic-tran <?php echo esc_attr( $image_hover_style ); ?>">
-			<a href="<?php echo esc_url( get_the_permalink() ); ?>" aria-label="<?php echo esc_attr( get_the_title() ); ?>" <?php echo $new_tab_post_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $new_tab_post_attr. ?>>
-				<?php echo '<div class="tpgb-blog-image-metro"  ' . $bg_attr . ' ></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside $bg_attr. ?>
+			<a href="<?php echo esc_url( get_the_permalink() ); ?>" aria-label="<?php echo esc_attr( get_the_title() ); ?>" <?php echo $new_tab_post_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $new_tab_post_attr is a literal target/rel string or empty. ?>>
+				<?php echo '<div class="tpgb-blog-image-metro"  ' . $bg_attr . ' ></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $bg_attr is built with esc_url() where it is assigned. ?>
 			</a>
 		</div>
 	<?php } ?>

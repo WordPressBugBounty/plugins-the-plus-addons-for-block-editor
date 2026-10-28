@@ -1,0 +1,716 @@
+/* Nexter Cookie Consent — banner + preferences modal.
+ *
+ * Every declaration here is a DEFAULT the Style tab can override: the generated CSS
+ * from block.json's style schema is emitted with a higher-specificity
+ * `.tpgb-block-{id}` prefix, so nothing in this file needs !important and nothing here
+ * may use it either — an !important default would make its own control do nothing.
+ *
+ * Visibility is controlled by the [hidden] attribute, toggled by Nexter Extension's
+ * nexter-consent.js — never by a class this stylesheet defines. The [hidden] rules
+ * below exist because `display: flex` would otherwise beat the attribute.
+ */
+
+.nxt-cc[hidden],
+.nxt-cc-modal-wrap[hidden] {
+	display: none !important;
+}
+
+/* The tokens live on the block wrapper, not on .nxt-cc — the preferences modal is a
+ * SIBLING of the banner, not a child, so tokens scoped to .nxt-cc resolved to nothing
+ * inside it and every var() silently became `unset`: the locked toggle rendered as an
+ * empty white pill and the modal's buttons lost their border and colour entirely.
+ * Every var() below still carries a literal fallback so a stray copy of this markup
+ * outside the wrapper degrades to the defaults rather than to transparent.
+ *
+ * --nxt-cc-accent must stay ≥ 4.5:1 against --nxt-cc-surface: it is used as button
+ * text on the surface, and as the surface behind #fff button text.
+ */
+.tpgb-cookie-consent,
+.nxt-cc,
+.nxt-cc-modal-wrap {
+	/* colour */
+	--nxt-cc-surface: #fff;
+	--nxt-cc-ink: #1a1a1a;
+	--nxt-cc-muted: #595959;
+	--nxt-cc-accent: #1717cc;
+	--nxt-cc-on-accent: #fff;
+	--nxt-cc-line: #d9d9de;
+	--nxt-cc-track: #8c8c94;
+	--nxt-cc-overlay: rgba( 0, 0, 0, 0.5 );
+
+	/* shape */
+	--nxt-cc-radius: 0px;
+	--nxt-cc-radius-btn: 4px;
+	--nxt-cc-border-width: 0px;
+	--nxt-cc-shadow: 0 -2px 12px rgba( 0, 0, 0, 0.12 );
+	--nxt-cc-modal-radius: 8px;
+	--nxt-cc-modal-shadow: 0 8px 40px rgba( 0, 0, 0, 0.25 );
+
+	/* space */
+	--nxt-cc-offset: 0px;
+	--nxt-cc-pad: 16px 20px;
+	--nxt-cc-gap: 16px;
+	--nxt-cc-btn-gap: 8px;
+	--nxt-cc-btn-pad: 8px 16px;
+	--nxt-cc-max: 720px;
+
+	/* type */
+	--nxt-cc-title-size: 16px;
+	--nxt-cc-title-weight: 600;
+	--nxt-cc-text-size: 14px;
+	--nxt-cc-btn-size: 14px;
+	--nxt-cc-btn-weight: 400;
+
+	/* close icon */
+	--nxt-cc-close-size: 28px;
+	--nxt-cc-close-ink: currentColor;
+}
+
+.nxt-cc {
+	position: fixed;
+	z-index: 999999;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: var( --nxt-cc-offset, 0px );
+}
+
+.nxt-cc *,
+.nxt-cc-modal-wrap * {
+	box-sizing: border-box;
+}
+
+/* ----------------------------------------------------------------- layouts */
+
+.nxt-cc-layout-bar-bottom {
+	bottom: 0;
+}
+
+.nxt-cc-layout-bar-top {
+	top: 0;
+}
+
+.nxt-cc-layout-box-left,
+.nxt-cc-layout-box-right {
+	bottom: 0;
+	max-width: 420px;
+}
+
+.nxt-cc-layout-box-left {
+	right: auto;
+}
+
+.nxt-cc-layout-box-right {
+	left: auto;
+}
+
+.nxt-cc-layout-modal-center {
+	top: 0;
+	bottom: 0;
+	align-items: center;
+}
+
+/* ----------------------------------------------------------------- surface */
+
+.nxt-cc-overlay {
+	position: fixed;
+	inset: 0;
+	background: var( --nxt-cc-overlay, rgba( 0, 0, 0, 0.5 ) );
+	z-index: -1;
+}
+
+.nxt-cc-banner {
+	position: relative;
+	background: var( --nxt-cc-surface, #fff );
+	color: var( --nxt-cc-ink, #1a1a1a );
+	padding: var( --nxt-cc-pad, 16px 20px );
+	width: 100%;
+	max-width: var( --nxt-cc-max, 720px );
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var( --nxt-cc-gap, 16px );
+	border-radius: var( --nxt-cc-radius, 0px );
+	box-shadow: var( --nxt-cc-shadow, none );
+	border: var( --nxt-cc-border-width, 0px ) solid var( --nxt-cc-line, #d9d9de );
+}
+
+.nxt-cc-layout-box-left .nxt-cc-banner,
+.nxt-cc-layout-box-right .nxt-cc-banner,
+.nxt-cc-layout-modal-center .nxt-cc-banner {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.nxt-cc-content {
+	flex: 1 1 280px;
+	min-width: 0;
+}
+
+/* The 280px above is a WIDTH basis in a row banner, where it decides when the text wraps. In a
+ * column banner the same value becomes a minimum HEIGHT, so the text block was held at 280px
+ * whatever it needed: 174px of dead space on a phone, 56% of the screen. Size to content instead. */
+.nxt-cc-layout-box-left .nxt-cc-content,
+.nxt-cc-layout-box-right .nxt-cc-content,
+.nxt-cc-layout-modal-center .nxt-cc-content {
+	flex: 0 1 auto;
+}
+
+.nxt-cc-title {
+	margin: 0 0 6px;
+	font-size: var( --nxt-cc-title-size, 16px );
+	font-weight: var( --nxt-cc-title-weight, 600 );
+	line-height: 1.35;
+	color: var( --nxt-cc-ink, #1a1a1a );
+}
+
+.nxt-cc-text {
+	margin: 0;
+	font-size: var( --nxt-cc-text-size, 14px );
+	line-height: 1.55;
+}
+
+.nxt-cc-text p:last-child {
+	margin-bottom: 0;
+}
+
+/* Inherits the banner's ink, NOT the theme's link colour: a theme link colour picked to
+ * sit on the page background measured 3.66:1 on the banner surface. The underline is the
+ * affordance, so losing the colour difference costs nothing. policyColor overrides it. */
+.nxt-cc .nxt-cc-policy-link,
+.nxt-cc-modal .nxt-cc-policy-link {
+	display: inline-block;
+	margin-top: 6px;
+	font-size: 13px;
+	text-decoration: underline;
+	color: var( --nxt-cc-ink, #1a1a1a );
+}
+
+/* Pinned to the banner's top-right corner in every layout. A flex item in the bar row put it
+ * beside the buttons and wrapped it onto its own line on narrow presets, so the corner stays
+ * and the elements that reach it get reserved space below instead.
+ *
+ * Centring is done by the flex box, not by the glyph's own metrics: a text × sits above
+ * the text centre, which is why it read as off-centre inside an evenly padded button. */
+.nxt-cc-close {
+	position: absolute;
+	top: 6px;
+	right: 8px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var( --nxt-cc-close-size, 28px );
+	height: var( --nxt-cc-close-size, 28px );
+	background: none;
+	border: 0;
+	padding: 0;
+	border-radius: 50%;
+	cursor: pointer;
+	color: var( --nxt-cc-close-ink, currentColor );
+	opacity: 0.75;
+	transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.nxt-cc-close svg {
+	width: 62%;
+	height: 62%;
+	display: block;
+}
+
+/* Opacity and currentColor, never a literal — the Contrast preset inverts the surface, so
+ * a hardcoded hover colour was invisible on half the presets. closeHoverColor overrides. */
+.nxt-cc-close:hover,
+.nxt-cc-close:focus-visible {
+	opacity: 1;
+	background-color: var( --nxt-cc-close-hover-bg, rgba( 128, 128, 128, 0.18 ) );
+}
+
+
+
+
+/* Space reserved for the absolutely-positioned close icon, so nothing can sit under it.
+ * On the actions in a row layout and on the content in a column one — whichever element
+ * actually reaches the corner the icon occupies. */
+.nxt-cc-has-close.nxt-cc-layout-bar-top .nxt-cc-actions,
+.nxt-cc-has-close.nxt-cc-layout-bar-bottom .nxt-cc-actions {
+	margin-right: calc( var( --nxt-cc-close-size, 28px ) + 10px );
+}
+
+/* Narrow presets wrap the actions under the text, which leaves the content's first line
+ * running to the corner the icon occupies. */
+.nxt-cc-has-close.nxt-cc-layout-bar-top .nxt-cc-content,
+.nxt-cc-has-close.nxt-cc-layout-bar-bottom .nxt-cc-content,
+.nxt-cc-has-close.nxt-cc-layout-box-left .nxt-cc-content,
+.nxt-cc-has-close.nxt-cc-layout-box-right .nxt-cc-content,
+.nxt-cc-has-close.nxt-cc-layout-modal-center .nxt-cc-content {
+	padding-right: calc( var( --nxt-cc-close-size, 28px ) + 10px );
+}
+
+/* ----------------------------------------------------------------- buttons */
+
+.nxt-cc-actions,
+.nxt-cc-modal-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var( --nxt-cc-btn-gap, 8px );
+	align-items: center;
+}
+
+.nxt-cc-modal-actions {
+	justify-content: flex-end;
+	margin-top: 16px;
+}
+
+.nxt-cc-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var( --nxt-cc-accent, #1717cc );
+	border-radius: var( --nxt-cc-radius-btn, 4px );
+	padding: var( --nxt-cc-btn-pad, 8px 16px );
+	font-size: var( --nxt-cc-btn-size, 14px );
+	font-weight: var( --nxt-cc-btn-weight, 400 );
+	line-height: 1.3;
+	cursor: pointer;
+	background: transparent;
+	color: var( --nxt-cc-accent, #1717cc );
+	text-align: center;
+}
+
+/* Accept and Reject deliberately share weight, size and padding — only the fill
+ * differs. The Compliance Check compares the two; a default that already whispered
+ * would make that check fire on a site the editor never touched. */
+.nxt-cc-btn-accept,
+.nxt-cc-btn-save {
+	background: var( --nxt-cc-accent, #1717cc );
+	color: var( --nxt-cc-on-accent, #fff );
+	border-color: var( --nxt-cc-accent, #1717cc );
+}
+
+.nxt-cc-btn:focus-visible,
+.nxt-cc-close:focus-visible,
+.nxt-cc-modal-close:focus-visible,
+.nxt-cc-switch input:focus-visible + .nxt-cc-switch-track {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+/* --------------------------------------------------------- preferences modal */
+
+.nxt-cc-modal-wrap {
+	position: fixed;
+	inset: 0;
+	z-index: 1000000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+}
+
+.nxt-cc-modal-backdrop {
+	position: absolute;
+	inset: 0;
+	background: var( --nxt-cc-overlay, rgba( 0, 0, 0, 0.5 ) );
+}
+
+.nxt-cc-modal {
+	position: relative;
+	background: var( --nxt-cc-surface, #fff );
+	color: var( --nxt-cc-ink, #1a1a1a );
+	border-radius: var( --nxt-cc-modal-radius, 8px );
+	padding: 20px;
+	width: 100%;
+	max-width: 520px;
+	max-height: 85vh;
+	overflow-y: auto;
+	box-shadow: var( --nxt-cc-modal-shadow, 0 8px 40px rgba( 0, 0, 0, 0.25 ) );
+}
+
+.nxt-cc-modal-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 12px;
+	margin-bottom: 8px;
+}
+
+.nxt-cc-modal-title {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.3;
+	color: var( --nxt-cc-ink, #1a1a1a );
+}
+
+/* Same treatment as the banner close: flex-centred SVG, so it is genuinely centred and
+ * inherits the surface's ink rather than a literal that the inverted presets swallow. */
+.nxt-cc-modal-close {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var( --nxt-cc-close-size, 28px );
+	height: var( --nxt-cc-close-size, 28px );
+	background: none;
+	border: 0;
+	padding: 0;
+	border-radius: 50%;
+	cursor: pointer;
+	color: var( --nxt-cc-close-ink, currentColor );
+	opacity: 0.75;
+	transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.nxt-cc-modal-close svg {
+	width: 62%;
+	height: 62%;
+	display: block;
+}
+
+.nxt-cc-modal-close:hover,
+.nxt-cc-modal-close:focus-visible {
+	opacity: 1;
+	background-color: var( --nxt-cc-close-hover-bg, rgba( 128, 128, 128, 0.18 ) );
+}
+
+.nxt-cc-modal-desc {
+	font-size: 13px;
+	line-height: 1.55;
+	margin-bottom: 12px;
+	color: var( --nxt-cc-ink, #1a1a1a );
+}
+
+.nxt-cc-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.nxt-cc-item {
+	padding: 12px 0;
+	border-bottom: 1px solid var( --nxt-cc-line, #d9d9de );
+}
+
+.nxt-cc-item:last-child {
+	border-bottom: 0;
+}
+
+.nxt-cc-item-main {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.nxt-cc-item-label {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.nxt-cc-item-desc {
+	margin: 4px 0 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var( --nxt-cc-muted, #595959 );
+}
+
+.nxt-cc-item-lock {
+	display: inline-block;
+	margin-top: 4px;
+	font-size: 12px;
+	color: var( --nxt-cc-muted, #595959 );
+}
+
+/* ------------------------------------------------------------------ switch */
+
+.nxt-cc-switch {
+	position: relative;
+	display: inline-flex;
+	flex: 0 0 auto;
+	cursor: pointer;
+}
+
+.nxt-cc-switch input {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	opacity: 0;
+	cursor: inherit;
+}
+
+.nxt-cc-switch-track {
+	display: block;
+	width: 40px;
+	height: 22px;
+	border-radius: 22px;
+	background: var( --nxt-cc-track, #8c8c94 );
+	border: 1px solid transparent;
+	transition: background 0.2s ease;
+	flex: 0 0 auto;
+}
+
+.nxt-cc-switch-knob {
+	display: block;
+	width: 16px;
+	height: 16px;
+	margin: 2px;
+	border-radius: 50%;
+	background: #fff;
+	transition: transform 0.2s ease;
+}
+
+.nxt-cc-switch input:checked + .nxt-cc-switch-track {
+	background: var( --nxt-cc-accent, #1717cc );
+	border-color: var( --nxt-cc-accent, #1717cc );
+}
+
+.nxt-cc-switch input:checked + .nxt-cc-switch-track .nxt-cc-switch-knob {
+	transform: translateX( 18px );
+}
+
+.nxt-cc-switch input:disabled {
+	cursor: not-allowed;
+}
+
+.nxt-cc-item-locked .nxt-cc-switch {
+	cursor: not-allowed;
+}
+
+/* A locked category is still ON, so the fill stays at full strength — dimming it to
+ * 0.6 made "always active" read as "off", which is the one state it can never be. */
+.nxt-cc-item-locked .nxt-cc-switch-track {
+	background: var( --nxt-cc-accent, #1717cc );
+	border-color: var( --nxt-cc-accent, #1717cc );
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.nxt-cc-switch-track,
+	.nxt-cc-switch-knob {
+		transition: none;
+	}
+}
+
+/* ----------------------------------------------------------------- presets
+ *
+ * A preset sets TOKENS ONLY. It never sets a property directly, and that is the whole
+ * design:
+ *
+ *   1. Specificity. The Style tab emits ".tpgb-block-{id} .nxt-cc-banner{padding:…}",
+ *      which is (0,2,0). A preset that also set padding on ".nxt-cc-preset-x
+ *      .nxt-cc-banner" would tie at (0,2,0), and the winner would come down to source
+ *      order — so an editor's own value could silently lose to a preset. Tokens sit at
+ *      (0,1,0) on the wrapper and are consumed by the base rules, so a real property
+ *      from the Style tab always wins.
+ *
+ *   2. Maintenance. Adding a preset is a block of custom properties, not a parallel
+ *      copy of the stylesheet. Fourteen presets share one set of base rules.
+ *
+ * Contrast: every preset below was measured against WCAG 2.2 AA before being added —
+ * body text and both button labels at 4.5:1, the switch track at 3:1 as a UI component.
+ * A preset that cannot clear that is not a style choice, it is a defect.
+ */
+
+/* 01 · Minimal — the default. Disappears into the theme; the base tokens are its values. */
+
+/* 02 · Classic — traditional notice: hairline border, square-ish, no elevation. */
+.nxt-cc-preset-classic {
+	--nxt-cc-radius: 2px;
+	--nxt-cc-radius-btn: 2px;
+	--nxt-cc-border-width: 1px;
+	--nxt-cc-shadow: none;
+	--nxt-cc-pad: 18px 22px;
+}
+
+/* 03 · Card — floating card with real elevation. Carried over from the original `card`
+ * preset; the same radius and shadow values, now expressed as tokens. */
+.nxt-cc-preset-card {
+	--nxt-cc-radius: 12px;
+	--nxt-cc-radius-btn: 8px;
+	--nxt-cc-shadow: 0 10px 40px rgba( 0, 0, 0, 0.18 );
+	--nxt-cc-modal-radius: 12px;
+	--nxt-cc-modal-shadow: 0 10px 40px rgba( 0, 0, 0, 0.18 );
+	--nxt-cc-offset: 16px;
+}
+
+/* 04 · Soft — gentle surface, generous radius, barely-there edge. */
+.nxt-cc-preset-soft {
+	--nxt-cc-surface: #fbfbfd;
+	--nxt-cc-radius: 16px;
+	--nxt-cc-radius-btn: 10px;
+	--nxt-cc-border-width: 1px;
+	--nxt-cc-line: #e7e7ee;
+	--nxt-cc-shadow: 0 4px 24px rgba( 0, 0, 0, 0.06 );
+	--nxt-cc-pad: 20px 24px;
+	--nxt-cc-offset: 16px;
+}
+
+/* 05 · Bold — heavier type and chunkier buttons; hierarchy does the work. */
+.nxt-cc-preset-bold {
+	--nxt-cc-title-size: 20px;
+	--nxt-cc-title-weight: 700;
+	--nxt-cc-text-size: 15px;
+	--nxt-cc-btn-weight: 600;
+	--nxt-cc-btn-pad: 11px 22px;
+	--nxt-cc-radius-btn: 6px;
+	--nxt-cc-pad: 22px 26px;
+	--nxt-cc-shadow: 0 -4px 24px rgba( 0, 0, 0, 0.14 );
+}
+
+/* 06 · Compact — small footprint for content-heavy sites. */
+.nxt-cc-preset-compact {
+	--nxt-cc-pad: 10px 14px;
+	--nxt-cc-gap: 10px;
+	--nxt-cc-btn-gap: 6px;
+	--nxt-cc-btn-pad: 6px 12px;
+	--nxt-cc-btn-size: 13px;
+	--nxt-cc-text-size: 13px;
+	--nxt-cc-title-size: 14px;
+	--nxt-cc-max: 640px;
+}
+
+/* 07 · Enterprise — formal, restrained, navy accent, square corners. */
+.nxt-cc-preset-enterprise {
+	--nxt-cc-surface: #ffffff;
+	--nxt-cc-ink: #16202c;
+	--nxt-cc-muted: #4a5765;
+	--nxt-cc-accent: #14395e;
+	--nxt-cc-line: #ccd4dd;
+	--nxt-cc-radius: 0px;
+	--nxt-cc-radius-btn: 2px;
+	--nxt-cc-border-width: 1px;
+	--nxt-cc-shadow: 0 -1px 0 #ccd4dd;
+	--nxt-cc-pad: 20px 24px;
+	--nxt-cc-title-weight: 700;
+}
+
+/* 08 · Editorial — typography-led, warm paper surface, no chrome. */
+.nxt-cc-preset-editorial {
+	--nxt-cc-surface: #fdfcf9;
+	--nxt-cc-ink: #201d18;
+	--nxt-cc-muted: #565049;
+	--nxt-cc-accent: #7a3b12;
+	--nxt-cc-line: #e2dcd1;
+	--nxt-cc-radius: 0px;
+	--nxt-cc-radius-btn: 0px;
+	--nxt-cc-border-width: 1px;
+	--nxt-cc-shadow: none;
+	--nxt-cc-title-size: 19px;
+	--nxt-cc-text-size: 15px;
+	--nxt-cc-pad: 24px 28px;
+}
+
+/* 09 · Floating — notification-style pill, lifted off every edge. */
+.nxt-cc-preset-floating {
+	--nxt-cc-radius: 14px;
+	--nxt-cc-radius-btn: 999px;
+	--nxt-cc-shadow: 0 12px 44px rgba( 0, 0, 0, 0.20 );
+	--nxt-cc-offset: 20px;
+	--nxt-cc-max: 560px;
+	--nxt-cc-pad: 18px 20px;
+	--nxt-cc-btn-pad: 9px 20px;
+}
+
+/* 10 · Split Action — wide bar, content left, actions right. The base banner is already
+ * a flex row; this widens it and opens the gap so the text column cannot swallow it. */
+.nxt-cc-preset-split {
+	--nxt-cc-max: 1100px;
+	--nxt-cc-pad: 16px 28px;
+	--nxt-cc-gap: 32px;
+	--nxt-cc-radius: 0px;
+	--nxt-cc-shadow: 0 -2px 16px rgba( 0, 0, 0, 0.10 );
+}
+
+/* 11 · Bottom Sheet — mobile-first sheet. Top corners only; see the rule at the end. */
+.nxt-cc-preset-sheet {
+	--nxt-cc-radius: 18px;
+	--nxt-cc-radius-btn: 10px;
+	--nxt-cc-shadow: 0 -8px 34px rgba( 0, 0, 0, 0.18 );
+	--nxt-cc-pad: 22px 20px 24px;
+	--nxt-cc-max: 640px;
+	--nxt-cc-btn-pad: 12px 20px;
+}
+
+/* 12 · Full Width — edge-to-edge consent bar. */
+.nxt-cc-preset-fullwidth {
+	--nxt-cc-max: none;
+	--nxt-cc-radius: 0px;
+	--nxt-cc-offset: 0px;
+	--nxt-cc-pad: 18px 32px;
+	--nxt-cc-shadow: 0 -2px 14px rgba( 0, 0, 0, 0.12 );
+}
+
+/* 13 · Focus — centred modal treatment. Carried over from the original `focus` preset;
+ * same radius, shadow and width, now as tokens, plus a firmer overlay. */
+.nxt-cc-preset-focus {
+	--nxt-cc-radius: 10px;
+	--nxt-cc-shadow: 0 16px 60px rgba( 0, 0, 0, 0.3 );
+	--nxt-cc-max: 560px;
+	--nxt-cc-overlay: rgba( 0, 0, 0, 0.62 );
+}
+
+/* 14 · Contrast — inverted surface, reads as a system message. Carried over; the button
+ * flip is now --nxt-cc-on-accent rather than a property override, which is precisely
+ * what lets a Style tab value still win over it. */
+.nxt-cc-preset-contrast {
+	--nxt-cc-surface: #111114;
+	--nxt-cc-ink: #f5f5f7;
+	--nxt-cc-muted: #c7c7cf;
+	--nxt-cc-accent: #ffffff;
+	--nxt-cc-on-accent: #111114;
+	--nxt-cc-line: rgba( 255, 255, 255, 0.18 );
+	--nxt-cc-track: #6c6c78;
+	--nxt-cc-title-weight: 700;
+}
+
+/* The sheet preset squares its bottom corners only — a rounded bottom edge sitting on
+ * the viewport edge reads as a rendering bug rather than a design choice. */
+.nxt-cc-preset-sheet .nxt-cc-banner {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+/* -------------------------------------------------------------- responsive */
+
+@media ( max-width: 767px ) {
+	.nxt-cc-layout-box-left,
+	.nxt-cc-layout-box-right {
+		left: 0;
+		right: 0;
+		max-width: none;
+	}
+
+	.nxt-cc-banner {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	/* Every layout is a column here, so the row-width basis must not become a height. */
+	.nxt-cc-content {
+		flex: 0 1 auto;
+	}
+
+	/* Column at this width for EVERY layout, so the corner now sits over the content
+	 * rather than the actions — move the reserved space to match. */
+	.nxt-cc-has-close .nxt-cc-actions {
+		margin-right: 0;
+	}
+
+	.nxt-cc-has-close .nxt-cc-content {
+		padding-right: calc( var( --nxt-cc-close-size, 28px ) + 10px );
+	}
+
+	.nxt-cc-stack-mobile .nxt-cc-actions,
+	.nxt-cc-stack-mobile .nxt-cc-modal-actions {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.nxt-cc-stack-mobile .nxt-cc-btn {
+		width: 100%;
+	}
+}

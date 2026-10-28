@@ -71,7 +71,7 @@ function tpgb_tp_post_image_render_callback( $attr, $content ) { // phpcs:ignore
 			$href = get_the_permalink();
 		}
 
-		$output .= '<div class="tpgb-post-image tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . ' ' . ( ! empty( $fancy_box ) ? 'tpgb-fancy-add' : '' ) . '" data-setting=\'' . $data_attr . '\' ' . $data_settings . '>';
+		$output .= '<div class="tpgb-post-image tpgb-block-' . esc_attr( $block_id ) . ' ' . esc_attr( $block_class ) . ' ' . ( ! empty( $fancy_box ) ? 'tpgb-fancy-add' : '' ) . '" data-setting=\'' . htmlspecialchars( $data_attr, ENT_QUOTES, 'UTF-8' ) . '\' ' . $data_settings . '>';
 
 		if ( ! empty( $image_type ) && 'background' !== $image_type ) {
 			$output         .= '<div class="tpgb-featured-image">';

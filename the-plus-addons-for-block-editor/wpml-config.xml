@@ -406,5 +406,19 @@
         <gutenberg-block type="tpgb/tp-external-form-styler" translate="0" />
         <gutenberg-block type="tpgb/tp-icon-box" translate="0" />
         <gutenberg-block type="tpgb/tp-switch-inner" translate="0" />
+        <gutenberg-block type="tpgb/tp-cookie-consent" translate="1">
+            <key name="titleText" />
+            <key name="consentText" />
+            <key name="policyLinkLabel" />
+            <key name="acceptLabel" />
+            <key name="rejectLabel" />
+            <key name="customizeLabel" />
+            <key name="prefsTitle" />
+            <key name="prefsDescription" />
+            <key name="prefsSaveLabel" />
+            <key name="policyLinkUrl">
+                <key name="url" />
+            </key>
+        </gutenberg-block>
     </gutenberg-blocks>
 </wpml-config>

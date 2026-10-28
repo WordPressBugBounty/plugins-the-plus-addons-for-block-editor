@@ -31,6 +31,7 @@ function tpgb_tp_post_title_render_callback( $attr, $content ) { // phpcs:ignore
 
 	$block_class = Tp_Blocks_Helper::block_wrapper_classes( $attr );
 
+	$title = '';
 	if ( 'archive' === $types ) {
 
 		$is_archive = is_archive();

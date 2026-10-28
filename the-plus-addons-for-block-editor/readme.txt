@@ -4,7 +4,7 @@ Donate link: https://nexterwp.com/nexter-blocks/
 Tags: gutenberg blocks, page builder, site builder, block editor, wordpress blocks
 Requires at least: 5.6
 Tested up to: 7.1
-Stable tag: 5.0.7
+Stable tag: 5.0.9
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -321,6 +321,30 @@ Nexter Blocks may connect to external services only when the related feature is 
 
 
 == Changelog ==
+= 5.0.9 = 28 Oct 2026
+- Added : Cookie Consent : New GDPR/CCPA cookie banner block with consent categories, a preferences modal, and a privacy policy link — renders through Nexter Extension's consent engine.
+- Fixed : Theme Builder : Theme Builder menu item now opens the Theme Builder screen correctly.
+
+= 5.0.8 = 23 Oct 2026
+- Added : Search Bar : No-results fallback — show suggested posts when a search returns nothing.
+- Improvement : Tabs & Tours : Keyboard arrow-key navigation and proper screen-reader roles.
+- Improvement : Accordion : Full keyboard support and screen-reader roles for headers and panels.
+- Improvement : Form : Required and error states are announced to screen readers, and focus moves to the first invalid field.
+- Improvement : Switcher : Toggle supports Enter/Space keyboard interaction and reports its on/off state.
+- Improvement : Stylist List : Item spacing can now be set to 0.
+- Fix : Breadcrumbs : Dynamic Field set on the Home Title now displays its value instead of raw code.
+- Fix : Search Bar : Added nonce protection and throttling to search requests.
+- Fix : Blocks Spacing : A spacing value set to 0 now applies correctly.
+- Fix : Controls : Number and slider fields now stay within their minimum and maximum limits.
+- Fix : Compatibility : Accordion, Tabs & Tours, Switcher, Flipbox, Infobox, and Form fields updated without breaking existing content.
+- Security : Multiple Blocks : Escaped dynamic data attributes to prevent XSS.
+- Improvement : Search Bar : Added nonce refresh and rate limiting for safer search and form requests.
+- Fix : Navigation Builder : Fixed a stored-XSS risk in mega-menu link text.
+- Fix : Countdown : Redirect URL is now sanitized for safe output.
+- Fix : Info Box : Fixed carousel settings not applying due to undefined values.
+- Fix : Social Embed : Twitter profile link now uses correct URL escaping.
+- Fix : Post Comment : Logout text is now safely escaped.
+- Fix : Creative Image, Flipbox, Testimonials, Post Image, Smooth Scroll : Fixed data attributes being output unescaped.
 
 = 5.0.7 = 22 Sep 2026
 - Added : Block Widget Areas : Nexter blocks can now be used in block widget areas (Appearance → Widgets). Blocks placed there have no parent post, so a dedicated handler generates and caches their CSS.
@@ -412,90 +436,5 @@ Nexter Blocks may connect to external services only when the related feature is 
 = 4.7.10 = 21 May 2026
 - Compatibility : Added compatibility with WordPress v7.0
 - Fix : Minor Bugs and Improvements.
-
-= 4.7.9 = 12 May 2026
-- Fix : Wp Abilities Minor Bug Fix.
-
-= 4.7.8 = 11 May 2026
-- Added   : 58 Wp Abilities Added for upcoming AI features.
-- Fix     : hard-coded and non-translatable strings issue.
-
-= 4.7.7 = 06 May 2026
-- Fix     : hard-coded and non-translatable strings issue
-- Improve : Enhanced overall code quality.
-
-= 4.7.6 = 06 May 2026
-- Fix     : Corrected inconsistent text domain usage in the file. 
-- Improve : Enhanced overall code quality.
-
-= 4.7.5 = 22 April 2026
-- Added : Typo Components : Text Transform Default option Added.
-- Fix   : Image : Image Size Dynamic Bug Fix
-- Fix   : Accordion Inner : Duplicate Richtext Bug fix.
-- Fix   : Block titles and descriptions were not appearing translated.
-- Fix   : Corrected inconsistent text domain usage in file.
-
-= 4.7.4 = 15 April 2026
-- Fix : languages Pot Issue resolved.
-
-= 4.7.3 = 13 April 2026
-- Update : languages Pot File Updated.
-
-= 4.7.2 = 13 Mar 2026
-- Added : AI Integration support for multiple text models in the AI Settings Dashboard.
-- Added : AI Integration added to Code Snippets Block.
-- Added : AI Integration toolbar editing support across all Gutenberg text blocks.
-- Update : Components background position default set to FocalPointPicker with custom option added.
-- Improvement : Flipbox : Add labels for the options.
-- Improvement : Advanced Heading : Add labels for the options.
-- Improvement : Stylish List : Add labels for the options.
-- Improvement : Infobox : Add labels for the options.
-- Improvement : Number Counter : Add labels for the options.
-- Improvement : Pricing Table : Add labels for the options.
-- Improvement : Progress Bar : Add labels for the options.
-- Improvement : Video : Add labels for the options.
-- Improvement : Breadcrumbs : Add labels for the options.
-- Improvement : Smooth Scroll : Add labels for the options.
-- Improvement : Hover Card : Add labels for the options.
-- Improvement : Container : Add labels for the options.
-- Improvement : Form : Add labels for the options.
-- Improvement : Switcher : Add labels for the options.
-- Improvement : Search Bar : Add labels for the options.
-- Improvement : Navigation Menu : Add labels for the options.
-- Improvement : Google Map : Add labels for the options.
-- Improvement : External Form Styler : Add labels for the options.
-- Improvement : Social Icon : Add labels for the options.
-- Improvement : Code Highlighter : Add labels for the options.
-- Improvement : Dark Mode : Add labels for the options.
-- Improvement : Post Title : Add labels for the options.
-- Improvement : Advanced Image : Add labels for the options.
-- Improvement : Progress Tracker : Add labels for the options.
-- Improvement : Pricing List : Add labels for the options.
-- Improvement : Image : Add labels for the options.
-- Improvement : Site Logo : Add labels for the options.
-
-= 4.7.1 = 06 Mar 2026
-- Fix: Security : Improved code security and resolved a vulnerability.
-
-= 4.7.0 = 23 Jan 2026
-- Introduced AI-powered text generation for all blocks with OpenAI and Gemini integration.
-- Converted All blocks to ApiVersion 3, ensuring better performance, stability, and alignment with the latest WordPress standards. 
-- Added : Extra Option : Transform & Transition Normal / Hover Option Added.
-- Added : Advance Button : SVG Icon Upload Option added.
-- Added : Advance Heading : Wrap Link Option added.
-- Added : Draw SVG : Wrap Link Option added.
-- Added : Stylish List  : SVG Icon Upload Option added.
-- Added : Spacer Block : Width & Background Option Added.
-- Added : Form : Button Icon SVG Option Added.
-- Added : Testimonial : Hover Border Option Added.
-- Improvement : Accordion : Add labels for the options.
-- Improvement : Data Table : Add labels for the options.
-- Improvement : Post Listing: Add labels for the options.
-- Improvement : Social embed: Add labels for the options.
-- Improvement : Social Feed : Add labels for the options.
-- Improvement : Social Reviews : Add labels for the options.
-- Improvement : Tab Tours : Add labels for the options.
-- Improvement : Team Member : Add labels for the options.
-- Improvement : Testimonial : Add labels for the options.
 
 == Upgrade Notice ==

@@ -248,7 +248,7 @@
         },
         "serAlign": {
             "type": "object",
-            "default": "",
+            "default": {},
             "style": [
                 {
                     "selector": "{{PLUS_WRAP}} .tpgb-search-form .tpgb-form-field{ justify-content: {{serAlign}}; }"
@@ -309,6 +309,14 @@
         "postNFmessage": {
             "type": "string",
             "default": "Sorry, No Results Were Found."
+        },
+        "noResultsFallback": {
+            "type": "boolean",
+            "default": true
+        },
+        "noResultsFallbackCount": {
+            "type": "number",
+            "default": 3
         },
         "backVis": {
             "type": "boolean",

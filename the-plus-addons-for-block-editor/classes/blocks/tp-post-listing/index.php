@@ -39,7 +39,7 @@ function tpgb_tp_post_listing_render_callback( $attributes ) {
 	$image_hover_style = isset( $attributes['imageHoverStyle'] ) ? 'hover-image-' . esc_attr( $attributes['imageHoverStyle'] ) : 'hover-image-style-1';
 	// Title.
 	$show_title     = ! empty( $attributes['ShowTitle'] ) ? 'yes' : '';
-	$title_tag      = isset( $attributes['titleTag'] ) ? $attributes['titleTag'] : 'h3';
+	$title_tag      = isset( $attributes['titleTag'] ) ? $attributes['titleTag'] : 'h2';
 	$title_by_limit = isset( $attributes['titleByLimit'] ) ? $attributes['titleByLimit'] : 'default';
 
 	// Excerpt.
@@ -247,6 +247,16 @@ function tpgb_tp_post_listing() {
 
 	if ( method_exists( 'Tpgb_Blocks_Global_Options', 'merge_options_json' ) ) {
 		$block_data = Tpgb_Blocks_Global_Options::merge_options_json( __DIR__, 'tpgb_tp_post_listing_render_callback', true, false, true, true );
+		/*
+		 * B12-1: register_block_type() reads the snake_case 'api_version'; block.json
+		 * declares camelCase 'apiVersion', which only register_block_type_from_metadata()
+		 * maps. Scoped to tp-post-listing deliberately - do NOT move this into
+		 * merge_options_json() without a full editor regression pass on all 180 blocks.
+		 */
+		if ( isset( $block_data['apiVersion'] ) ) {
+			$block_data['api_version'] = (int) $block_data['apiVersion'];
+		}
+
 		register_block_type( $block_data['name'], $block_data );
 	}
 }

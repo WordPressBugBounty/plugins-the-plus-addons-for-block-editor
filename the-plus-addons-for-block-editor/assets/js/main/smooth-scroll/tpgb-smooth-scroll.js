@@ -4,6 +4,10 @@ let lenisInstance = null,
 	keyboardCleanup = null;
 const MAX_RETRIES = 5;
 
+window.tpgbPrefersReducedMotion = window.tpgbPrefersReducedMotion || function () {
+	return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+};
+
 const easings = {
 	linear: (t) => t,
 	"ease-out-cubic": (t) => 1 - Math.pow(1 - t, 3),
@@ -16,6 +20,7 @@ const easings = {
 
 function initializeScrollSystem() {
 	if (isInitialized) return;
+	if (window.tpgbPrefersReducedMotion()) return;
 
 	const smoothScrollElement = document.querySelector(".tpgb-smooth-scroll");
 	if (!smoothScrollElement) {

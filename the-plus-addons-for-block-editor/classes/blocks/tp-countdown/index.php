@@ -47,7 +47,7 @@ function tpgb_tp_countdown_callback( $attributes, $content ) { // phpcs:ignore G
 	$count_data['expiry']  = $attributes['countdownExpiry'];
 
 	if ( 'redirect' === $attributes['countdownExpiry'] ) {
-		$encoded_url            = $attributes['expiryRedirect']['url'];
+		$encoded_url            = esc_url_raw( $attributes['expiryRedirect']['url'] );
 		$count_data['redirect'] = $encoded_url;
 	}
 
@@ -63,9 +63,7 @@ function tpgb_tp_countdown_callback( $attributes, $content ) { // phpcs:ignore G
 	$seconds_text = ( ! empty( $attributes['secondsText'] ) ) ? $attributes['secondsText'] : esc_html__( 'Seconds', 'the-plus-addons-for-block-editor' );
 
 	if ( 'normal' === $countdown_selection && ( ! empty( $show_labels ) && true === $show_labels ) ) {
-		// Attribute context: esc_attr(), not wp_kses_post() -- these land inside quoted data-* attributes,
-		// not between tags. wp_kses_post() strips HTML tags but does not encode `"`, which allowed an
-		// attribute-breakout.
+		// Attribute context: esc_attr(), not wp_kses_post() -- these land inside quoted data-* attributes; wp_kses_post() does not encode `"` (attribute-breakout XSS finding #1).
 		$data_attr .= ' data-day="' . esc_attr( $days_text ) . '" data-hour="' . esc_attr( $hours_text ) . '" data-min="' . esc_attr( $minutes_text ) . '" data-sec="' . esc_attr( $seconds_text ) . '"';
 	}
 
